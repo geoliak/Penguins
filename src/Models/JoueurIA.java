@@ -122,7 +122,32 @@ public class JoueurIA extends Joueur {
     }
 
     private void jouerCoupDifficile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Minimax minimax = new Minimax(this.partie.getPlateau());
+        Minimax.ArbreMinimax arbre = minimax.execute(minimax.getArbre(), 0);
+        System.out.println("ARBRE EXECUTE");
+        arbre.affiche(arbre);
+        
+        
+        while(arbre.getParent().getC() != null) {
+            arbre = arbre.getParent();
+        }
+        
+        Case caseJouee = arbre.getC();
+        
+        System.out.println("Case minimax : " + caseJouee.getX() + "," + caseJouee.getY());
+        
+        int longueur = partie.getPlateau().getLongueur();
+        int largeur = partie.getPlateau().getLargeur();
+        
+        Coup coup = new Coup(new ArrayList<>(), this);
+        Case[][] cases = partie.getPlateau().getCases();
+        for (int i = caseJouee.getY(); i < largeur; i++) {
+            for (int j = caseJouee.getX(); j < longueur; j++) {
+                coup.getCases().add(cases[i][j]);
+            }
+        }
+        
+        partie.ajouterCoups(coup);
     }
     
     public Case getCoupGagnant(){
@@ -137,4 +162,6 @@ public class JoueurIA extends Joueur {
                 
         return cg;
     }
+    
+    
 }

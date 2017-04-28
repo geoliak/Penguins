@@ -68,7 +68,7 @@ public class Partie {
         boolean termine = false;
         int tour = 1;
 
-        Dessinateur dessinateur = new DessinateurFX(plateau);
+        Dessinateur dessinateur = new Dessinateur(plateau);
 
         System.out.println("Affichage de la gaufre");
         dessinateur.dessinePlateau();
@@ -88,9 +88,13 @@ public class Partie {
 
             if (partieTermine()) {
                 termine = true;
-                System.out.println(joueurCourant.getName() + " a gagné !");
+                if (tour % 2 == 1) {
+                    System.out.println(joueur1.getName() + " a gagné !");
+                } else {
+                    System.out.println(joueur2.getName() + " a gagné !");
+                }
             }
-            
+
             if (tour % 2 == 1) {
                 joueurCourant = joueur1;
             } else {
@@ -100,7 +104,7 @@ public class Partie {
     }
 
     private boolean partieTermine() {
-        return !plateau.getCases()[0][1].isJouable() && !plateau.getCases()[1][0].isJouable();
+        return !plateau.getCases()[0][0].isJouable();
     }
 
 }
