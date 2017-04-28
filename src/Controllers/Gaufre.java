@@ -20,12 +20,13 @@ public class Gaufre {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Plateau plateau = new Plateau(2, 1000);
+        Plateau plateau = new Plateau(3, 6);
         
         Partie partie = new Partie(plateau);
         
         JoueurHumain joueur1 = new JoueurHumain("Blorgo", partie);
         JoueurHumain joueur2 = new JoueurHumain("Mayaak", partie);
+        
         JoueurIA joueuria = new JoueurIA("MAYAAK LE ROBOT", partie, 1);
         JoueurIA joueuria2 = new JoueurIA("MATHIAS LE ROBOT", partie, 2);
         

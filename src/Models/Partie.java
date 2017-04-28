@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Partie {
 
     private Plateau plateau;
+    private Joueur joueurCourant;
 
     private Joueur joueur1;
     private Joueur joueur2;
@@ -25,6 +26,10 @@ public class Partie {
         this.plateau = plateau;
 
         coups = new ArrayList<>();
+    }
+
+    public Joueur getJoueurCourant() {
+        return joueurCourant;
     }
 
     public Plateau getPlateau() {
@@ -63,12 +68,12 @@ public class Partie {
         boolean termine = false;
         int tour = 1;
 
-        Dessinateur dessinateur = new Dessinateur(plateau);
+        Dessinateur dessinateur = new DessinateurFX(plateau);
 
         System.out.println("Affichage de la gaufre");
         dessinateur.dessinePlateau();
 
-        Joueur joueurCourant = joueur1;
+        joueurCourant = joueur1;
 
         while (!termine) {
             System.out.println("**************** Tour " + tour + " : " + joueurCourant.getName() + " ****************");
