@@ -20,12 +20,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import java.lang.Math;
 
 /**
  *
  * @author liakopog
  */
 public class EssaiFX extends Application {
+
+    static double xcasecliquee;
+    static double ycasecliquee;
 
     @Override
     public void start(Stage stage) {
@@ -36,9 +40,8 @@ public class EssaiFX extends Application {
 	//root.getChildren().add(parent);
 	Canvas canvas = new Canvas(800, 600);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
-	//int xgaufre = 500 / xgaufrecases();
-	//int ygaufre = 300 / ygaufrecases();
-	//int nbcases
+	int xgaufre = 500 / 5;
+	int ygaufre = 300 / 3;
 
 	drawGaufre(gc, root);
 
@@ -56,7 +59,12 @@ public class EssaiFX extends Application {
 		double x = event.getX();
 		double y = event.getY();
 		System.out.println(x + " " + y);
-		drawrect(x, y, gc);
+
+
+		drawrect(((int) (x / xgaufre) * xgaufre), ((int) (y / ygaufre) * ygaufre), gc);
+		arrondirPourCases(x, xgaufre, y, ygaufre);
+		System.out.println(xcasecliquee + " cassseees " + ycasecliquee);
+
 	    }
 	});
     }
@@ -106,5 +114,19 @@ public class EssaiFX extends Application {
 	gc.setFill(Color.WHITE);
 	gc.fillRect(x, y, 10000, 10000);
 
+    }
+
+    public static void arrondirPourCases(double x, double taillex, double y, double tailley) {
+	if ((x / taillex) == x % taillex) {
+	    xcasecliquee = (x / taillex);
+	} else {
+	    xcasecliquee = ((int) (x / taillex));
+	}
+
+	if ((y / tailley) == y % tailley) {
+	    ycasecliquee = (y / tailley);
+	} else {
+	    ycasecliquee = ((int) (y / tailley));
+	}
     }
 }
