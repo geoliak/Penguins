@@ -105,7 +105,7 @@ public class JoueurIA extends Joueur {
         
         if(cg == null){
             cg = casePossible.get(this.tirerInt(casePossible.size()));
-            while((cg.getX() == 1 && cg.getY() == 0) || (cg.getX() == 0 && cg.getY() == 1)){
+            while((cg.getX() == 1 && cg.getY() == 0 && casePossible.size() != 3) || (cg.getX() == 0 && cg.getY() == 1 && casePossible.size() != 3) || (cg.getX() == 0 && cg.getY() == 0 && casePossible.size() != 1)){
                 cg = casePossible.get(this.tirerInt(casePossible.size()));
             }
         }

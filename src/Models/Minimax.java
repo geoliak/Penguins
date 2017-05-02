@@ -23,7 +23,7 @@ public class Minimax {
 
         this.enumeration(plateau, this.arbre, 0);
         System.out.println("Apres enumeration");
-        this.arbre.affiche(arbre);
+        //this.arbre.affiche(arbre);
     }
 
     private void enumeration(Plateau plateau, ArbreMinimax arbre, int poidsPere) {
@@ -32,18 +32,18 @@ public class Minimax {
         if (!caseLibres.isEmpty()) {
             for (Case c : caseLibres) {
                 Plateau tmp = plateau.clone();
-                System.out.println("Minimax (" + c.getX() + "," + c.getY());
+                //System.out.println("Minimax (" + c.getX() + "," + c.getY());
                 tmp.coup(c.getX(), c.getY());
                 Dessinateur d = new Dessinateur(tmp);
-                d.dessinePlateau();
+                //d.dessinePlateau();
 
                 //Si perdu
                 if (!tmp.getCases()[0][0].isJouable()) {
-                    poids = poidsPere -50;
+                    poids = poidsPere -1;
                 } else {
                     //Si il ne reste plus que le poison après tour
                     if (!tmp.getCases()[0][1].isJouable() && !tmp.getCases()[1][0].isJouable()) {
-                        poids = poidsPere + 50;
+                        poids = poidsPere + 1;
                     } else {
                         poids = poidsPere;
                     }
@@ -53,8 +53,8 @@ public class Minimax {
 
                 enumeration(tmp, arbre.getEnfants().get(arbre.getEnfants().size() - 1), poids);
                 d = new Dessinateur(plateau);
-                System.out.println("plateau");
-                d.dessinePlateau();
+                //System.out.println("plateau");
+                //d.dessinePlateau();
             }
         }
     }

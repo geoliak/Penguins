@@ -20,7 +20,7 @@ public class Gaufre {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Plateau plateau = new Plateau(5, 5);
+        Plateau plateau = new Plateau(4, 4);
         
         Partie partie = new Partie(plateau);
         
