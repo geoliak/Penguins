@@ -72,12 +72,50 @@ public class Partie {
     public void jouerTour(){
         System.out.println(joueurCourant.getName());
         joueurCourant.attendreCoup();
-
         plateau.masquerCases(coups.get(coups.size() - 1));
     }   
+    
+    public void jouerPartie() {
+        boolean termine = false;
+        int tour = 1;
 
-    public boolean partieTermine() {
-        return !plateau.getCases()[0][1].isJouable() && !plateau.getCases()[1][0].isJouable();
+        DessinateurText dessinateur = new DessinateurText();
+
+        System.out.println("Affichage de la gaufre");
+        dessinateur.dessinePlateau(plateau);
+
+        joueurCourant = joueur1;
+
+        while (!termine) {
+            System.out.println("**************** Tour " + tour + " : " + joueurCourant.getName() + " ****************");
+
+            joueurCourant.attendreCoup();
+
+            plateau.masquerCases(coups.get(coups.size() - 1));
+
+            dessinateur.dessinePlateau(plateau);
+
+            tour++;
+
+            if (partieTermine()) {
+                termine = true;
+                if (tour % 2 == 1) {
+                    System.out.println(joueur1.getName() + " a gagné !");
+                } else {
+                    System.out.println(joueur2.getName() + " a gagné !");
+                }
+            }
+
+            if (tour % 2 == 1) {
+                joueurCourant = joueur1;
+            } else {
+                joueurCourant = joueur2;
+            }
+        }
+    }
+
+    private boolean partieTermine() {
+        return !plateau.getCases()[0][0].isJouable();
     }
 
 }

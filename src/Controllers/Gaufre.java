@@ -21,7 +21,7 @@ public class Gaufre {
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
         
-        Plateau plateau = new Plateau(3, 6);
+        Plateau plateau = new Plateau(4, 4);
         
         Partie partie = new Partie(plateau);
         
@@ -30,9 +30,10 @@ public class Gaufre {
         
         JoueurIA joueuria = new JoueurIA("MAYAAK LE ROBOT", partie, 1);
         JoueurIA joueuria2 = new JoueurIA("MATHIAS LE ROBOT", partie, 2);
+        JoueurIA joueuria3 = new JoueurIA("MINIMAX LE ROBOT", partie, 3);
         
         partie.setJoueur1(joueur1);
-        partie.setJoueur2(joueuria2);
+        partie.setJoueur2(joueuria3);
         
         partie.setJoueurCourant(partie.getJoueur1());
         
