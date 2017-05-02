@@ -7,22 +7,29 @@ package Views;
 
 //import static EssaiFX.drawGaufre;
 //import static EssaiFX.drawrect;
+import Controllers.ClicSourisFX;
 import Models.Case;
+import Models.Partie;
 import Models.Plateau;
 import static essaifx.EssaiFX.arrondirPourCases;
 import static essaifx.EssaiFX.drawGaufre;
 import static essaifx.EssaiFX.drawrect;
+import javafx.*;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
@@ -31,113 +38,59 @@ import javafx.stage.Stage;
  *
  * @author novelm
  */
-public class DessinateurFX extends Application {
-    static double xcasecliquee;
-    static double ycasecliquee;
-    private Plateau plateau;
+public class DessinateurFX {
+    Canvas canvas;
     GraphicsContext gc;
-    Group root;
+    static double xcasecliquee;
+    static double ycasecliquee;  
 
-    public DessinateurFX(Plateau plateau) {
-        this.plateau = plateau;
+    public DessinateurFX(Canvas canvas, Group root) {
+        this.canvas = canvas;
+        gc = canvas.getGraphicsContext2D();
     }
-    
-    @Override
-    public void start(Stage stage) {
-	stage.setTitle("Gaufre");
-	Group root = new Group();
 
-	//Parent parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-	//root.getChildren().add(parent);
-	Canvas canvas = new Canvas(800, 600);
-	GraphicsContext gc = canvas.getGraphicsContext2D();
-        this.gc = gc;
-	int xgaufre = 500 / 5;
-	int ygaufre = 300 / 3;
-
-	drawGaufre(gc, root);
-
-	Scene scene = new Scene(root);
-	root.getChildren().add(canvas);
-	stage.setScene(scene);
-
-	stage.show();
-
-	//Mouse handler
-	scene.setOnMousePressed(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(MouseEvent event) {
-		System.out.println("mouse click detected! " + event.getSource());
-		double x = event.getX();
-		double y = event.getY();
-		System.out.println(x + " " + y);
-
-
-		drawrect(((int) (x / xgaufre) * xgaufre), ((int) (y / ygaufre) * ygaufre), gc);
-		arrondirPourCases(x, xgaufre, y, ygaufre);
-		System.out.println(xcasecliquee + " cassseees " + ycasecliquee);
-
-	    }
-	});
-    }
-    
-    public static void main(String[] args) {
-	launch(args);
-    }
-    
-    
-
-    public void drawGaufre(GraphicsContext gc, Group root) {
-	Image gaufre = new Image("/gaufre.jpg");
-        ImageView iv = new ImageView();
-        iv.setImage(gaufre);
+    public void dessinePlateau(Plateau plateau, Partie partie, Scene scene) {
+        Group root = new Group();
+	//Image gaufre = new Image("/gaufre.jpg");
         
-        int largeur = plateau.getLargeur();
-        int longueur = plateau.getLongueur();
-        Case[][] cases = plateau.getCases();
+        System.out.println("BLABLA");
         
-        TilePane tile = new TilePane();
-        //tile.setHgap(8);
-        tile.setPrefColumns(longueur);
-        for (int i = 0; i < largeur; i++) {
-            tile.getChildren().add(iv);
-        }
-        
-        /*
-        for(int i = 0; i < longueur; i++){
-            for(int j = 0; j < largeur; j++){
-                Polygon p = new Polygon();
-
-                p.setLayoutX(0);
-                p.setLayoutY(0);
-
-                //point(10,10)
-                p.getPoints().add(10.0);
-                p.getPoints().add(10.0);
-                //point(510,10)
-                p.getPoints().add(510.0);
-                p.getPoints().add(10.0);
-                //point(510,310)
-                p.getPoints().add(510.0);
-                p.getPoints().add(310.0);
-                //point(10,310)
-                p.getPoints().add(10.0);
-                p.getPoints().add(310.0);
-
-                p.setFill(new ImagePattern(gaufre, 0, 0, 1, 1, true));
-
-                root.getChildren().add(p);
+        GridPane grid = new GridPane();
+        grid.setHgap(8);
+        grid.setVgap(8);
+        for (int i = 0; i < plateau.getLargeur(); i++) {
+            for(int j = 0; j < plateau.getLongueur(); j++){
+                if(plateau.getCases()[i][j].isJouable()){
+                    System.out.println(j + " "  + i);
+                    Button b = new Button();
+                    EventHandler<? super MouseEvent> clicSourisFX = new ClicSourisFX(partie, b, grid);
+                    b.setOnMouseClicked(clicSourisFX);
+                    grid.add(b, j, i);
+                }
             }
-        }*/
+        }
 
-	/*
-	 gc.drawImage(image1, 10, 10);
-	 gc.setFill(Color.BROWN);
-	 gc.setStroke(Color.BLUE);
-	 gc.setLineWidth(5);
-	 gc.fillRect(100, 100, 600, 400);
-	 */
-	
+	root.getChildren().add(grid);
+        scene.setRoot(root);
+    }
 
+    public static void drawrect(double x, double y, GraphicsContext gc) {
+	gc.setFill(Color.WHITE);
+	gc.fillRect(x, y, 10000, 10000);
+
+    }
+
+    public static void arrondirPourCases(double x, double taillex, double y, double tailley) {
+	if ((x / taillex) == x % taillex) {
+	    xcasecliquee = (x / taillex);
+	} else {
+	    xcasecliquee = ((int) (x / taillex));
+	}
+
+	if ((y / tailley) == y % tailley) {
+	    ycasecliquee = (y / tailley);
+	} else {
+	    ycasecliquee = ((int) (y / tailley));
+	}
     }
 }

@@ -73,7 +73,7 @@ public class EssaiFX extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-	launch(args);
+	launch(null);
     }
 
     public static void drawGaufre(GraphicsContext gc, Group root) {

@@ -10,14 +10,9 @@ import Models.*;
  *
  * @author rozandq
  */
-public class Dessinateur {
-    private Plateau plateau;
-
-    public Dessinateur(Plateau plateau) {
-        this.plateau = plateau;
-    }
+public class DessinateurText {
     
-    public void dessinePlateau(){
+    public void dessinePlateau(Plateau plateau){
         System.out.print("  ");
         for(int j = 0; j < plateau.getLongueur(); j++){
             System.out.print(j + " ");
