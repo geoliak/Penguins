@@ -31,7 +31,12 @@ public class InterfaceFX extends Application{
     static Scene scene;
     static double xcasecliquee;
     static double ycasecliquee;    
+    DessinateurFX d;
 
+    public Partie getPartie() {
+        return partie;
+    }
+    
     public Canvas getCanvas() {
         return canvas;
     }
@@ -40,13 +45,17 @@ public class InterfaceFX extends Application{
         return root;
     }
 
-    public static Scene getScene() {
+    public Scene getScene() {
         return scene;
+    }
+
+    public DessinateurFX getD() {
+        return d;
     }
     
     @Override
     public void start(Stage stage) throws InterruptedException {
-        System.out.println(partie);
+        //System.out.println(partie);
 	stage.setTitle("Gaufre");
 	root = new Group();
 
@@ -60,10 +69,19 @@ public class InterfaceFX extends Application{
 	scene = new Scene(root);
 	root.getChildren().add(canvas);
 	stage.setScene(scene);
-
-	stage.show();
+        
+        DessinateurFX d = new DessinateurFX(canvas, root);
+        this.d = d;
+        RafraichissementFX r = new RafraichissementFX(this);
+        
+        d.dessinePlateau(partie.getPlateau(), partie, scene);
+        
+        r.start();
+        
 	//Mouse handler
 	//scene.setOnMousePressed(new ClicSourisFX(partie));
+        
+        stage.show();
     }
     
     public static void creer(String[] args, Partie p) {

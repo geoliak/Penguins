@@ -17,6 +17,7 @@ public class Partie {
 
     private Plateau plateau;
     private Joueur joueurCourant;
+    private boolean aJoue;
 
     private Joueur joueur1;
     private Joueur joueur2;
@@ -26,6 +27,15 @@ public class Partie {
     public Partie(Plateau plateau) {
         this.plateau = plateau;
         coups = new ArrayList<>();
+        aJoue = false;
+    }
+
+    public boolean isaJoue() {
+        return aJoue;
+    }
+
+    public void setaJoue(boolean aJoue) {
+        this.aJoue = aJoue;
     }
 
     public void setJoueurCourant(Joueur joueurCourant) {
@@ -67,6 +77,7 @@ public class Partie {
 
     public void ajouterCoups(Coup coup) {
         coups.add(coup);
+        getPlateau().masquerCases(coup);
     }
     
     public void jouerTour(){
@@ -74,6 +85,15 @@ public class Partie {
         joueurCourant.attendreCoup();
         plateau.masquerCases(coups.get(coups.size() - 1));
     }   
+    
+    public void switchJoueur(){
+        if (coups.size() % 2 == 1) {
+            joueurCourant = joueur2;
+        } else {
+            joueurCourant = joueur1;
+        }
+        System.out.println("Nouveau joueur courant: " + joueurCourant.getName());
+    }
     
     public void jouerPartie() {
         boolean termine = false;
@@ -114,8 +134,16 @@ public class Partie {
         }
     }
 
-    private boolean partieTermine() {
+    public boolean partieTermine() {
         return !plateau.getCases()[0][0].isJouable();
     }
-
+    
+    public boolean joueurCourantAPerdu(){
+        if(!plateau.getCases()[1][0].isJouable() && !plateau.getCases()[0][1].isJouable()){
+            plateau.getCases()[0][0].setJouable(false);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

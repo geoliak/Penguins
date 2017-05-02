@@ -25,50 +25,21 @@ public class Gaufre {
         
         Partie partie = new Partie(plateau);
         
-        JoueurHumain joueur1 = new JoueurHumain("Blorgo", partie);
-        JoueurHumain joueur2 = new JoueurHumain("Mayaak", partie);
+        JoueurHumain joueur1 = new JoueurHumain("Joueur Humain 1", partie);
+        JoueurHumain joueur2 = new JoueurHumain("Joueur Humain 2", partie);
         
-        JoueurIA joueuria = new JoueurIA("MAYAAK LE ROBOT", partie, 1);
-        JoueurIA joueuria2 = new JoueurIA("MATHIAS LE ROBOT", partie, 2);
-        JoueurIA joueuria3 = new JoueurIA("MINIMAX LE ROBOT", partie, 3);
+        JoueurIA joueuria = new JoueurIA("IA facile", partie, 1);
+        JoueurIA joueuria2 = new JoueurIA("IA moyen", partie, 2);
+        JoueurIA joueuria3 = new JoueurIA("IA hard", partie, 3);
         
         partie.setJoueur1(joueur1);
-        partie.setJoueur2(joueuria3);
+        partie.setJoueur2(joueuria);
         
         partie.setJoueurCourant(partie.getJoueur1());
         
+        System.out.println("Tour de " + partie.getJoueurCourant().getName());
+        
         InterfaceFX i = new InterfaceFX();
-        //i.creer(args, partie);
-        
-        
-        /*
-        DessinateurFX dessinateur = new DessinateurFX(i.getCanvas(), i.getRoot());
-        dessinateur.dessinePlateau(partie.getPlateau(), partie, i.getScene());
-        */
-        
-        DessinateurText d = new DessinateurText();
-        d.dessinePlateau(partie.getPlateau());   
-        
-        boolean termine = false;
-        int tour = 1;
-        
-        while (!termine) {
-            System.out.println("**************** Tour " + tour + " : " + partie.getJoueurCourant().getName() + " ****************");
-            partie.jouerTour();
-            d.dessinePlateau(partie.getPlateau());   
-            
-            tour++;
-
-            if (partie.partieTermine()) {
-                termine = true;
-                System.out.println(partie.getJoueurCourant().getName() + " a gagné !");
-            }
-            
-            if (tour % 2 == 1) {
-                partie.setJoueurCourant(partie.getJoueur1());
-            } else {
-                partie.setJoueurCourant(partie.getJoueur2());
-            }
-        }
+        i.creer(args, partie);
     }
 }

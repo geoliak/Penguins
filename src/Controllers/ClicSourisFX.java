@@ -12,6 +12,7 @@ import Models.Partie;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -22,29 +23,32 @@ import javafx.scene.layout.GridPane;
  */
 public class ClicSourisFX implements EventHandler<MouseEvent> {
     Partie partie;
-    Button button;
+    ImageView iv;
     GridPane gp;
     int xclic;
     int yclic;
 
-    public ClicSourisFX(Partie partie, Button button, GridPane gp) {
+    public ClicSourisFX(Partie partie, GridPane gp, ImageView iv) {
         this.partie = partie;
-        this.button = button;
         this.gp = gp;
+        this.iv = iv;
     }
 
     @Override
     public void handle(MouseEvent event) {
         if(partie.getJoueurCourant().getClass() == JoueurHumain.class){
-            JoueurHumain j = (JoueurHumain) partie.getJoueurCourant();
-            System.out.println("TOUR HUMAIN");
-            
-            xclic = GridPane.getColumnIndex(button);
-            yclic = GridPane.getRowIndex(button);
-            
-            System.out.println(xclic + " " + yclic);
-            
-            j.jouerCoup(xclic, yclic);
+            if(!partie.isaJoue()){
+                JoueurHumain j = (JoueurHumain) partie.getJoueurCourant();
+                partie.setaJoue(true);
+                //System.out.println("TOUR HUMAIN");
+
+                xclic = GridPane.getColumnIndex(iv);
+                yclic = GridPane.getRowIndex(iv);
+
+                System.out.println(xclic + " " + yclic);
+
+                j.jouerCoup(xclic, yclic);
+            }
         }
     }   
 }

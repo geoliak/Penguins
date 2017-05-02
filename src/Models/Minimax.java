@@ -34,7 +34,6 @@ public class Minimax {
                 Plateau tmp = plateau.clone();
                 //System.out.println("Minimax (" + c.getX() + "," + c.getY());
                 tmp.coup(c.getX(), c.getY());
-                Dessinateur d = new Dessinateur(tmp);
                 //d.dessinePlateau();
 
                 //Si perdu
@@ -52,7 +51,6 @@ public class Minimax {
                 arbre.ajouterEnfant(new Case(c.getX(), c.getY(), c.isJouable()), poids);
 
                 enumeration(tmp, arbre.getEnfants().get(arbre.getEnfants().size() - 1), poids);
-                d = new Dessinateur(plateau);
                 //System.out.println("plateau");
                 //d.dessinePlateau();
             }

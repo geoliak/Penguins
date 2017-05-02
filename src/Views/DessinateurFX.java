@@ -51,9 +51,9 @@ public class DessinateurFX {
 
     public void dessinePlateau(Plateau plateau, Partie partie, Scene scene) {
         Group root = new Group();
-	//Image gaufre = new Image("/gaufre.jpg");
+	Image gaufre = new Image("/gaufre.jpg");
         
-        System.out.println("BLABLA");
+        //System.out.println("BLABLA");
         
         GridPane grid = new GridPane();
         grid.setHgap(8);
@@ -61,11 +61,15 @@ public class DessinateurFX {
         for (int i = 0; i < plateau.getLargeur(); i++) {
             for(int j = 0; j < plateau.getLongueur(); j++){
                 if(plateau.getCases()[i][j].isJouable()){
-                    System.out.println(j + " "  + i);
-                    Button b = new Button();
-                    EventHandler<? super MouseEvent> clicSourisFX = new ClicSourisFX(partie, b, grid);
-                    b.setOnMouseClicked(clicSourisFX);
-                    grid.add(b, j, i);
+                    //System.out.println(j + " "  + i);
+                    
+                    ImageView iv = new ImageView(gaufre);
+                    iv.setFitHeight(50);
+                    iv.setFitWidth(50);
+                    //Button b = new Button();
+                    EventHandler<? super MouseEvent> clicSourisFX = new ClicSourisFX(partie, grid, iv);
+                    iv.setOnMouseClicked(clicSourisFX);
+                    grid.add(iv, j, i);
                 }
             }
         }

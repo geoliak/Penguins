@@ -20,6 +20,10 @@ public class JoueurIA extends Joueur {
         difficulte = diff;
     }
 
+    public int getDifficulte() {
+        return difficulte;
+    }
+
     public void jouerCoup(int diff) {
         switch (diff) {
             case 1:
@@ -73,6 +77,7 @@ public class JoueurIA extends Joueur {
     */
     
     private void jouerCoupFacile() {
+        System.out.println("BLABLA");
         ArrayList<Case> casePossible = this.partie.getPlateau().getCasesValides();
         
         int longueur = partie.getPlateau().getLongueur();
@@ -80,7 +85,9 @@ public class JoueurIA extends Joueur {
         
         Case caseJouee = casePossible.get(this.tirerInt(casePossible.size()));
         
-        while(!partie.getPlateau().estCaseValide(caseJouee.getX(), caseJouee.getY())){
+        System.out.println(caseJouee.getX() + " " + caseJouee.getY());
+        
+        while(!partie.getPlateau().estCaseValide(caseJouee.getX(), caseJouee.getY()) && casePossible.size() != 1){
             caseJouee = casePossible.get(this.tirerInt(casePossible.size()));
         }
         
@@ -93,6 +100,7 @@ public class JoueurIA extends Joueur {
         }
         
         partie.ajouterCoups(coup);
+        System.out.println(caseJouee.getX() + " " + caseJouee.getY());
     }
 
     private void jouerCoupMoyen() {
