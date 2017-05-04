@@ -41,7 +41,7 @@ public class DessinateurTexte extends Visiteur {
         } else {
             Pinguin p = c.getPinguin();
             if (p != null) {
-                System.out.print(p.getGeneral().getColorBackground() + c.getNbPoissons() + Joueur.ANSI_RESET);
+                System.out.print(p.getGeneral().getCouleur().getColorBackground() + c.getNbPoissons() + Joueur.ANSI_RESET);
             } else if (c.getAccessible()) {
                 System.out.print(Joueur.ANSI_GREEN + c.getNbPoissons() + Joueur.ANSI_RESET);
             } else {

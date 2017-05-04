@@ -5,9 +5,19 @@
  */
 package Controleur;
 
+import Modele.Case;
+import Modele.Couleur;
+import Modele.Joueur;
+import Modele.JoueurHumainLocal;
+import Modele.Partie;
+import Modele.Pinguin;
 import Modele.Plateau;
-import Vue.InterfaceFX;
+import Vue.DessinateurTexte;
+import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,13 +31,10 @@ public class Test {
         System.out.println("======= Pour l'Antartique ! =======");
         try {
             Plateau plateau = new Plateau("plateau1");
+            DessinateurTexte dt = new DessinateurTexte();
 
-	    InterfaceFX i = new InterfaceFX();
-	    i.creer(args, plateau);
-            /*DessinateurTexte dt = new DessinateurTexte();
-
-            JoueurHumainLocal joueurH1 = new JoueurHumainLocal(45, "Jean", Joueur.ANSI_BLUE_BACKGROUND, Joueur.ANSI_BLUE);
-            JoueurHumainLocal joueurH2 = new JoueurHumainLocal(47, "Pierre", Joueur.ANSI_RED_BACKGROUND, Joueur.ANSI_RED);
+            JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
+            JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
             ArrayList<Joueur> joueurs = new ArrayList<>();
             joueurs.add(joueurH1);
             joueurs.add(joueurH2);
@@ -99,7 +106,7 @@ public class Test {
                     }
 
                     if (joueurCourant.estEnJeu()) {
-                        System.out.println("\n== Choisi un pinguin " + joueurCourant.getColorAccessible() + joueurCourant.getNom() + Joueur.ANSI_RESET);
+                        System.out.println("\n== Choisi un pinguin " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET);
                         System.out.print("numero ligne : ");
                         numLigne = sc.nextInt();
                         System.out.print("numero colonne : ");
@@ -115,7 +122,7 @@ public class Test {
                             for (Case cp : casesPossibles) {
                                 cp.setAccessible(false);
                             }
-                            System.out.println("\n== Choisi une case " + joueurCourant.getColorAccessible() + joueurCourant.getNom() + Joueur.ANSI_RESET);
+                            System.out.println("\n== Choisi une case " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET);
                             System.out.print("numero ligne : ");
                             numLigne = sc.nextInt();
                             System.out.print("numero colonne : ");
@@ -130,7 +137,7 @@ public class Test {
                             }
                         } else {
                             System.out.println("Choississez un de vos pinguin");
-                        }
+                        } 
                     } else {
                         aJoue = true;
                     }
@@ -141,9 +148,8 @@ public class Test {
             }
 
             for (Joueur j : partie.getJoueurGagnant()) {
-                System.out.println(j.getColorAccessible() + j.getNom() + Joueur.ANSI_RESET + " a gagne la partie");
+                System.out.println(j.getCouleur() + j.getNom() + Joueur.ANSI_RESET + " a gagne la partie");
             }
-		    */
 
         } catch (IOException ex) {
             System.out.println("Erreur d'ouverture du fichier");

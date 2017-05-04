@@ -5,16 +5,18 @@
  */
 package Modele;
 
+import javafx.scene.paint.Color;
+
+
 /**
  *
  * @author novelm
  */
 public abstract class JoueurHumain extends Joueur {
 
-    public JoueurHumain(int age, String nom,String colorBackground, String colorAccessible) {
-        super(colorBackground,colorAccessible);
+    public JoueurHumain(String nom, Couleur couleur) {
+        super(couleur);
         this.setNom(nom);
-        this.setAge(age);
     }
     
 }

@@ -5,14 +5,16 @@
  */
 package Modele;
 
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author novelm
  */
 public class JoueurHumainLocal extends JoueurHumain {
 
-    public JoueurHumainLocal(int age, String nom, String colorBackground, String colorAccessible) {
-        super(age, nom,colorBackground,colorAccessible);
+    public JoueurHumainLocal(String nom, Couleur couleur) {
+        super(nom, couleur);
     }
 
 }

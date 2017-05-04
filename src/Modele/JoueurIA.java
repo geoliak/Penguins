@@ -6,6 +6,7 @@
 package Modele;
 
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -14,8 +15,8 @@ import java.util.Random;
 public abstract class JoueurIA extends Joueur {
     private final String[] nomsPosible = {"Jack","Tealc","Sam","Daniel"};
     
-    public JoueurIA(String colorBackground, String colorAccessible) {
-        super(colorBackground,colorAccessible);
+    public JoueurIA(Couleur couleur) {
+        super(couleur);
         Random r = new Random();
         this.setNom(this.nomsPosible[r.nextInt(nomsPosible.length)]);
         this.setAge(r.nextInt(123)); // Jeanne Calment
