@@ -97,7 +97,7 @@ public class Test {
                 while (!aJoue) {
                     joueurCourant = partie.getJoueurCourant();
                     for (Pinguin p : joueurCourant.getPinguins()) {
-                        casesPossibles = p.getCasePossibles();
+                        casesPossibles = p.getPosition().getCasePossibles();
                         memoisation.put(p, casesPossibles);
                         if (casesPossibles.isEmpty()) {
                             p.coullePinguin();

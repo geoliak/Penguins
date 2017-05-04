@@ -18,4 +18,6 @@ public abstract class Visiteur {
     
     public abstract void visite(Case c);
     
+    public abstract void visite(Pinguin p);
+    
 }
