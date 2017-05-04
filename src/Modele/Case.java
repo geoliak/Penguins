@@ -29,6 +29,10 @@ public class Case {
         this.voisins = new Case[6];
         this.numLigne = numLigne;
         this.numColonne = numColonne;
+        this.genereNbPoissons();
+    }
+
+    public void genereNbPoissons() {
         Random r = new Random();
         this.nbPoissons = r.nextInt(6);
         if (this.nbPoissons < 3) {
@@ -76,7 +80,7 @@ public class Case {
             }
 
             //Pas tout a gauche et tout en haut
-            if (this.numColonne != 0 && this.numLigne != 0) {
+            if ((this.numColonne != 0 || this.numLigne % 2 == 1)  && this.numLigne != 0) {
                 this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne - ((this.numLigne + 1) % 2)]);
             }
             //Pas tout a gauche et tout en bas
