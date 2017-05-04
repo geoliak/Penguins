@@ -5,11 +5,11 @@
  */
 package Controleur;
 
+import Modele.MyPolygon;
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Polygon;
 
 /**
  *
@@ -19,21 +19,26 @@ public class MouseClicker implements EventHandler<MouseEvent> {
 
     ArrayList<GridPane> ag;
     GridPane g;
-    Polygon p;
+    MyPolygon p;
     int rowclic;
     int columnclic;
 
-    public MouseClicker(Polygon p, GridPane g, ArrayList<GridPane> ag) {
+    int size;
+
+    public MouseClicker(MyPolygon p) {
 	this.p = p;
-	this.g = g;
-	this.ag = ag;
     }
+
 
     @Override
     public void handle(MouseEvent event) {
-	System.out.println("BLABLA");
+	System.out.println(p.getX() + " " + p.getY());
+	/*
 	columnclic = GridPane.getColumnIndex(p);
 	rowclic = ag.indexOf(g);
 	System.out.println(rowclic + " " + columnclic);
+	*/
     }
+
+
 }

@@ -46,6 +46,9 @@ public class InterfaceFX extends Application {
 
 	plateau.accept(d);
 
+	//EventHandler<? super MouseEvent> clicSourisFX = new MouseClicker(scene, grid, ag);
+	//p.setOnMouseClicked(clicSourisFX);
+
 	stage.show();
     }
 
