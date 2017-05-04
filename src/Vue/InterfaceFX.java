@@ -17,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -42,6 +43,7 @@ public class InterfaceFX extends Application {
 
 	Scene scene = new Scene(root);
 	root.getChildren().add(canvas);
+	scene.setFill(Color.AQUA);
 	stage.setScene(scene);
 
 	plateau.accept(d);
