@@ -12,6 +12,7 @@ package Vue;
 
 import Controleur.MouseClicker;
 import Modele.Case;
+import Modele.MyPolygon;
 import Modele.Plateau;
 import Modele.Visiteur;
 import java.util.ArrayList;
@@ -20,8 +21,6 @@ import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 
 /**
  *
@@ -31,6 +30,12 @@ public class DessinateurFX extends Visiteur {
 
     GraphicsContext gc;
     Group root;
+    double sizeGlacon = 50.0;
+    double proportion = 1;
+    int gap = 4;
+    double size = sizeGlacon * proportion;
+    double height = size * 2;
+    double width = height*Math.sqrt(3/2);
 
     public DessinateurFX(GraphicsContext gc, Group root) {
 	this.gc = gc;
@@ -42,89 +47,21 @@ public class DessinateurFX extends Visiteur {
 	ArrayList<GridPane> ag = new ArrayList<>();
 
 	int rows = plateau.getNbLignes();
-	int hexes = plateau.getNbColonnes();
-	double proportion = 1;
-	int gap = 4;
-	double size = 50.0 * proportion;
-	double height = size * 2;
-	double width = height*Math.sqrt(3/2);
+	int columns = plateau.getNbColonnes();
 
-
-	for (int row = 0; row < rows; row++) {
-
-	    GridPane grid = new GridPane();
-	    grid.setHgap(gap);
-	    grid.relocate(((row % 2) * size) + gap/2 * (row % 2), (row * size*1.5) + gap * row);
-	    for (int i = 0; i < hexes; i++) {
-		Polygon p;
-		if (plateau.getCases()[row][i].estCoulee()) {
-		    //System.out.println("COULE");
-		    p = poly(size, Color.WHITE);
-		} else {
-		    p = poly(size, Color.CYAN);
-		}
-		EventHandler<? super MouseEvent> clicSourisFX = new MouseClicker(p, grid, ag);
-		p.setOnMouseClicked(clicSourisFX);
-		grid.add(p, i, 0);
+	for(int i = 0; i < rows; i++){
+	    for(int j = 0; j < columns; j++){
+		plateau.getCases()[i][j].accept(this);
 	    }
-	    ag.add(grid);
-	    root.getChildren().add(grid);
 	}
-    }
-
-    public static Polygon poly(double size, Color color) {
-	Polygon p = new Polygon();
-	p.setFill(color);
-
-	double height = size * 2;
-	double width = height*Math.sqrt(3/2);
-
-	//p.setStroke(Color.BLACK);
-
-	p.setLayoutX(0);
-	p.setLayoutY(0);
-	//point(50,0)
-	p.getPoints().add(width/2);
-	p.getPoints().add(0.0);
-	//point(0, 50)
-	p.getPoints().add(0.0);
-	p.getPoints().add(height/4);
-	//point(0,100)
-	p.getPoints().add(0.0);
-	p.getPoints().add(3*(height/4));
-	//point(50,150)
-	p.getPoints().add(width/2);
-	p.getPoints().add(height);
-	//point(100,100)
-	p.getPoints().add(width);
-	p.getPoints().add(3*(height/4));
-	//point(100,50)
-	p.getPoints().add(width);
-	p.getPoints().add(height/4);
-	return p;
     }
 
     @Override
     public void visite(Case c) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	MyPolygon p = new MyPolygon(c.getNumLigne(), c.getNumColonne(), sizeGlacon);
+	EventHandler<? super MouseEvent> clicSourisFX = new MouseClicker(p);
+	p.setOnMouseClicked(clicSourisFX);
+
+	root.getChildren().add(p);
     }
-
-    /*
-     public static void drawGaufre(GraphicsContext gc, Group root) {
-     int rows = 8;
-     int hexes = 14;
-     double proportion = 0.8;
-
-     for (int row = 0; row < rows; row++) {
-
-     TilePane tile = new TilePane();
-     //	tile.setHgap(0);
-     tile.relocate(((row + 1) % 2) * proportion * 51, row * proportion * 100);
-     tile.setPrefColumns(hexes);
-     for (int i = 0; i < hexes; i++) {
-     tile.getChildren().add(poly(proportion));
-     }
-     root.getChildren().add(tile);
-     }
-     }*/
 }
