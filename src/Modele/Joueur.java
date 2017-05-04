@@ -5,8 +5,9 @@
  */
 package Modele;
 
-import java.awt.Color;
+
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -35,25 +36,22 @@ public abstract class Joueur {
 
     private int age;
     private String nom;
-    private String colorAccessible;
-    private String colorBackground;
+    private Couleur couleur;
     private int scoreGlacons;
     private int scorePoissons;
     private ArrayList<Pinguin> pinguins;
     private Pinguin pinguinCourant;
     private Boolean pret;
 
-    public Joueur(String colorBackground, String colorAccessible) {
+    public Joueur(Couleur couleur) {
         this.pinguins = new ArrayList<>();
-        this.colorBackground = colorBackground;
-        this.colorAccessible = colorAccessible;
         this.pinguinCourant = null;
         this.pret = false;
         this.scoreGlacons = 0;
         this.scorePoissons = 0;
         this.nom = "Ceci ne devrait pas apparaitre";
         this.age = -1;
-
+        this.couleur = couleur;
     }
 
     public void ajouterPinguin(Case c) {
@@ -89,7 +87,7 @@ public abstract class Joueur {
     public void setScoreGlacons(int scoreGlacons) {
         this.scoreGlacons = scoreGlacons;
     }
-
+    
     public int getScorePoissons() {
         return scorePoissons;
     }
@@ -134,14 +132,10 @@ public abstract class Joueur {
         this.pret = pret;
     }
 
-    public String getColorAccessible() {
-        return colorAccessible;
+    public Couleur getCouleur() {
+        return couleur;
     }
-
-    public String getColorBackground() {
-        return colorBackground;
-    }
-
+    
     
 
 }

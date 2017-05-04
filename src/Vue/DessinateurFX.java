@@ -13,6 +13,7 @@ package Vue;
 import Controleur.MouseClicker;
 import Modele.Case;
 import Modele.MyPolygon;
+import Modele.Pinguin;
 import Modele.Plateau;
 import Modele.Visiteur;
 import java.util.ArrayList;
@@ -39,29 +40,30 @@ public class DessinateurFX extends Visiteur {
     private double width;
 
     public DessinateurFX(GraphicsContext gc, Group root) {
-	this.gc = gc;
-	this.root = root;
+        this.gc = gc;
+        this.root = root;
+        
+        sizeGlacon = 50.0;
+        proportion = 1;
+        gap = 4;
+        size = sizeGlacon * proportion;
+        height = size * 2;
+        width = height * Math.sqrt(3 / 2);
 
-	sizeGlacon = 50.0;
-	proportion = 1;
-	gap = 4;
-	size = sizeGlacon * proportion;
-	height = size * 2;
-	width = height*Math.sqrt(3/2);
     }
 
     @Override
     public void visite(Plateau plateau) {
-	ArrayList<GridPane> ag = new ArrayList<>();
+        ArrayList<GridPane> ag = new ArrayList<>();
 
-	int rows = plateau.getNbLignes();
-	int columns = plateau.getNbColonnes();
+        int rows = plateau.getNbLignes();
+        int columns = plateau.getNbColonnes();
 
-	for(int i = 0; i < rows; i++){
-	    for(int j = 0; j < columns; j++){
-		plateau.getCases()[j][i].accept(this);
-	    }
-	}
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                plateau.getCases()[i][j].accept(this);
+            }
+        }
     }
 
     @Override
@@ -75,5 +77,13 @@ public class DessinateurFX extends Visiteur {
 
 	    root.getChildren().add(p);
 	}
+
+    @Override
+    public void visite(Pinguin p) {
+        double x = p.getPosition().getPolygon().getXorigine() + width/2;
+        double y = p.getPosition().getPolygon().getYorigine() + height/2;
+        
+        gc.setFill(p.getGeneral().getCouleur());
+        gc.fillOval(x, y, 5, 5);
     }
 }

@@ -22,23 +22,6 @@ public class Pinguin {
         this.general = maitre;
     }
     
-    public ArrayList<Case> getCasePossibles() {
-        ArrayList<Case> res = new ArrayList<>();
-        
-        for (int i = 0; i < 6; i++) {
-            parcoursLigne(res, position.getVoisins()[i],i);
-        }
-        
-        return res;
-    }
-    
-    public void parcoursLigne(ArrayList<Case> res, Case courante, int direction) {
-        if (courante != null && !courante.estCoulee() && courante.getPinguin() == null) {
-            res.add(courante);
-            parcoursLigne(res,courante.getVoisins()[direction], direction);
-        }
-    }
-    
     public void deplace(Case c) {
         this.position.setPinguin(null);
         this.position.setCoulee(true);

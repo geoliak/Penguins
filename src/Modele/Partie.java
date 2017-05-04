@@ -34,10 +34,10 @@ public class Partie {
     }
 
     public void afficheJoueurs() {
-        System.out.println("Joueur courant : " + joueurCourant.getColorAccessible() + joueurCourant.getNom() + Joueur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
+        System.out.println("Joueur courant : " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
         System.out.println("Joueur(s) dans la liste : ");
         for (Joueur j : this.joueurs) {
-            System.out.println(j.getColorAccessible() + j.getNom() + Joueur.ANSI_RESET + " enJeu " + j.estEnJeu());
+            System.out.println(j.getCouleur() + j.getNom() + Joueur.ANSI_RESET + " enJeu " + j.estEnJeu());
         }
     }
 

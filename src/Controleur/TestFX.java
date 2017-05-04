@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
-
-import javafx.scene.paint.Color;
+package Controleur;
 
 /**
  *
  * @author novelm
  */
-public class JoueurHumainLocal extends JoueurHumain {
-
-    public JoueurHumainLocal(String nom, Couleur couleur) {
-        super(nom, couleur);
+public class TestFX {
+    
+    public static void main(String[] args) {
+        
     }
-
+    
 }

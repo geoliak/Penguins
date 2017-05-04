@@ -5,14 +5,16 @@
  */
 package Modele;
 
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author novelm
  */
 public class JoueurIAFacile extends JoueurIA {
 
-    public JoueurIAFacile(String colorBackground, String colorAccessible) {
-        super(colorBackground,colorAccessible);
+    public JoueurIAFacile(Couleur couleur) {
+        super(couleur);
     }
 
     @Override

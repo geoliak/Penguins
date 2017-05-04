@@ -80,7 +80,7 @@ public class Case {
             }
 
             //Pas tout a gauche et tout en haut
-            if ((this.numColonne != 0 || this.numLigne % 2 == 1)  && this.numLigne != 0) {
+            if ((this.numColonne != 0 || this.numLigne % 2 == 1) && this.numLigne != 0) {
                 this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne - ((this.numLigne + 1) % 2)]);
             }
             //Pas tout a gauche et tout en bas
@@ -96,6 +96,23 @@ public class Case {
             if ((this.numColonne != plateau.getNbColonnes() - 1 || this.numLigne % 2 == 1) && this.numLigne != plateau.getNbLignes() - 1) {
                 this.voisins[2] = (plateau.getCases()[this.numLigne + 1][this.numColonne + (this.numLigne % 2)]);
             }
+        }
+    }
+
+    public ArrayList<Case> getCasePossibles() {
+        ArrayList<Case> res = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            parcoursLigne(res, this.voisins[i], i);
+        }
+
+        return res;
+    }
+
+    public void parcoursLigne(ArrayList<Case> res, Case courante, int direction) {
+        if (courante != null && !courante.estCoulee() && courante.getPinguin() == null) {
+            res.add(courante);
+            parcoursLigne(res, courante.getVoisins()[direction], direction);
         }
     }
 

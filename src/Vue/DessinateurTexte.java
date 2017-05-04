@@ -41,13 +41,18 @@ public class DessinateurTexte extends Visiteur {
         } else {
             Pinguin p = c.getPinguin();
             if (p != null) {
-                System.out.print(p.getGeneral().getColorBackground() + c.getNbPoissons() + Joueur.ANSI_RESET);
+                System.out.print(p.getGeneral().getCouleur().getColorBackground() + c.getNbPoissons() + Joueur.ANSI_RESET);
             } else if (c.getAccessible()) {
                 System.out.print(Joueur.ANSI_GREEN + c.getNbPoissons() + Joueur.ANSI_RESET);
             } else {
                 System.out.print(c.getNbPoissons());
             }
         }
+    }
+
+    @Override
+    public void visite(Pinguin p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
