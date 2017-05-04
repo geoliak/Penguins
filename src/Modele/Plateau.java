@@ -32,9 +32,24 @@ public class Plateau {
     }
 
     public void initCase() {
+        int nbCaseUnPoissons = 0;
         for (int i = 0; i < this.nbLignes; i++) {
             for (int j = 0; j < this.nbColonnes; j++) {
                 this.cases[i][j].initVoisins(this);
+                if (!this.cases[i][j].estCoulee() && this.cases[i][j].getNbPoissons() == 1) {
+                    nbCaseUnPoissons++;
+                }
+            }
+        }
+        while (nbCaseUnPoissons < 9) {
+            nbCaseUnPoissons = 0;
+            for (int i = 0; i < this.nbLignes; i++) {
+                for (int j = 0; j < this.nbColonnes; j++) {
+                    if (!this.cases[i][j].estCoulee()) {
+                        this.cases[i][j].genereNbPoissons();
+                        nbCaseUnPoissons++;
+                    }
+                }
             }
         }
     }
@@ -58,7 +73,7 @@ public class Plateau {
             numLigne++;
         }
     }
-    
+
     public Boolean estCaseLibre(int x, int y) {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
     }

@@ -65,11 +65,11 @@ public class Test {
                     numLigne = sc.nextInt();
                     System.out.print("numero colonne : ");
                     numColonne = sc.nextInt();
-                    if (plateau.estCaseLibre(numLigne, numColonne)) {
+                    if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
                         joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
                         pinguinPlace = true;
                     } else {
-                        System.out.println("Cette case est occupée ou coulé");
+                        System.out.println("Cette case est occupée ou coulé ou n'a pas un poisson");
                     }
                 }
                 plateau.accept(dt);
