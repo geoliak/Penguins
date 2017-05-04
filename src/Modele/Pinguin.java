@@ -33,7 +33,7 @@ public class Pinguin {
     }
     
     public void parcoursLigne(ArrayList<Case> res, Case courante, int direction) {
-        while (courante != null && !courante.estCoulee()) {
+        if (courante != null && !courante.estCoulee() && courante.getPinguin() == null) {
             res.add(courante);
             parcoursLigne(res,courante.getVoisins()[direction], direction);
         }

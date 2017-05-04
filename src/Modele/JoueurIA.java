@@ -14,8 +14,8 @@ import java.util.Random;
 public abstract class JoueurIA extends Joueur {
     private final String[] nomsPosible = {"Jack","Tealc","Sam","Daniel"};
     
-    public JoueurIA(String color) {
-        super(color);
+    public JoueurIA(String colorBackground, String colorAccessible) {
+        super(colorBackground,colorAccessible);
         Random r = new Random();
         this.setNom(this.nomsPosible[r.nextInt(nomsPosible.length)]);
         this.setAge(r.nextInt(123)); // Jeanne Calment

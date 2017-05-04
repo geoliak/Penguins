@@ -15,12 +15,12 @@ import Modele.Plateau;
  *
  * @author novelm
  */
-public class DessinateurTexte extends Visiteur {   
+public class DessinateurTexte extends Visiteur {
 
     @Override
     public void visite(Plateau plateau) {
         System.out.println("==== Plateau ====");
-        for (int i = 0; i < plateau.getNbLignes(); i ++) {
+        for (int i = 0; i < plateau.getNbLignes(); i++) {
             if (i % 2 == 0) {
                 System.out.print(" ");
             } else {
@@ -41,13 +41,13 @@ public class DessinateurTexte extends Visiteur {
         } else {
             Pinguin p = c.getPinguin();
             if (p != null) {
-                System.out.println(p.getGeneral().getColor() + c.getNbPoissons() + Joueur.ANSI_RESET);
+                System.out.print(p.getGeneral().getColorBackground() + c.getNbPoissons() + Joueur.ANSI_RESET);
+            } else if (c.getAccessible()) {
+                System.out.print(Joueur.ANSI_GREEN + c.getNbPoissons() + Joueur.ANSI_RESET);
             } else {
                 System.out.print(c.getNbPoissons());
             }
-            
         }
     }
-    
-    
+
 }

@@ -22,11 +22,23 @@ public class Partie {
         this.initialisation = true;
         this.plateau = plateau;
         this.joueurs = joueurs;
+        this.joueurCourant = this.joueurs.remove(0);
     }
 
     public void joueurSuivant() {
         this.joueurs.add(this.joueurCourant);
         this.joueurCourant = this.joueurs.remove(0);
+        if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
+            joueurSuivant();
+        }
+    }
+
+    public void afficheJoueurs() {
+        System.out.println("Joueur courant : " + joueurCourant.getColorAccessible() + joueurCourant.getNom() + Joueur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
+        System.out.println("Joueur(s) dans la liste : ");
+        for (Joueur j : this.joueurs) {
+            System.out.println(j.getColorAccessible() + j.getNom() + Joueur.ANSI_RESET + " enJeu " + j.estEnJeu());
+        }
     }
 
     public Joueur getJoueurCourant() {
@@ -38,7 +50,7 @@ public class Partie {
         for (Joueur j : this.joueurs) {
             res = res || j.estEnJeu();
         }
-        return res;
+        return !res;
     }
 
     public ArrayList<Joueur> getJoueurGagnant() {
@@ -77,4 +89,13 @@ public class Partie {
     public void setInitialisation(Boolean initialisation) {
         this.initialisation = initialisation;
     }
+
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public Boolean getInitialisation() {
+        return initialisation;
+    }
+
 }

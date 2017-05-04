@@ -11,8 +11,8 @@ package Modele;
  */
 public class JoueurIAFacile extends JoueurIA {
 
-    public JoueurIAFacile(String color) {
-        super(color);
+    public JoueurIAFacile(String colorBackground, String colorAccessible) {
+        super(colorBackground,colorAccessible);
     }
 
     @Override

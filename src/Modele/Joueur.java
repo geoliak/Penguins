@@ -24,25 +24,38 @@ public abstract class Joueur {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
     private int age;
     private String nom;
-    private String color;
+    private String colorAccessible;
+    private String colorBackground;
     private int scoreGlacons;
     private int scorePoissons;
     private ArrayList<Pinguin> pinguins;
     private Pinguin pinguinCourant;
+    private Boolean pret;
 
-    public Joueur(String color) {
+    public Joueur(String colorBackground, String colorAccessible) {
         this.pinguins = new ArrayList<>();
-        this.color = color;
+        this.colorBackground = colorBackground;
+        this.colorAccessible = colorAccessible;
         this.pinguinCourant = null;
+        this.pret = false;
         this.scoreGlacons = 0;
         this.scorePoissons = 0;
         this.nom = "Ceci ne devrait pas apparaitre";
         this.age = -1;
-        
+
     }
-    
+
     public void ajouterPinguin(Case c) {
         Pinguin p = new Pinguin(c, this);
         c.setPinguin(p);
@@ -102,13 +115,33 @@ public abstract class Joueur {
     }
 
     public Boolean estEnJeu() {
-        return this.pinguins.isEmpty();
+        if (this.pret) {
+            Boolean enJeu = false;
+            for(Pinguin p : this.pinguins) {
+                enJeu = enJeu || p.estVivant();
+            }
+            return enJeu;
+        } else {
+            return true;
+        }
     }
 
-    public String getColor() {
-        return color;
+    public Boolean getPret() {
+        return pret;
     }
+
+    public void setPret(Boolean pret) {
+        this.pret = pret;
+    }
+
+    public String getColorAccessible() {
+        return colorAccessible;
+    }
+
+    public String getColorBackground() {
+        return colorBackground;
+    }
+
     
-
 
 }

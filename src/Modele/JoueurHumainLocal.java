@@ -11,8 +11,8 @@ package Modele;
  */
 public class JoueurHumainLocal extends JoueurHumain {
 
-    public JoueurHumainLocal(int age, String nom, String color) {
-        super(age, nom,color);
+    public JoueurHumainLocal(int age, String nom, String colorBackground, String colorAccessible) {
+        super(age, nom,colorBackground,colorAccessible);
     }
 
 }

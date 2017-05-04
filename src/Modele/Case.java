@@ -20,10 +20,12 @@ public class Case {
     private Case[] voisins;
     private Boolean coulee;
     private Pinguin pinguin;
+    private Boolean accessible;
 
     public Case(int numLigne, int numColonne) {
         this.coulee = false;
         this.pinguin = null;
+        this.accessible = false;
         this.voisins = new Case[6];
         this.numLigne = numLigne;
         this.numColonne = numColonne;
@@ -40,27 +42,55 @@ public class Case {
 
     public void initVoisins(Plateau plateau) {
         //Si la case n'est pas tout à gauche
-        if (this.numColonne != 0) {
-            this.voisins[4] = (plateau.getCases()[this.numLigne][this.numColonne - 1]);
-            //Si la case n'est pas tout en haut
-            if (this.numLigne != 0) {
-                this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne - 1]);
+        /*if (this.numColonne != 0) {
+         this.voisins[4] = (plateau.getCases()[this.numLigne][this.numColonne - 1]);
+         //Si la case n'est pas tout en haut
+         if (this.numLigne != 0) {
+         this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne]);
+         }
+         //Si la case n'est pas tout en bas
+         if (this.numLigne != plateau.getNbLignes() - 1) {
+         this.voisins[3] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
+         }
+         }
+         //Si la case n'est pas tout à droite
+         if (this.numColonne != plateau.getNbColonnes() - 1) {
+         this.voisins[1] = (plateau.getCases()[this.numLigne][this.numColonne + 1]);
+         //Si la case n'est pas tout en haut
+         if (this.numLigne != 0) {
+         this.voisins[0] = (plateau.getCases()[this.numLigne - 1][this.numColonne + 1]);
+         }
+         //Si la case n'est pas tout en bas
+         if (this.numLigne != plateau.getNbLignes() - 1) {
+         this.voisins[2] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
+         }
+         }*/
+        if (!this.coulee) {
+            //Pas tout a gauche
+            if (this.numColonne != 0) {
+                this.voisins[4] = (plateau.getCases()[this.numLigne][this.numColonne - 1]);
             }
-            //Si la case n'est pas tout en bas
-            if (this.numLigne != plateau.getNbLignes() - 1) {
-                this.voisins[3] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
+            //Pas tout a droite
+            if (this.numColonne != plateau.getNbColonnes() - 1) {
+                this.voisins[1] = (plateau.getCases()[this.numLigne][this.numColonne + 1]);
             }
-        }
-        //Si la case n'est pas tout à droite
-        if (this.numColonne != plateau.getNbColonnes() - 1) {
-            this.voisins[1] = (plateau.getCases()[this.numLigne][this.numColonne + 1]);
-            //Si la case n'est pas tout en haut
-            if (this.numLigne != 0) {
-                this.voisins[0] = (plateau.getCases()[this.numLigne - 1][this.numColonne]);
+
+            //Pas tout a gauche et tout en haut
+            if (this.numColonne != 0 && this.numLigne != 0) {
+                this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne - ((this.numLigne + 1) % 2)]);
             }
-            //Si la case n'est pas tout en bas
-            if (this.numLigne != plateau.getNbLignes() - 1) {
-                this.voisins[2] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
+            //Pas tout a gauche et tout en bas
+            if ((this.numColonne != 0 || (this.numColonne == 0 && this.numLigne % 2 == 1)) && this.numLigne != plateau.getNbLignes() - 1) {
+                this.voisins[3] = (plateau.getCases()[this.numLigne + 1][this.numColonne - ((this.numLigne + 1) % 2)]);
+            }
+
+            //Pas tout a droite et tout en haut
+            if (this.numColonne != plateau.getNbColonnes() - 1 && this.numLigne != 0) {
+                this.voisins[0] = (plateau.getCases()[this.numLigne - 1][this.numColonne + (this.numLigne % 2)]);
+            }
+            //Pas tout a droite et tout en bas
+            if ((this.numColonne != plateau.getNbColonnes() - 1 || this.numLigne % 2 == 1) && this.numLigne != plateau.getNbLignes() - 1) {
+                this.voisins[2] = (plateau.getCases()[this.numLigne + 1][this.numColonne + (this.numLigne % 2)]);
             }
         }
     }
@@ -96,9 +126,17 @@ public class Case {
     public void setPinguin(Pinguin pinguin) {
         this.pinguin = pinguin;
     }
-    
+
     public void accept(Visiteur v) {
         v.visite(this);
+    }
+
+    public Boolean getAccessible() {
+        return accessible;
+    }
+
+    public void setAccessible(Boolean accessible) {
+        this.accessible = accessible;
     }
 
 }
