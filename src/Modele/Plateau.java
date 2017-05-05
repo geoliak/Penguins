@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,19 +23,22 @@ import java.io.InputStreamReader;
 public class Plateau {
 
     private Case[][] cases;
-    private final int nbLignes = 8;
-    private final int nbColonnes = 8;
+    public static final int LARGEUR = 8;
+    public static final int LONGUEUR = 8;
 
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
-        this.cases = new Case[nbLignes][nbColonnes];
+        this.cases = new Case[LARGEUR][LONGUEUR];
         this.lireFichier(fichierPlateau);
         this.initCase();
     }
 
+    /**
+     * Place le nombre de poisson(s) aléatoirement sur les cases jusqu'a avoir une configuration jouable
+     */
     public void initCase() {
         int nbCaseUnPoissons = 0;
-        for (int i = 0; i < this.nbLignes; i++) {
-            for (int j = 0; j < this.nbColonnes; j++) {
+        for (int i = 0; i < this.LARGEUR; i++) {
+            for (int j = 0; j < this.LONGUEUR; j++) {
                 this.cases[i][j].initVoisins(this);
                 if (!this.cases[i][j].estCoulee() && this.cases[i][j].getNbPoissons() == 1) {
                     nbCaseUnPoissons++;
@@ -43,8 +47,8 @@ public class Plateau {
         }
         while (nbCaseUnPoissons < 9) {
             nbCaseUnPoissons = 0;
-            for (int i = 0; i < this.nbLignes; i++) {
-                for (int j = 0; j < this.nbColonnes; j++) {
+            for (int i = 0; i < this.LARGEUR; i++) {
+                for (int j = 0; j < this.LONGUEUR; j++) {
                     if (!this.cases[i][j].estCoulee()) {
                         this.cases[i][j].genereNbPoissons();
                         nbCaseUnPoissons++;
@@ -54,6 +58,12 @@ public class Plateau {
         }
     }
 
+    /**
+     * Lit le fichier pour établir la configuration du plateau
+     * @param fichierPlateau : chaine désignant le fichier ou est stocke le plateau
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void lireFichier(String fichierPlateau) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
         String ligne;
@@ -62,7 +72,7 @@ public class Plateau {
         //Pour toutes les lignes du fichier
         while ((ligne = br.readLine()) != null) {
             c = ligne.toCharArray();
-            for (int i = 0; i < nbColonnes; i++) {
+            for (int i = 0; i < LONGUEUR; i++) {
                 if (c.length != i && c[i] == '1') {
                     this.cases[numLigne][i] = new Case(numLigne, i);
                 } else {
@@ -74,6 +84,32 @@ public class Plateau {
         }
     }
 
+    /**
+     * Surligne les cases désignées
+     * @param cases : Tableau contenant les cases à surligner
+     */
+    public void surligneCases(ArrayList<Case> cases) {
+        for (Case c : cases) {
+            c.setAccessible(true);
+        }
+    }
+
+    /**
+     * Désurligne les cases désignées
+     * @param cases : : Tableau contenant les cases à désurligner
+     */
+    public void desurligneCases(ArrayList<Case> cases) {
+        for (Case c : cases) {
+            c.setAccessible(false);
+        }
+    }
+
+    /**
+     * Renvoit libre si la case n'est pas coulee et si il n'y a pas deja un pinguin dessus
+     * @param x : ligne de la case
+     * @param y : colonne de la case
+     * @return : Vrai si la cases est libre
+     */
     public Boolean estCaseLibre(int x, int y) {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
     }
@@ -91,11 +127,11 @@ public class Plateau {
     }
 
     public int getNbLignes() {
-        return nbLignes;
+        return LARGEUR;
     }
 
     public int getNbColonnes() {
-        return nbColonnes;
+        return LONGUEUR;
     }
 
 }

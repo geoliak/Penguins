@@ -17,6 +17,9 @@ public enum Couleur {
     Bleu("\u001B[34m", "\u001B[44m", Color.BLUE),
     Vert("\u001B[32m", "\u001B[42m", Color.GREEN),
     Jaune("\u001B[33m", "\u001B[43m", Color.YELLOW);
+    
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
 
     private String colorAccessible;
     private String colorBackground;
@@ -41,7 +44,7 @@ public enum Couleur {
         return colorBackground;
     }
 
-    public Color getCouleur() {
+    public Color getCouleurFX() {
         return couleur;
     }
 }

@@ -17,10 +17,17 @@ public abstract class JoueurIA extends Joueur {
     
     public JoueurIA(Couleur couleur) {
         super(couleur);
+        this.setEstHumain(false);
         Random r = new Random();
         this.setNom(this.nomsPosible[r.nextInt(nomsPosible.length)]);
         this.setAge(r.nextInt(123)); // Jeanne Calment
-    }
+    }  
     
-    public abstract Case etablirCoup();
+    /**
+     * Cette methode prend un plateau en parametre. L'IA va ensuite l'utiliser pour déterminer quelle pinguin jouer et ou.
+     * Avant de renvoyer la case choisie, l'IA place le pinguin choisi en tant que pinguinCourant
+     * @param plateau : plateau de jeu
+     * @return la case jouee par l'IA
+     */
+    public abstract Case etablirCoup(Plateau plateau);
 }

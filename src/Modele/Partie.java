@@ -34,10 +34,10 @@ public class Partie {
     }
 
     public void afficheJoueurs() {
-        System.out.println("Joueur courant : " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
+        System.out.println("Joueur courant : " + joueurCourant.getCouleur() + joueurCourant.getNom() + Couleur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
         System.out.println("Joueur(s) dans la liste : ");
         for (Joueur j : this.joueurs) {
-            System.out.println(j.getCouleur() + j.getNom() + Joueur.ANSI_RESET + " enJeu " + j.estEnJeu());
+            System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " enJeu " + j.estEnJeu());
         }
     }
 
@@ -72,6 +72,18 @@ public class Partie {
             }
         }
         return gagnants;
+    }
+
+    public void afficheResultats() {
+        if (this.estTerminee()) {
+            this.joueurs.add(joueurCourant);
+            for (Joueur j : this.getJoueurGagnant()) {
+                System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
+            }
+            for (Joueur j : this.joueurs) {
+                System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
+            }
+        }
     }
 
     public Plateau getPlateau() {

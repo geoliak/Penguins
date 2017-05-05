@@ -7,32 +7,12 @@ package Modele;
 
 
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 
 /**
  *
  * @author novelm
  */
 public abstract class Joueur {
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     private int age;
     private String nom;
@@ -42,6 +22,7 @@ public abstract class Joueur {
     private ArrayList<Pinguin> pinguins;
     private Pinguin pinguinCourant;
     private Boolean pret;
+    private Boolean estHumain;
 
     public Joueur(Couleur couleur) {
         this.pinguins = new ArrayList<>();
@@ -63,6 +44,14 @@ public abstract class Joueur {
     public void joueCoup(Case c) {
         this.getPinguinCourant().deplace(c);
     }
+    
+    /**
+     * Si cette methode est utilisee par l'IA alors elle va place le pinguin choisi en tant que pinguinCourant puis renvoyer la case destination de ce pinguin.
+     * Sinon cette methode va demander à l'utilisateur de saisir les coordonnees de la case desiree (uniquement utilise pour la version textuel)
+     * @param plateau : plateau de jeu
+     * @return Case : case jouee
+     */
+    public abstract Case etablirCoup(Plateau plateau);
 
     public int getAge() {
         return age;
@@ -134,6 +123,14 @@ public abstract class Joueur {
 
     public Couleur getCouleur() {
         return couleur;
+    }
+
+    public Boolean getEstHumain() {
+        return estHumain;
+    }
+
+    public void setEstHumain(Boolean estHumain) {
+        this.estHumain = estHumain;
     }
     
     

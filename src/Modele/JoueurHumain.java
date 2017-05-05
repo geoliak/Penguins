@@ -17,6 +17,9 @@ public abstract class JoueurHumain extends Joueur {
     public JoueurHumain(String nom, Couleur couleur) {
         super(couleur);
         this.setNom(nom);
+        this.setEstHumain(true);
     }
+    
+    public abstract Case etablirCoup(Plateau plateau);
     
 }

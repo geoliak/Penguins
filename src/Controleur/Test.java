@@ -9,11 +9,11 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
+import Modele.JoueurIAFacile;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
 import Vue.DessinateurTexte;
-import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +35,10 @@ public class Test {
 
             JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
             JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
+            JoueurIAFacile joueurIA1 = new JoueurIAFacile(Couleur.Rouge);
             ArrayList<Joueur> joueurs = new ArrayList<>();
             joueurs.add(joueurH1);
-            joueurs.add(joueurH2);
+            joueurs.add(joueurIA1);
 
             int nbPinguin = 0;
             switch (joueurs.size()) {
@@ -60,6 +61,8 @@ public class Test {
             Boolean pinguinPlace = false;
             int numLigne = -1;
             int numColonne = 1;
+            int[] res = new int[2];
+            Case caseChoisie;
             Scanner sc = new Scanner(System.in);
             Joueur joueurCourant;
 
@@ -67,11 +70,10 @@ public class Test {
                 joueurCourant = partie.getJoueurCourant();
                 pinguinPlace = false;
                 while (!pinguinPlace) {
-                    System.out.println("\n== Joueur " + joueurCourant.getNom());
-                    System.out.print("numero ligne : ");
-                    numLigne = sc.nextInt();
-                    System.out.print("numero colonne : ");
-                    numColonne = sc.nextInt();
+                    caseChoisie = joueurCourant.etablirCoup(plateau);
+                    numLigne = caseChoisie.getNumLigne();
+                    numColonne = caseChoisie.getNumColonne();
+
                     if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
                         joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
                         pinguinPlace = true;
@@ -97,6 +99,7 @@ public class Test {
                 aJoue = false;
                 while (!aJoue) {
                     joueurCourant = partie.getJoueurCourant();
+
                     for (Pinguin p : joueurCourant.getPinguins()) {
                         casesPossibles = p.getPosition().getCasePossibles();
                         memoisation.put(p, casesPossibles);
@@ -105,39 +108,43 @@ public class Test {
                         }
                     }
 
+                    //Si le joueur n'est pas elimine
                     if (joueurCourant.estEnJeu()) {
-                        System.out.println("\n== Choisi un pinguin " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET);
-                        System.out.print("numero ligne : ");
-                        numLigne = sc.nextInt();
-                        System.out.print("numero colonne : ");
-                        numColonne = sc.nextInt();
+                        
+                        //Si le joueur est humain
+                        if (joueurCourant.getEstHumain()) {
+                            System.out.println("== Veuillez selectionner un pinguin ");
+                            s = joueurCourant.etablirCoup(plateau);
 
-                        s = plateau.getCases()[numLigne][numColonne];
-                        if (s.getPinguin() != null && s.getPinguin().getGeneral() == joueurCourant) {
-                            casesPossibles = memoisation.get(s.getPinguin());
-                            for (Case cp : casesPossibles) {
-                                cp.setAccessible(true);
-                            }
-                            plateau.accept(dt);
-                            for (Case cp : casesPossibles) {
-                                cp.setAccessible(false);
-                            }
-                            System.out.println("\n== Choisi une case " + joueurCourant.getCouleur() + joueurCourant.getNom() + Joueur.ANSI_RESET);
-                            System.out.print("numero ligne : ");
-                            numLigne = sc.nextInt();
-                            System.out.print("numero colonne : ");
-                            numColonne = sc.nextInt();
-                            d = plateau.getCases()[numLigne][numColonne];
-                            if (casesPossibles.contains(d)) {
-                                joueurCourant.setPinguinCourant(s.getPinguin());
-                                joueurCourant.joueCoup(d);
-                                aJoue = true;
+                            //Si case libre
+                            if (s.getPinguin() != null && s.getPinguin().getGeneral() == joueurCourant) {
+                                casesPossibles = memoisation.get(s.getPinguin());
+                                plateau.surligneCases(casesPossibles);
+                                plateau.accept(dt);
+                                plateau.desurligneCases(casesPossibles);
+
+                                System.out.print("Veuillez Selectionner une case ");
+                                d = joueurCourant.etablirCoup(plateau);
+
+                                //Si case accessible
+                                if (casesPossibles.contains(d)) {
+                                    joueurCourant.setPinguinCourant(s.getPinguin());
+                                    joueurCourant.joueCoup(d);
+                                    aJoue = true;
+                                    //Si choix de case inaccessible
+                                } else {
+                                    System.out.println("Veuillez choisir une case accessible");
+                                }
+                                //Si le joueur n'a pas selectionne de pinguin
                             } else {
-                                System.out.println("Veuillez choisir une case accessible");
+                                System.out.println("Choississez un de vos pinguin");
                             }
+
+                            //Si IA
                         } else {
-                            System.out.println("Choississez un de vos pinguin");
-                        } 
+                            joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
+                             aJoue = true;
+                        }
                     } else {
                         aJoue = true;
                     }
@@ -146,10 +153,8 @@ public class Test {
                 plateau.accept(dt);
                 partie.joueurSuivant();
             }
-
-            for (Joueur j : partie.getJoueurGagnant()) {
-                System.out.println(j.getCouleur() + j.getNom() + Joueur.ANSI_RESET + " a gagne la partie");
-            }
+            
+            partie.afficheResultats();
 
         } catch (IOException ex) {
             System.out.println("Erreur d'ouverture du fichier");
