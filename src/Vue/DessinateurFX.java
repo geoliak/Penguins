@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -42,7 +44,7 @@ public class DessinateurFX extends Visiteur {
     public DessinateurFX(GraphicsContext gc, Group root) {
         this.gc = gc;
         this.root = root;
-        
+
         sizeGlacon = 50.0;
         proportion = 1;
         gap = 4;
@@ -64,6 +66,16 @@ public class DessinateurFX extends Visiteur {
                 plateau.getCases()[i][j].accept(this);
             }
         }
+
+	for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(plateau.getCases()[i][j].getPinguin() != null){
+		    System.out.println("BLABLA " + i + " " + j);
+
+		    plateau.getCases()[i][j].getPinguin().accept(this);
+		}
+            }
+        }
     }
 
     @Override
@@ -77,13 +89,25 @@ public class DessinateurFX extends Visiteur {
 
 	    root.getChildren().add(p);
 	}
+    }
 
     @Override
     public void visite(Pinguin p) {
+        ImageView iv = new ImageView(p.getImage());
+        
+	iv.setPreserveRatio(true);
+	iv.setFitHeight(height);
+        
         double x = p.getPosition().getPolygon().getXorigine() + width/2;
         double y = p.getPosition().getPolygon().getYorigine() + height/2;
         
-        gc.setFill(p.getGeneral().getCouleur());
-        gc.fillOval(x, y, 5, 5);
+        System.out.println(iv.getFitWidth());
+
+	iv.setX(x - width/4);
+	iv.setY(y - iv.getFitHeight()*0.8);
+        
+        
+
+	root.getChildren().add(iv);
     }
 }
