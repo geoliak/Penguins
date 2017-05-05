@@ -7,6 +7,7 @@ package Modele;
 
 
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -23,6 +24,8 @@ public abstract class Joueur {
     private Pinguin pinguinCourant;
     private Boolean pret;
     private Boolean estHumain;
+    private Image image;
+
 
     public Joueur(Couleur couleur) {
         this.pinguins = new ArrayList<>();
@@ -36,7 +39,7 @@ public abstract class Joueur {
     }
 
     public void ajouterPinguin(Case c) {
-        Pinguin p = new Pinguin(c, this);
+        Pinguin p = new Pinguin(c, this, null);
         c.setPinguin(p);
         this.pinguins.add(p);
     }
@@ -76,7 +79,7 @@ public abstract class Joueur {
     public void setScoreGlacons(int scoreGlacons) {
         this.scoreGlacons = scoreGlacons;
     }
-    
+
     public int getScorePoissons() {
         return scorePoissons;
     }
@@ -132,7 +135,6 @@ public abstract class Joueur {
     public void setEstHumain(Boolean estHumain) {
         this.estHumain = estHumain;
     }
-    
-    
+
 
 }

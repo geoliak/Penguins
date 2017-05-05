@@ -13,29 +13,32 @@ import javafx.scene.shape.Polygon;
  * @author liakopog
  */
 public class MyPolygon extends Polygon {
-    double sizeGlacon;
-    double size;
-    double width;
-    double height;
-    double proportion;
-    double gap;
-    int x;
-    int y;
+    private int x;
+    private int y;
 
-    public MyPolygon(int i, int j, double size) {
+    private double xorigine;
+    private double yorigine;
+
+    public MyPolygon(int i, int j, double sizeGlacon, double proportion, double gap, Color color) {
 	super();
 	this.x = i;
 	this.y = j;
-	this.sizeGlacon = size;
-	proportion = 1;
-	gap = 4;
-	this.size = sizeGlacon * proportion;
-	height = size * 2;
-	width = height*Math.sqrt(3/2);
-	double xorigin = ((i%2)*width/2) + (width*j) + j * gap + (i%2) * gap/2;
-	double yorigin = (height*(3.0/4.0)) * i + i*gap;
 
-	this.setPoints(this.size, Color.AQUA, xorigin, yorigin);
+	this.setOrigine(sizeGlacon, gap, proportion);
+
+
+
+
+	this.setPoints(sizeGlacon, gap, proportion, color, xorigine, yorigine);
+    }
+
+    public void setOrigine(double sizeGlacon, double gap, double proportion){
+	double size = sizeGlacon * proportion;
+	double height = sizeGlacon * 2;
+	double width = height*Math.sqrt(3/2);
+
+	this.xorigine = ((this.y%2)*width/2) + (width*this.x) + this.x * gap + (this.y%2) * gap/2;
+	this.yorigine = (height*(3.0/4.0)) * this.y + this.y*gap;
     }
 
     public int getX() {
@@ -46,11 +49,20 @@ public class MyPolygon extends Polygon {
 	return y;
     }
 
-    public void setPoints(double size, Color color, double i, double j) {
-	this.setFill(color);
+    public double getXorigine() {
+	return xorigine;
+    }
 
+    public double getYorigine() {
+	return yorigine;
+    }
+    
+    public void setPoints(double sizeGlacon, double gap, double proportion, Color color, double i, double j) {
+	double size = sizeGlacon * proportion;
 	double height = size * 2;
 	double width = height*Math.sqrt(3/2);
+
+	this.setFill(color);
 
 	//p.setStroke(Color.BLACK);
 

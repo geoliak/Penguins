@@ -21,6 +21,7 @@ public class Case {
     private Boolean coulee;
     private Pinguin pinguin;
     private Boolean accessible;
+    private MyPolygon polygon;
 
     public Case(int numLigne, int numColonne) {
         this.coulee = false;
@@ -160,4 +161,11 @@ public class Case {
         this.accessible = accessible;
     }
 
+    public void setPolygon(MyPolygon polygon){
+	this.polygon = polygon;
+    }
+
+    public MyPolygon getPolygon() {
+	return polygon;
+    }
 }

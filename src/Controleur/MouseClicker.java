@@ -6,19 +6,14 @@
 package Controleur;
 
 import Modele.MyPolygon;
-import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 
 /**
  *
  * @author liakopog
  */
 public class MouseClicker implements EventHandler<MouseEvent> {
-
-    ArrayList<GridPane> ag;
-    GridPane g;
     MyPolygon p;
     int rowclic;
     int columnclic;
@@ -33,12 +28,7 @@ public class MouseClicker implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
 	System.out.println(p.getX() + " " + p.getY());
-	/*
-	columnclic = GridPane.getColumnIndex(p);
-	rowclic = ag.indexOf(g);
-	System.out.println(rowclic + " " + columnclic);
-	*/
+	rowclic = p.getY();
+	columnclic = p.getX();
     }
-
-
 }

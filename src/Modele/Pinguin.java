@@ -5,7 +5,7 @@
  */
 package Modele;
 
-import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -15,35 +15,41 @@ public class Pinguin {
     private Boolean vivant;
     private Case position;
     private Joueur general;
+    private Image image;
 
-    public Pinguin(Case position, Joueur maitre) {
+    public Pinguin(Case position, Joueur maitre, Image image) {
         this.vivant = true;
         this.position = position;
         this.general = maitre;
+	this.image = image;
     }
-    
+
     public void deplace(Case c) {
         this.position.setPinguin(null);
         this.position.setCoulee(true);
-        
+
         this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
         this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
-        
+
         this.position = c;
         c.setPinguin(this);
-        
+
         this.general.setPinguinCourant(null);
     }
-    
+
     public void coullePinguin() {
         this.position.setPinguin(null);
         this.position.setCoulee(true);
-        
+
         this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
         this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
-        
+
         this.vivant = false;
         this.general.setPinguinCourant(null);
+    }
+
+    public void accept(Visiteur v){
+	v.visite(this);
     }
 
     public Boolean estVivant() {
@@ -65,8 +71,8 @@ public class Pinguin {
     public Joueur getGeneral() {
         return general;
     }
-    
-    
-    
-    
+
+    public Image getImage() {
+	return image;
+    }
 }
