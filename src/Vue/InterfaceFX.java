@@ -5,8 +5,13 @@
  */
 package Vue;
 
+import Modele.Couleur;
+import Modele.Joueur;
+import Modele.JoueurHumainLocal;
+import Modele.Partie;
 import Modele.Plateau;
 import java.io.File;
+import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Group;
@@ -35,8 +40,6 @@ public class InterfaceFX extends Application {
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 
 //        root.getChildren().add(parent);
-	DessinateurFX d = new DessinateurFX(gc, root);
-
 	Scene scene = new Scene(root);
 	root.getChildren().add(canvas);
 	scene.setFill(Color.AQUA);
@@ -48,10 +51,21 @@ public class InterfaceFX extends Application {
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
 	plateau.initCase();
 
-	plateau.accept(d);
+	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Vert);
+	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
 
-	//EventHandler<? super MouseEvent> clicSourisFX = new MouseClicker(scene, grid, ag);
-	//p.setOnMouseClicked(clicSourisFX);
+	ArrayList<Joueur> joueurs = new ArrayList<>();
+	joueurs.add(joueurH1);
+	joueurs.add(joueurH2);
+
+	System.out.println(joueurs.size());
+
+	Partie partie = new Partie(plateau, joueurs);
+	DessinateurFX d = new DessinateurFX(gc, root, partie);
+
+	//plateau.accept(d);
+	RafraichissementFX r = new RafraichissementFX(d, partie);
+	r.start();
 	stage.show();
     }
 

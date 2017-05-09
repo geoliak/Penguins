@@ -28,137 +28,138 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String args[]) {
-        System.out.println("======= Pour l'Antartique ! =======");
-        try {
-            Plateau plateau = new Plateau("plateau1");
-            DessinateurTexte dt = new DessinateurTexte();
+	System.out.println("======= Pour l'Antartique ! =======");
+	try {
+	    Plateau plateau = new Plateau("plateau1");
+	    DessinateurTexte dt = new DessinateurTexte();
 
-            JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
-            JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
-            JoueurIAFacile joueurIA1 = new JoueurIAFacile(Couleur.Rouge);
-            ArrayList<Joueur> joueurs = new ArrayList<>();
-            joueurs.add(joueurH1);
-            joueurs.add(joueurIA1);
+	    JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
+	    JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
+	    JoueurIAFacile joueurIA1 = new JoueurIAFacile(Couleur.Rouge);
+	    ArrayList<Joueur> joueurs = new ArrayList<>();
+	    joueurs.add(joueurH1);
+	    joueurs.add(joueurIA1);
 
-            int nbPinguin = 0;
-            switch (joueurs.size()) {
-                case 2:
-                    nbPinguin = 1;
-                    break;
-                case 3:
-                    nbPinguin = 3;
-                    break;
-                case 4:
-                    nbPinguin = 2;
-                    break;
-            }
-            System.out.println(nbPinguin + " pinguins par joueur");
+	    int nbPinguin = 0;
+	    switch (joueurs.size()) {
+		case 2:
+		    nbPinguin = 1;
+		    break;
+		case 3:
+		    nbPinguin = 3;
+		    break;
+		case 4:
+		    nbPinguin = 2;
+		    break;
+	    }
+	    System.out.println(nbPinguin + " pinguins par joueur");
 
-            Partie partie = new Partie(plateau, joueurs);
+	    Partie partie = new Partie(plateau, joueurs);
 
-            plateau.accept(dt);
-            //Placement des pinguins
-            Boolean pinguinPlace = false;
-            int numLigne = -1;
-            int numColonne = 1;
-            int[] res = new int[2];
-            Case caseChoisie;
-            Scanner sc = new Scanner(System.in);
-            Joueur joueurCourant;
+	    plateau.accept(dt);
+	    //Placement des pinguins
+	    Boolean pinguinPlace = false;
+	    int numLigne = -1;
+	    int numColonne = 1;
+	    int[] res = new int[2];
+	    Case caseChoisie;
+	    Scanner sc = new Scanner(System.in);
+	    Joueur joueurCourant;
 
-            for (int i = 0; i < nbPinguin * (joueurs.size() + 1); i++) {
-                joueurCourant = partie.getJoueurCourant();
-                pinguinPlace = false;
-                while (!pinguinPlace) {
-                    caseChoisie = joueurCourant.etablirCoup(plateau);
-                    numLigne = caseChoisie.getNumLigne();
-                    numColonne = caseChoisie.getNumColonne();
+	    for (int i = 0; i < nbPinguin * (joueurs.size() + 1); i++) {
+		joueurCourant = partie.getJoueurCourant();
+		pinguinPlace = false;
+		while (!pinguinPlace) {
+		    caseChoisie = joueurCourant.etablirCoup(plateau);
+		    numLigne = caseChoisie.getNumLigne();
+		    numColonne = caseChoisie.getNumColonne();
 
-                    if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
-                        joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
-                        pinguinPlace = true;
-                    } else {
-                        System.out.println("Cette case est occupée ou coulé ou n'a pas un poisson");
-                    }
-                }
-                plateau.accept(dt);
-                partie.joueurSuivant();
-            }
-            partie.getJoueurCourant().setPret(true);
-            for (Joueur j : joueurs) {
-                j.setPret(true);
-            }
-            partie.setInitialisation(false);
+		    if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
+			joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
+			pinguinPlace = true;
+		    } else {
+			System.out.println("Cette case est occupée ou coulé ou n'a pas un poisson");
+		    }
+		}
+		plateau.accept(dt);
+		partie.joueurSuivant();
+	    }
 
-            //Jeu
-            boolean aJoue;
-            Case s, d;
-            ArrayList<Case> casesPossibles = new ArrayList<>();
-            HashMap<Pinguin, ArrayList<Case>> memoisation = new HashMap<>();
-            while (!partie.estTerminee()) {
-                aJoue = false;
-                while (!aJoue) {
-                    joueurCourant = partie.getJoueurCourant();
+	    partie.getJoueurCourant().setPret(true);
+	    for (Joueur j : joueurs) {
+		j.setPret(true);
+	    }
+	    partie.setInitialisation(false);
 
-                    for (Pinguin p : joueurCourant.getPinguins()) {
-                        casesPossibles = p.getPosition().getCasePossibles();
-                        memoisation.put(p, casesPossibles);
-                        if (casesPossibles.isEmpty()) {
-                            p.coullePinguin();
-                        }
-                    }
+	    //Jeu
+	    boolean aJoue;
+	    Case s, d;
+	    ArrayList<Case> casesPossibles = new ArrayList<>();
+	    HashMap<Pinguin, ArrayList<Case>> memoisation = new HashMap<>();
+	    while (!partie.estTerminee()) {
+		aJoue = false;
+		while (!aJoue) {
+		    joueurCourant = partie.getJoueurCourant();
 
-                    //Si le joueur n'est pas elimine
-                    if (joueurCourant.estEnJeu()) {
-                        
-                        //Si le joueur est humain
-                        if (joueurCourant.getEstHumain()) {
-                            System.out.println("== Veuillez selectionner un pinguin ");
-                            s = joueurCourant.etablirCoup(plateau);
+		    for (Pinguin p : joueurCourant.getPinguins()) {
+			casesPossibles = p.getPosition().getCasePossibles();
+			memoisation.put(p, casesPossibles);
+			if (casesPossibles.isEmpty()) {
+			    p.coullePinguin();
+			}
+		    }
 
-                            //Si case libre
-                            if (s.getPinguin() != null && s.getPinguin().getGeneral() == joueurCourant) {
-                                casesPossibles = memoisation.get(s.getPinguin());
-                                plateau.surligneCases(casesPossibles);
-                                plateau.accept(dt);
-                                plateau.desurligneCases(casesPossibles);
+		    //Si le joueur n'est pas elimine
+		    if (joueurCourant.estEnJeu()) {
 
-                                System.out.print("Veuillez Selectionner une case ");
-                                d = joueurCourant.etablirCoup(plateau);
+			//Si le joueur est humain
+			if (joueurCourant.getEstHumain()) {
+			    System.out.println("== Veuillez selectionner un pinguin ");
+			    s = joueurCourant.etablirCoup(plateau);
 
-                                //Si case accessible
-                                if (casesPossibles.contains(d)) {
-                                    joueurCourant.setPinguinCourant(s.getPinguin());
-                                    joueurCourant.joueCoup(d);
-                                    aJoue = true;
-                                    //Si choix de case inaccessible
-                                } else {
-                                    System.out.println("Veuillez choisir une case accessible");
-                                }
-                                //Si le joueur n'a pas selectionne de pinguin
-                            } else {
-                                System.out.println("Choississez un de vos pinguin");
-                            }
+			    //Si case libre
+			    if (s.getPinguin() != null && s.getPinguin().getGeneral() == joueurCourant) {
+				casesPossibles = memoisation.get(s.getPinguin());
+				plateau.surligneCases(casesPossibles);
+				plateau.accept(dt);
+				plateau.desurligneCases(casesPossibles);
 
-                            //Si IA
-                        } else {
-                            joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
-                             aJoue = true;
-                        }
-                    } else {
-                        aJoue = true;
-                    }
+				System.out.print("Veuillez Selectionner une case ");
+				d = joueurCourant.etablirCoup(plateau);
 
-                }
-                plateau.accept(dt);
-                partie.joueurSuivant();
-            }
-            
-            partie.afficheResultats();
+				//Si case accessible
+				if (casesPossibles.contains(d)) {
+				    joueurCourant.setPinguinCourant(s.getPinguin());
+				    joueurCourant.joueCoup(d);
+				    aJoue = true;
+				    //Si choix de case inaccessible
+				} else {
+				    System.out.println("Veuillez choisir une case accessible");
+				}
+				//Si le joueur n'a pas selectionne de pinguin
+			    } else {
+				System.out.println("Choississez un de vos pinguin");
+			    }
 
-        } catch (IOException ex) {
-            System.out.println("Erreur d'ouverture du fichier");
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+			    //Si IA
+			} else {
+			    joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
+			    aJoue = true;
+			}
+		    } else {
+			aJoue = true;
+		    }
+
+		}
+		plateau.accept(dt);
+		partie.joueurSuivant();
+	    }
+
+	    partie.afficheResultats();
+
+	} catch (IOException ex) {
+	    System.out.println("Erreur d'ouverture du fichier");
+	    Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 }
