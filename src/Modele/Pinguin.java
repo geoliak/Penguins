@@ -33,8 +33,6 @@ public class Pinguin {
 
         this.position = c;
         c.setPinguin(this);
-
-        this.general.setPinguinCourant(null);
     }
 
     public void coullePinguin() {
@@ -45,7 +43,7 @@ public class Pinguin {
         this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
         this.vivant = false;
-        this.general.setPinguinCourant(null);
+        System.out.println("coullé " + this);
     }
 
     public void accept(Visiteur v){
@@ -74,5 +72,11 @@ public class Pinguin {
 
     public Image getImage() {
 	return image;
+    }
+    
+    @Override
+    public String toString() {
+        return this.getGeneral().getCouleur() + "(" + this.position.getNumLigne() + "," + this.position.getNumColonne() + ")" + Couleur.ANSI_RESET ; 
+        
     }
 }

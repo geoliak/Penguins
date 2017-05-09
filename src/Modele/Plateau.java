@@ -26,6 +26,10 @@ public class Plateau {
     public static final int LARGEUR = 8;
     public static final int LONGUEUR = 8;
 
+    private Plateau() {
+        this.cases = new Case[LARGEUR][LONGUEUR];
+    }
+
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
         this.cases = new Case[LARGEUR][LONGUEUR];
         this.lireFichier(fichierPlateau);
@@ -33,7 +37,8 @@ public class Plateau {
     }
 
     /**
-     * Place le nombre de poisson(s) aléatoirement sur les cases jusqu'a avoir une configuration jouable
+     * Place le nombre de poisson(s) aléatoirement sur les cases jusqu'a avoir
+     * une configuration jouable
      */
     public void initCase() {
         int nbCaseUnPoissons = 0;
@@ -60,9 +65,11 @@ public class Plateau {
 
     /**
      * Lit le fichier pour établir la configuration du plateau
-     * @param fichierPlateau : chaine désignant le fichier ou est stocke le plateau
+     *
+     * @param fichierPlateau : chaine désignant le fichier ou est stocke le
+     * plateau
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
     public void lireFichier(String fichierPlateau) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
@@ -86,6 +93,7 @@ public class Plateau {
 
     /**
      * Surligne les cases désignées
+     *
      * @param cases : Tableau contenant les cases à surligner
      */
     public void surligneCases(ArrayList<Case> cases) {
@@ -96,6 +104,7 @@ public class Plateau {
 
     /**
      * Désurligne les cases désignées
+     *
      * @param cases : : Tableau contenant les cases à désurligner
      */
     public void desurligneCases(ArrayList<Case> cases) {
@@ -105,13 +114,27 @@ public class Plateau {
     }
 
     /**
-     * Renvoit libre si la case n'est pas coulee et si il n'y a pas deja un pinguin dessus
+     * Renvoit libre si la case n'est pas coulee et si il n'y a pas deja un
+     * pinguin dessus
+     *
      * @param x : ligne de la case
      * @param y : colonne de la case
      * @return : Vrai si la cases est libre
      */
     public Boolean estCaseLibre(int x, int y) {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
+    }
+
+    public Plateau clone() {
+        Plateau clone = new Plateau();
+        Case caseCourante;
+        for (int i = 0; i < this.getNbLignes(); i++) {
+            for (int j = 0; j < this.getNbColonnes();j++) {
+                caseCourante = new Case(this.cases[i][j]);
+                clone.getCases()[i][j] = caseCourante;
+            }
+        }
+        return clone;
     }
 
     public void accept(Visiteur v) {

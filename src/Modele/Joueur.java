@@ -5,9 +5,12 @@
  */
 package Modele;
 
-
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
+import sun.rmi.runtime.Log;
 
 /**
  *
@@ -26,7 +29,6 @@ public abstract class Joueur {
     private Boolean estHumain;
     private Image image;
 
-
     public Joueur(Couleur couleur) {
         this.pinguins = new ArrayList<>();
         this.pinguinCourant = null;
@@ -38,6 +40,14 @@ public abstract class Joueur {
         this.couleur = couleur;
     }
 
+    public void reset() {
+        this.pinguins = new ArrayList<>();
+        this.pinguinCourant = null;
+        this.pret = false;
+        this.scoreGlacons = 0;
+        this.scorePoissons = 0;
+    }
+
     public void ajouterPinguin(Case c) {
         Pinguin p = new Pinguin(c, this, null);
         c.setPinguin(p);
@@ -45,12 +55,25 @@ public abstract class Joueur {
     }
 
     public void joueCoup(Case c) {
-        this.getPinguinCourant().deplace(c);
+        int i = 0;
+        try {
+            this.getPinguinCourant().deplace(c);
+        } catch (Exception ex) {
+            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+            i = 1;
+        }
+        if (i == 1) {
+            this.scorePoissons = 0;
+        }
     }
-    
+
     /**
-     * Si cette methode est utilisee par l'IA alors elle va place le pinguin choisi en tant que pinguinCourant puis renvoyer la case destination de ce pinguin.
-     * Sinon cette methode va demander à l'utilisateur de saisir les coordonnees de la case desiree (uniquement utilise pour la version textuel)
+     * Si cette methode est utilisee par l'IA alors elle va place le pinguin
+     * choisi en tant que pinguinCourant puis renvoyer la case destination de ce
+     * pinguin. Sinon cette methode va demander à l'utilisateur de saisir les
+     * coordonnees de la case desiree (uniquement utilise pour la version
+     * textuel)
+     *
      * @param plateau : plateau de jeu
      * @return Case : case jouee
      */
@@ -92,6 +115,16 @@ public abstract class Joueur {
         return pinguins;
     }
 
+    public ArrayList<Pinguin> getPinguinsVivants() {
+        ArrayList<Pinguin> res = new ArrayList<>();
+        for (Pinguin p : this.pinguins) {
+            if (p.estVivant()) {
+                res.add(p);
+            }
+        }
+        return res;
+    }
+
     public void setPinguins(ArrayList<Pinguin> pinguins) {
         this.pinguins = pinguins;
     }
@@ -101,13 +134,16 @@ public abstract class Joueur {
     }
 
     public void setPinguinCourant(Pinguin pinguinCourant) {
+        if (pinguinCourant == null) {
+            System.out.println("Mit à null");
+        }
         this.pinguinCourant = pinguinCourant;
     }
 
     public Boolean estEnJeu() {
         if (this.pret) {
             Boolean enJeu = false;
-            for(Pinguin p : this.pinguins) {
+            for (Pinguin p : this.pinguins) {
                 enJeu = enJeu || p.estVivant();
             }
             return enJeu;
@@ -135,6 +171,5 @@ public abstract class Joueur {
     public void setEstHumain(Boolean estHumain) {
         this.estHumain = estHumain;
     }
-
 
 }

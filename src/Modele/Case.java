@@ -23,6 +23,16 @@ public class Case {
     private Boolean accessible;
     private MyPolygon polygon;
 
+    public Case(Case c) {
+        this.coulee = c.estCoulee().booleanValue();
+        this.pinguin = c.getPinguin();
+        this.accessible = c.getAccessible().booleanValue();
+        this.voisins = new Case[6];
+        this.voisins = c.getVoisins().clone();
+        this.numLigne = c.numLigne;
+        this.numColonne = c.numColonne;
+    }
+
     public Case(int numLigne, int numColonne) {
         this.coulee = false;
         this.pinguin = null;
@@ -103,8 +113,10 @@ public class Case {
     public ArrayList<Case> getCasePossibles() {
         ArrayList<Case> res = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
-            parcoursLigne(res, this.voisins[i], i);
+        if (!coulee) {
+            for (int i = 0; i < 6; i++) {
+                parcoursLigne(res, this.voisins[i], i);
+            }
         }
 
         return res;
@@ -161,11 +173,48 @@ public class Case {
         this.accessible = accessible;
     }
 
-    public void setPolygon(MyPolygon polygon){
-	this.polygon = polygon;
+    public void setPolygon(MyPolygon polygon) {
+        this.polygon = polygon;
     }
 
     public MyPolygon getPolygon() {
-	return polygon;
+        return polygon;
     }
+
+    public int getNbVoisins() {
+        int nbVoisins = 0;
+
+        for (int i = 0; i < 6; i++) {
+            if (this.voisins[i] != null && !this.voisins[i].estCoulee() && this.voisins[i].getPinguin() == null) {
+                nbVoisins++;
+            }
+        }
+
+        return nbVoisins;
+    }
+
+    public ArrayList<Case> getVoisinsJouable() {
+        ArrayList<Case> voisins = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            if (this.voisins[i] != null && !this.voisins[i].estCoulee() && this.voisins[i].getPinguin() == null) {
+                voisins.add(this.voisins[i]);
+            }
+        }
+
+        return voisins;
+    }
+
+    public ArrayList<Case> getVoisinsEmerges() {
+        ArrayList<Case> voisins = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            if (this.voisins[i] != null && !this.voisins[i].estCoulee()) {
+                voisins.add(this.voisins[i]);
+            }
+        }
+
+        return voisins;
+    }
+
 }

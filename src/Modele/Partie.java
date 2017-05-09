@@ -76,6 +76,7 @@ public class Partie {
 
     public void afficheResultats() {
         if (this.estTerminee()) {
+            System.out.println("=============================");
             this.joueurs.add(joueurCourant);
             for (Joueur j : this.getJoueurGagnant()) {
                 System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
