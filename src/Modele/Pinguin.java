@@ -12,64 +12,66 @@ import javafx.scene.image.Image;
  * @author novelm
  */
 public class Pinguin {
+
     private Boolean vivant;
     private Case position;
     private Joueur general;
     private Image image;
 
     public Pinguin(Case position, Joueur maitre, Image image) {
-        this.vivant = true;
-        this.position = position;
-        this.general = maitre;
+	this.vivant = true;
+	this.position = position;
+	this.general = maitre;
 	this.image = image;
+
     }
 
     public void deplace(Case c) {
-        this.position.setPinguin(null);
-        this.position.setCoulee(true);
+	this.position.setPinguin(null);
+	this.position.setCoulee(true);
 
-        this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
-        this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
+	this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
+	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
-        this.position = c;
-        c.setPinguin(this);
+	this.position = c;
+	c.setPinguin(this);
 
-        this.general.setPinguinCourant(null);
+	this.general.setPinguinCourant(null);
     }
 
     public void coullePinguin() {
-        this.position.setPinguin(null);
-        this.position.setCoulee(true);
+	this.position.setPinguin(null);
+	this.position.setCoulee(true);
 
-        this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
-        this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
+	this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
+	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
-        this.vivant = false;
-        this.general.setPinguinCourant(null);
+	this.vivant = false;
+	this.general.setPinguinCourant(null);
     }
 
-    public void accept(Visiteur v){
+    public void accept(Visiteur v) {
 	v.visite(this);
     }
 
     public Boolean estVivant() {
-        return vivant;
+	return vivant;
     }
 
     public void setVivant(Boolean vivant) {
-        this.vivant = vivant;
+	this.vivant = vivant;
     }
 
     public Case getPosition() {
-        return position;
+	return position;
     }
 
     public void setPosition(Case position) {
-        this.position = position;
+	this.position = position;
     }
 
     public Joueur getGeneral() {
-        return general;
+	return general;
     }
 
     public Image getImage() {
