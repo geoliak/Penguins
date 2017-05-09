@@ -9,7 +9,7 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
-import Modele.JoueurIAFacile;
+import Modele.JoueurIA1;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
@@ -30,12 +30,12 @@ public class Test {
     public static void main(String args[]) {
 	System.out.println("======= Pour l'Antartique ! =======");
 	try {
-	    Plateau plateau = new Plateau("plateau1");
+	    Plateau plateau = new Plateau("ressources/plateaux/plateau1");
 	    DessinateurTexte dt = new DessinateurTexte();
 
 	    JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
 	    JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
-	    JoueurIAFacile joueurIA1 = new JoueurIAFacile(Couleur.Rouge);
+	    JoueurIA1 joueurIA1 = new JoueurIA1(Couleur.Rouge);
 	    ArrayList<Joueur> joueurs = new ArrayList<>();
 	    joueurs.add(joueurH1);
 	    joueurs.add(joueurIA1);
@@ -84,7 +84,6 @@ public class Test {
 		plateau.accept(dt);
 		partie.joueurSuivant();
 	    }
-
 	    partie.getJoueurCourant().setPret(true);
 	    for (Joueur j : joueurs) {
 		j.setPret(true);

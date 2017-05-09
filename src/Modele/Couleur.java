@@ -33,7 +33,7 @@ public enum Couleur {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
-	setImage();
+	//setImage();
     }
 
     public void setImage() {
@@ -41,6 +41,12 @@ public enum Couleur {
 	    File f = new File("ressources/img/pingouin_vert.png");
 	    image = new Image(f.toURI().toString());
 	} else if (couleur.equals(Color.RED)) {
+	    File f = new File("ressources/img/pingouin_rouge.png");
+	    image = new Image(f.toURI().toString());
+	} else if (couleur.equals(Color.BLUE)) {
+	    File f = new File("ressources/img/pingouin_rouge.png");
+	    image = new Image(f.toURI().toString());
+	} else if (couleur.equals(Color.YELLOW)) {
 	    File f = new File("ressources/img/pingouin_rouge.png");
 	    image = new Image(f.toURI().toString());
 	}

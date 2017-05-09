@@ -36,6 +36,14 @@ public abstract class Joueur {
 	this.couleur = couleur;
     }
 
+    public void reset() {
+	this.pinguins = new ArrayList<>();
+	this.pinguinCourant = null;
+	this.pret = false;
+	this.scoreGlacons = 0;
+	this.scorePoissons = 0;
+    }
+
     public void ajouterPinguin(Case c) {
 	Pinguin p = new Pinguin(c, this);
 	System.out.println("AJOUT PINGOUIN");
@@ -148,5 +156,4 @@ public abstract class Joueur {
     public void setEstHumain(Boolean estHumain) {
 	this.estHumain = estHumain;
     }
-
 }

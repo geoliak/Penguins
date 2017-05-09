@@ -18,10 +18,20 @@ public class Case {
     private int numLigne;
     private int numColonne;
     private Case[] voisins;
-    private boolean coulee;
+    private Boolean coulee;
     private Pinguin pinguin;
-    private boolean accessible;
+    private Boolean accessible;
     private MyPolygon polygon;
+
+    public Case(Case c) {
+	this.coulee = c.estCoulee().booleanValue();
+	this.pinguin = c.getPinguin();
+	this.accessible = c.getAccessible().booleanValue();
+	this.voisins = new Case[6];
+	this.voisins = c.getVoisins().clone();
+	this.numLigne = c.numLigne;
+	this.numColonne = c.numColonne;
+    }
 
     public Case(int numLigne, int numColonne) {
 	this.coulee = false;
@@ -46,30 +56,6 @@ public class Case {
     }
 
     public void initVoisins(Plateau plateau) {
-	//Si la case n'est pas tout à gauche
-        /*if (this.numColonne != 0) {
-	 this.voisins[4] = (plateau.getCases()[this.numLigne][this.numColonne - 1]);
-	 //Si la case n'est pas tout en haut
-	 if (this.numLigne != 0) {
-	 this.voisins[5] = (plateau.getCases()[this.numLigne - 1][this.numColonne]);
-	 }
-	 //Si la case n'est pas tout en bas
-	 if (this.numLigne != plateau.getNbLignes() - 1) {
-	 this.voisins[3] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
-	 }
-	 }
-	 //Si la case n'est pas tout à droite
-	 if (this.numColonne != plateau.getNbColonnes() - 1) {
-	 this.voisins[1] = (plateau.getCases()[this.numLigne][this.numColonne + 1]);
-	 //Si la case n'est pas tout en haut
-	 if (this.numLigne != 0) {
-	 this.voisins[0] = (plateau.getCases()[this.numLigne - 1][this.numColonne + 1]);
-	 }
-	 //Si la case n'est pas tout en bas
-	 if (this.numLigne != plateau.getNbLignes() - 1) {
-	 this.voisins[2] = (plateau.getCases()[this.numLigne + 1][this.numColonne]);
-	 }
-	 }*/
 	if (!this.coulee) {
 	    //Pas tout a gauche
 	    if (this.numColonne != 0) {
@@ -103,8 +89,10 @@ public class Case {
     public ArrayList<Case> getCasePossibles() {
 	ArrayList<Case> res = new ArrayList<>();
 
-	for (int i = 0; i < 6; i++) {
-	    parcoursLigne(res, this.voisins[i], i);
+	if (!coulee) {
+	    for (int i = 0; i < 6; i++) {
+		parcoursLigne(res, this.voisins[i], i);
+	    }
 	}
 
 	return res;
@@ -169,6 +157,42 @@ public class Case {
 	return polygon;
     }
 
+    public int getNbVoisins() {
+	int nbVoisins = 0;
+
+	for (int i = 0; i < 6; i++) {
+	    if (this.voisins[i] != null && !this.voisins[i].estCoulee() && this.voisins[i].getPinguin() == null) {
+		nbVoisins++;
+	    }
+	}
+
+	return nbVoisins;
+    }
+
+    public ArrayList<Case> getVoisinsJouable() {
+	ArrayList<Case> voisins = new ArrayList<>();
+
+	for (int i = 0; i < 6; i++) {
+	    if (this.voisins[i] != null && !this.voisins[i].estCoulee() && this.voisins[i].getPinguin() == null) {
+		voisins.add(this.voisins[i]);
+	    }
+	}
+
+	return voisins;
+    }
+
+    public ArrayList<Case> getVoisinsEmerges() {
+	ArrayList<Case> voisins = new ArrayList<>();
+
+	for (int i = 0; i < 6; i++) {
+	    if (this.voisins[i] != null && !this.voisins[i].estCoulee()) {
+		voisins.add(this.voisins[i]);
+	    }
+	}
+
+	return voisins;
+    }
+
     public boolean estCaseLibre() {
 	if (!this.coulee && this.pinguin == null) {
 	    return true;
@@ -180,4 +204,10 @@ public class Case {
     public boolean estCaseValideInit() {
 	return estCaseLibre() && nbPoissons == 1;
     }
+
+    @Override
+    public String toString() {
+	return "(" + this.numLigne + "," + this.numColonne + ")";
+    }
+
 }

@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author novelm
@@ -14,11 +16,13 @@ public class Pinguin {
     private Boolean vivant;
     private Case position;
     private Joueur general;
+    private Boolean estSeul;
 
     public Pinguin(Case position, Joueur maitre) {
 	this.vivant = true;
 	this.position = position;
 	this.general = maitre;
+	this.estSeul = false;
     }
 
     public void deplace(Case c) {
@@ -45,6 +49,24 @@ public class Pinguin {
 	this.general.setPinguinCourant(null);
     }
 
+    /**
+     * A l'air de marcher
+     *
+     * @param plateau
+     * @param source
+     * @return True si le pinguin est seul ou avec un de ses collègues sur
+     * l'iceberg
+     */
+    public Boolean estSeulIceberg(Plateau plateau) {
+	ArrayList<Case> iceberg = plateau.getCasesIceberg(this.position);
+	for (Case c : iceberg) {
+	    if (c.getPinguin() != null && c.getPinguin().getGeneral() != this.general) {
+		return false;
+	    }
+	}
+	return true;
+    }
+
     public void accept(Visiteur v) {
 	v.visite(this);
     }
@@ -67,5 +89,19 @@ public class Pinguin {
 
     public Joueur getGeneral() {
 	return general;
+    }
+
+    @Override
+    public String toString() {
+	return this.getGeneral().getCouleur() + "(" + this.position.getNumLigne() + "," + this.position.getNumColonne() + ")" + Couleur.ANSI_RESET;
+
+    }
+
+    public Boolean estSeul() {
+	return estSeul;
+    }
+
+    public void setEstSeul(Boolean estSeul) {
+	this.estSeul = estSeul;
     }
 }
