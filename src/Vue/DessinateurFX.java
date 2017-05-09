@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -95,6 +96,10 @@ public class DessinateurFX extends Visiteur {
 
     @Override
     public void visite(Case c) {
+	if (c.getPinguin() != null && c.getCasePossibles().size() == 0) {
+	    c.setCoulee(Boolean.TRUE);
+	}
+
 	if (!c.estCoulee()) {
 	    Color color = Color.IVORY;
 
@@ -122,27 +127,38 @@ public class DessinateurFX extends Visiteur {
 
     @Override
     public void visite(Pinguin p) {
-	System.out.println(p.getGeneral().getCouleur() + "COULEUR" + Couleur.Noir);
-	ImageView iv = new ImageView(p.getGeneral().getCouleur().getImage());
-
-	iv.setPreserveRatio(true);
-	iv.setFitHeight(height);
-
-	double x = p.getPosition().getPolygon().getXorigine() + width / 2;
-	double y = p.getPosition().getPolygon().getYorigine() + height / 2;
-
-	//System.out.println(iv.getFitWidth());
-	iv.setX(x - width / 4);
-	iv.setY(y - iv.getFitHeight() * 0.8);
-
-	EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);
-	iv.setOnMouseClicked(clicSourisPenguin);
-
-	if (p.getGeneral().getPinguinCourant() == p) {
-	    System.out.println("PINGOUIN SELECTED");
-	    iv.setEffect(new Bloom());
+	if (p.getPosition().getCasePossibles().size() == 0) {
+	    p.setVivant(Boolean.FALSE);
 	}
 
-	root.getChildren().add(iv);
+	if (p.getGeneral().getPinguinsVivants().size() == 0) {
+	    partie.joueurSuivant();
+	}
+
+	if (p.estVivant()) {
+	    System.out.println(p.getGeneral().getCouleur() + "COULEUR" + Couleur.Noir);
+	    ImageView iv = new ImageView(p.getGeneral().getCouleur().getImage());
+
+	    iv.setPreserveRatio(true);
+	    iv.setFitHeight(height);
+
+	    double x = p.getPosition().getPolygon().getXorigine() + width / 2;
+	    double y = p.getPosition().getPolygon().getYorigine() + height / 2;
+
+	    //System.out.println(iv.getFitWidth());
+	    iv.setX(x - width / 4);
+	    iv.setY(y - iv.getFitHeight() * 0.8);
+
+	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);
+	    iv.setOnMouseClicked(clicSourisPenguin);
+	    iv.setEffect(new DropShadow());
+
+	    if (p.getGeneral().getPinguinCourant() == p) {
+		System.out.println("PINGOUIN SELECTED");
+		iv.setEffect(new Bloom());
+	    }
+
+	    root.getChildren().add(iv);
+	}
     }
 }

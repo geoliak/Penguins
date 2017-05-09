@@ -15,6 +15,7 @@ public class Partie {
 
     private Plateau plateau;
     private ArrayList<Joueur> joueurs;
+    private ArrayList<Joueur> joueursEnJeu;
     private Joueur joueurCourant;
     private Boolean initialisation;
     private int nbPingouinParJoueur;
@@ -23,9 +24,12 @@ public class Partie {
 	this.initialisation = true;
 	this.plateau = plateau;
 	this.joueurs = joueurs;
+
+	this.joueursEnJeu = (ArrayList<Joueur>) joueurs.clone();
+	this.joueurCourant = joueursEnJeu.remove(0);
+
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
-	this.joueurCourant = this.joueurs.remove(0);
     }
 
     public int nbPingouinsTotal() {
@@ -33,16 +37,15 @@ public class Partie {
 	for (Joueur j : joueurs) {
 	    nb += j.getPinguins().size();
 	}
-	nb += joueurCourant.getPinguins().size();
 	return nb;
     }
 
     public void setNbPingouinParJoueur() {
 	int nbPinguin = 0;
-	System.out.println("JOUEURS SIZE: " + joueurs.size());
+	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 2;
+		nbPinguin = 1;
 		break;
 	    case 3:
 		nbPinguin = 3;
@@ -55,17 +58,19 @@ public class Partie {
     }
 
     public void joueurSuivant() {
-	this.joueurs.add(this.joueurCourant);
-	this.joueurCourant = this.joueurs.remove(0);
+	this.joueursEnJeu.add(this.joueurCourant);
+	this.joueurCourant = this.joueursEnJeu.remove(0);
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+
+	System.out.println(joueurCourant.getCouleur() + joueurCourant.getNom());
     }
 
     public void afficheJoueurs() {
 	System.out.println("Joueur courant : " + joueurCourant.getCouleur() + joueurCourant.getNom() + Couleur.ANSI_RESET + " enJeu " + this.joueurCourant.estEnJeu());
 	System.out.println("Joueur(s) dans la liste : ");
-	for (Joueur j : this.joueurs) {
+	for (Joueur j : this.joueursEnJeu) {
 	    System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " enJeu " + j.estEnJeu());
 	}
     }
@@ -76,7 +81,7 @@ public class Partie {
 
     public Boolean estTerminee() {
 	Boolean res = joueurCourant.estEnJeu();
-	for (Joueur j : this.joueurs) {
+	for (Joueur j : this.joueursEnJeu) {
 	    res = res || j.estEnJeu();
 	}
 	return !res;
@@ -85,7 +90,7 @@ public class Partie {
     public ArrayList<Joueur> getJoueurGagnant() {
 	ArrayList<Joueur> gagnants = new ArrayList<>();
 	gagnants.add(joueurCourant);
-	for (Joueur j : this.joueurs) {
+	for (Joueur j : this.joueursEnJeu) {
 	    //Si un joueur à un meilleur score qu'un autre
 	    if (j.getScorePoissons() > gagnants.get(0).getScorePoissons()) {
 		gagnants = new ArrayList<>();
@@ -105,11 +110,11 @@ public class Partie {
 
     public void afficheResultats() {
 	if (this.estTerminee()) {
-	    this.joueurs.add(joueurCourant);
+	    this.joueursEnJeu.add(joueurCourant);
 	    for (Joueur j : this.getJoueurGagnant()) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
 	    }
-	    for (Joueur j : this.joueurs) {
+	    for (Joueur j : this.joueursEnJeu) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
 	    }
 	}
@@ -140,8 +145,19 @@ public class Partie {
     }
 
     public int getNbPingouinParJoueur() {
-	System.out.println("NOMBRE DE PINGOUINS PAR JOUEUR:" + nbPingouinParJoueur);
+	//System.out.println("NOMBRE DE PINGOUINS PAR JOUEUR:" + nbPingouinParJoueur);
 	return nbPingouinParJoueur;
     }
 
+    public ArrayList<Joueur> getJoueursEnJeu() {
+	return joueursEnJeu;
+    }
+
+    public void setJoueursEnJeu(ArrayList<Joueur> joueursEnJeu) {
+	this.joueursEnJeu = joueursEnJeu;
+    }
+
+    public void setJoueurCourant(Joueur joueurCourant) {
+	this.joueurCourant = joueurCourant;
+    }
 }

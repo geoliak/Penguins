@@ -6,8 +6,10 @@
 package Controleur;
 
 import Modele.Case;
+import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
+import Modele.Pinguin;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -34,24 +36,36 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 	rowclic = p.getY();
 	columnclic = p.getX();
 	if (partie.estEnInitialisation()) {
-	    System.out.println("CLIC");
-	    System.out.println(p.getY() + " " + p.getX());
+	    //System.out.println("CLIC");
+	    //System.out.println(p.getY() + " " + p.getX());
 
 	    // FIX IT
 	    if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
 		partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
 		partie.getPlateau().setEstModifié(true);
 		partie.joueurSuivant();
-		System.out.println("PINGOUINS TOTAL: " + partie.nbPingouinsTotal() + " PINGOUINS : " + partie.getNbPingouinParJoueur() * partie.getJoueurs().size());
-		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * (partie.getJoueurs().size() + 1)) {
+		//System.out.println("PINGOUINS AJOUTES: " + partie.nbPingouinsTotal() + " PINGOUINS MAX: " + partie.getNbPingouinParJoueur() * partie.getJoueurs().size());
+		//System.out.println("=================" + partie.getNbPingouinParJoueur() + " " + partie.getJoueurs().size());
+		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
 		    partie.setInitialisation(false);
+
+		    for (Joueur j : partie.getJoueursEnJeu()) {
+			j.setPret(Boolean.TRUE);
+		    }
+		    partie.getJoueurCourant().setPret(Boolean.TRUE);
 		}
 	    }
 	} else {
-	    if (partie.getJoueurCourant().getPinguinCourant() != null) {
+	    Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
+	    if (pingouin != null) {
 		Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
 		if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
-		    partie.getJoueurCourant().getPinguinCourant().deplace(caseDest);
+		    pingouin.deplace(caseDest);
+
+		    if (pingouin.getPosition().getCasePossibles().size() == 0) {
+			pingouin.setVivant(Boolean.FALSE);
+		    }
+
 		    partie.joueurSuivant();
 		    partie.getPlateau().setEstModifié(true);
 		}

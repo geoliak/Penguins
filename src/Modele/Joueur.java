@@ -99,6 +99,16 @@ public abstract class Joueur {
 	this.pinguins = pinguins;
     }
 
+    public ArrayList<Pinguin> getPinguinsVivants() {
+	ArrayList<Pinguin> res = new ArrayList<>();
+	for (Pinguin p : this.pinguins) {
+	    if (p.estVivant()) {
+		res.add(p);
+	    }
+	}
+	return res;
+    }
+
     public Pinguin getPinguinCourant() {
 	return pinguinCourant;
     }
