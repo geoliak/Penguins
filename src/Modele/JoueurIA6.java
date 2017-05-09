@@ -47,13 +47,14 @@ public class JoueurIA6 extends JoueurIA {
         Case caseChoisie = null, CaseRes = null;
         Random r = new Random();
         ArrayList<Case> casesPossibles;
-        
+
         Pinguin pCourant = null;
 
         super.setPinguinsSeuls(plateau);
         Boolean sontSeuls = super.pinguinsSontSeuls();
 
         if (sontSeuls && !this.chemin.isEmpty()) {
+            System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
             caseChoisie = this.chemin.remove(0);
 
         } else if (sontSeuls && this.chemin.isEmpty()) {
@@ -75,7 +76,9 @@ public class JoueurIA6 extends JoueurIA {
                 }
             }
             this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), tailleMaximale - (int) (tailleMaximale * 0.4));
-
+            
+            System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
+            
             caseChoisie = this.chemin.remove(0);
 
         } else {
@@ -89,15 +92,15 @@ public class JoueurIA6 extends JoueurIA {
                 }
             }
             super.setPinguinCourant(pCourant);
-            
+
             int max = -1;
             ArrayList<Case> tmp;
             for (Case c : pCourant.getPosition().getCasePossibles()) {
                 tmp = c.getCasePossibles();
                 if (tmp.size() > max) {
-                        max = tmp.size();
-                        caseChoisie = c;
-                    }
+                    max = tmp.size();
+                    caseChoisie = c;
+                }
             }
         }
 

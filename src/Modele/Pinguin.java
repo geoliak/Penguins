@@ -34,8 +34,6 @@ public class Pinguin {
 
 	this.position = c;
 	c.setPinguin(this);
-
-	this.general.setPinguinCourant(null);
     }
 
     public void coullePinguin() {
@@ -46,7 +44,6 @@ public class Pinguin {
 	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
 	this.vivant = false;
-	this.general.setPinguinCourant(null);
     }
 
     /**

@@ -212,12 +212,3 @@ public abstract class JoueurIA extends Joueur {
     }
 
 }
-
-/*
-
- explorer(graphe G, sommet s)
- marquer le sommet s
- pour tout sommet t voisin du sommet s
- si t n'est pas marqué alors
- explorer(G, t);
- */

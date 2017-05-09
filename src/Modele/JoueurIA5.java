@@ -30,6 +30,7 @@ public class JoueurIA5 extends JoueurIA4 {
         Boolean sontSeuls = super.pinguinsSontSeuls();
         
         if (caseChoisie == null && sontSeuls && !this.chemin.isEmpty()) {
+            System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
             caseChoisie = this.chemin.remove(0);
 
         } else if (sontSeuls && this.chemin.isEmpty()) {
@@ -53,6 +54,8 @@ public class JoueurIA5 extends JoueurIA4 {
             }
             this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), tailleMaximale - (int) (tailleMaximale * 0.25));
 
+            System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
+            
             caseChoisie = this.chemin.remove(0);
 
         } else if (caseChoisie == null) {
