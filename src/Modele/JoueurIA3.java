@@ -61,7 +61,7 @@ public class JoueurIA3 extends JoueurIA {
         } else {
             for (Pinguin p : this.getPinguinsVivants()) {
                 //Si le pinguin est seul sur un iceberg alors il doit effectuer le meilleur chemin
-                if (this.estSeulIceberg(plateau, p.getPosition())) {
+                if (p.estSeulIceberg(p.getPosition())) {
                     DessinateurTexte dt = new DessinateurTexte();
                     System.out.println(this.getCouleur() + this.getNom() + Couleur.ANSI_RESET);
                     dt.visite(plateau);
@@ -70,9 +70,9 @@ public class JoueurIA3 extends JoueurIA {
                     System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
 
                     ArrayList<Case> iceberg = new ArrayList<>();
-                    this.getCasesIceberg(plateau, p.getPosition(), iceberg);
+                    plateau.getCasesIceberg(p.getPosition(), iceberg);
 
-                    this.chemin = this.getMeilleurChemin(plateau, p.getPosition(), new ArrayList<>(), iceberg.size());
+                    this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), iceberg.size());
                     /*MeilleurChemin mc = new MeilleurChemin(plateau, p.getPosition(), this.chemin);
                      mc.start();
                      try {

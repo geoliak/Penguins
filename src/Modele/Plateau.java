@@ -125,11 +125,77 @@ public class Plateau {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
     }
 
+    /**
+     * A l'air de marcher (quand ca fini)
+     *
+     * @param plateau
+     * @param source
+     * @param file
+     * @return
+     */
+    public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> file, int tailleRecherchee) {
+        ArrayList<Case> casesPossibles = source.getCasePossibles();
+
+        //System.out.println("-\n" + source.getNumLigne() + "," + source.getNumColonne() + " -> " + file.size());
+        if (casesPossibles.isEmpty() || file.size() == tailleRecherchee) {
+            return file;
+        } else {
+            source.setCoulee(true);
+            int max = Integer.MIN_VALUE;
+            ArrayList<Case> branchementCourant, branchementResultat = null;
+
+            for (Case c : casesPossibles) {
+                file.add(c);
+                branchementCourant = getMeilleurChemin(c, (ArrayList<Case>) file.clone(), tailleRecherchee);
+                if (branchementCourant.size() + file.size() - 1 == tailleRecherchee) {
+                    source.setCoulee(false);
+                    file.addAll(branchementCourant);
+                    return file;
+                }
+                file.remove(c);
+
+                if (this.getPoidsChemin(branchementCourant) > max) {
+                    max = this.getPoidsChemin(branchementCourant);
+                    branchementResultat = branchementCourant;
+                } else if (this.getPoidsChemin(branchementCourant) == max && branchementCourant.size() > branchementResultat.size()) {
+                    branchementResultat = branchementCourant;
+                }
+
+            }
+
+            file.addAll(branchementResultat);
+            //System.out.println(source.getNumLigne() + "," + source.getNumColonne() + " -> " + file.size() + "\n-");
+            source.setCoulee(false);
+            return branchementResultat;
+        }
+
+    }
+
+    public int getPoidsChemin(ArrayList<Case> cases) {
+        int res = 0;
+        for (Case c : cases) {
+            res += c.getNbPoissons();
+        }
+        return res;
+    }
+
+    public ArrayList<Case> getCasesIceberg(Case source, ArrayList<Case> iceberg) {
+        if (!source.estCoulee()) {
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIceberg(c, iceberg);
+            }
+            source.setCoulee(false);
+        }
+        return iceberg;
+    }
+
     public Plateau clone() {
         Plateau clone = new Plateau();
         Case caseCourante;
         for (int i = 0; i < this.getNbLignes(); i++) {
-            for (int j = 0; j < this.getNbColonnes();j++) {
+            for (int j = 0; j < this.getNbColonnes(); j++) {
                 caseCourante = new Case(this.cases[i][j]);
                 clone.getCases()[i][j] = caseCourante;
             }

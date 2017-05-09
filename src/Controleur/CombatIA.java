@@ -33,7 +33,7 @@ public class CombatIA {
      */
     public static void main(String[] args) {
 
-        int nbCombats = 200;
+        int nbCombats = 100;
         HashMap<Joueur, Integer> victoires = new HashMap<>();
 
         DessinateurTexte dt = new DessinateurTexte();
