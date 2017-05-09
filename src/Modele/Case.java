@@ -216,5 +216,11 @@ public class Case {
 
         return voisins;
     }
+    
+    
+    @Override
+    public String toString() {
+        return "(" + this.numLigne + "," + this.numColonne + ")";
+    }
 
 }

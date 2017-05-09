@@ -7,6 +7,7 @@ package Modele;
 
 import Vue.DessinateurTexte;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -28,21 +29,6 @@ public class JoueurIA3 extends JoueurIA {
         this.chemin = new ArrayList<>();
     }
 
-    @Override
-    public Case phaseInitialisation(Plateau plateau) {
-        Case caseChoisie;
-
-        Random r = new Random();
-        int i, j;
-        do {
-            i = r.nextInt(8);
-            j = r.nextInt(8);
-            caseChoisie = plateau.getCases()[i][j];
-        } while (caseChoisie.estCoulee() || caseChoisie.getPinguin() != null || caseChoisie.getNbPoissons() > 1);
-
-        return caseChoisie;
-    }
-
     /**
      * Marche pas
      *
@@ -51,60 +37,48 @@ public class JoueurIA3 extends JoueurIA {
      */
     @Override
     public Case phaseJeu(Plateau plateau) {
-        Case caseChoisie = null;
+        //On regarde si on peut éliminer un pinguin
+        Case caseChoisie = this.chercherVictime(plateau);
 
-        //Si il y a un chemin courant
-        if (!this.chemin.isEmpty()) {
+        //Si il n'y a plus pinguin adverse sur l'iceberg
+        //System.out.println("Sont seuls ?");
+        super.setPinguinsSeuls(plateau);
+        Boolean sontSeuls = super.pinguinsSontSeuls();
+        if (caseChoisie == null && sontSeuls && !this.chemin.isEmpty()) {
             System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
             caseChoisie = this.chemin.remove(0);
 
-        } else {
-            for (Pinguin p : this.getPinguinsVivants()) {
-                //Si le pinguin est seul sur un iceberg alors il doit effectuer le meilleur chemin
-                if (p.estSeulIceberg(p.getPosition())) {
-                    DessinateurTexte dt = new DessinateurTexte();
-                    System.out.println(this.getCouleur() + this.getNom() + Couleur.ANSI_RESET);
-                    dt.visite(plateau);
+        } else if (sontSeuls && this.chemin.isEmpty()) {
+            Random r = new Random();
 
-                    this.setPinguinCourant(p);
-                    System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
+            Pinguin p = super.getPinguinsVivants().get(r.nextInt(super.getPinguinsVivants().size()));
 
-                    ArrayList<Case> iceberg = new ArrayList<>();
-                    plateau.getCasesIceberg(p.getPosition(), iceberg);
+            DessinateurTexte dt = new DessinateurTexte();
+            System.out.println(this.getCouleur() + this.getNom() + Couleur.ANSI_RESET);
+            dt.visite(plateau);
 
-                    this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), iceberg.size());
-                    /*MeilleurChemin mc = new MeilleurChemin(plateau, p.getPosition(), this.chemin);
-                     mc.start();
-                     try {
-                     mc.join();
-                     } catch (InterruptedException ex) {
-                     Logger.getLogger(JoueurIAMathias3.class.getName()).log(Level.SEVERE, null, ex);
-                     }*/
+            this.setPinguinCourant(p);
+            System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
 
-                    System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
-                    this.afficherChemin();
-                    return this.chemin.remove(0);
-
+            ArrayList<Case> iceberg = plateau.getCasesIceberg(p.getPosition());
+            int tailleMaximale = iceberg.size();
+            for (Case c : iceberg) {
+                if (c.getPinguin() != null) {
+                    tailleMaximale--;
                 }
             }
+            this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(),   tailleMaximale - (int) (tailleMaximale * 0.25));
+            
+            //this.chemin = plateau.getMeilleurCheminV2(p.getPosition(), new ArrayList<>(), iceberg.size() - 1);
+            
 
-            //On regarde si on peut éliminer un pinguin
-            System.out.println("kill ?");
-            caseChoisie = this.chercherVictime(plateau);
+            System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
 
-            //Si elle ne peut tuer personne, alors elle joue aléatoirement
-            if (caseChoisie == null) {
-                System.out.println("Pas de kill");
-                Random r = new Random();
+            this.afficherChemin();
+            caseChoisie = this.chemin.remove(0);
 
-                //Choix aléatoire d'un pinguin vivant
-                Pinguin p = super.getPinguinsVivants().get(r.nextInt(super.getPinguinsVivants().size()));
-                this.setPinguinCourant(p);
-
-                //Choix aléatoire d'une case
-                ArrayList<Case> casePossibles = p.getPosition().getCasePossibles();
-                caseChoisie = casePossibles.get(r.nextInt(casePossibles.size()));
-            }
+        } else  if (caseChoisie == null) {
+            caseChoisie = super.phaseJeu(plateau);
         }
 
         System.out.println(" ");

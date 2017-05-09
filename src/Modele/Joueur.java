@@ -5,12 +5,10 @@
  */
 package Modele;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
-import sun.rmi.runtime.Log;
 
 /**
  *

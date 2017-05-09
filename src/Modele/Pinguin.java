@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 /**
@@ -17,9 +18,11 @@ public class Pinguin {
     private Case position;
     private Joueur general;
     private Image image;
+    private Boolean estSeul;
 
     public Pinguin(Case position, Joueur maitre, Image image) {
         this.vivant = true;
+        this.estSeul = false;
         this.position = position;
         this.general = maitre;
         this.image = image;
@@ -55,26 +58,14 @@ public class Pinguin {
      * @return True si le pinguin est seul ou avec un de ses collègues sur
      * l'iceberg
      */
-    public Boolean estSeulIceberg(Case source) {
-        Boolean res = true;
-
-        //Si la case courante n'est pas coulee
-        if (!source.estCoulee()) {
-
-            //Si la case courante contient un adversaire
-            if (source.getPinguin() != null && source.getPinguin().getGeneral() != this.general) {
+    public Boolean estSeulIceberg(Plateau plateau) {
+        ArrayList<Case> iceberg = plateau.getCasesIceberg(this.position);
+        for (Case c : iceberg) {
+            if (c.getPinguin() != null && c.getPinguin().getGeneral() != this.general) {
                 return false;
-
-            } else {
-                for (Case c : source.getVoisinsEmerges()) {
-                    source.setCoulee(true);
-                    res = res && this.estSeulIceberg(c);
-                    source.setCoulee(false);
-                }
             }
         }
-
-        return res;
+        return true;
     }
 
     public void accept(Visiteur v) {
@@ -110,4 +101,13 @@ public class Pinguin {
         return this.getGeneral().getCouleur() + "(" + this.position.getNumLigne() + "," + this.position.getNumColonne() + ")" + Couleur.ANSI_RESET;
 
     }
+
+    public Boolean estSeul() {
+        return estSeul;
+    }
+
+    public void setEstSeul(Boolean estSeul) {
+        this.estSeul = estSeul;
+    }
+
 }

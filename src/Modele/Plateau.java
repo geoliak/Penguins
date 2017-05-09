@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -125,48 +126,44 @@ public class Plateau {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
     }
 
-    /**
-     * A l'air de marcher (quand ca fini)
-     *
-     * @param plateau
-     * @param source
-     * @param file
-     * @return
-     */
-    public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> file, int tailleRecherchee) {
-        ArrayList<Case> casesPossibles = source.getCasePossibles();
+    public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant, int tailleMaximale) {
+        if (cheminCourant.size() >= tailleMaximale) {
+            System.out.println(tailleMaximale + " - " + cheminCourant.size());
+            return cheminCourant;
 
-        //System.out.println("-\n" + source.getNumLigne() + "," + source.getNumColonne() + " -> " + file.size());
-        if (casesPossibles.isEmpty() || file.size() == tailleRecherchee) {
-            return file;
         } else {
-            source.setCoulee(true);
-            int max = Integer.MIN_VALUE;
+            ArrayList<Case> casesPossible = source.getCasePossibles();
+            int max = 0;
+            boolean possible = false;
             ArrayList<Case> branchementCourant, branchementResultat = null;
 
-            for (Case c : casesPossibles) {
-                file.add(c);
-                branchementCourant = getMeilleurChemin(c, (ArrayList<Case>) file.clone(), tailleRecherchee);
-                if (branchementCourant.size() + file.size() - 1 == tailleRecherchee) {
-                    source.setCoulee(false);
-                    file.addAll(branchementCourant);
-                    return file;
-                }
-                file.remove(c);
+            //Pour toutes les cases qui n'ont pas ete visitee
+            for (Case c : casesPossible) {
+                if (!cheminCourant.contains(c)) {
+                    possible = true;
 
-                if (this.getPoidsChemin(branchementCourant) > max) {
-                    max = this.getPoidsChemin(branchementCourant);
-                    branchementResultat = branchementCourant;
-                } else if (this.getPoidsChemin(branchementCourant) == max && branchementCourant.size() > branchementResultat.size()) {
-                    branchementResultat = branchementCourant;
-                }
+                    branchementCourant = new ArrayList<>();
+                    branchementCourant.addAll(cheminCourant);
+                    branchementCourant.add(c);
+                    branchementCourant = getMeilleurChemin(c, branchementCourant, tailleMaximale);
 
+                    if (branchementCourant.size() >= tailleMaximale) {
+                        return branchementCourant;
+                    } else if (this.getPoidsChemin(branchementCourant) > max) {
+                        branchementResultat = branchementCourant;
+                        max = this.getPoidsChemin(branchementCourant);
+                    } else if (this.getPoidsChemin(branchementCourant) == max && branchementCourant.size() > branchementResultat.size()) {
+                        branchementResultat = branchementCourant;
+                    }
+
+                }
             }
 
-            file.addAll(branchementResultat);
-            //System.out.println(source.getNumLigne() + "," + source.getNumColonne() + " -> " + file.size() + "\n-");
-            source.setCoulee(false);
-            return branchementResultat;
+            if (!possible) {
+                return cheminCourant;
+            } else {
+                return branchementResultat;
+            }
         }
 
     }
@@ -179,16 +176,23 @@ public class Plateau {
         return res;
     }
 
-    public ArrayList<Case> getCasesIceberg(Case source, ArrayList<Case> iceberg) {
+    public ArrayList<Case> getCasesIceberg(Case source) {
+        ArrayList<Case> iceberg = new ArrayList<>();
+        this.getCasesIcebergWorker(source, iceberg);
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
+    }
+
+    private void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
         if (!source.estCoulee()) {
             iceberg.add(source);
             source.setCoulee(true);
             for (Case c : source.getVoisinsEmerges()) {
-                this.getCasesIceberg(c, iceberg);
+                this.getCasesIcebergWorker(c, iceberg);
             }
-            source.setCoulee(false);
         }
-        return iceberg;
     }
 
     public Plateau clone() {

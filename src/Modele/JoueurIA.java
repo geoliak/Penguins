@@ -42,12 +42,33 @@ public abstract class JoueurIA extends Joueur {
             return this.phaseJeu(plateau);
         }
     }
-    
-    
 
-    public abstract Case phaseInitialisation(Plateau plateau);
+    public Case phaseInitialisation(Plateau plateau) {
+        Case caseChoisie;
+        Random r = new Random();
+        int i, j;
+        do {
+            i = r.nextInt(8);
+            j = r.nextInt(8);
+            caseChoisie = plateau.getCases()[i][j];
+        } while (caseChoisie.estCoulee() || caseChoisie.getPinguin() != null || caseChoisie.getNbPoissons() > 1);
 
-    public abstract Case phaseJeu(Plateau plateau);
+        return caseChoisie;
+    }
+
+    public Case phaseJeu(Plateau plateau) {
+        Random r = new Random();
+
+        //Choix aléatoire d'un pinguin vivant
+        Pinguin p = super.getPinguinsVivants().get(r.nextInt(super.getPinguinsVivants().size()));
+        this.setPinguinCourant(p);
+
+        //Choix aléatoire d'une case
+        ArrayList<Case> casePossibles = p.getPosition().getCasePossibles();
+        Case caseChoisie = casePossibles.get(r.nextInt(casePossibles.size()));
+
+        return caseChoisie;
+    }
 
     /**
      *
@@ -86,7 +107,32 @@ public abstract class JoueurIA extends Joueur {
 
         return null;
     }
-
+    
+    
+    /**
+     * Parcours l'ensemble des pinguins vivants pour determiner si ils sont finalement seuls
+     * Met la variable estSeul a True des pinguins dans ce cas
+     * @param plateau : plateau de jeu
+     */
+    public void setPinguinsSeuls(Plateau plateau) {
+        for (Pinguin p : super.getPinguinsVivants()) {
+            if (!p.estSeul() && p.estSeulIceberg(plateau)) {
+                p.setEstSeul(true);
+            }
+        }
+    }
+    
+    /**
+     * Parcours les pinguins vivants pour determiner si ils sont tous seuls sur leur iceberg
+     * @return True si les pinguins sont tous seuls
+     */
+    public Boolean pinguinsSontSeuls() {
+        boolean sontSeuls = true;
+        for (Pinguin p : super.getPinguinsVivants()) {
+            sontSeuls = sontSeuls && p.estSeul();
+        }
+        return sontSeuls;
+    }
 
     /**
      * Marche pas (fork bombe lol)
