@@ -9,7 +9,7 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
-import Modele.JoueurIA1;
+import Modele.IA.JoueurIA1;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;

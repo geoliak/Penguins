@@ -33,19 +33,17 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-	rowclic = p.getY();
+	// 
+        rowclic = p.getY();
 	columnclic = p.getX();
+        
+        
 	if (partie.estEnInitialisation()) {
-	    //System.out.println("CLIC");
-	    //System.out.println(p.getY() + " " + p.getX());
-
 	    // FIX IT
 	    if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
 		partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
 		partie.getPlateau().setEstModifié(true);
 		partie.joueurSuivant();
-		//System.out.println("PINGOUINS AJOUTES: " + partie.nbPingouinsTotal() + " PINGOUINS MAX: " + partie.getNbPingouinParJoueur() * partie.getJoueurs().size());
-		//System.out.println("=================" + partie.getNbPingouinParJoueur() + " " + partie.getJoueurs().size());
 		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
 		    partie.setInitialisation(false);
 
