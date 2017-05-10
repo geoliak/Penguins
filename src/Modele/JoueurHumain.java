@@ -5,9 +5,6 @@
  */
 package Modele;
 
-import javafx.scene.paint.Color;
-
-
 /**
  *
  * @author novelm
@@ -15,11 +12,11 @@ import javafx.scene.paint.Color;
 public abstract class JoueurHumain extends Joueur {
 
     public JoueurHumain(String nom, Couleur couleur) {
-        super(couleur);
-        this.setNom(nom);
-        this.setEstHumain(true);
+	super(couleur);
+	this.setNom(nom);
+	this.setEstHumain(true);
     }
-    
+
     public abstract Case etablirCoup(Plateau plateau);
-    
+
 }

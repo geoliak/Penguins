@@ -51,7 +51,7 @@ public class CombatIA {
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurIA5);
 	joueurs.add(joueurIA6);
-	joueurs.add(joueurIA4);
+	joueurs.add(joueurIA1);
 
 	for (Joueur j : joueurs) {
 	    victoires.put(j, 0);

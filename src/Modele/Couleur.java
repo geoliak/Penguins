@@ -32,7 +32,7 @@ public enum Couleur {
     private String colorBackground;
     private Color couleur;
     private Image image;
-    
+
     Couleur(String colorAccessible, String colorBackground, Color couleur) {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
@@ -43,7 +43,7 @@ public enum Couleur {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
-	setImage(f);
+	//setImage(f);
     }
 
     public void setImage(File f) {

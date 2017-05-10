@@ -9,7 +9,7 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
-import Modele.IA.JoueurIA1;
+import Modele.IA.JoueurIA5;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
@@ -35,15 +35,15 @@ public class Test {
 
 	    JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
 	    JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
-	    JoueurIA1 joueurIA1 = new JoueurIA1(Couleur.Rouge);
+	    JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge);
 	    ArrayList<Joueur> joueurs = new ArrayList<>();
 	    joueurs.add(joueurH1);
-	    joueurs.add(joueurIA1);
+	    joueurs.add(joueurIA5);
 
 	    int nbPinguin = 0;
 	    switch (joueurs.size()) {
 		case 2:
-		    nbPinguin = 1;
+		    nbPinguin = 2;
 		    break;
 		case 3:
 		    nbPinguin = 3;
@@ -93,7 +93,7 @@ public class Test {
 	    //Jeu
 	    boolean aJoue;
 	    Case s, d;
-	    ArrayList<Case> casesPossibles = new ArrayList<>();
+	    ArrayList<Case> casesPossibles;
 	    HashMap<Pinguin, ArrayList<Case>> memoisation = new HashMap<>();
 	    while (!partie.estTerminee()) {
 		aJoue = false;
