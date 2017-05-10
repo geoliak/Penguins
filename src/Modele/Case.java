@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,7 +13,7 @@ import java.util.Random;
  *
  * @author novelm
  */
-public class Case {
+public class Case implements Serializable {
 
     private int nbPoissons;
     private int numLigne;

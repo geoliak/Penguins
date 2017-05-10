@@ -5,13 +5,14 @@
  */
 package Modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author novelm
  */
-public class Partie {
+public class Partie implements Serializable {
 
     private Plateau plateau;
     private ArrayList<Joueur> joueurs;
@@ -63,17 +64,14 @@ public class Partie {
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
-        
-        if(joueurCourant.getEstHumain()){
-            if(this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation){
-                this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
-            } else {
-                this.joueurCourant.setPinguinCourant(null);
-            }
-        }
-       
 
-	//System.out.println(joueurCourant.getCouleur() + joueurCourant.getNom());
+	if (joueurCourant.getEstHumain()) {
+	    if (this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation) {
+		this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+	    } else {
+		this.joueurCourant.setPinguinCourant(null);
+	    }
+	}
     }
 
     public void afficheJoueurs() {
@@ -169,4 +167,13 @@ public class Partie {
     public void setJoueurCourant(Joueur joueurCourant) {
 	this.joueurCourant = joueurCourant;
     }
+
+    public void setPlateau(Plateau plateau) {
+	this.plateau = plateau;
+    }
+
+    public void setJoueurs(ArrayList<Joueur> joueurs) {
+	this.joueurs = joueurs;
+    }
+
 }

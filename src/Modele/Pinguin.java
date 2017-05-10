@@ -5,13 +5,14 @@
  */
 package Modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author novelm
  */
-public class Pinguin {
+public class Pinguin implements Serializable {
 
     private Boolean vivant;
     private Case position;
@@ -44,14 +45,14 @@ public class Pinguin {
 	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
 	this.vivant = false;
-        
-        if(general.getEstHumain()){
-            if(general.getPinguinsVivants().size() == 1){
-                general.setPinguinCourant(general.getPinguinsVivants().get(0));
-            } else {
-                general.setPinguinCourant(null);
-            }
-        }
+
+	if (general.getEstHumain()) {
+	    if (general.getPinguinsVivants().size() == 1) {
+		general.setPinguinCourant(general.getPinguinsVivants().get(0));
+	    } else {
+		general.setPinguinCourant(null);
+	    }
+	}
     }
 
     /**
