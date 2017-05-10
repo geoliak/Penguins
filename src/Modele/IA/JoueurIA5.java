@@ -30,8 +30,10 @@ public class JoueurIA5 extends JoueurIA4 {
     public Case phaseJeu(Plateau plateau) {
         Case caseChoisie = super.chercherVictime(plateau);
 
+        System.out.println("SEUl ?");
         super.setPinguinsSeuls(plateau);
         Boolean sontSeuls = super.pinguinsSontSeuls();
+        
         
         if (caseChoisie == null && sontSeuls && !this.chemin.isEmpty()) {
             System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
@@ -56,12 +58,11 @@ public class JoueurIA5 extends JoueurIA4 {
                     tailleMaximale--;
                 }
             }
-            this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), tailleMaximale - (int) (tailleMaximale * 0.25));
+            this.chemin = plateau.getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) (tailleMaximale * 0.75));
 
             System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
             
             caseChoisie = this.chemin.remove(0);
-
         } else if (caseChoisie == null) {
             caseChoisie = super.phaseJeu(plateau);
         }

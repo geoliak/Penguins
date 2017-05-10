@@ -6,6 +6,9 @@
 package Vue;
 
 import Modele.Couleur;
+import Modele.IA.JoueurIA;
+import Modele.IA.JoueurIA1;
+import Modele.IA.JoueurIA5;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
@@ -53,10 +56,12 @@ public class InterfaceFX extends Application {
 
 	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX);
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
+        
+        JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);
-	joueurs.add(joueurH2);
+	joueurs.add(joueuria);
 
 	System.out.println(joueurs.size());
 

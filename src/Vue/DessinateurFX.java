@@ -117,7 +117,7 @@ public class DessinateurFX extends Visiteur {
 
 	    c.setPolygon(p);
 
-	    if (c.getAccessible()) {
+	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
 		p.setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
 	    }
 
@@ -127,10 +127,6 @@ public class DessinateurFX extends Visiteur {
 
     @Override
     public void visite(Pinguin p) {
-	if (p.getPosition().getCasePossibles().size() == 0) {
-	    p.setVivant(Boolean.FALSE);
-	}
-
 	if (p.getGeneral().getPinguinsVivants().size() == 0) {
 	    partie.joueurSuivant();
 	}

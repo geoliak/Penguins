@@ -48,18 +48,17 @@ public abstract class Joueur {
 
     public void ajouterPinguin(Case c) {
         Pinguin p = new Pinguin(c, this);
-        System.out.println("AJOUT PINGOUIN");
+        //System.out.println("AJOUT PINGOUIN");
         c.setPinguin(p);
         this.pinguins.add(p);
     }
 
     public void joueCoup(Case c) {
         try {
-
             this.getPinguinCourant().deplace(c);
         } catch (Exception e) {
             Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("yolo");
+            //System.out.println("yolo");
         }
     }
 

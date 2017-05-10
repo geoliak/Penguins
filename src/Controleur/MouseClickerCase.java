@@ -7,6 +7,7 @@ package Controleur;
 
 import Modele.Case;
 import Modele.Joueur;
+import Modele.JoueurHumain;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -33,41 +34,50 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-	// 
+	// Récupération de la ligne et colonne de l'ilot cliqué
         rowclic = p.getY();
 	columnclic = p.getX();
         
-        
-	if (partie.estEnInitialisation()) {
-	    // FIX IT
-	    if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
-		partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
-		partie.getPlateau().setEstModifié(true);
-		partie.joueurSuivant();
-		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
-		    partie.setInitialisation(false);
+        // Placement des pingouins
+        if(partie.getJoueurCourant().getEstHumain()){
+            if (partie.estEnInitialisation()) {
+                if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
+                    partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
+                    partie.getPlateau().setEstModifié(true);
+                    partie.joueurSuivant();
+                    if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
+                        partie.setInitialisation(false);
 
-		    for (Joueur j : partie.getJoueursEnJeu()) {
-			j.setPret(Boolean.TRUE);
-		    }
-		    partie.getJoueurCourant().setPret(Boolean.TRUE);
-		}
-	    }
-	} else {
-	    Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
-	    if (pingouin != null) {
-		Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
-		if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
-		    pingouin.deplace(caseDest);
+                        for (Joueur j : partie.getJoueursEnJeu()) {
+                            j.setPret(Boolean.TRUE);
+                        }
+                        partie.getJoueurCourant().setPret(Boolean.TRUE);
+                    }
+                }
+                // Jeu
+            } else {
+                Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
 
-		    if (pingouin.getPosition().getCasePossibles().size() == 0) {
-			pingouin.setVivant(Boolean.FALSE);
-		    }
+                if (pingouin != null) {
+                    Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
+                    if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
+                        pingouin.deplace(caseDest);
 
-		    partie.joueurSuivant();
-		    partie.getPlateau().setEstModifié(true);
-		}
-	    }
-	}
+                        for(Joueur j : partie.getJoueurs()){
+                            for(Pinguin p : j.getPinguinsVivants()){
+                                if (p.getPosition().getCasePossibles().size() == 0) {
+                                    p.coullePinguin();
+                                }
+                            }
+                        }
+
+                        partie.joueurSuivant();
+
+                        partie.getPlateau().setEstModifié(true);
+                    }
+                }
+            }
+        }
+	
     }
 }
