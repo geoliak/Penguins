@@ -6,18 +6,14 @@
 package Controleur;
 
 import Modele.Couleur;
-import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA2;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA4;
 import Modele.IA.JoueurIA5;
 import Modele.IA.JoueurIA6;
-import Modele.Joueur;
 import Modele.Tournoi;
 import Vue.DessinateurTexte;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -38,9 +34,9 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune));
         //worldCup.ajouterIA(joueurIA6);
 
-        worldCup.initCompo();
+        worldCup.initCompoV2();
         
-        worldCup.pourLAntartique();
+        worldCup.pourLAntartiqueV2();
         
         worldCup.afficheResultats();
         

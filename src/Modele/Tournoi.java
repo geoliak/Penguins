@@ -69,14 +69,14 @@ public class Tournoi {
                     deuxJoueurs.put(ia, ia2);
 
                     for (Joueur ia3 : this.IA) {
-                        if (ia3 != ia) {
+                        if (ia != ia2 && ia != ia3 && ia3 != ia2) {
                             this.troisJoueurs.get(ia).put(ia2, ia3);
 
                             if (this.quatreJoueurs.get(ia).get(ia2) == null) {
                                 this.quatreJoueurs.get(ia).put(ia2, new HashMap<>());
                             }
                             for (Joueur ia4 : this.IA) {
-                                if (ia4 != ia) {
+                                if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2) {
                                     this.quatreJoueurs.get(ia).get(ia2).put(ia3, ia4);
                                 }
                             }
@@ -94,9 +94,9 @@ public class Tournoi {
     public void initCompoV2() {
         if (this.IA.size() >= 2) {
             this.initCompoDeuxJoueurs();
-            if (this.IA.size() >=3) {
+            if (this.IA.size() >= 3) {
                 this.initCompoTroisJoueurs();
-                if (this.IA.size() >=4) {
+                if (this.IA.size() >= 4) {
                     this.initCompoQuatreJoueurs();
                 }
             }
@@ -111,8 +111,10 @@ public class Tournoi {
                     c.ajouterJoueur(ia);
                     c.ajouterJoueur(ia2);
                     this.compoDeuxJoueurs.add(c);
+                    c = new Composition();
                 }
             }
+            this.scoreDeuxjoueurs.put(ia, 0);
         }
     }
 
@@ -130,6 +132,7 @@ public class Tournoi {
                     }
                 }
             }
+            this.scoreTroisJoueurs.put(ia, 0);
         }
     }
 
@@ -139,7 +142,7 @@ public class Tournoi {
             for (Joueur ia2 : this.IA) {
                 for (Joueur ia3 : this.IA) {
                     for (Joueur ia4 : this.IA) {
-                        if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2 ) {
+                        if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2) {
                             c.ajouterJoueur(ia);
                             c.ajouterJoueur(ia2);
                             c.ajouterJoueur(ia3);
@@ -150,32 +153,44 @@ public class Tournoi {
                     }
                 }
             }
+            this.scoreQuatrejoueurs.put(ia, 0);
         }
     }
 
-    public void pourLAntartique() {
+    /*public void pourLAntartique() {
+     ArrayList<Joueur> joueurs;
+     for (Joueur ia : this.deuxJoueurs.keySet()) {
+     joueurs = new ArrayList<>();
+     joueurs.add(ia);
+     joueurs.add(this.deuxJoueurs.get(ia));
+     this.match(joueurs);
+
+     for (Joueur ia2 : this.troisJoueurs.get(ia).keySet()) {
+     joueurs.add(this.troisJoueurs.get(ia).get(ia2));
+     this.match(joueurs);
+
+     for (Joueur ia3 : this.quatreJoueurs.get(ia).get(ia2).keySet()) {
+     joueurs.add(this.quatreJoueurs.get(ia).get(ia2).get(ia3));
+     this.match(joueurs);
+     }
+     }
+     }
+     }*/
+    public void pourLAntartiqueV2() {
         ArrayList<Joueur> joueurs;
-        for (Joueur ia : this.deuxJoueurs.keySet()) {
-            joueurs = new ArrayList<>();
-            joueurs.add(ia);
-            joueurs.add(this.deuxJoueurs.get(ia));
-            this.match(joueurs);
-
-            for (Joueur ia2 : this.troisJoueurs.get(ia).keySet()) {
-                joueurs.add(this.troisJoueurs.get(ia).get(ia2));
-                this.match(joueurs);
-
-                for (Joueur ia3 : this.quatreJoueurs.get(ia).get(ia2).keySet()) {
-                    joueurs.add(this.quatreJoueurs.get(ia).get(ia2).get(ia3));
-                    this.match(joueurs);
-                }
-            }
+        ArrayList<Composition> tousLesMatch = new ArrayList<>();
+        tousLesMatch.addAll(this.compoDeuxJoueurs);
+        tousLesMatch.addAll(this.compoTroisJoueurs);
+        tousLesMatch.addAll(this.compoQuatreJoueurs);
+        for (Composition c : tousLesMatch) {
+            this.match(c);
         }
     }
 
-    public void match(ArrayList<Joueur> joueurs) {
+    public void match(Composition compo) {
         int nbPinguin = 0;
         HashMap<Joueur, Integer> score = null;
+        ArrayList<Joueur> joueurs = compo.getComposition();
         switch (joueurs.size()) {
             case 2:
                 score = this.scoreDeuxjoueurs;
@@ -261,6 +276,7 @@ public class Tournoi {
                 partie.joueurSuivant();
             }
 
+            compo.setVainceurs(partie.getJoueurGagnant());
             for (Joueur j : partie.getJoueurGagnant()) {
                 switch (joueurs.size()) {
                     case 2:
@@ -374,6 +390,8 @@ public class Tournoi {
         private ArrayList<Joueur> vainceurs;
 
         public Composition() {
+            this.composition = new ArrayList<>();
+            this.vainceurs = new ArrayList<>();
         }
 
         public void ajouterJoueur(Joueur j) {
