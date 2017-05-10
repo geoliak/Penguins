@@ -5,6 +5,8 @@
  */
 package Vue;
 
+import Controleur.AnnulerCoup;
+import Controleur.Keyboard_Handler;
 import Modele.Couleur;
 import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
@@ -17,10 +19,12 @@ import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -56,8 +60,8 @@ public class InterfaceFX extends Application {
 
 	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX);
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
-        
-        JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+
+	JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);
@@ -70,6 +74,13 @@ public class InterfaceFX extends Application {
 
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d, partie);
+
+	//Initialisation d'Annuler coup et de capteur de clavier
+	AnnulerCoup histcoup = new AnnulerCoup(partie);
+	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
+	scene.setOnKeyPressed(keypresser);
+	partie.setAc(histcoup);
+
 	r.start();
 	stage.show();
     }

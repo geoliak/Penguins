@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Controleur.AnnulerCoup;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class Partie implements Serializable {
     private Joueur joueurCourant;
     private Boolean initialisation;
     private int nbPingouinParJoueur;
+    private AnnulerCoup histcoup;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
 	this.initialisation = true;
@@ -66,6 +68,7 @@ public class Partie implements Serializable {
 	}
 
 	if (joueurCourant.getEstHumain()) {
+	    histcoup.Miseajour();
 	    if (this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation) {
 		this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
 	    } else {
@@ -174,6 +177,10 @@ public class Partie implements Serializable {
 
     public void setJoueurs(ArrayList<Joueur> joueurs) {
 	this.joueurs = joueurs;
+    }
+
+    public void setAc(AnnulerCoup histcoup) {
+	this.histcoup = histcoup;
     }
 
 }
