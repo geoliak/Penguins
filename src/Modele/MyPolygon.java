@@ -18,21 +18,20 @@ public class MyPolygon extends Polygon {
 
     private double xorigine;
     private double yorigine;
+    
+    private double sizeGlacon;
 
     public MyPolygon(int i, int j, double sizeGlacon, double proportion, double gap, Color color) {
 	super();
 	this.x = i;
 	this.y = j;
+        this.sizeGlacon = sizeGlacon;
 
-	this.setOrigine(sizeGlacon, gap, proportion);
-
-
-
-
-	this.setPoints(sizeGlacon, gap, proportion, color, xorigine, yorigine);
+	this.setOrigine(gap, proportion);
+	this.setPoints(gap, proportion, color, xorigine, yorigine);
     }
 
-    public void setOrigine(double sizeGlacon, double gap, double proportion){
+    public void setOrigine(double gap, double proportion){
 	double size = sizeGlacon * proportion;
 	double height = sizeGlacon * 2;
 	double width = height*Math.sqrt(3/2);
@@ -56,8 +55,12 @@ public class MyPolygon extends Polygon {
     public double getYorigine() {
 	return yorigine;
     }
+
+    public double getSizeGlacon() {
+        return sizeGlacon;
+    }
     
-    public void setPoints(double sizeGlacon, double gap, double proportion, Color color, double i, double j) {
+    public void setPoints(double gap, double proportion, Color color, double i, double j) {
 	double size = sizeGlacon * proportion;
 	double height = size * 2;
 	double width = height*Math.sqrt(3/2);

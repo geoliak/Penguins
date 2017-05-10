@@ -6,6 +6,7 @@
 package Modele;
 
 import java.util.ArrayList;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -17,12 +18,14 @@ public class Pinguin {
     private Case position;
     private Joueur general;
     private Boolean estSeul;
+    private ImageView iv;
 
     public Pinguin(Case position, Joueur maitre) {
 	this.vivant = true;
 	this.position = position;
 	this.general = maitre;
 	this.estSeul = false;
+        //this.iv = new ImageView(general.getCouleur().getImage());
     }
 
     public void deplace(Case c) {
@@ -45,6 +48,7 @@ public class Pinguin {
 
 	this.vivant = false;
         
+        /*
         if(general.getEstHumain()){
             if(general.getPinguinsVivants().size() == 1){
                 general.setPinguinCourant(general.getPinguinsVivants().get(0));
@@ -52,6 +56,7 @@ public class Pinguin {
                 general.setPinguinCourant(null);
             }
         }
+        */
     }
 
     /**
@@ -108,5 +113,13 @@ public class Pinguin {
 
     public void setEstSeul(Boolean estSeul) {
 	this.estSeul = estSeul;
+    }
+
+    public ImageView getIv() {
+        return iv;
+    }
+
+    public void setIv(ImageView iv) {
+        this.iv = iv;
     }
 }

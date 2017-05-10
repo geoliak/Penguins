@@ -20,15 +20,23 @@ import Modele.Pinguin;
 import Modele.Plateau;
 import Modele.Visiteur;
 import java.util.ArrayList;
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.ImageInput;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 
 /**
  *
@@ -61,7 +69,7 @@ public class DessinateurFX extends Visiteur {
 
     @Override
     public void visite(Plateau plateau) {
-	root.getChildren().clear();
+	//root.getChildren().clear();
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
 
@@ -87,7 +95,6 @@ public class DessinateurFX extends Visiteur {
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		if (plateau.getCases()[i][j].getPinguin() != null) {
-		    System.out.println("PINGOUIN EN " + i + " " + j);
 		    plateau.getCases()[i][j].getPinguin().accept(this);
 		}
 	    }
@@ -99,8 +106,7 @@ public class DessinateurFX extends Visiteur {
 	if (c.getPinguin() != null && c.getCasePossibles().size() == 0) {
 	    c.setCoulee(Boolean.TRUE);
 	}
-
-	if (!c.estCoulee()) {
+	if (!c.estCoulee() && c.getPolygon()==null) {
 	    Color color = Color.IVORY;
 
 	    switch (c.getNbPoissons()) {
@@ -111,30 +117,28 @@ public class DessinateurFX extends Visiteur {
 		    color = Color.GRAY;
 		    break;
 	    }
-	    MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
-	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(p, partie);
-	    p.setOnMouseClicked(clicSourisFX);
-
-	    c.setPolygon(p);
+	    //MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
+            c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color));
+	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
+	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
 	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-		p.setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+		c.getPolygon().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
 	    }
 
-	    root.getChildren().add(p);
-	}
+	    root.getChildren().add(c.getPolygon());
+	} else if(c.estCoulee() && c.getPolygon()!=null){
+            System.out.println("BLABLA");
+            c.getPolygon().setVisible(false);
+        }
     }
 
     @Override
     public void visite(Pinguin p) {
-	if (p.getGeneral().getPinguinsVivants().size() == 0) {
-	    partie.joueurSuivant();
-	}
-
-	if (p.estVivant()) {
-	    System.out.println(p.getGeneral().getCouleur() + "COULEUR" + Couleur.Noir);
+	if (p.estVivant() && p.getIv() == null) {
 	    ImageView iv = new ImageView(p.getGeneral().getCouleur().getImage());
-
+            //ImageView iv = p.getIv();
+            
 	    iv.setPreserveRatio(true);
 	    iv.setFitHeight(height);
 
@@ -143,17 +147,32 @@ public class DessinateurFX extends Visiteur {
 
 	    //System.out.println(iv.getFitWidth());
 	    iv.setX(x - width / 4);
-	    iv.setY(y - iv.getFitHeight() * 0.8);
+	    iv.setY(y - iv.getFitHeight()*0.8);
 
 	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);
 	    iv.setOnMouseClicked(clicSourisPenguin);
 	    iv.setEffect(new DropShadow());
 
-	    if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant()) {
-		iv.setEffect(new Bloom());
-	    }
-
-	    root.getChildren().add(iv);
-	}
+            p.setIv(iv);
+	    root.getChildren().add(p.getIv());
+	} else if (p.estVivant() && p.getIv() != null){
+            AnimationFX a = new AnimationFX();
+            a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne());
+            
+            if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant()) {
+                System.out.println("POINT ORIGINE PINGOUIN : " + p.getIv().getX() + " " + p.getIv().getY());
+		p.getIv().setEffect(new Bloom());
+	    } else {
+                p.getIv().setEffect(null);
+            }
+        } else if(!p.estVivant()) {
+            System.out.println("MORT");
+            FadeTransition ft = new FadeTransition(Duration.millis(3000), p.getIv());
+            ft.setFromValue(1.0);
+            ft.setToValue(0.0);
+            ft.play();
+        }
+        
+            
     }
 }

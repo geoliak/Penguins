@@ -64,6 +64,7 @@ public class Partie {
 	    joueurSuivant();
 	}
         
+        /*
         if(joueurCourant.getEstHumain()){
             if(this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation){
                 this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
@@ -71,6 +72,7 @@ public class Partie {
                 this.joueurCourant.setPinguinCourant(null);
             }
         }
+        */
        
 
 	//System.out.println(joueurCourant.getCouleur() + joueurCourant.getNom());

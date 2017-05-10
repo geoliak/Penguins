@@ -11,8 +11,19 @@ import Modele.JoueurHumain;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
+import Vue.AnimationFX;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 
 /**
  *
@@ -34,46 +45,41 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
+        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
         rowclic = p.getY();
 	columnclic = p.getX();
         
-        // Placement des pingouins
+        // Joueur Humain
         if(partie.getJoueurCourant().getEstHumain()){
+            // Initialisation : Placement pingouins
             if (partie.estEnInitialisation()) {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
-                    if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
-                        partie.setInitialisation(false);
-
-                        for (Joueur j : partie.getJoueursEnJeu()) {
-                            j.setPret(Boolean.TRUE);
-                        }
-                        partie.getJoueurCourant().setPret(Boolean.TRUE);
-                    }
                 }
-                // Jeu
+            // Phase de jeu
             } else {
                 Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
 
                 if (pingouin != null) {
                     Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
                     if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
+                        
                         pingouin.deplace(caseDest);
-
-                        for(Joueur j : partie.getJoueurs()){
-                            for(Pinguin p : j.getPinguinsVivants()){
-                                if (p.getPosition().getCasePossibles().size() == 0) {
-                                    p.coullePinguin();
-                                }
-                            }
-                        }
-
-                        partie.joueurSuivant();
-
+                        
                         partie.getPlateau().setEstModifié(true);
+                        partie.joueurSuivant();
+                    }
+                }
+                
+                for(Joueur j : partie.getJoueurs()){
+                    for(Pinguin p : j.getPinguinsVivants()){
+                        if (p.getPosition().getCasePossibles().size() == 0) {
+                            p.coullePinguin();
+                            partie.getPlateau().setEstModifié(true);
+                        }
                     }
                 }
             }

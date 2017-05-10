@@ -8,6 +8,7 @@ package Vue;
 import Modele.Couleur;
 import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
+import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
@@ -48,8 +49,6 @@ public class InterfaceFX extends Application {
 	scene.setFill(Color.AQUA);
 	stage.setScene(scene);
 
-	File f = new File("ressources/img/pango.png");
-
 	//Image img = new Image(f.toURI().toString());
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
 	plateau.initCase();
@@ -57,7 +56,7 @@ public class InterfaceFX extends Application {
 	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX);
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
         
-        JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+        JoueurIA joueuria = new JoueurIA3(Couleur.RougeFX);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);
