@@ -51,8 +51,8 @@ public class InterfaceFX extends Application {
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
 	plateau.initCase();
 
-	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Vert);
-	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
+	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX);
+	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);

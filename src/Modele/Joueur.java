@@ -164,4 +164,9 @@ public abstract class Joueur {
     public void setEstHumain(Boolean estHumain) {
         this.estHumain = estHumain;
     }
+    
+    @Override
+    public String toString() {
+        return this.getCouleur() + this.nom + Couleur.ANSI_RESET;
+    }
 }

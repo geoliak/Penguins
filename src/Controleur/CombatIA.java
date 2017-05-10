@@ -8,12 +8,12 @@ package Controleur;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
-import Modele.JoueurIA1;
-import Modele.JoueurIA2;
-import Modele.JoueurIA3;
-import Modele.JoueurIA4;
-import Modele.JoueurIA5;
-import Modele.JoueurIA6;
+import Modele.IA.JoueurIA1;
+import Modele.IA.JoueurIA2;
+import Modele.IA.JoueurIA3;
+import Modele.IA.JoueurIA4;
+import Modele.IA.JoueurIA5;
+import Modele.IA.JoueurIA6;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
@@ -51,7 +51,7 @@ public class CombatIA {
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurIA5);
 	joueurs.add(joueurIA6);
-	joueurs.add(joueurIA4);
+	joueurs.add(joueurIA1);
 
 	for (Joueur j : joueurs) {
 	    victoires.put(j, 0);

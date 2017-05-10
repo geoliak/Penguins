@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package Modele.IA;
 
+import Modele.Case;
+import Modele.Couleur;
+import Modele.Joueur;
+import Modele.Pinguin;
+import Modele.Plateau;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;

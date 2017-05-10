@@ -9,7 +9,7 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
-import Modele.JoueurIA5;
+import Modele.IA.JoueurIA5;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
@@ -93,7 +93,7 @@ public class Test {
 	    //Jeu
 	    boolean aJoue;
 	    Case s, d;
-	    ArrayList<Case> casesPossibles = new ArrayList<>();
+	    ArrayList<Case> casesPossibles;
 	    HashMap<Pinguin, ArrayList<Case>> memoisation = new HashMap<>();
 	    while (!partie.estTerminee()) {
 		aJoue = false;

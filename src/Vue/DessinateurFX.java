@@ -153,8 +153,7 @@ public class DessinateurFX extends Visiteur {
 	    iv.setOnMouseClicked(clicSourisPenguin);
 	    iv.setEffect(new DropShadow());
 
-	    if (p.getGeneral().getPinguinCourant() == p) {
-		System.out.println("PINGOUIN SELECTED");
+	    if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant()) {
 		iv.setEffect(new Bloom());
 	    }
 
