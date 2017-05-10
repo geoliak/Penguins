@@ -45,7 +45,7 @@ public class Partie {
 	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 1;
+		nbPinguin = 2;
 		break;
 	    case 3:
 		nbPinguin = 3;
@@ -63,8 +63,17 @@ public class Partie {
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+        
+        if(joueurCourant.getEstHumain()){
+            if(this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation){
+                this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+            } else {
+                this.joueurCourant.setPinguinCourant(null);
+            }
+        }
+       
 
-	System.out.println(joueurCourant.getCouleur() + joueurCourant.getNom());
+	//System.out.println(joueurCourant.getCouleur() + joueurCourant.getNom());
     }
 
     public void afficheJoueurs() {
