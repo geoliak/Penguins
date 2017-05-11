@@ -39,7 +39,7 @@ public class AnimationFX {
         //double d = Math.sqrt(Math.pow(newx-oldx, 2) + Math.pow(newy-oldy,2));
         
         TranslateTransition tt = new TranslateTransition(Duration.millis(400), iv);
-        tt.setToX((newx - height/4) - oldx);
+        tt.setToX((newx - height/2.5) - oldx);
         tt.setToY((newy - iv.getFitHeight()*0.8) - oldy);
         
         tt.play();

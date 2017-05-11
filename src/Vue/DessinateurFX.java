@@ -48,7 +48,6 @@ public class DessinateurFX extends Visiteur {
 
     private AnimationFX a;
     private Partie partie;
-    private GraphicsContext gc;
     private Group root;
     private double sizeGlacon;
     private double proportion;
@@ -57,8 +56,7 @@ public class DessinateurFX extends Visiteur {
     private double height;
     private double width;
 
-    public DessinateurFX(GraphicsContext gc, Group root, Partie partie, AnimationFX a) {
-	this.gc = gc;
+    public DessinateurFX(Group root, Partie partie, AnimationFX a) {
 	this.root = root;
         this.a = a;
 
@@ -124,8 +122,6 @@ public class DessinateurFX extends Visiteur {
 	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
-	    
-
 	    root.getChildren().add(c.getPolygon());
 	} else if (!c.estCoulee() && c.getPolygon() != null){
             if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
@@ -152,7 +148,7 @@ public class DessinateurFX extends Visiteur {
 	    double y = p.getPosition().getPolygon().getYorigine() + height / 2;
 
 	    //System.out.println(iv.getFitWidth());
-	    iv.setX(x - width / 4);
+	    iv.setX(x - width / 2.5);
 	    iv.setY(y - iv.getFitHeight()*0.8);
 
 	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);

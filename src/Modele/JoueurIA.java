@@ -10,6 +10,7 @@ import Modele.Couleur;
 import Modele.Joueur;
 import Modele.Pinguin;
 import Modele.Plateau;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
@@ -48,6 +49,8 @@ public abstract class JoueurIA extends Joueur {
                 if(!partie.getJoueurCourant().getEstHumain()){
                     System.out.println("TOUR IA =======================");
                     partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie.getPlateau()));
+                    DessinateurTexte d = new DessinateurTexte();
+                    partie.getPlateau().accept(d);
                     System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne());
                     partie.getPlateau().setEstModifié(true);
                     for(Joueur j : partie.getJoueurs()){
