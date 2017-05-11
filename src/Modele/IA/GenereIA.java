@@ -34,9 +34,4 @@ public class GenereIA {
         //Methode pouvant etre utilisées pour le millieu de partie
         this.millieuJeu = new ArrayList<>();
     }
-
-    public ArrayList<Joueur> genereIA() {
-        
-    }
-
 }
