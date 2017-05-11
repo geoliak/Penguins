@@ -293,11 +293,16 @@ public class JoueurIA extends Joueur {
         return caseChoisie;
     }
 
+    
+    public Case sauveQuiPeut(Plateau plateau) {
+        
+    }
+    
     /**
-     *
-     * @param plateau : plateau de jeu
-     * @return Une case permettant de tuer un pinguin adverse ou null si une
+     * Une case permettant de tuer un pinguin adverse ou null si une
      * telle case n'existe pas
+     * @param plateau : plateau de jeu
+     * @return Case prochainement joue
      */
     public Case chercherVictime(Plateau plateau) {
         Case caseCourante = null, caseResultat = null;
