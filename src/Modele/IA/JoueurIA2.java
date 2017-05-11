@@ -5,6 +5,7 @@
  */
 package Modele.IA;
 
+import Modele.JoueurIA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Pinguin;

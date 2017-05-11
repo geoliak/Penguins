@@ -6,7 +6,6 @@
 package Modele;
 
 import Controleur.CombatIA;
-import Modele.IA.JoueurIA;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -26,9 +26,18 @@ public class Plateau implements Serializable {
     private boolean estModifié;
 
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
-	this.cases = new Case[LARGEUR][LONGUEUR];
-	this.lireFichier(fichierPlateau);
-	this.initCase();
+        this.cases = new Case[LARGEUR][LONGUEUR];
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
+	String ligne;
+	ligne = br.readLine();
+        if(ligne.equals("jeu")){
+            this.lireFichierJeu(fichierPlateau, br);
+            this.initCase();
+        } else {
+            this.lireFichierTest(fichierPlateau, br);
+        }
+        
 	estModifié = true;
     }
 
@@ -41,6 +50,7 @@ public class Plateau implements Serializable {
      * une configuration jouable
      */
     public void initCase() {
+        System.out.println("INIT");
 	int nbCaseUnPoissons = 0;
 	for (int i = 0; i < this.LARGEUR; i++) {
 	    for (int j = 0; j < this.LONGUEUR; j++) {
@@ -61,6 +71,7 @@ public class Plateau implements Serializable {
 		}
 	    }
 	}
+        System.out.println("FIN INIT");
     }
 
     /**
@@ -71,8 +82,29 @@ public class Plateau implements Serializable {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public void lireFichier(String fichierPlateau) throws FileNotFoundException, IOException {
-	BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
+    public void lireFichierJeu(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
+        System.out.println("BLABLA");
+	String ligne;
+	int numLigne = 0;
+	char[] c;
+	//Pour toutes les lignes du fichier
+	while ((ligne = br.readLine()) != null) {
+            System.out.println(numLigne);
+	    c = ligne.toCharArray();
+	    for (int i = 0; i < LONGUEUR; i++) {
+		if (c.length != i && c[i] == '?') {
+		    this.cases[numLigne][i] = new Case(numLigne, i);
+		} else {
+		    this.cases[numLigne][i] = new Case(numLigne, i);
+		    this.cases[numLigne][i].setCoulee(true);
+		}
+	    }
+	    numLigne++;
+	}
+        System.out.println("Fin lecture plateau");
+    }
+    
+    public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
 	String ligne;
 	int numLigne = 0;
 	char[] c;
@@ -80,8 +112,14 @@ public class Plateau implements Serializable {
 	while ((ligne = br.readLine()) != null) {
 	    c = ligne.toCharArray();
 	    for (int i = 0; i < LONGUEUR; i++) {
-		if (c.length != i && c[i] == '1') {
+		if (c.length != i && c[i] == '?') {
 		    this.cases[numLigne][i] = new Case(numLigne, i);
+		} else if(c.length != i && c[i] == '1'){
+		    this.cases[numLigne][i] = new Case(numLigne, i, 1);
+		} else if(c.length != i && c[i] == '2'){
+		    this.cases[numLigne][i] = new Case(numLigne, i, 2);
+		} else if(c.length != i && c[i] == '3'){
+		    this.cases[numLigne][i] = new Case(numLigne, i, 3);
 		} else {
 		    this.cases[numLigne][i] = new Case(numLigne, i);
 		    this.cases[numLigne][i].setCoulee(true);

@@ -40,10 +40,8 @@ public class RafraichissementFX extends AnimationTimer {
         
         // Si la partie n'est pas terminée
         if(!partie.estTerminee()){
-            
-            // Initialisation
             if (partie.estEnInitialisation()) {
-                // Si tout les pingouins ont été placés
+            // Si tout les pingouins ont été placés
                 if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
                     partie.setInitialisation(false);
 
@@ -51,47 +49,22 @@ public class RafraichissementFX extends AnimationTimer {
                         j.setPret(Boolean.TRUE);
                     }
                     partie.getJoueurCourant().setPret(Boolean.TRUE);
-                    
+
                 // Sinon initialisation : Tour IA
-                } else {
-                                    
-                    if(!partie.getJoueurCourant().getEstHumain()){                      
-                        //Défini placement pingouin
-                        partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie.getPlateau()));
-                        partie.getPlateau().setEstModifié(true);
-                        partie.joueurSuivant();
-                    } 
                 }
-            // Phase de jeu : Tour IA
-            } else {
-                if(!partie.getJoueurCourant().getEstHumain()){
-                    System.out.println("TOUR IA =======================");
-                    partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie.getPlateau()));
-                    System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne());
-                    partie.getPlateau().setEstModifié(true);
-                    for(Joueur j : partie.getJoueurs()){
-                        for(Pinguin p : j.getPinguinsVivants()){
-                            if (p.getPosition().getCasePossibles().size() == 0) {
-                                p.coullePinguin();
-                                partie.getPlateau().setEstModifié(true);
-                            }
-                        }
-                    }
-                    partie.joueurSuivant();
-                    System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
-                    System.out.println("Fin tour IA");
-                }
+            }
+            if(partie.isTourFini()){
+                partie.getJoueurCourant().attendreCoup(partie);
             }
             
             for(Joueur j : partie.getJoueurs()){
-                for(Pinguin p : j.getPinguinsVivants()){
-                    if (p.getPosition().getCasePossibles().size() == 0) {
+                for(Pinguin p : j.getPinguinsVivants()){                    
+                    if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
             }
-            
         } else {
             System.out.println("PARTIE TERMINEE ===============");
             partie.afficheResultats();

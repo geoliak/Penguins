@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele.IA;
+package Modele;
 
 import Modele.Case;
 import Modele.Couleur;
@@ -30,6 +30,40 @@ public abstract class JoueurIA extends Joueur {
         Random r = new Random();
         this.setNom(nom);
         this.setAge(r.nextInt(123)); // Jeanne Calment
+    }
+    
+    public void attendreCoup(Partie partie){
+        if(partie.isTourFini()){
+            // Initialisation
+            if (partie.estEnInitialisation()) {
+
+                if(!partie.getJoueurCourant().getEstHumain()){                      
+                    //Défini placement pingouin
+                    partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie.getPlateau()));
+                    partie.getPlateau().setEstModifié(true);
+                    partie.joueurSuivant();
+                } 
+            // Phase de jeu : Tour IA
+            } else {
+                if(!partie.getJoueurCourant().getEstHumain()){
+                    System.out.println("TOUR IA =======================");
+                    partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie.getPlateau()));
+                    System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne());
+                    partie.getPlateau().setEstModifié(true);
+                    for(Joueur j : partie.getJoueurs()){
+                        for(Pinguin p : j.getPinguinsVivants()){
+                            if (p.getPosition().getCasePossibles().size() == 0) {
+                                p.coullePinguin();
+                                partie.getPlateau().setEstModifié(true);
+                            }
+                        }
+                    }
+                    partie.joueurSuivant();
+                    System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
+                    System.out.println("Fin tour IA");
+                }
+            }
+        }
     }
 
     /**

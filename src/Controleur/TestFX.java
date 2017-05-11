@@ -19,7 +19,8 @@ public class TestFX {
 
     public static void main(String[] args) {
 	try {
-            Plateau plateau = new Plateau("ressources/plateaux/plateau1");
+            Plateau plateau = new Plateau("ressources/plateaux/plateau2");
+            System.out.println(plateau);
 	    InterfaceFX i = new InterfaceFX();
 	    i.creer(args, plateau);
 	}  catch (IOException ex) {
