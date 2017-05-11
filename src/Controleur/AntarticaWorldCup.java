@@ -34,9 +34,9 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune));
         //worldCup.ajouterIA(joueurIA6);
 
-        worldCup.initCompoV2();
+        worldCup.initCompo();
         
-        worldCup.pourLAntartiqueV2();
+        worldCup.pourLAntartique();
         
         worldCup.afficheResultats();
         

@@ -55,43 +55,7 @@ public class Tournoi {
         this.IA.add(ia);
     }
 
-    /**
-     * reFaire les IFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFff
-     */
     public void initCompo() {
-        for (Joueur ia : this.IA) {
-            this.troisJoueurs.put(ia, new HashMap<>());
-            this.quatreJoueurs.put(ia, new HashMap<>());
-
-            for (Joueur ia2 : this.IA) {
-                //Si ce couple n'existe pas
-                if (ia2 != ia) {
-                    deuxJoueurs.put(ia, ia2);
-
-                    for (Joueur ia3 : this.IA) {
-                        if (ia != ia2 && ia != ia3 && ia3 != ia2) {
-                            this.troisJoueurs.get(ia).put(ia2, ia3);
-
-                            if (this.quatreJoueurs.get(ia).get(ia2) == null) {
-                                this.quatreJoueurs.get(ia).put(ia2, new HashMap<>());
-                            }
-                            for (Joueur ia4 : this.IA) {
-                                if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2) {
-                                    this.quatreJoueurs.get(ia).get(ia2).put(ia3, ia4);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            this.scoreDeuxjoueurs.put(ia, 0);
-            this.scoreTroisJoueurs.put(ia, 0);
-            this.scoreQuatrejoueurs.put(ia, 0);
-        }
-    }
-
-    public void initCompoV2() {
         if (this.IA.size() >= 2) {
             this.initCompoDeuxJoueurs();
             if (this.IA.size() >= 3) {
@@ -157,26 +121,7 @@ public class Tournoi {
         }
     }
 
-    /*public void pourLAntartique() {
-     ArrayList<Joueur> joueurs;
-     for (Joueur ia : this.deuxJoueurs.keySet()) {
-     joueurs = new ArrayList<>();
-     joueurs.add(ia);
-     joueurs.add(this.deuxJoueurs.get(ia));
-     this.match(joueurs);
-
-     for (Joueur ia2 : this.troisJoueurs.get(ia).keySet()) {
-     joueurs.add(this.troisJoueurs.get(ia).get(ia2));
-     this.match(joueurs);
-
-     for (Joueur ia3 : this.quatreJoueurs.get(ia).get(ia2).keySet()) {
-     joueurs.add(this.quatreJoueurs.get(ia).get(ia2).get(ia3));
-     this.match(joueurs);
-     }
-     }
-     }
-     }*/
-    public void pourLAntartiqueV2() {
+    public void pourLAntartique() {
         ArrayList<Joueur> joueurs;
         ArrayList<Composition> tousLesMatch = new ArrayList<>();
         tousLesMatch.addAll(this.compoDeuxJoueurs);
@@ -290,6 +235,8 @@ public class Tournoi {
                         break;
                 }
             }
+            
+            partie.afficheResultats();
 
             for (Joueur j : joueurs) {
                 j.reset();

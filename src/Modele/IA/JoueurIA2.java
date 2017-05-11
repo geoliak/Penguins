@@ -24,21 +24,7 @@ public class JoueurIA2 extends JoueurIA {
 
     @Override
     public Case phaseJeu(Plateau plateau) {
-        Case caseChoisie = this.chercherVictime(plateau);
-        //Si elle ne peut tuer personne, alors elle joue aléatoirement
-        if (caseChoisie == null) {
-            Random r = new Random();
-
-            //Choix aléatoire d'un pinguin vivant
-            Pinguin p = super.getPinguinsVivants().get(r.nextInt(super.getPinguinsVivants().size()));
-
-            this.setPinguinCourant(p);
-
-            //Choix aléatoire d'une case
-            ArrayList<Case> casePossibles = p.getPosition().getCasePossibles();
-            caseChoisie = casePossibles.get(r.nextInt(casePossibles.size()));
-        }
-        return caseChoisie;
+        return super.phaseJeuElimination(plateau);
     }
 
 }
