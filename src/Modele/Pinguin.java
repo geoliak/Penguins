@@ -41,7 +41,7 @@ public class Pinguin implements Serializable {
     }
 
     public void coullePinguin() {
-	this.position.setPinguin(null);
+	//this.position.setPinguin(null);
 	this.position.setCoulee(true);
 
 	this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);

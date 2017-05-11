@@ -6,7 +6,7 @@
 package Vue;
 
 import Modele.Couleur;
-import Modele.IA.JoueurIA;
+import Modele.JoueurIA;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
@@ -65,7 +65,8 @@ public class InterfaceFX extends Application {
 	System.out.println(joueurs.size());
 
 	Partie partie = new Partie(plateau, joueurs);
-	DessinateurFX d = new DessinateurFX(gc, root, partie);
+        AnimationFX a = new AnimationFX();
+	DessinateurFX d = new DessinateurFX(gc, root, partie, a);
 
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d, partie);

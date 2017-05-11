@@ -7,6 +7,7 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.JoueurIA;
 import Modele.Pinguin;
 import Modele.Plateau;
 import Vue.DessinateurTexte;

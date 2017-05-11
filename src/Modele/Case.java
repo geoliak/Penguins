@@ -43,6 +43,16 @@ public class Case implements Serializable {
 	this.numColonne = numColonne;
 	this.genereNbPoissons();
     }
+    
+    public Case(int numLigne, int numColonne, int nbPoisson) {
+	this.coulee = false;
+	this.pinguin = null;
+	this.accessible = false;
+	this.voisins = new Case[6];
+	this.numLigne = numLigne;
+	this.numColonne = numColonne;
+	this.nbPoissons = nbPoisson;
+    }
 
     public void genereNbPoissons() {
 	Random r = new Random();

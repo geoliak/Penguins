@@ -18,5 +18,8 @@ public abstract class JoueurHumain extends Joueur {
     }
 
     public abstract Case etablirCoup(Plateau plateau);
-
+    
+    @Override
+    public void attendreCoup(Partie partie){
+    }
 }

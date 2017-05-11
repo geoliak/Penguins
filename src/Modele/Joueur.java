@@ -62,6 +62,8 @@ public abstract class Joueur implements Serializable {
 	    //System.out.println("yolo");
 	}
     }
+    
+    public abstract void attendreCoup(Partie partie);
 
     /**
      * Si cette methode est utilisee par l'IA alors elle va place le pinguin

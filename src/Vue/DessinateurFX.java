@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.animation.Transition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
@@ -44,6 +46,7 @@ import javafx.util.Duration;
  */
 public class DessinateurFX extends Visiteur {
 
+    private AnimationFX a;
     private Partie partie;
     private GraphicsContext gc;
     private Group root;
@@ -54,9 +57,10 @@ public class DessinateurFX extends Visiteur {
     private double height;
     private double width;
 
-    public DessinateurFX(GraphicsContext gc, Group root, Partie partie) {
+    public DessinateurFX(GraphicsContext gc, Group root, Partie partie, AnimationFX a) {
 	this.gc = gc;
 	this.root = root;
+        this.a = a;
 
 	sizeGlacon = 50.0;
 	proportion = 1;
@@ -80,6 +84,7 @@ public class DessinateurFX extends Visiteur {
 	}
 
 	if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
+            System.out.println("CASE ACC");
 	    ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
 	    for (Case c : casesaccessibles) {
 		c.setAccessible(Boolean.TRUE);
@@ -91,14 +96,6 @@ public class DessinateurFX extends Visiteur {
 		plateau.getCases()[i][j].accept(this);
 	    }
 	}
-
-	for (int i = 0; i < rows; i++) {
-	    for (int j = 0; j < columns; j++) {
-		if (plateau.getCases()[i][j].getPinguin() != null) {
-		    plateau.getCases()[i][j].getPinguin().accept(this);
-		}
-	    }
-	}
     }
 
     @Override
@@ -106,6 +103,11 @@ public class DessinateurFX extends Visiteur {
 	if (c.getPinguin() != null && c.getCasePossibles().size() == 0) {
 	    c.setCoulee(Boolean.TRUE);
 	}
+        
+        if(c.getPinguin() != null){
+            c.getPinguin().accept(this);
+        }
+        
 	if (!c.estCoulee() && c.getPolygon()==null) {
 	    Color color = Color.IVORY;
 
@@ -122,14 +124,18 @@ public class DessinateurFX extends Visiteur {
 	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
-	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-		c.getPolygon().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
-	    }
+	    
 
 	    root.getChildren().add(c.getPolygon());
-	} else if(c.estCoulee() && c.getPolygon()!=null){
-            System.out.println("BLABLA");
-            c.getPolygon().setVisible(false);
+	} else if (!c.estCoulee() && c.getPolygon() != null){
+            if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
+                c.getPolygon().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+            } else {
+                c.getPolygon().setEffect(null);
+            }
+        } else if(c.estCoulee() && c.getPolygon()!=null){
+            a.efface(c.getPolygon());
+            c.setPolygon(null);
         }
     }
 
@@ -155,24 +161,35 @@ public class DessinateurFX extends Visiteur {
 
             p.setIv(iv);
 	    root.getChildren().add(p.getIv());
+            partie.setTourFini(true);
 	} else if (p.estVivant() && p.getIv() != null){
-            AnimationFX a = new AnimationFX();
-            a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne());
             
-            if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant()) {
-                System.out.println("POINT ORIGINE PINGOUIN : " + p.getIv().getX() + " " + p.getIv().getY());
+            if(!partie.estEnInitialisation()){
+                if(partie.getJoueurCourant().getPinguinCourant() == p && partie.isTourFini()){
+                    System.out.println(partie.getJoueurCourant());
+                    partie.setTourFini(false);
+                }
+                Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
+                System.out.println(partie.getJoueurCourant());
+                t.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        partie.setTourFini(true);
+                    }
+                });
+            }
+            
+                       
+            
+            if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant() && partie.getJoueurCourant().getEstHumain()) {
+                //System.out.println("POINT ORIGINE PINGOUIN : " + p.getIv().getX() + " " + p.getIv().getY());
 		p.getIv().setEffect(new Bloom());
 	    } else {
                 p.getIv().setEffect(null);
             }
         } else if(!p.estVivant()) {
-            System.out.println("MORT");
-            FadeTransition ft = new FadeTransition(Duration.millis(3000), p.getIv());
-            ft.setFromValue(1.0);
-            ft.setToValue(0.0);
-            ft.play();
-        }
-        
-            
+            a.efface(p.getIv());
+            p.getPosition().setPinguin(null);
+        } 
     }
 }
