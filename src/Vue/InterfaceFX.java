@@ -6,7 +6,7 @@
 package Vue;
 
 import Modele.Couleur;
-import Modele.JoueurIA;
+import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;

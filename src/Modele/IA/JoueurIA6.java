@@ -5,7 +5,6 @@
  */
 package Modele.IA;
 
-import Modele.JoueurIA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Pinguin;
@@ -29,6 +28,8 @@ public class JoueurIA6 extends JoueurIA {
         return super.phaseInitialisationMaxPossibilitee(plateau);
     }
 
+    
+    @Override
     public Case phaseJeu(Plateau plateau) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;

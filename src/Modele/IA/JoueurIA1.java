@@ -5,7 +5,6 @@
  */
 package Modele.IA;
 
-import Modele.JoueurIA;
 import Modele.Couleur;
 import java.util.ArrayList;
 import java.util.Random;

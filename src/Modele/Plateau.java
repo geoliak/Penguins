@@ -50,7 +50,6 @@ public class Plateau implements Serializable {
      * une configuration jouable
      */
     public void initCase() {
-        System.out.println("INIT");
 	int nbCaseUnPoissons = 0;
 	for (int i = 0; i < this.LARGEUR; i++) {
 	    for (int j = 0; j < this.LONGUEUR; j++) {
@@ -71,7 +70,6 @@ public class Plateau implements Serializable {
 		}
 	    }
 	}
-        System.out.println("FIN INIT");
     }
 
     /**
@@ -83,13 +81,11 @@ public class Plateau implements Serializable {
      * @throws IOException
      */
     public void lireFichierJeu(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
-        System.out.println("BLABLA");
 	String ligne;
 	int numLigne = 0;
 	char[] c;
 	//Pour toutes les lignes du fichier
 	while ((ligne = br.readLine()) != null) {
-            System.out.println(numLigne);
 	    c = ligne.toCharArray();
 	    for (int i = 0; i < LONGUEUR; i++) {
 		if (c.length != i && c[i] == '?') {
@@ -101,7 +97,6 @@ public class Plateau implements Serializable {
 	    }
 	    numLigne++;
 	}
-        System.out.println("Fin lecture plateau");
     }
     
     public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
