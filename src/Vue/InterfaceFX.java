@@ -21,6 +21,7 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -35,16 +36,21 @@ import javafx.stage.Stage;
 public class InterfaceFX extends Application {
 
     static Plateau plateau;
+    GraphicsContext gc;
+    Group root;
+    Stage stage;
 
     @Override
     public void start(Stage stage) {
 	stage.setTitle("Nom du jeu");
 
-	Group root = new Group();
+	this.root = new Group();
 //        Parent parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
 	Canvas canvas = new Canvas(1200, 900);
-	GraphicsContext gc = canvas.getGraphicsContext2D();
+	this.gc = canvas.getGraphicsContext2D();
+
+	this.stage = stage;
 
 //        root.getChildren().add(parent);
 	Scene scene = new Scene(root);
@@ -52,8 +58,7 @@ public class InterfaceFX extends Application {
 	scene.setFill(Color.AQUA);
 	stage.setScene(scene);
 
-	File f = new File("ressources/img/pango.png");
-
+//	File f = new File("ressources/img/pango.png");
 	//Image img = new Image(f.toURI().toString());
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
 	plateau.initCase();
@@ -77,12 +82,21 @@ public class InterfaceFX extends Application {
 
 	//Initialisation d'Annuler coup et de capteur de clavier
 	AnnulerCoup histcoup = new AnnulerCoup(partie);
-	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
+	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup, partie, this, stage);
 	scene.setOnKeyPressed(keypresser);
-	partie.setAc(histcoup);
 
 	r.start();
 	stage.show();
+    }
+
+    public void continuer(Stage stage, Partie partie) {
+	Group root2 = new Group();
+	DessinateurFX d = new DessinateurFX(gc, root2, partie);
+	RafraichissementFX r = new RafraichissementFX(d, partie);
+
+	r.start();
+	this.stage.show();
+
     }
 
     /**
