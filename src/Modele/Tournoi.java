@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Modele.IA.JoueurIA;
 import Controleur.CombatIA;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class Tournoi {
     private HashMap<Joueur, Integer> scoreDeuxjoueurs;
     private HashMap<Joueur, Integer> scoreTroisJoueurs;
     private HashMap<Joueur, Integer> scoreQuatrejoueurs;
+
+    private HashMap<Joueur, Integer> nbPartieDeuxjoueurs;
+    private HashMap<Joueur, Integer> nbPartieTroisjoueurs;
+    private HashMap<Joueur, Integer> nbPartieQuatrejoueurs;
 
     private ArrayList<Composition> compoDeuxJoueurs;
     private ArrayList<Composition> compoTroisJoueurs;
@@ -45,6 +50,10 @@ public class Tournoi {
         this.compoTroisJoueurs = new ArrayList<>();
         this.compoQuatreJoueurs = new ArrayList<>();
 
+        this.nbPartieDeuxjoueurs = new HashMap<>();
+        this.nbPartieTroisjoueurs = new HashMap<>();
+        this.nbPartieQuatrejoueurs = new HashMap<>();
+
         this.deuxJoueurs = new HashMap<>();
         this.troisJoueurs = new HashMap<>();
         this.quatreJoueurs = new HashMap<>();
@@ -54,43 +63,7 @@ public class Tournoi {
         this.IA.add(ia);
     }
 
-    /**
-     * reFaire les IFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFff
-     */
     public void initCompo() {
-        for (Joueur ia : this.IA) {
-            this.troisJoueurs.put(ia, new HashMap<>());
-            this.quatreJoueurs.put(ia, new HashMap<>());
-
-            for (Joueur ia2 : this.IA) {
-                //Si ce couple n'existe pas
-                if (ia2 != ia) {
-                    deuxJoueurs.put(ia, ia2);
-
-                    for (Joueur ia3 : this.IA) {
-                        if (ia != ia2 && ia != ia3 && ia3 != ia2) {
-                            this.troisJoueurs.get(ia).put(ia2, ia3);
-
-                            if (this.quatreJoueurs.get(ia).get(ia2) == null) {
-                                this.quatreJoueurs.get(ia).put(ia2, new HashMap<>());
-                            }
-                            for (Joueur ia4 : this.IA) {
-                                if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2) {
-                                    this.quatreJoueurs.get(ia).get(ia2).put(ia3, ia4);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            this.scoreDeuxjoueurs.put(ia, 0);
-            this.scoreTroisJoueurs.put(ia, 0);
-            this.scoreQuatrejoueurs.put(ia, 0);
-        }
-    }
-
-    public void initCompoV2() {
         if (this.IA.size() >= 2) {
             this.initCompoDeuxJoueurs();
             if (this.IA.size() >= 3) {
@@ -99,6 +72,11 @@ public class Tournoi {
                     this.initCompoQuatreJoueurs();
                 }
             }
+        }
+        for (Joueur j : this.IA) {
+            nbPartieDeuxjoueurs.put(j, 0);
+            nbPartieTroisjoueurs.put(j, 0);
+            nbPartieQuatrejoueurs.put(j, 0);
         }
     }
 
@@ -156,26 +134,7 @@ public class Tournoi {
         }
     }
 
-    /*public void pourLAntartique() {
-     ArrayList<Joueur> joueurs;
-     for (Joueur ia : this.deuxJoueurs.keySet()) {
-     joueurs = new ArrayList<>();
-     joueurs.add(ia);
-     joueurs.add(this.deuxJoueurs.get(ia));
-     this.match(joueurs);
-
-     for (Joueur ia2 : this.troisJoueurs.get(ia).keySet()) {
-     joueurs.add(this.troisJoueurs.get(ia).get(ia2));
-     this.match(joueurs);
-
-     for (Joueur ia3 : this.quatreJoueurs.get(ia).get(ia2).keySet()) {
-     joueurs.add(this.quatreJoueurs.get(ia).get(ia2).get(ia3));
-     this.match(joueurs);
-     }
-     }
-     }
-     }*/
-    public void pourLAntartiqueV2() {
+    public void pourLAntartique() {
         ArrayList<Joueur> joueurs;
         ArrayList<Composition> tousLesMatch = new ArrayList<>();
         tousLesMatch.addAll(this.compoDeuxJoueurs);
@@ -189,18 +148,22 @@ public class Tournoi {
     public void match(Composition compo) {
         int nbPinguin = 0;
         HashMap<Joueur, Integer> score = null;
+        HashMap<Joueur, Integer> nbPartie = null;
         ArrayList<Joueur> joueurs = compo.getComposition();
         switch (joueurs.size()) {
             case 2:
                 score = this.scoreDeuxjoueurs;
+                nbPartie = this.nbPartieDeuxjoueurs;
                 nbPinguin = 4;
                 break;
             case 3:
                 score = this.scoreTroisJoueurs;
+                nbPartie = this.nbPartieTroisjoueurs;
                 nbPinguin = 3;
                 break;
             case 4:
                 score = this.scoreQuatrejoueurs;
+                nbPartie = this.nbPartieQuatrejoueurs;
                 nbPinguin = 2;
                 break;
         }
@@ -290,7 +253,15 @@ public class Tournoi {
                 }
             }
 
+            partie.afficheResultats();
+
             for (Joueur j : joueurs) {
+                try {
+                    nbPartie.put(j, nbPartie.get(j) + 1);
+                } catch (Exception e) {
+                    System.out.println("dfgr");
+                }
+
                 j.reset();
             }
             partie.getJoueurCourant().reset();
@@ -311,9 +282,10 @@ public class Tournoi {
             int maxDeux = Integer.MIN_VALUE;
             int maxTrois = Integer.MIN_VALUE;
             int maxQuatre = Integer.MIN_VALUE;
+
             for (Joueur j : this.scoreDeuxjoueurs.keySet()) {
-                if (!afficheCroissantDeux.contains(j) && this.scoreTroisJoueurs.get(j) > maxDeux) {
-                    maxDeux = this.scoreTroisJoueurs.get(j);
+                if (!afficheCroissantDeux.contains(j) && this.scoreDeuxjoueurs.get(j) > maxDeux) {
+                    maxDeux = this.scoreDeuxjoueurs.get(j);
                     joueurMaxDeux = j;
                 }
                 if (!afficheCroissantTrois.contains(j) && this.scoreTroisJoueurs.get(j) > maxTrois) {
@@ -334,19 +306,19 @@ public class Tournoi {
         System.out.println("============ 1 VS 1 ===========");
         System.out.println("===============================");
         for (Joueur j : afficheCroissantDeux) {
-            System.out.println(j + " -> " + this.scoreDeuxjoueurs.get(j) + "\tvictoires ");
+            System.out.println(j + " -> " + this.scoreDeuxjoueurs.get(j) + "\tvictoires (" + ((float) this.scoreDeuxjoueurs.get(j) / this.nbPartieDeuxjoueurs.get(j)) * 100 + " %)");
         }
         System.out.println("\n===============================");
         System.out.println("========= 1 VS 1 VS 1 =========");
         System.out.println("===============================");
         for (Joueur j : afficheCroissantTrois) {
-            System.out.println(j + " -> " + this.scoreTroisJoueurs.get(j) + "\tvictoires ");
+            System.out.println(j + " -> " + this.scoreTroisJoueurs.get(j) + "\tvictoires (" + ((float) this.scoreTroisJoueurs.get(j) / this.nbPartieTroisjoueurs.get(j)) * 100 + " %)");
         }
         System.out.println("\n===============================");
         System.out.println("======= 1 VS 1 VS 1 VS 1 ======");
         System.out.println("===============================");
         for (Joueur j : afficheCroissantQuatre) {
-            System.out.println(j + " -> " + this.scoreQuatrejoueurs.get(j) + "\tvictoires ");
+            System.out.println(j + " -> " + this.scoreQuatrejoueurs.get(j) + "\tvictoires (" + ((float) this.scoreQuatrejoueurs.get(j) / this.nbPartieQuatrejoueurs.get(j)) * 100 + " %)");
         }
 
     }

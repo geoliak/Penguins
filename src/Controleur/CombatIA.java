@@ -14,6 +14,7 @@ import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA4;
 import Modele.IA.JoueurIA5;
 import Modele.IA.JoueurIA6;
+import Modele.IA.JoueurIA8;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
@@ -35,7 +36,7 @@ public class CombatIA {
      */
     public static void main(String[] args) {
 
-	int nbCombats = 500;
+	int nbCombats = 5000;
 	HashMap<Joueur, Integer> victoires = new HashMap<>();
 
 	DessinateurTexte dt = new DessinateurTexte();
@@ -47,10 +48,10 @@ public class CombatIA {
 
 	JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge);
 	JoueurIA6 joueurIA6 = new JoueurIA6(Couleur.Jaune);
+        JoueurIA8 joueurIA8 = new JoueurIA8(Couleur.Jaune);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
-	joueurs.add(joueurIA5);
-	joueurs.add(joueurIA6);
+	joueurs.add(joueurIA8);
 	joueurs.add(joueurIA1);
 
 	for (Joueur j : joueurs) {
