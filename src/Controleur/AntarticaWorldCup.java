@@ -24,7 +24,7 @@ import Vue.DessinateurTexte;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-        Tournoi worldCup = new Tournoi(40);
+        Tournoi worldCup = new Tournoi(1);
 
        /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
         worldCup.ajouterIA(new JoueurIA2(Couleur.Jaune));
@@ -36,11 +36,11 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu));
         //worldCup.ajouterIA(joueurIA6);
 
-        worldCup.initCompo();
+
         
-        worldCup.pourLAntartique();
+        worldCup.executerLesCombats(true, true, true);
         
-        worldCup.afficheResultats();
+        worldCup.afficheResultats(true, true, true);
         
         
         

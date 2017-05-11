@@ -93,7 +93,7 @@ public class CombatIA {
 	    Case caseChoisie;
 	    Joueur joueurCourant = null;
 
-	    for (int i = 0; i < nbPinguin * (joueurs.size() + 1); i++) {
+	    for (int i = 0; i < nbPinguin * (joueurs.size()); i++) {
 		joueurCourant = partie.getJoueurCourant();
 		pinguinPlace = false;
 		while (!pinguinPlace) {
