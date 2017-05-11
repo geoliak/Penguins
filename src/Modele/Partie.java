@@ -68,7 +68,7 @@ public class Partie implements Serializable {
 	}
 
 	if (joueurCourant.getEstHumain()) {
-	    histcoup.Miseajour();
+	    histcoup.sauvegarderCoup();
 	    if (this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation) {
 		this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
 	    } else {
