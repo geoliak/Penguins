@@ -10,6 +10,8 @@ import Modele.Partie;
 import Modele.Plateau;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,18 +32,21 @@ public class AnnulerCoup implements Serializable {
     }
 
     public void Miseajour() {
-	System.out.println(partie.getPlateau());
-	Plateau s = partie.getPlateau();
-	historique_plat.add(s);
-	historique_jenj.add(partie.getJoueursEnJeu());
-	historique_jc.add(partie.getJoueurCourant());
+	historique_plat.add(partie.getPlateau().clone());
+	historique_jenj.add((ArrayList<Joueur>) partie.getJoueursEnJeu().clone());
+	try {
+	    historique_jc.add((Joueur) partie.getJoueurCourant().clone());
+	} catch (CloneNotSupportedException ex) {
+	    Logger.getLogger(AnnulerCoup.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
     }
 
     void annulerDernierCoup() {
 	if (historique_plat.isEmpty() || historique_jenj.isEmpty() || historique_jc.isEmpty()) {
-	    System.err.println("Impossible d'annuler coup");
+	    System.out.println("Impossible d'annuler coup!!");
 	} else {
-	    System.err.println("possible d'annuler coup");
+	    System.out.println("annulation coup!");
 
 	    partie.setPlateau(historique_plat.remove(historique_plat.size() - 1));
 	    partie.setJoueursEnJeu(historique_jenj.remove(historique_jenj.size() - 1));

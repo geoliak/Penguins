@@ -39,6 +39,11 @@ public abstract class Joueur implements Serializable {
 	this.couleur = couleur;
     }
 
+    @Override
+    public Joueur clone() throws CloneNotSupportedException {
+	return (Joueur) (super.clone());
+    }
+
     public void reset() {
 	this.pinguins = new ArrayList<>();
 	this.pinguinCourant = null;
