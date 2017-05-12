@@ -58,14 +58,18 @@ public class EnumIA extends JoueurIA {
                         if (this.estDebutJeu(partie)) {
                             fonction = this.debutJeu.get(i % this.debutJeu.size());
                             caseChoisie = fonction.apply(this, partie);
+                            System.out.println("debutJeu <"+i % this.debutJeu.size()+ ">" + fonction + "\n");
                         } else {
-                            caseChoisie = this.millieuJeu.get(i % this.millieuJeu.size()).apply(this, partie);
+                            fonction = this.millieuJeu.get(i % this.millieuJeu.size());
+                            caseChoisie = fonction.apply(this, partie);
+                            System.out.println("millieuJeu <"+i % this.millieuJeu.size()+ ">" + fonction + "\n");
                         }
                     }
+                    i++;
                 } else {
                     caseChoisie = this.phaseJeuMeilleurChemin(partie);
                 }
-                i++;
+                
             }
         }
 

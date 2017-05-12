@@ -103,7 +103,7 @@ public class JoueurIA extends Joueur {
         if (!super.getPret()) {
             return this.phaseInitialisation(partie);
         } else {
-            return JoueurIA.phaseJeuStatic(this, partie);
+            return this.phaseJeu(partie);
         }
     }
 
@@ -144,6 +144,7 @@ public class JoueurIA extends Joueur {
      * @return
      */
     public static Case phaseInitialisationGourmandeStatic(JoueurIA joueurs, Partie partie) {
+        System.out.println("phaseInitialisationGourmandeStatic");
         Case caseChoisie = null;
         ArrayList<Case> casesAccessible = null;
         int nbPoissons = 3;
@@ -177,6 +178,7 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseInitialisationMaxPossibiliteeStatic(JoueurIA joueurs, Partie partie) {
+        System.out.println("phaseInitialisationMaxPossibiliteeStatic");
         Case caseCourante, CaseRes = null;
         int maxCasesAtteignable = -1;
         ArrayList<Case> casesAtteignable;
@@ -383,6 +385,7 @@ public class JoueurIA extends Joueur {
      * @return Case prochainement joue
      */
     public static Case chercherVictimeStatic(JoueurIA joueur, Partie partie) {
+        System.out.println("chercherVictimeStatic");
         Case caseCourante = null, caseResultat = null;
         ArrayList<Case> mouvementsPossibles;
         CaseCritique cc;
@@ -459,6 +462,7 @@ public class JoueurIA extends Joueur {
      * telle case n'existe pas
      */
     public static Case chercherVictimePremierDuNomStatic(JoueurIA joueur, Partie partie) {
+        System.out.println("chercherVictimePremierDuNomStatic");
         Case caseCourante = null;
         ArrayList<Pinguin> pinguins = new ArrayList<>();
 
@@ -523,6 +527,7 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case chercheIlotStatic(JoueurIA joueur, Partie partie) {
+        System.out.println("chercheIlotStatic");
         ArrayList<CaseCritique> ilotsPossibles = new ArrayList<>();
         ArrayList<Case> casesAccessibles, iceberg;
         int poidsIceberg, maxPoidsIceberg = -1;
