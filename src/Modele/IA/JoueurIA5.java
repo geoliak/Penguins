@@ -35,11 +35,6 @@ public class JoueurIA5 extends JoueurIA {
 
             }
         }
-        
-        caseChoisie = super.phaseJeuMeilleurChemin(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
 
         return super.phaseJeuGourmand(partie);
     }

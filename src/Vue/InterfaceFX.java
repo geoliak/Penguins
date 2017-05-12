@@ -58,7 +58,7 @@ public class InterfaceFX extends Application {
 	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX);
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
         
-        JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+        JoueurIA joueuria = new JoueurIA8(Couleur.RougeFX);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);
