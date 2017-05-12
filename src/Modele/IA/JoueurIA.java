@@ -348,15 +348,30 @@ public class JoueurIA extends Joueur {
         return caseChoisie;
     }
 
+    /*
     public Case sauveQuiPeut(Partie partie) {
         return JoueurIA.sauveQuiPeutStatic(this, partie);
     }
-
+    
+    
     public static Case sauveQuiPeutStatic(JoueurIA joueur, Partie partie) {
         Case caseChoisie = null;
-
+        boolean risque = false;
+        
+        for(Joueur j : partie.getJoueurs()){
+            if(j != joueur){
+                Pinguin pjcourant = j.getPinguinCourant();
+                if(JoueurIA.chercherVictimePremierDuNomStatic(j, partie) == null){
+                    
+                }
+            }
+        }
+        
         return caseChoisie;
     }
+    */
+    
+    
 
     public Case chercherVictime(Partie partie) {
         return JoueurIA.chercherVictimeStatic(this, partie);

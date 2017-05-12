@@ -75,6 +75,15 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                     }
                 }
             }
+            
+            for(Joueur j : partie.getJoueurs()){
+                for(Pinguin p : j.getPinguinsVivants()){                    
+                    if (p.getPosition().estCoulee()) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    }
+                }
+            }
         }
 	
     }

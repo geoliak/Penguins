@@ -28,7 +28,6 @@ public class JoueurIA8 extends JoueurIA {
             caseChoisie = this.chercherVictimePremierDuNom(partie);
             if (caseChoisie != null) {
                 return caseChoisie;
-
             }
         }
 
