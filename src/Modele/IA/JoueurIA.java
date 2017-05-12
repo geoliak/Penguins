@@ -103,7 +103,7 @@ public class JoueurIA extends Joueur {
         if (!super.getPret()) {
             return this.phaseInitialisation(partie);
         } else {
-            return JoueurIA.phaseJeuStatic(this, partie);
+            return this.phaseJeu(partie);
         }
     }
 
