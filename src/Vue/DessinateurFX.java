@@ -87,7 +87,6 @@ public class DessinateurFX extends Visiteur {
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		if (plateau.getCases()[i][j].getPinguin() != null) {
-		    System.out.println("PINGOUIN EN " + i + " " + j);
 		    plateau.getCases()[i][j].getPinguin().accept(this);
 		}
 	    }
@@ -132,7 +131,6 @@ public class DessinateurFX extends Visiteur {
 	}
 
 	if (p.estVivant()) {
-	    System.out.println(p.getGeneral().getCouleur() + "COULEUR" + Couleur.Noir);
 	    ImageView iv = new ImageView(p.getGeneral().getCouleur().getImage());
 
 	    iv.setPreserveRatio(true);

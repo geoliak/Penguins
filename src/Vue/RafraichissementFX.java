@@ -32,7 +32,6 @@ public class RafraichissementFX extends AnimationTimer {
     @Override
     public void handle(long now) {
 	if (partie.getPlateau().isEstModifié()) {
-
 	    d.visite(partie.getPlateau());
 	    partie.getPlateau().setEstModifié(false);
 	}

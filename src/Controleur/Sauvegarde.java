@@ -56,16 +56,21 @@ public class Sauvegarde {
     }
 
     public void Load(int filenum) throws IOException, ClassNotFoundException {
-	ObjectInputStream ois = null;
 	Path filepath = Paths.get(savepath + "/save" + filenum);
+
+	ObjectInputStream ois = null;
 	ois = new ObjectInputStream(new FileInputStream(filepath.toFile()));
+
 	Partie partieacharger = (Partie) ois.readObject();
+
 	partie.setPlateau(partieacharger.getPlateau());
 	partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
 	partie.setJoueurs(partieacharger.getJoueurs());
 	partie.setJoueurCourant(partieacharger.getJoueurCourant());
 	partie.setNbPingouinParJoueur();
 	partie.setInitialisation(partieacharger.getInitialisation());
+	partie.getPlateau().setEstModifié(true);
 
+//	partie = partieacharger;
     }
 }

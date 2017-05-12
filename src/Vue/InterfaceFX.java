@@ -16,6 +16,7 @@ import Modele.JoueurHumainLocal;
 import Modele.Partie;
 import Modele.Plateau;
 import java.io.File;
+import static java.time.Instant.now;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -38,7 +39,6 @@ public class InterfaceFX extends Application {
     static Plateau plateau;
     GraphicsContext gc;
     Group root;
-    Stage stage;
 
     @Override
     public void start(Stage stage) {
@@ -49,8 +49,6 @@ public class InterfaceFX extends Application {
 
 	Canvas canvas = new Canvas(1200, 900);
 	this.gc = canvas.getGraphicsContext2D();
-
-	this.stage = stage;
 
 //        root.getChildren().add(parent);
 	Scene scene = new Scene(root);
@@ -90,17 +88,43 @@ public class InterfaceFX extends Application {
     }
 
     public void continuer(Stage stage, Partie partie) {
-	Group root2 = new Group();
-	DessinateurFX d = new DessinateurFX(gc, root2, partie);
+	stage.setTitle("Nom du jeu");
+
+	this.root = new Group();
+//        Parent parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+
+	Canvas canvas = new Canvas(1200, 900);
+	this.gc = canvas.getGraphicsContext2D();
+
+	Scene scene = new Scene(root);
+	root.getChildren().add(canvas);
+	scene.setFill(Color.AQUA);
+	stage.setScene(scene);
+
+//	File f = new File("ressources/img/pango.png");
+	//Image img = new Image(f.toURI().toString());
+	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
+	plateau.initCase();
+
+	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX);
+	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
+
+	JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+
+//	partie = new Partie(plateau, joueurs);
+	DessinateurFX d = new DessinateurFX(gc, root, partie);
 	RafraichissementFX r = new RafraichissementFX(d, partie);
+	d.visite(plateau);
+	plateau.setEstModifié(true);
 
 	r.start();
-	this.stage.show();
+	stage.show();
 
     }
 
     /**
      * @param args the command line arguments
+     * @param p
      */
     public static void creer(String[] args, Plateau p) {
 	plateau = p;
