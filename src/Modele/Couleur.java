@@ -6,6 +6,7 @@
 package Modele;
 
 import java.io.File;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -27,6 +28,8 @@ public enum Couleur {
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    
+    public static final Couleur[] VALEURS = {Couleur.Bleu, Couleur.Jaune, Couleur.Rouge, Couleur.Vert};
 
     private String colorAccessible;
     private String colorBackground;
@@ -43,7 +46,7 @@ public enum Couleur {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
-	setImage(f);
+	//setImage(f);
     }
 
     public void setImage(File f) {
