@@ -70,7 +70,7 @@ public class Test {
 		joueurCourant = partie.getJoueurCourant();
 		pinguinPlace = false;
 		while (!pinguinPlace) {
-		    caseChoisie = joueurCourant.etablirCoup(plateau);
+		    caseChoisie = joueurCourant.etablirCoup(partie);
 		    numLigne = caseChoisie.getNumLigne();
 		    numColonne = caseChoisie.getNumColonne();
 
@@ -114,7 +114,7 @@ public class Test {
 			//Si le joueur est humain
 			if (joueurCourant.getEstHumain()) {
 			    System.out.println("== Veuillez selectionner un pinguin ");
-			    s = joueurCourant.etablirCoup(plateau);
+			    s = joueurCourant.etablirCoup(partie);
 
 			    //Si case libre
 			    if (s.getPinguin() != null && s.getPinguin().getGeneral() == joueurCourant) {
@@ -124,7 +124,7 @@ public class Test {
 				plateau.desurligneCases(casesPossibles);
 
 				System.out.print("Veuillez Selectionner une case ");
-				d = joueurCourant.etablirCoup(plateau);
+				d = joueurCourant.etablirCoup(partie);
 
 				//Si case accessible
 				if (casesPossibles.contains(d)) {
@@ -142,7 +142,7 @@ public class Test {
 
 			    //Si IA
 			} else {
-			    joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
+			    joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
 			    aJoue = true;
 			}
 		    } else {

@@ -8,6 +8,7 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Joueur;
+import Modele.Partie;
 import Modele.Plateau;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,15 +21,15 @@ import java.util.function.Function;
  */
 public class GenereIA {
 
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> initialisation;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> initialisation;
 
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeu;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeuCertain;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeuElimination;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> debutJeu;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> debutJeuCertain;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> debutJeuElimination;
 
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeu;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeuCertain;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeuElimination;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> millieuJeu;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> millieuJeuCertain;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> millieuJeuElimination;
 
     private ArrayList<JoueurIA> enumeration;
 
@@ -139,31 +140,31 @@ public class GenereIA {
         return enumeration;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getInitialisation() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getInitialisation() {
         return initialisation;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeu() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getDebutJeu() {
         return debutJeu;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeuCertain() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getDebutJeuCertain() {
         return debutJeuCertain;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeuElimination() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getDebutJeuElimination() {
         return debutJeuElimination;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeu() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getMillieuJeu() {
         return millieuJeu;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeuCertain() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getMillieuJeuCertain() {
         return millieuJeuCertain;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeuElimination() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getMillieuJeuElimination() {
         return millieuJeuElimination;
     }
 

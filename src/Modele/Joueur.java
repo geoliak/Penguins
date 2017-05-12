@@ -75,7 +75,7 @@ public abstract class Joueur implements Serializable {
      * @param plateau : plateau de jeu
      * @return Case : case jouee
      */
-    public abstract Case etablirCoup(Plateau plateau);
+    public abstract Case etablirCoup(Partie partie);
 
     public int getAge() {
 	return age;

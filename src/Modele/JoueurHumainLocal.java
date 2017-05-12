@@ -24,7 +24,7 @@ public class JoueurHumainLocal extends JoueurHumain {
      * @return la case, non verifiee, désignee par le joueur
      */
     @Override
-    public Case etablirCoup(Plateau plateau) {
+    public Case etablirCoup(Partie partie) {
         Scanner sc = new Scanner(System.in);
         int numLigne, numColonne;
 
@@ -40,7 +40,7 @@ public class JoueurHumainLocal extends JoueurHumain {
             numColonne = sc.nextInt();
         } while (numColonne < 0 || numColonne >= Plateau.LONGUEUR);
 
-        return plateau.getCases()[numLigne][numColonne];
+        return partie.getPlateau().getCases()[numLigne][numColonne];
     }
 
 }

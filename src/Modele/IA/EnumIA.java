@@ -7,6 +7,7 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.Partie;
 import Modele.Plateau;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,9 +20,9 @@ import java.util.function.Function;
  */
 public class EnumIA extends JoueurIA {
 
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> initialisation;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeu;
-    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeu;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> initialisation;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> debutJeu;
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> millieuJeu;
 
     private int generation;
     public static final double TAUX_DE_MUTATION = 0.05;
@@ -35,32 +36,34 @@ public class EnumIA extends JoueurIA {
     }
 
     @Override
-    public Case etablirCoup(Plateau plateau) {
+    public Case etablirCoup(Partie partie) {
         Random r = new Random();
         Case caseChoisie = null;
+        BiFunction<JoueurIA, Partie, Case> fonction;
         int i = 0;
 
         if (!super.getPret()) {
             while (caseChoisie == null) {
                 if (r.nextFloat() < 0.75) {
-                    caseChoisie = this.initialisation.get(i % this.initialisation.size()).apply(this, plateau); //pour l'instant
+                    caseChoisie = this.initialisation.get(i % this.initialisation.size()).apply(this, partie); //pour l'instant
                 }
                 i++;
             }
 
         } else {
             while (caseChoisie == null) {
-                if (!this.estFinJeu(plateau)) {
+                if (!this.estFinJeu(partie)) {
                     //saute l'allele 50% de chance
                     if (r.nextBoolean()) {
-                        if (this.estDebutJeu(plateau)) {
-                            caseChoisie = this.debutJeu.get(i % this.debutJeu.size()).apply(this, plateau);
+                        if (this.estDebutJeu(partie)) {
+                            fonction = this.debutJeu.get(i % this.debutJeu.size());
+                            caseChoisie = fonction.apply(this, partie);
                         } else {
-                            caseChoisie = this.millieuJeu.get(i % this.millieuJeu.size()).apply(this, plateau);
+                            caseChoisie = this.millieuJeu.get(i % this.millieuJeu.size()).apply(this, partie);
                         }
                     }
                 } else {
-                    caseChoisie = this.phaseJeuMeilleurChemin(plateau);
+                    caseChoisie = this.phaseJeuMeilleurChemin(partie);
                 }
                 i++;
             }
@@ -121,7 +124,7 @@ public class EnumIA extends JoueurIA {
         return enfant;
     }
 
-    private void fusionGenes(EnumIA enfant, ArrayList<BiFunction<JoueurIA, Plateau, Case>> yin, ArrayList<BiFunction<JoueurIA, Plateau, Case>> yang) {
+    private void fusionGenes(EnumIA enfant, ArrayList<BiFunction<JoueurIA, Partie, Case>> yin, ArrayList<BiFunction<JoueurIA, Partie, Case>> yang) {
         int i = 0;
         Random r = new Random();
         while (i < yin.size()) {
@@ -156,39 +159,39 @@ public class EnumIA extends JoueurIA {
         return generation;
     }
 
-    public void ajouterInitialisation(BiFunction<JoueurIA, Plateau, Case> init) {
+    public void ajouterInitialisation(BiFunction<JoueurIA, Partie, Case> init) {
         this.initialisation.add(init);
     }
 
-    public void ajouterDebut(BiFunction<JoueurIA, Plateau, Case> debut) {
+    public void ajouterDebut(BiFunction<JoueurIA, Partie, Case> debut) {
         this.debutJeu.add(debut);
     }
 
-    public void ajouterMilieu(BiFunction<JoueurIA, Plateau, Case> millieu) {
+    public void ajouterMilieu(BiFunction<JoueurIA, Partie, Case> millieu) {
         this.millieuJeu.add(millieu);
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getInitialisation() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getInitialisation() {
         return initialisation;
     }
 
-    public void setInitialisation(ArrayList<BiFunction<JoueurIA, Plateau, Case>> initialisation) {
+    public void setInitialisation(ArrayList<BiFunction<JoueurIA, Partie, Case>> initialisation) {
         this.initialisation = initialisation;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeu() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getDebutJeu() {
         return debutJeu;
     }
 
-    public void setDebutJeu(ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeu) {
+    public void setDebutJeu(ArrayList<BiFunction<JoueurIA, Partie, Case>> debutJeu) {
         this.debutJeu = debutJeu;
     }
 
-    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeu() {
+    public ArrayList<BiFunction<JoueurIA, Partie, Case>> getMillieuJeu() {
         return millieuJeu;
     }
 
-    public void setMillieuJeu(ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeu) {
+    public void setMillieuJeu(ArrayList<BiFunction<JoueurIA, Partie, Case>> millieuJeu) {
         this.millieuJeu = millieuJeu;
     }
 

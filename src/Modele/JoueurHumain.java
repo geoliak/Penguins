@@ -17,7 +17,7 @@ public abstract class JoueurHumain extends Joueur {
 	this.setEstHumain(true);
     }
 
-    public abstract Case etablirCoup(Plateau plateau);
+    public abstract Case etablirCoup(Partie partie);
     
     @Override
     public void attendreCoup(Partie partie){
