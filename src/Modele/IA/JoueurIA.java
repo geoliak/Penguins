@@ -346,10 +346,12 @@ public class JoueurIA extends Joueur {
         return caseChoisie;
     }
 
+    /*
     public Case sauveQuiPeut(Partie partie) {
         return JoueurIA.sauveQuiPeutStatic(this, partie);
     }
-
+    
+    
     public static Case sauveQuiPeutStatic(JoueurIA joueur, Partie partie) {
         Case caseChoisie = null;
         boolean risque = false;
@@ -365,6 +367,7 @@ public class JoueurIA extends Joueur {
         
         return caseChoisie;
     }
+    */
     
     
 
