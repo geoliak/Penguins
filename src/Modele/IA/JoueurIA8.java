@@ -7,6 +7,7 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.Partie;
 import Modele.Plateau;
 
 /**
@@ -20,22 +21,22 @@ public class JoueurIA8 extends JoueurIA {
     }
 
     @Override
-    public Case phaseJeu(Plateau plateau) {
+    public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
         if (super.getChemin().isEmpty()) {
-            caseChoisie = this.chercherVictimePremierDuNom(plateau);
+            caseChoisie = this.chercherVictimePremierDuNom(partie);
             if (caseChoisie != null) {
                 return caseChoisie;
 
             }
         }
 
-        caseChoisie = super.phaseJeuMeilleurChemin(plateau);
+        caseChoisie = super.phaseJeuMeilleurChemin(partie);
         if (caseChoisie != null) {
             return caseChoisie;
         }
 
-        return super.phaseJeuGourmand(plateau);
+        return super.phaseJeuGourmand(partie);
     }
 }

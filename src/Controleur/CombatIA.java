@@ -97,7 +97,7 @@ public class CombatIA {
 		joueurCourant = partie.getJoueurCourant();
 		pinguinPlace = false;
 		while (!pinguinPlace) {
-		    caseChoisie = joueurCourant.etablirCoup(plateau);
+		    caseChoisie = joueurCourant.etablirCoup(partie);
 		    numLigne = caseChoisie.getNumLigne();
 		    numColonne = caseChoisie.getNumColonne();
 
@@ -135,7 +135,7 @@ public class CombatIA {
 
 		    //Si le joueur n'est pas elimine
 		    if (joueurCourant.estEnJeu()) {
-			joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
+			joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
 			aJoue = true;
 		    } else {
 			aJoue = true;

@@ -7,6 +7,7 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class JoueurIA2 extends JoueurIA {
     }
 
     @Override
-    public Case phaseJeu(Plateau plateau) {
-        return super.phaseJeuElimination(plateau);
+    public Case phaseJeu(Partie partie) {
+        return super.phaseJeuElimination(partie);
     }
 
 }

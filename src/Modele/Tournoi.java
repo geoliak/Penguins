@@ -200,7 +200,7 @@ public class Tournoi {
                 joueurCourant = partie.getJoueurCourant();
                 pinguinPlace = false;
                 while (!pinguinPlace) {
-                    caseChoisie = joueurCourant.etablirCoup(plateau);
+                    caseChoisie = joueurCourant.etablirCoup(partie);
                     numLigne = caseChoisie.getNumLigne();
                     numColonne = caseChoisie.getNumColonne();
 
@@ -238,8 +238,7 @@ public class Tournoi {
 
                     //Si le joueur n'est pas elimine
                     if (joueurCourant.estEnJeu()) {
-                        System.out.println("Joueur courant " + joueurCourant + " - nbPinguinVivants : " + joueurCourant.getPinguinsVivants().size());
-                        joueurCourant.joueCoup(joueurCourant.etablirCoup(plateau));
+                        joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
                         aJoue = true;
                     } else {
                         aJoue = true;
