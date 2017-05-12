@@ -11,7 +11,7 @@ import Modele.Joueur;
 import Modele.Plateau;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Consumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -20,54 +20,54 @@ import java.util.function.Function;
  */
 public class GenereIA {
 
-    private ArrayList<Function<Plateau, Case>> initialisation;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> initialisation;
 
-    private ArrayList<Function<Plateau, Case>> debutJeu;
-    private ArrayList<Function<Plateau, Case>> debutJeuCertain;
-    private ArrayList<Function<Plateau, Case>> debutJeuElimination;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeu;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeuCertain;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> debutJeuElimination;
 
-    private ArrayList<Function<Plateau, Case>> millieuJeu;
-    private ArrayList<Function<Plateau, Case>> millieuJeuCertain;
-    private ArrayList<Function<Plateau, Case>> millieuJeuElimination;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeu;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeuCertain;
+    private ArrayList<BiFunction<JoueurIA, Plateau, Case>> millieuJeuElimination;
 
     private ArrayList<JoueurIA> enumeration;
 
     public GenereIA(JoueurIA IA) {
         //Methode pouvant etre utilisées pour l'initialisation
         this.initialisation = new ArrayList<>();
-        this.initialisation.add(IA::phaseInitialisation);
-        this.initialisation.add(IA::phaseInitialisationGourmande);
-        this.initialisation.add(IA::phaseInitialisationMaxPossibilitee);
+        this.initialisation.add(JoueurIA::phaseInitialisationStatic);
+        this.initialisation.add(JoueurIA::phaseInitialisationGourmandeStatic);
+        this.initialisation.add(JoueurIA::phaseInitialisationMaxPossibiliteeStatic);
 
         //Methode pouvant etre utilisées pour le debut de partie
         this.debutJeu = new ArrayList<>();
         this.debutJeuCertain = new ArrayList<>();
         this.debutJeuElimination = new ArrayList<>();
         //this.debutJeuCertain.add(IA::phaseJeu);
-        this.debutJeuCertain.add(IA::phaseJeuGourmand);
-        this.debutJeuCertain.add(IA::phaseJeuMaxPossibilitee);
+        this.debutJeuCertain.add(JoueurIA::phaseJeuGourmand);
+        this.debutJeuCertain.add(JoueurIA::phaseJeuMaxPossibilitee);
 
-        this.debutJeuElimination.add(IA::phaseJeuElimination);
-        this.debutJeuElimination.add(IA::chercherVictimePremierDuNom);
+        this.debutJeuElimination.add(JoueurIA::phaseJeuElimination);
+        this.debutJeuElimination.add(JoueurIA::chercherVictimePremierDuNom);
 
-        this.debutJeu.add(IA::chercheIlot);
-        this.debutJeu.add(IA::phaseJeuElimination);
-        this.debutJeu.add(IA::chercherVictimePremierDuNom);
+        this.debutJeu.add(JoueurIA::chercheIlot);
+        this.debutJeu.add(JoueurIA::phaseJeuElimination);
+        this.debutJeu.add(JoueurIA::chercherVictimePremierDuNom);
 
         //Methode pouvant etre utilisées pour le millieu de partie
         this.millieuJeu = new ArrayList<>();
         this.millieuJeuCertain = new ArrayList<>();
         this.millieuJeuElimination = new ArrayList<>();
         //this.millieuJeuCertain.add(IA::phaseJeu);
-        this.millieuJeuCertain.add(IA::phaseJeuGourmand);
-        this.millieuJeuCertain.add(IA::phaseJeuMaxPossibilitee);
+        this.millieuJeuCertain.add(JoueurIA::phaseJeuGourmand);
+        this.millieuJeuCertain.add(JoueurIA::phaseJeuMaxPossibilitee);
 
-        this.millieuJeuElimination.add(IA::phaseJeuElimination);
-        this.millieuJeuElimination.add(IA::chercherVictimePremierDuNom);
+        this.millieuJeuElimination.add(JoueurIA::phaseJeuElimination);
+        this.millieuJeuElimination.add(JoueurIA::chercherVictimePremierDuNom);
 
-        this.millieuJeu.add(IA::chercheIlot);
-        this.millieuJeu.add(IA::phaseJeuElimination);
-        this.millieuJeu.add(IA::chercherVictimePremierDuNom);
+        this.millieuJeu.add(JoueurIA::chercheIlot);
+        this.millieuJeu.add(JoueurIA::phaseJeuElimination);
+        this.millieuJeu.add(JoueurIA::chercherVictimePremierDuNom);
 
         this.enumeration = new ArrayList<>();
     }
@@ -139,31 +139,31 @@ public class GenereIA {
         return enumeration;
     }
 
-    public ArrayList<Function<Plateau, Case>> getInitialisation() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getInitialisation() {
         return initialisation;
     }
 
-    public ArrayList<Function<Plateau, Case>> getDebutJeu() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeu() {
         return debutJeu;
     }
 
-    public ArrayList<Function<Plateau, Case>> getDebutJeuCertain() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeuCertain() {
         return debutJeuCertain;
     }
 
-    public ArrayList<Function<Plateau, Case>> getDebutJeuElimination() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getDebutJeuElimination() {
         return debutJeuElimination;
     }
 
-    public ArrayList<Function<Plateau, Case>> getMillieuJeu() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeu() {
         return millieuJeu;
     }
 
-    public ArrayList<Function<Plateau, Case>> getMillieuJeuCertain() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeuCertain() {
         return millieuJeuCertain;
     }
 
-    public ArrayList<Function<Plateau, Case>> getMillieuJeuElimination() {
+    public ArrayList<BiFunction<JoueurIA, Plateau, Case>> getMillieuJeuElimination() {
         return millieuJeuElimination;
     }
 
