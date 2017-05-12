@@ -630,7 +630,6 @@ public class JoueurIA extends Joueur {
         return caseCritique;
     }
     
-    public Case
 
     public ArrayList<Case> getChemin() {
         return chemin;
