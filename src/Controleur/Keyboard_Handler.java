@@ -7,7 +7,6 @@ package Controleur;
 
 import Modele.Partie;
 import Vue.InterfaceFX;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javax.swing.JButton;
 
 /**
  *
