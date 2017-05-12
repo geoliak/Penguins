@@ -58,6 +58,7 @@ public class RafraichissementFX extends AnimationTimer {
             if (partie.isTourFini()) {
                 partie.getJoueurCourant().attendreCoup(partie);
 
+                
             }
             for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {

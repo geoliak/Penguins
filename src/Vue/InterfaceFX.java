@@ -13,6 +13,7 @@ import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
@@ -41,6 +42,7 @@ public class InterfaceFX extends Application {
 
     @Override
     public void start(Stage stage) {
+        System.out.println("start");
 	stage.setTitle("Nom du jeu");
 
 	this.root = new Group();
@@ -57,12 +59,16 @@ public class InterfaceFX extends Application {
 
 	//Image img = new Image(f.toURI().toString());
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
-	plateau.initCase();
+	//plateau.initCase();
 
 	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX);
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
         
+<<<<<<< HEAD
         JoueurIA joueuria = new JoueurIA8(Couleur.RougeFX);
+=======
+        JoueurIA joueuria = new JoueurIASauveQuiPeut(Couleur.RougeFX);
+>>>>>>> c5f8990501acbf5be44716683b4859baacce62fc
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurH1);
@@ -83,6 +89,7 @@ public class InterfaceFX extends Application {
 	scene.setOnKeyPressed(keypresser);
 
 	r.start();
+        
 	stage.show();
     }
 
@@ -91,6 +98,7 @@ public class InterfaceFX extends Application {
      * @param p
      */
     public static void creer(String[] args, Plateau p) {
+        System.out.println("creer");
 	plateau = p;
 	launch(args);
     }

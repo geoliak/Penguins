@@ -11,6 +11,7 @@ import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -83,6 +84,10 @@ public class JoueurIA extends Joueur {
                 }
             }
         }
+             
+        DessinateurTexte d = new DessinateurTexte();
+        partie.getPlateau().accept(d);
+
     }
 
     @Override
@@ -376,30 +381,36 @@ public class JoueurIA extends Joueur {
         return caseChoisie;
     }
 
-    /*
-    public Case sauveQuiPeut(Partie partie) {
-        return JoueurIA.sauveQuiPeutStatic(this, partie);
+    public Case sauveQuiPeutBasique(Partie partie) {
+        return JoueurIA.sauveQuiPeutBasiqueStatic(this, partie);
     }
     
     
-    public static Case sauveQuiPeutStatic(JoueurIA joueur, Partie partie) {
+    public static Case sauveQuiPeutBasiqueStatic(Joueur joueur, Partie partie) {
         Case caseChoisie = null;
         boolean risque = false;
         
-        for(Joueur j : partie.getJoueurs()){
-            if(j != joueur){
-                Pinguin pjcourant = j.getPinguinCourant();
-                if(JoueurIA.chercherVictimePremierDuNomStatic(j, partie) == null){
-                    
+        /* Récupère les pingouins menacés */
+        ArrayList<Pinguin> pingouinsMenace = new ArrayList<>();
+        
+        for(Pinguin p : joueur.getPinguinsVivants()){
+            if(p.getPosition().getCasePossibles().size() == 1){
+                Case c = p.getPosition().getCasePossibles().get(0);
+                for(Joueur j : partie.getJoueurs()){
+                    for(Pinguin p2 : j.getPinguinsVivants()){
+                        if(p2.getPosition().getCasePossibles().contains(c)){
+                            pingouinsMenace.add(p);
+                        }
+                    }
                 }
             }
-        }
+        }     
+        
+        /* Si plusieurs pingouins menacés, choix du pingouin à sauver */
+        
         
         return caseChoisie;
-    }
-    */
-    
-    
+    } 
 
     public Case chercherVictime(Partie partie) {
         return JoueurIA.chercherVictimeStatic(this, partie);
@@ -412,7 +423,7 @@ public class JoueurIA extends Joueur {
      * @param plateau : plateau de jeu
      * @return Case prochainement joue
      */
-    public static Case chercherVictimeStatic(JoueurIA joueur, Partie partie) {
+    public static Case chercherVictimeStatic(Joueur joueur, Partie partie) {
         System.out.println("chercherVictimeStatic");
         Case caseCourante = null, caseResultat = null;
         ArrayList<Case> mouvementsPossibles;
@@ -439,7 +450,7 @@ public class JoueurIA extends Joueur {
                         }
 
                         //Si on peut isoler un pinguin sur un ilot
-                    } else if ((cc = joueur.estIlot(caseCourante, partie.getPlateau())) != null) {
+                    } else if ((cc = JoueurIA.estIlot(caseCourante, partie.getPlateau())) != null) {
                         caseCourante.setCoulee(Boolean.TRUE);
 
                         int poidsIlot1 = partie.getPlateau().getPoidsIceberg(cc.getIlot1()) / partie.getPlateau().getNbJoueurIceberg(cc.getIlot1());
@@ -489,7 +500,7 @@ public class JoueurIA extends Joueur {
      * @return Une case permettant de tuer un pinguin adverse ou null si une
      * telle case n'existe pas
      */
-    public static Case chercherVictimePremierDuNomStatic(JoueurIA joueur, Partie partie) {
+    public static Case chercherVictimePremierDuNomStatic(Joueur joueur, Partie partie) {
         System.out.println("chercherVictimePremierDuNomStatic");
         Case caseCourante = null;
         ArrayList<Pinguin> pinguins = new ArrayList<>();
