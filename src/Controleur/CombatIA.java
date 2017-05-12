@@ -142,7 +142,7 @@ public class CombatIA {
 		    }
 
 		}
-		plateau.accept(dt);
+		//plateau.accept(dt);
 		partie.joueurSuivant();
 	    }
 

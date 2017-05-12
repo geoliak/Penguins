@@ -328,8 +328,9 @@ public class JoueurIA extends Joueur {
             /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
              System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
              this.afficherChemin();*/
+            
+            
             caseChoisie = joueur.chemin.remove(0);
-
         } else if (sontSeuls && joueur.chemin.isEmpty()) {
             Random r = new Random();
 
@@ -352,24 +353,26 @@ public class JoueurIA extends Joueur {
             }
             
             //Methode1 75%  du meilleur chemin
-            //joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), tailleMaximale));
+            joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) (tailleMaximale * 0.75)));
             
             
             //Methode2 100% à 3sec max
-            EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur.getChemin());
+            /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
             meilleurChemin.start();
             
             long startTime ;
 
             startTime = System.nanoTime();
-            while (joueur.getChemin().size() != tailleMaximale && System.nanoTime() - startTime < 3E9) {
+            while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
+                //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
             }
             meilleurChemin.stopThread();
             try {
                 meilleurChemin.join();
+                System.out.println("Deces " + (System.nanoTime() - startTime));
             } catch (InterruptedException ex) {
                 Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
 
             /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
              System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());

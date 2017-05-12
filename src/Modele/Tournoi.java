@@ -207,7 +207,7 @@ public class Tournoi {
                     if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
                         joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
                         pinguinPlace = true;
-                        plateau.accept(dt);
+                        //plateau.accept(dt);
                     } else {
                         System.out.println("Cette case est occupée ou coulé ou n'a pas un poisson");
                     }
