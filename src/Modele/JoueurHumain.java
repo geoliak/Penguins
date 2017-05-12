@@ -21,5 +21,6 @@ public abstract class JoueurHumain extends Joueur {
     
     @Override
     public void attendreCoup(Partie partie){
+        
     }
 }

@@ -68,7 +68,7 @@ public class InterfaceFX extends Application {
 
 	Partie partie = new Partie(plateau, joueurs);
         AnimationFX a = new AnimationFX();
-	DessinateurFX d = new DessinateurFX(root, partie, a);
+	DessinateurFX d = new  DessinateurFX(root, partie, a);
 
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d, partie);

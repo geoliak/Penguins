@@ -55,8 +55,8 @@ public class RafraichissementFX extends AnimationTimer {
             }
             if(partie.isTourFini()){
                 partie.getJoueurCourant().attendreCoup(partie);
+                
             }
-            
             for(Joueur j : partie.getJoueurs()){
                 for(Pinguin p : j.getPinguinsVivants()){                    
                     if (p.getPosition().estCoulee()) {
@@ -65,6 +65,8 @@ public class RafraichissementFX extends AnimationTimer {
                     }
                 }
             }
+            
+            
         } else {
             System.out.println("PARTIE TERMINEE ===============");
             partie.afficheResultats();

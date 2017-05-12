@@ -23,7 +23,7 @@ public enum Couleur {
     RougeFX("\u001B[31m", "\u001B[41m", Color.RED, new File("ressources/img/pingouin_rouge_mini.png")),
     VioletFX("\u001B[34m", "\u001B[44m", Color.BLUE, new File("ressources/img/pingouin_violet_mini.png")),
     VertFX("\u001B[32m", "\u001B[42m", Color.GREEN, new File("ressources/img/pingouin_vert_mini.png")),
-    JauneFX("\u001B[33m", "\u001B[43m", Color.YELLOW, new File("ressources/img/pingouin_jaune_pion.png"));
+    JauneFX("\u001B[33m", "\u001B[43m", Color.YELLOW, new File("ressources/img/pingouin_jaune_mini.png"));
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_PURPLE = "\u001B[35m";
