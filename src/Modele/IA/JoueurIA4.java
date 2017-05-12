@@ -5,9 +5,9 @@
  */
 package Modele.IA;
 
-import Modele.JoueurIA;
 import Modele.Case;
 import Modele.Couleur;
+import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
 import java.util.ArrayList;
@@ -28,53 +28,13 @@ public class JoueurIA4 extends JoueurIA {
     }
 
     @Override
-    public Case phaseInitialisation(Plateau plateau) {
-        Case caseChoisie = null;
-        ArrayList<Case> casesAccessible = null;
-        int nbPoissons = 3;
-        Random r = new Random();
-        int debutligne = r.nextInt(plateau.getNbLignes());
-        int debutColonne = r.nextInt(plateau.getNbColonnes());
-
-        while (nbPoissons > 0) {
-            for (int i = debutligne; i < debutligne + plateau.getNbLignes(); i++) {
-                for (int j = debutColonne; j < debutColonne + plateau.getNbColonnes(); j++) {
-                    Case caseCourante = plateau.getCases()[i % plateau.getNbLignes()][j % plateau.getNbColonnes()];
-                    if (caseCourante != null && !caseCourante.estCoulee() && caseCourante.getNbPoissons() == 1 && caseCourante.getPinguin() == null) {
-                        casesAccessible = caseCourante.getCasePossibles();
-                        for (Case c : casesAccessible) {
-                            if (c.getNbPoissons() == nbPoissons) {
-                                return caseCourante;
-                            }
-                        }
-                    }
-                }
-            }
-            nbPoissons--;
-        }
-
-        return caseChoisie;
+    public Case phaseInitialisation(Partie partie) {
+        return super.phaseInitialisationGourmande(partie);
     }
 
     @Override
-    public Case phaseJeu(Plateau plateau) {
-        Case caseChoisie = null;
-        ArrayList<Case> casesAccessible = null;
-        int nbPoissons = 3;
-        while (nbPoissons > 0) {
-            for (Pinguin p : super.getPinguinsVivants()) {
-                casesAccessible = p.getPosition().getCasePossibles();
-                for (Case caseCourante : casesAccessible) {
-                    if (caseCourante.getNbPoissons() == nbPoissons) {
-                        super.setPinguinCourant(p);
-                        return caseCourante;
-                    }
-                }
-            }
-            nbPoissons--;
-        }
-
-        return caseChoisie;
+    public Case phaseJeu(Partie partie) {
+        return super.phaseJeuGourmand(partie);
     }
 
 }

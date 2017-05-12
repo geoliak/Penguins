@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -27,7 +28,6 @@ public class Plateau implements Serializable {
 
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
         this.cases = new Case[LARGEUR][LONGUEUR];
-        
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
 	String ligne;
 	ligne = br.readLine();
@@ -42,7 +42,7 @@ public class Plateau implements Serializable {
     }
 
     private Plateau() {
-	this.cases = new Case[LARGEUR][LONGUEUR];
+        this.cases = new Case[LARGEUR][LONGUEUR];
     }
 
     /**
@@ -50,7 +50,6 @@ public class Plateau implements Serializable {
      * une configuration jouable
      */
     public void initCase() {
-        System.out.println("INIT");
 	int nbCaseUnPoissons = 0;
 	for (int i = 0; i < this.LARGEUR; i++) {
 	    for (int j = 0; j < this.LONGUEUR; j++) {
@@ -71,7 +70,6 @@ public class Plateau implements Serializable {
 		}
 	    }
 	}
-        System.out.println("FIN INIT");
     }
 
     /**
@@ -83,13 +81,11 @@ public class Plateau implements Serializable {
      * @throws IOException
      */
     public void lireFichierJeu(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
-        System.out.println("BLABLA");
 	String ligne;
 	int numLigne = 0;
 	char[] c;
 	//Pour toutes les lignes du fichier
 	while ((ligne = br.readLine()) != null) {
-            System.out.println(numLigne);
 	    c = ligne.toCharArray();
 	    for (int i = 0; i < LONGUEUR; i++) {
 		if (c.length != i && c[i] == '?') {
@@ -101,10 +97,10 @@ public class Plateau implements Serializable {
 	    }
 	    numLigne++;
 	}
-        System.out.println("Fin lecture plateau");
     }
     
     public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
+        System.out.println("test");
 	String ligne;
 	int numLigne = 0;
 	char[] c;
@@ -113,6 +109,7 @@ public class Plateau implements Serializable {
 	    c = ligne.toCharArray();
 	    for (int i = 0; i < LONGUEUR; i++) {
 		if (c.length != i && c[i] == '?') {
+                    System.out.println("?");
 		    this.cases[numLigne][i] = new Case(numLigne, i);
 		} else if(c.length != i && c[i] == '1'){
 		    this.cases[numLigne][i] = new Case(numLigne, i, 1);
@@ -121,6 +118,7 @@ public class Plateau implements Serializable {
 		} else if(c.length != i && c[i] == '3'){
 		    this.cases[numLigne][i] = new Case(numLigne, i, 3);
 		} else {
+                    System.out.println("0");
 		    this.cases[numLigne][i] = new Case(numLigne, i);
 		    this.cases[numLigne][i].setCoulee(true);
 		}
@@ -135,9 +133,9 @@ public class Plateau implements Serializable {
      * @param cases : Tableau contenant les cases à surligner
      */
     public void surligneCases(ArrayList<Case> cases) {
-	for (Case c : cases) {
-	    c.setAccessible(true);
-	}
+        for (Case c : cases) {
+            c.setAccessible(true);
+        }
     }
 
     /**
@@ -146,9 +144,9 @@ public class Plateau implements Serializable {
      * @param cases : : Tableau contenant les cases à désurligner
      */
     public void desurligneCases(ArrayList<Case> cases) {
-	for (Case c : cases) {
-	    c.setAccessible(false);
-	}
+        for (Case c : cases) {
+            c.setAccessible(false);
+        }
     }
 
     /**
@@ -160,116 +158,200 @@ public class Plateau implements Serializable {
      * @return : Vrai si la cases est libre
      */
     public Boolean estCaseLibre(int x, int y) {
-	return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
+        return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
     }
 
     public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant, int tailleMaximale) {
-	if (cheminCourant.size() >= tailleMaximale) {
-	    System.out.println(tailleMaximale + " - " + cheminCourant.size());
-	    return cheminCourant;
+        if (cheminCourant.size() >= tailleMaximale) {
+            //System.out.println(tailleMaximale + " - " + cheminCourant.size());
+            return cheminCourant;
 
-	} else {
-	    ArrayList<Case> casesPossible = source.getCasePossibles();
-	    int max = 0;
-	    boolean possible = false;
-	    ArrayList<Case> branchementCourant, branchementResultat = null;
+        } else {
+            ArrayList<Case> casesPossible = source.getCasePossibles();
+            int max = 0;
+            boolean possible = false;
+            ArrayList<Case> branchementCourant, branchementResultat = null;
 
-	    //Pour toutes les cases qui n'ont pas ete visitee
-	    for (Case c : casesPossible) {
-		if (!cheminCourant.contains(c)) {
-		    possible = true;
+            //Pour toutes les cases qui n'ont pas ete visitee
+            for (Case c : casesPossible) {
+                if (!cheminCourant.contains(c)) {
+                    possible = true;
 
-		    branchementCourant = new ArrayList<>();
-		    branchementCourant.addAll(cheminCourant);
-		    branchementCourant.add(c);
-		    branchementCourant = getMeilleurChemin(c, branchementCourant, tailleMaximale);
+                    branchementCourant = new ArrayList<>();
+                    branchementCourant.addAll(cheminCourant);
+                    branchementCourant.add(c);
+                    source.setCoulee(true);
+                    branchementCourant = getMeilleurChemin(c, branchementCourant, tailleMaximale);
+                    source.setCoulee(false);
+                    
+                    if (branchementCourant.size() >= tailleMaximale) {
 
-		    if (branchementCourant.size() >= tailleMaximale) {
-			return branchementCourant;
-		    } else if (this.getPoidsChemin(branchementCourant) > max) {
-			branchementResultat = branchementCourant;
-			max = this.getPoidsChemin(branchementCourant);
-		    } else if (this.getPoidsChemin(branchementCourant) == max && branchementCourant.size() > branchementResultat.size()) {
-			branchementResultat = branchementCourant;
-		    }
+                        return branchementCourant;
+                    } else if (this.getPoidsChemin(branchementCourant) > max) {
+                        branchementResultat = branchementCourant;
+                        max = this.getPoidsChemin(branchementCourant);
+                    } else if (this.getPoidsChemin(branchementCourant) == max && branchementCourant.size() > branchementResultat.size()) {
+                        branchementResultat = branchementCourant;
+                    }
 
-		}
-	    }
-
-	    if (!possible) {
-		return cheminCourant;
-	    } else {
-		return branchementResultat;
-	    }
-	}
+                }
+            }
+            
+            if (!possible) {
+                return cheminCourant;
+            } else {
+                return branchementResultat;
+            }
+        }
 
     }
 
     public int getPoidsChemin(ArrayList<Case> cases) {
-	int res = 0;
-	for (Case c : cases) {
-	    res += c.getNbPoissons();
-	}
-	return res;
+        int res = 0;
+        for (Case c : cases) {
+            res += c.getNbPoissons();
+        }
+        return res;
     }
 
     public ArrayList<Case> getCasesIceberg(Case source) {
-	ArrayList<Case> iceberg = new ArrayList<>();
-	this.getCasesIcebergWorker(source, iceberg);
-	for (Case c : iceberg) {
-	    c.setCoulee(false);
-	}
-	return iceberg;
+        ArrayList<Case> iceberg = new ArrayList<>();
+        this.getCasesIcebergWorker(source, iceberg);
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
     }
 
     private void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
-	if (!source.estCoulee()) {
-	    iceberg.add(source);
-	    source.setCoulee(true);
-	    for (Case c : source.getVoisinsEmerges()) {
-		this.getCasesIcebergWorker(c, iceberg);
-	    }
-	}
+        if (!source.estCoulee()) {
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIcebergWorker(c, iceberg);
+            }
+        }
+    }
+
+    public int getPoidsIceberg(ArrayList<Case> iceberg) {
+        int rep = 0;
+
+        for (Case c : iceberg) {
+            rep += c.getNbPoissons();
+        }
+
+        return rep;
+    }
+
+    public int getNbPinguinIceberg(ArrayList<Case> iceberg) {
+        int rep = 0;
+
+        for (Case c : iceberg) {
+            if (c.getPinguin() != null) {
+                rep += c.getNbPoissons();
+            }
+        }
+
+        return rep;
+    }
+
+    public int getNbJoueurIceberg(ArrayList<Case> iceberg) {
+        HashSet<Joueur> joueurs = new HashSet<>();
+
+        for (Case c : iceberg) {
+            if (c.getPinguin() != null) {
+                joueurs.add(c.getPinguin().getGeneral());
+            }
+        }
+
+        if (joueurs.isEmpty()) {
+            return 1;
+        } else {
+            return joueurs.size();
+        }
     }
 
     public Plateau clone() {
-	Plateau clone = new Plateau();
-	Case caseCourante;
-	for (int i = 0; i < this.getNbLignes(); i++) {
-	    for (int j = 0; j < this.getNbColonnes(); j++) {
-		caseCourante = new Case(this.cases[i][j]);
-		clone.getCases()[i][j] = caseCourante;
-	    }
-	}
-	return clone;
+        Plateau clone = new Plateau();
+        Case caseCourante;
+        for (int i = 0; i < this.getNbLignes(); i++) {
+            for (int j = 0; j < this.getNbColonnes(); j++) {
+                caseCourante = new Case(this.cases[i][j]);
+                clone.getCases()[i][j] = caseCourante;
+            }
+        }
+        return clone;
     }
 
+    /**
+     * Algorithme de Dijkstra
+     *
+     * @param origine : la case d'origine
+     * @return la matrice d'incidence du graphe
+     */
+    public Integer[][] Dijkstra(Case origine) {
+        Integer[][] D = new Integer[this.getNbLignes()][this.getNbColonnes()];
+        ArrayList<Case> Q = new ArrayList<>();
+
+        for (int m = 0; m < this.getNbLignes(); m++) {
+            for (int n = 0; n < this.getNbColonnes(); n++) {
+                D[m][n] = Integer.MAX_VALUE;
+            }
+        }
+
+        Q.add(origine);
+        D[origine.getNumLigne()][origine.getNumColonne()] = 0;
+
+        Case u;
+        while (!Q.isEmpty()) {
+            //System.out.println(Q.size());
+            u = Q.get(0);
+            for (Case c : Q) {
+                if (D[c.getNumLigne()][c.getNumColonne()] < D[u.getNumLigne()][u.getNumColonne()]) {
+                    u = c;
+                }
+            }
+            Q.remove(u);
+
+            for (Case v : u.getVoisinsEmerges()) {
+                if (D[u.getNumLigne()][u.getNumColonne()] + 1 < D[v.getNumLigne()][v.getNumColonne()]) {
+                    D[v.getNumLigne()][v.getNumColonne()] = D[u.getNumLigne()][u.getNumColonne()] + 1;
+                    Q.add(v);
+                }
+            }
+
+        }
+
+        return D;
+    }
+
+    //GETTER ET SETTER
     public void accept(Visiteur v) {
-	v.visite(this);
+        v.visite(this);
     }
 
     public Case[][] getCases() {
-	return cases;
+        return cases;
     }
 
     public void setCases(Case[][] cases) {
-	this.cases = cases;
+        this.cases = cases;
     }
 
     public int getNbLignes() {
-	return LARGEUR;
+        return LARGEUR;
     }
 
     public int getNbColonnes() {
-	return LONGUEUR;
+        return LONGUEUR;
     }
 
     public boolean isEstModifié() {
-	return estModifié;
+        return estModifié;
     }
 
     public void setEstModifié(boolean estModifié) {
-	this.estModifié = estModifié;
+        this.estModifié = estModifié;
     }
 
 }

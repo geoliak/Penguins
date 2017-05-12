@@ -9,7 +9,6 @@ import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -62,27 +61,23 @@ public class Sauvegarde {
 	}
     }
 
-    public void Load(int filenum) {
+    public void Load(int filenum) throws IOException, ClassNotFoundException {
+	Path filepath = Paths.get(savepath + "/save" + filenum);
+
 	ObjectInputStream ois = null;
-	try {
-	    Path filepath = Paths.get(savepath + "/save" + filenum);
-	    ois = new ObjectInputStream(new FileInputStream(filepath.toFile()));
-	    Partie partieacharger = (Partie) ois.readObject();
-	    partie.setPlateau(partieacharger.getPlateau());
-	    partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
-	    partie.setJoueurs(partieacharger.getJoueurs());
-	    partie.setJoueurCourant(partieacharger.getJoueurCourant());
-	    partie.setNbPingouinParJoueur();
-	    partie.setInitialisation(partieacharger.getInitialisation());
-	} catch (IOException | ClassNotFoundException ex) {
-	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
-	} finally {
-	    try {
-		ois.close();
-	    } catch (IOException ex) {
-		Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+	ois = new ObjectInputStream(new FileInputStream(filepath.toFile()));
+
+	Partie partieacharger = (Partie) ois.readObject();
+
+	partie.setPlateau(partieacharger.getPlateau());
+	partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
+	partie.setJoueurs(partieacharger.getJoueurs());
+	partie.setJoueurCourant(partieacharger.getJoueurCourant());
+	partie.setNbPingouinParJoueur();
+	partie.setInitialisation(partieacharger.getInitialisation());
+	partie.getPlateau().setEstModifié(true);
+
+//	partie = partieacharger;
     }
 
     private void makeIvNull(ArrayList<Joueur> joueurs) {

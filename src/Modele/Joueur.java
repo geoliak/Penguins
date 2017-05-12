@@ -39,6 +39,11 @@ public abstract class Joueur implements Serializable {
 	this.couleur = couleur;
     }
 
+    @Override
+    public Joueur clone() throws CloneNotSupportedException {
+	return (Joueur) (super.clone());
+    }
+
     public void reset() {
 	this.pinguins = new ArrayList<>();
 	this.pinguinCourant = null;
@@ -74,7 +79,7 @@ public abstract class Joueur implements Serializable {
      * @param plateau : plateau de jeu
      * @return Case : case jouee
      */
-    public abstract Case etablirCoup(Plateau plateau);
+    public abstract Case etablirCoup(Partie partie);
 
     public int getAge() {
 	return age;

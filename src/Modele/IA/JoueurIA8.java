@@ -8,47 +8,37 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
 import Modele.Plateau;
-import Vue.DessinateurTexte;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
  * @author novelm
  */
-public class JoueurIA6 extends JoueurIA {
+public class JoueurIA8 extends JoueurIA {
 
-    public JoueurIA6(Couleur couleur) {
-        super(couleur, "JoueurIA6");
+    public JoueurIA8(Couleur couleur) {
+        super(couleur, "JoueurIA8");
     }
 
-    @Override
-    public Case phaseInitialisation(Partie partie) {
-        return super.phaseInitialisationMaxPossibilitee(partie);
-    }
-
-    
     @Override
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
-        if (super.getChemin().isEmpty()) {
-            caseChoisie = this.chercherVictime(partie);
-        }
-        
-        if (caseChoisie != null) {
-            return caseChoisie;
 
+        if (super.getChemin().isEmpty()) {
+            System.out.println("chemin empty");
+            caseChoisie = this.chercherVictimePremierDuNom(partie);
+            if (caseChoisie != null) {
+                return caseChoisie;
+            }
         } else {
+            System.out.println("chemin > 0");
             caseChoisie = super.phaseJeuMeilleurChemin(partie);
             if (caseChoisie != null) {
                 return caseChoisie;
             }
         }
 
-        return super.phaseJeuMaxPossibilitee(partie);
+        return super.phaseJeuGourmand(partie);
     }
-
 }
