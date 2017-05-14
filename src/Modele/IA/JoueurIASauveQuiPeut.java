@@ -8,34 +8,29 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
-import Modele.Plateau;
-import Vue.DessinateurTexte;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
- * @author novelm
+ * @author rozandq
  */
-public class JoueurIA5 extends JoueurIA {
+public class JoueurIASauveQuiPeut extends JoueurIA {
 
-    public JoueurIA5(Couleur couleur) {
-        super(couleur, "JoueurIA5");
+    public JoueurIASauveQuiPeut(Couleur couleur) {
+        super(couleur, "JoueurIA SauveQuiPeut");
     }
-
+    
     @Override
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
-
-        caseChoisie = this.chercherVictime(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-
+        if (super.getChemin().isEmpty()) {
+            caseChoisie = this.sauveQuiPeutBasique(partie);
+            if (caseChoisie != null) {
+                return caseChoisie;
+            }
         }
-
+        
         return super.phaseJeuGourmand(partie);
     }
-
+    
 }

@@ -45,13 +45,14 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
+        //System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
-        rowclic = p.getY();
+	rowclic = p.getY();
 	columnclic = p.getX();
         
         // Joueur Humain
-        if(partie.getJoueurCourant().getEstHumain()){
+        if(partie.getJoueurCourant().getEstHumain() && partie.isTourFini()){
+            partie.setTourFini(false);
             // Initialisation : Placement pingouins
             if (partie.estEnInitialisation()) {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
@@ -73,13 +74,13 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                         partie.joueurSuivant();
                     }
                 }
-                
-                for(Joueur j : partie.getJoueurs()){
-                    for(Pinguin p : j.getPinguinsVivants()){
-                        if (p.getPosition().getCasePossibles().size() == 0) {
-                            p.coullePinguin();
-                            partie.getPlateau().setEstModifié(true);
-                        }
+            }
+            
+            for(Joueur j : partie.getJoueurs()){
+                for(Pinguin p : j.getPinguinsVivants()){                    
+                    if (p.getPosition().estCoulee()) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
                     }
                 }
             }

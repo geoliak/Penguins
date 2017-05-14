@@ -8,20 +8,16 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
 import Modele.Plateau;
-import Vue.DessinateurTexte;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
  * @author novelm
  */
-public class JoueurIA5 extends JoueurIA {
+public class JoueurIA8 extends JoueurIA {
 
-    public JoueurIA5(Couleur couleur) {
-        super(couleur, "JoueurIA5");
+    public JoueurIA8(Couleur couleur) {
+        super(couleur, "JoueurIA8");
     }
 
     @Override
@@ -29,13 +25,11 @@ public class JoueurIA5 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
 
-        caseChoisie = this.chercherVictime(partie);
+        caseChoisie = this.chercherVictimePremierDuNom(partie);
         if (caseChoisie != null) {
             return caseChoisie;
-
         }
 
         return super.phaseJeuGourmand(partie);
     }
-
 }
