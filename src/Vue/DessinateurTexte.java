@@ -38,7 +38,7 @@ public class DessinateurTexte extends Visiteur {
     @Override
     public void visite(Case c) {
         if (c.estCoulee()) {
-            System.out.print(" ");
+            System.out.print("X");
         } else {
             Pinguin p = c.getPinguin();
             if (p != null) {

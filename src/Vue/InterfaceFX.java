@@ -14,6 +14,7 @@ import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurIASauveQuiPeut;
+import Modele.IA.JoueurIAchercheIlot;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;

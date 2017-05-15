@@ -42,5 +42,4 @@ public class JoueurIA6 extends JoueurIA {
 
         return super.phaseJeuMaxPossibilitee(partie);
     }
-
 }

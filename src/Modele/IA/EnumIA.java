@@ -9,6 +9,7 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
 import Modele.Plateau;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.BiFunction;
@@ -27,8 +28,8 @@ public class EnumIA extends JoueurIA {
     private int generation;
     public static final double TAUX_DE_MUTATION = 0.05;
 
-    public EnumIA(Couleur couleur, int generation) {
-        super(couleur, Integer.toString(generation));
+    public EnumIA(Couleur couleur, int generation, String nom) {
+        super(couleur, nom);
         this.initialisation = new ArrayList<>();
         this.debutJeu = new ArrayList<>();
         this.millieuJeu = new ArrayList<>();
@@ -51,6 +52,10 @@ public class EnumIA extends JoueurIA {
             }
 
         } else {
+
+            /*System.out.println(this);
+             DessinateurTexte dt = new DessinateurTexte();
+             partie.getPlateau().accept(dt);*/
             while (caseChoisie == null) {
                 if (!this.estFinJeu(partie)) {
                     //saute l'allele 50% de chance
@@ -58,19 +63,23 @@ public class EnumIA extends JoueurIA {
                         if (this.estDebutJeu(partie)) {
                             fonction = this.debutJeu.get(i % this.debutJeu.size());
                             caseChoisie = fonction.apply(this, partie);
-                            System.out.println("debutJeu <"+i % this.debutJeu.size()+ ">" + fonction + "\n");
+                            //System.out.println("debutJeu <" + i % this.debutJeu.size() + ">");
                         } else {
                             fonction = this.millieuJeu.get(i % this.millieuJeu.size());
                             caseChoisie = fonction.apply(this, partie);
-                            System.out.println("millieuJeu <"+i % this.millieuJeu.size()+ ">" + fonction + "\n");
+                            //System.out.println("millieuJeu <" + i % this.millieuJeu.size() + ">");
                         }
                     }
                     i++;
                 } else {
                     caseChoisie = this.phaseJeuMeilleurChemin(partie);
                 }
-                
+
             }
+            /*
+             System.out.println("----");
+             System.out.println(this.getPinguinCourant() + " -> "+caseChoisie);
+             System.out.println("======================== Fin etablir coup\n");*/
         }
 
         return caseChoisie;
@@ -110,53 +119,58 @@ public class EnumIA extends JoueurIA {
         }
     }
 
-    public EnumIA reproduction(EnumIA parent) {
+    public EnumIA reproduction(EnumIA parent, int id) {
         Couleur[] couleurs = {Couleur.Bleu, Couleur.Jaune, Couleur.Rouge, Couleur.Vert};
         EnumIA enfant;
         Random r = new Random();
 
         if (this.getCouleur() == parent.getCouleur()) {
-            enfant = new EnumIA(parent.getCouleur(), parent.generation + 1);
+            enfant = new EnumIA(parent.getCouleur(), parent.generation + 1, Integer.toString(parent.generation + 1) + "<" + id + ">");
         } else {
-            enfant = new EnumIA(couleurs[r.nextInt(couleurs.length)], parent.generation + 1);
+            enfant = new EnumIA(couleurs[r.nextInt(couleurs.length)], parent.generation + 1, Integer.toString(parent.generation + 1) + "<" + id + ">");
         }
 
-        fusionGenes(enfant,this.initialisation,parent.getInitialisation());
-        fusionGenes(enfant,this.debutJeu,parent.getDebutJeu());
-        fusionGenes(enfant,this.millieuJeu,parent.getMillieuJeu());
-        
+        enfant.setInitialisation(fusionGenes(this.initialisation, parent.getInitialisation()));
+        enfant.setDebutJeu(fusionGenes(this.debutJeu, parent.getDebutJeu()));
+        enfant.setMillieuJeu(fusionGenes(this.millieuJeu, parent.getMillieuJeu()));
+
         return enfant;
     }
 
-    private void fusionGenes(EnumIA enfant, ArrayList<BiFunction<JoueurIA, Partie, Case>> yin, ArrayList<BiFunction<JoueurIA, Partie, Case>> yang) {
+    private ArrayList<BiFunction<JoueurIA, Partie, Case>> fusionGenes(ArrayList<BiFunction<JoueurIA, Partie, Case>> yin, ArrayList<BiFunction<JoueurIA, Partie, Case>> yang) {
         int i = 0;
         Random r = new Random();
+        ArrayList<BiFunction<JoueurIA, Partie, Case>> rep = new ArrayList<>();
+        //Pour tous les genes existants chez les deux parents
         while (i < yin.size()) {
+            //Si les parent ont le meme
             if (yin.get(i) == yang.get(i)) {
-                enfant.ajouterInitialisation(yang.get(i));
+                rep.add(yang.get(i));
             } else if (r.nextBoolean() && yang.size() > i) {
-                enfant.ajouterInitialisation(yang.get(i));
+                rep.add(yang.get(i));
             } else {
-                enfant.ajouterInitialisation(yin.get(i));
+                rep.add(yin.get(i));
             }
             i++;
         }
         while (i < yang.size()) {
-            enfant.ajouterInitialisation(yang.get(i));
+            rep.add(yang.get(i));
             i++;
         }
-
+        return rep;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("============================\n");
-        sb.append(super.toString()).append(" -> ");
-        sb.append(this.initialisation).append(" _-_ ");
-        sb.append(this.initialisation).append(" _-_ ");
-        sb.append(this.initialisation);
-        return sb.toString();
+        /*StringBuilder sb = new StringBuilder();
+         sb.append("============================\n");
+         sb.append(super.toString()).append(" -> ");
+         sb.append(this.initialisation).append(" _-_ ");
+         sb.append(this.initialisation).append(" _-_ ");
+         sb.append(this.initialisation);
+         return sb.toString();
+         */
+        return super.toString();
     }
 
     public int getGeneration() {
