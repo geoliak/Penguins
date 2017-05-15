@@ -23,6 +23,7 @@ public class JoueurIAchercheIlot extends JoueurIA {
     @Override
     public Case phaseJeu(Partie partie) {
         Case CaseChoisie = this.chercheIlot(partie);
+        
         if (CaseChoisie != null) {
             System.out.println("Ilot trouvé ! case critique : " + CaseChoisie);
             return CaseChoisie;
