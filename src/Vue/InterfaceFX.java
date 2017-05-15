@@ -33,9 +33,13 @@ import javafx.stage.Stage;
 public class InterfaceFX extends Application {
 
     static Plateau plateau;
+    private static Stage stage;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
+        if(stage == null){
+            stage = primaryStage;
+        }
 	stage.setTitle("Nom du jeu");
 
 	Group root = new Group();
@@ -80,7 +84,13 @@ public class InterfaceFX extends Application {
      * @param args the command line arguments
      */
     public static void creer(String[] args, Plateau p) {
-	plateau = p;
+	       creer(args, p, null);
+    }
+    
+    public static void creer(String[] args, Plateau p, Stage s) {
+        plateau = p;
+        stage = s;
+        System.out.println("creer -> launch");
 	launch(args);
     }
 
