@@ -102,17 +102,21 @@ public class DessinateurFX extends Visiteur {
 		plateau.getCases()[i][j].accept(this);
 	    }
 	}
+
+	for (int i = 0; i < rows; i++) {
+	    for (int j = 0; j < columns; j++) {
+		if (plateau.getCases()[i][j].getPinguin() != null) {
+		    plateau.getCases()[i][j].getPinguin().accept(this);
+		}
+	    }
+	}
     }
 
     @Override
     public void visite(Case c) {
-	if (c.getPinguin() != null && c.getCasePossibles().size() == 0) {
-	    c.setCoulee(Boolean.TRUE);
-	}
-
-	if (c.getPinguin() != null) {
-	    c.getPinguin().accept(this);
-	}
+//	if (c.getPinguin() != null && c.getCasePossibles().size() == 0) {
+//	    c.setCoulee(Boolean.TRUE);
+//	}
 
 	if (!c.estCoulee() && c.getPolygon() == null) {
 	    Color color = Color.IVORY;
