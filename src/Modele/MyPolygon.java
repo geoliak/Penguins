@@ -52,7 +52,7 @@ public class MyPolygon extends Polygon implements Serializable {
 	double width = height * Math.sqrt(3 / 2);
 
 	this.xorigine = ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap*0.8 + (this.y % 2) * gap*0.8 / 2;
-	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap*3 - this.y * size/2;
+	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap*4 - this.y * size/2;
     }
 
     public int getX() {
