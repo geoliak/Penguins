@@ -54,7 +54,7 @@ public class InterfaceFX extends Application {
 	Scene scene = new Scene(root, 1200, 900);
 
 	//root.getChildren().add(canvas);
-	scene.setFill(Color.AQUA);
+	scene.setFill(Color.DODGERBLUE);
 	stage.setScene(scene);
 
 	//Image img = new Image(f.toURI().toString());

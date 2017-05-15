@@ -117,19 +117,22 @@ public class DessinateurFX extends Visiteur {
 		    break;
 	    }
 	    //MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
-            c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color));
-	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
-	    c.getPolygon().setOnMouseClicked(clicSourisFX);
+            c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color, c.getNbPoissons()));
+            
+            EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
+	    c.getPolygon().getImage().setOnMouseClicked(clicSourisFX);
+//	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
+//	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
-	    root.getChildren().add(c.getPolygon());
+	    root.getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null){
             if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-                c.getPolygon().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+                c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
             } else {
-                c.getPolygon().setEffect(null);
+                c.getPolygon().getImage().setEffect(null);
             }
         } else if(c.estCoulee() && c.getPolygon()!=null){
-            a.efface(c.getPolygon());
+            a.efface(c.getPolygon().getImage());
             c.setPolygon(null);
         }
     }
@@ -141,14 +144,14 @@ public class DessinateurFX extends Visiteur {
             //ImageView iv = p.getIv();
             
 	    iv.setPreserveRatio(true);
-	    iv.setFitHeight(height);
+	    iv.setFitHeight(height*0.8);
 
 	    double x = p.getPosition().getPolygon().getXorigine() + width / 2;
 	    double y = p.getPosition().getPolygon().getYorigine() + height / 2;
 
 	    //System.out.println(iv.getFitWidth());
-	    iv.setX(x - width / 2.5);
-	    iv.setY(y - iv.getFitHeight()*0.8);
+	    iv.setX(x - width / 2.8);
+	    iv.setY(y - iv.getFitHeight());
 
 	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);
 	    iv.setOnMouseClicked(clicSourisPenguin);

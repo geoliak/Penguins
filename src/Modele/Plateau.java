@@ -37,7 +37,7 @@ public class Plateau implements Serializable {
         } else {
             this.lireFichierTest(fichierPlateau, br);
         }
-
+        //setCases();
         estModifié = true;
     }
 
@@ -341,6 +341,16 @@ public class Plateau implements Serializable {
 
     public void setCases(Case[][] cases) {
         this.cases = cases;
+    }
+    
+    public void setCases(){
+        for(Case[] cases : this.cases){
+            for(Case c : cases){
+                if(c.getPolygon() != null){
+                    c.getPolygon().setImage(c.getNbPoissons());
+                }
+            }
+        }
     }
 
     public int getNbLignes() {

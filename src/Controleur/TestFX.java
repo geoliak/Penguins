@@ -21,7 +21,6 @@ public class TestFX {
 	try {
 
             Plateau plateau = new Plateau("ressources/plateaux/plateau1");
-
             System.out.println(plateau);
 	    InterfaceFX i = new InterfaceFX();
 	    i.creer(args, plateau);
