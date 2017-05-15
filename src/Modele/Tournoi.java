@@ -147,8 +147,27 @@ public class Tournoi {
             this.initCompoQuatreJoueurs();
             tousLesMatch.addAll(this.compoQuatreJoueurs);
         }
+        int avancement = 0;
+        int i = 0;
+        System.out.println("Combats !");
         for (Composition c : tousLesMatch) {
+            System.out.print("[");
+            if (i >= tousLesMatch.size() / 10) {
+                avancement++;
+                i = 0;
+            }
+            for (int j = 0; j < avancement; j++) {
+                System.out.print("#");
+            }
+            for (int j = avancement; j < 10; j++) {
+                System.out.print(" ");
+            }
+
+            System.out.println("] " + (float) ((float) 100 * (avancement * (tousLesMatch.size() / 10) + i) / tousLesMatch.size()) + "%");
+
             this.match(c);
+
+            i++;
         }
     }
 
@@ -176,7 +195,7 @@ public class Tournoi {
         }
 
         DessinateurTexte dt = new DessinateurTexte();
-        
+
         int l = 0;
         while (l < this.nbMatch) {
             Plateau plateau = null;
@@ -189,7 +208,6 @@ public class Tournoi {
 
             Partie partie = new Partie(plateau, joueurs);
 
-            
             //Placement des pinguins
             Boolean pinguinPlace;
             int numLigne, numColonne;
@@ -207,7 +225,7 @@ public class Tournoi {
                     if (plateau.estCaseLibre(numLigne, numColonne) && plateau.getCases()[numLigne][numColonne].getNbPoissons() == 1) {
                         joueurCourant.ajouterPinguin(plateau.getCases()[numLigne][numColonne]);
                         pinguinPlace = true;
-                        //plateau.accept(dt);
+
                     } else {
                         System.out.println("Cette case est occupée ou coulé ou n'a pas un poisson");
                     }
@@ -239,6 +257,7 @@ public class Tournoi {
                     //Si le joueur n'est pas elimine
                     if (joueurCourant.estEnJeu()) {
                         joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
+
                         aJoue = true;
                     } else {
                         aJoue = true;
@@ -250,21 +269,12 @@ public class Tournoi {
 
             compo.setVainceurs(partie.getJoueurGagnant());
             for (Joueur j : partie.getJoueurGagnant()) {
-                switch (joueurs.size()) {
-                    case 2:
-                        score.put(j, this.scoreDeuxjoueurs.get(j) + 1);
-                        break;
-                    case 3:
-                        this.scoreTroisJoueurs.put(j, this.scoreTroisJoueurs.get(j) + 1);
-                        break;
-                    case 4:
-                        this.scoreQuatrejoueurs.put(j, this.scoreQuatrejoueurs.get(j) + 1);
-                        break;
-                }
+
+                score.put(j, score.get(j) + 1);
+
             }
 
-            partie.afficheResultats();
-
+            //partie.afficheResultats();
             for (Joueur j : joueurs) {
                 nbPartie.put(j, nbPartie.get(j) + 1);
                 j.reset();

@@ -73,14 +73,14 @@ public class GenereIA {
         this.enumeration = new ArrayList<>();
     }
 
-    public ArrayList<Joueur> genererGroupeIndividu(int tailleGroupe, int generation) {
+    public ArrayList<Joueur> genererGroupeIndividu(int tailleGroupe, int generation, int idDebut) {
         ArrayList<Joueur> groupe = new ArrayList<>();
 
-        int i = 0;
+        int i = idDebut;
         EnumIA individuCourant;
         Random r = new Random();
         while (i < tailleGroupe) {
-            individuCourant = new EnumIA(Couleur.VALEURS[r.nextInt(Couleur.VALEURS.length)], generation);
+            individuCourant = new EnumIA(Couleur.VALEURS[r.nextInt(Couleur.VALEURS.length)], generation, generation + "<" + i + ">");
 
             individuCourant.ajouterInitialisation(this.initialisation.get(r.nextInt(this.initialisation.size())));
 

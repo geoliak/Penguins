@@ -50,5 +50,21 @@ public class CaseCritique {
     public Case getCassure() {
         return cassure;
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Case critique : ").append(this.cassure).append("\n");
+        for (Case c : this.ilot1) {
+            sb.append("ilot1 : ").append(c).append("\n");
+        }
+        
+        for (Case c : this.ilot2) {
+            sb.append("ilot2 : ").append(c).append("\n");
+        }
+        sb.append("\n");
+        
+        return sb.toString();
+    }
 
 }
