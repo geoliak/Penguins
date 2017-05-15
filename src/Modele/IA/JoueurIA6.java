@@ -29,26 +29,17 @@ public class JoueurIA6 extends JoueurIA {
         return super.phaseInitialisationMaxPossibilitee(partie);
     }
 
-    
     @Override
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
-        if (super.getChemin().isEmpty()) {
-            caseChoisie = this.chercherVictime(partie);
-        }
-        
+
+        caseChoisie = this.chercherVictime(partie);
         if (caseChoisie != null) {
             return caseChoisie;
 
-        } else {
-            caseChoisie = super.phaseJeuMeilleurChemin(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
-            }
         }
 
         return super.phaseJeuMaxPossibilitee(partie);
     }
-
 }

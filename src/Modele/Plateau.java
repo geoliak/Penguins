@@ -29,16 +29,16 @@ public class Plateau implements Serializable {
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
         this.cases = new Case[LARGEUR][LONGUEUR];
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
-	String ligne;
-	ligne = br.readLine();
-        if(ligne.equals("jeu")){
+        String ligne;
+        ligne = br.readLine();
+        if (ligne.equals("jeu")) {
             this.lireFichierJeu(fichierPlateau, br);
             this.initCase();
         } else {
             this.lireFichierTest(fichierPlateau, br);
         }
-        
-	estModifié = true;
+
+        estModifié = true;
     }
 
     private Plateau() {
@@ -50,26 +50,26 @@ public class Plateau implements Serializable {
      * une configuration jouable
      */
     public void initCase() {
-	int nbCaseUnPoissons = 0;
-	for (int i = 0; i < this.LARGEUR; i++) {
-	    for (int j = 0; j < this.LONGUEUR; j++) {
-		this.cases[i][j].initVoisins(this);
-		if (!this.cases[i][j].estCoulee() && this.cases[i][j].getNbPoissons() == 1) {
-		    nbCaseUnPoissons++;
-		}
-	    }
-	}
-	while (nbCaseUnPoissons < 9) {
-	    nbCaseUnPoissons = 0;
-	    for (int i = 0; i < this.LARGEUR; i++) {
-		for (int j = 0; j < this.LONGUEUR; j++) {
-		    if (!this.cases[i][j].estCoulee()) {
-			this.cases[i][j].genereNbPoissons();
-			nbCaseUnPoissons++;
-		    }
-		}
-	    }
-	}
+        int nbCaseUnPoissons = 0;
+        for (int i = 0; i < this.LARGEUR; i++) {
+            for (int j = 0; j < this.LONGUEUR; j++) {
+                this.cases[i][j].initVoisins(this);
+                if (!this.cases[i][j].estCoulee() && this.cases[i][j].getNbPoissons() == 1) {
+                    nbCaseUnPoissons++;
+                }
+            }
+        }
+        while (nbCaseUnPoissons < 9) {
+            nbCaseUnPoissons = 0;
+            for (int i = 0; i < this.LARGEUR; i++) {
+                for (int j = 0; j < this.LONGUEUR; j++) {
+                    if (!this.cases[i][j].estCoulee()) {
+                        this.cases[i][j].genereNbPoissons();
+                        nbCaseUnPoissons++;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -81,24 +81,24 @@ public class Plateau implements Serializable {
      * @throws IOException
      */
     public void lireFichierJeu(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
-	String ligne;
-	int numLigne = 0;
-	char[] c;
-	//Pour toutes les lignes du fichier
-	while ((ligne = br.readLine()) != null) {
-	    c = ligne.toCharArray();
-	    for (int i = 0; i < LONGUEUR; i++) {
-		if (c.length != i && c[i] == '?') {
-		    this.cases[numLigne][i] = new Case(numLigne, i);
-		} else {
-		    this.cases[numLigne][i] = new Case(numLigne, i);
-		    this.cases[numLigne][i].setCoulee(true);
-		}
-	    }
-	    numLigne++;
-	}
+        String ligne;
+        int numLigne = 0;
+        char[] c;
+        //Pour toutes les lignes du fichier
+        while ((ligne = br.readLine()) != null) {
+            c = ligne.toCharArray();
+            for (int i = 0; i < LONGUEUR; i++) {
+                if (c.length != i && c[i] == '?') {
+                    this.cases[numLigne][i] = new Case(numLigne, i);
+                } else {
+                    this.cases[numLigne][i] = new Case(numLigne, i);
+                    this.cases[numLigne][i].setCoulee(true);
+                }
+            }
+            numLigne++;
+        }
     }
-    
+
     public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
         System.out.println("test");
 	String ligne;
@@ -108,8 +108,8 @@ public class Plateau implements Serializable {
 	while ((ligne = br.readLine()) != null) {
 	    c = ligne.toCharArray();
 	    for (int i = 0; i < LONGUEUR; i++) {
+                System.out.println(numLigne + " " + i);
 		if (c.length != i && c[i] == '?') {
-                    System.out.println("?");
 		    this.cases[numLigne][i] = new Case(numLigne, i);
 		} else if(c.length != i && c[i] == '1'){
 		    this.cases[numLigne][i] = new Case(numLigne, i, 1);
@@ -118,13 +118,18 @@ public class Plateau implements Serializable {
 		} else if(c.length != i && c[i] == '3'){
 		    this.cases[numLigne][i] = new Case(numLigne, i, 3);
 		} else {
-                    System.out.println("0");
 		    this.cases[numLigne][i] = new Case(numLigne, i);
 		    this.cases[numLigne][i].setCoulee(true);
 		}
 	    }
 	    numLigne++;
 	}
+        
+        for(Case[] cases : this.cases){
+            for(Case ca : cases){
+                ca.initVoisins(this);
+            }
+        }
     }
 
     /**
@@ -183,7 +188,7 @@ public class Plateau implements Serializable {
                     source.setCoulee(true);
                     branchementCourant = getMeilleurChemin(c, branchementCourant, tailleMaximale);
                     source.setCoulee(false);
-                    
+
                     if (branchementCourant.size() >= tailleMaximale) {
 
                         return branchementCourant;
@@ -196,7 +201,7 @@ public class Plateau implements Serializable {
 
                 }
             }
-            
+
             if (!possible) {
                 return cheminCourant;
             } else {

@@ -23,25 +23,27 @@ public class RafraichissementFX extends AnimationTimer {
     DessinateurFX d;
     Partie partie;
     int i = 0;
+    private boolean resultatAffiches;
 
     public RafraichissementFX(DessinateurFX d, Partie partie) {
-	this.d = d;
-	this.partie = partie;
+        this.d = d;
+        this.partie = partie;
+        this.resultatAffiches = false;
     }
 
     @Override
-    public void handle(long now) {  
-        
+    public void handle(long now) {
+
         // Rafraichissement du plateau
         if (partie.getPlateau().isEstModifié()) {
             d.visite(partie.getPlateau());
             partie.getPlateau().setEstModifié(false);
         }
-        
+
         // Si la partie n'est pas terminée
-        if(!partie.estTerminee()){
+        if (!partie.estTerminee()) {
             if (partie.estEnInitialisation()) {
-            // Si tout les pingouins ont été placés
+                // Si tout les pingouins ont été placés
                 if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
                     partie.setInitialisation(false);
 
@@ -50,27 +52,31 @@ public class RafraichissementFX extends AnimationTimer {
                     }
                     partie.getJoueurCourant().setPret(Boolean.TRUE);
 
-                // Sinon initialisation : Tour IA
+                    // Sinon initialisation : Tour IA
                 }
             }
-            if(partie.isTourFini()){
+            if (partie.isTourFini()) {
                 partie.getJoueurCourant().attendreCoup(partie);
+
                 
             }
-            for(Joueur j : partie.getJoueurs()){
-                for(Pinguin p : j.getPinguinsVivants()){                    
+            for (Joueur j : partie.getJoueurs()) {
+                for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
             }
-            
-            
+
         } else {
-            System.out.println("PARTIE TERMINEE ===============");
-            partie.afficheResultats();
-            Platform.exit();
+            if (!this.resultatAffiches) {
+                System.out.println("PARTIE TERMINEE ===============");
+                partie.afficheResultats();
+                //Platform.exit();
+                this.resultatAffiches = true;
+            }
+
         }
     }
 }

@@ -25,18 +25,9 @@ public class JoueurIA8 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
 
-        if (super.getChemin().isEmpty()) {
-            System.out.println("chemin empty");
-            caseChoisie = this.chercherVictimePremierDuNom(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
-            }
-        } else {
-            System.out.println("chemin > 0");
-            caseChoisie = super.phaseJeuMeilleurChemin(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
-            }
+        caseChoisie = this.chercherVictimePremierDuNom(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
         }
 
         return super.phaseJeuGourmand(partie);

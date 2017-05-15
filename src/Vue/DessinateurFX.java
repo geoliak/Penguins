@@ -82,7 +82,6 @@ public class DessinateurFX extends Visiteur {
 	}
 
 	if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
-            System.out.println("CASE ACC");
 	    ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
 	    for (Case c : casesaccessibles) {
 		c.setAccessible(Boolean.TRUE);
@@ -162,11 +161,9 @@ public class DessinateurFX extends Visiteur {
             
             if(!partie.estEnInitialisation()){
                 if(partie.getJoueurCourant().getPinguinCourant() == p && partie.isTourFini()){
-                    System.out.println(partie.getJoueurCourant());
                     partie.setTourFini(false);
                 }
                 Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
-                System.out.println(partie.getJoueurCourant());
                 t.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {

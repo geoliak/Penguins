@@ -11,8 +11,10 @@ import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +51,18 @@ public class JoueurIA extends Joueur {
         return this.pinguinsSontSeuls();
     }
 
+    public ArrayList<Pinguin> getPinguinNonIsole() {
+        ArrayList<Pinguin> pinguins = new ArrayList<>();
+
+        for (Pinguin p : this.getPinguinsVivants()) {
+            if (!p.estSeul()) {
+                pinguins.add(p);
+            }
+        }
+
+        return pinguins;
+    }
+
     @Override
     public void attendreCoup(Partie partie) {
         if (partie.isTourFini()) {
@@ -64,9 +78,9 @@ public class JoueurIA extends Joueur {
                 // Phase de jeu : Tour IA
             } else {
                 if (!partie.getJoueurCourant().getEstHumain()) {
-                    System.out.println("TOUR IA =======================");
+                    //System.out.println("TOUR IA =======================");
                     partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
-                    System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne());
+                    System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
                     partie.getPlateau().setEstModifié(true);
                     for (Joueur j : partie.getJoueurs()) {
                         for (Pinguin p : j.getPinguinsVivants()) {
@@ -77,11 +91,15 @@ public class JoueurIA extends Joueur {
                         }
                     }
                     partie.joueurSuivant();
-                    System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
-                    System.out.println("Fin tour IA");
+                    //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
+                    //System.out.println("Fin tour IA");
                 }
             }
         }
+
+        DessinateurTexte d = new DessinateurTexte();
+        partie.getPlateau().accept(d);
+        System.out.println("\n\n");
     }
 
     @Override
@@ -103,6 +121,13 @@ public class JoueurIA extends Joueur {
     public Case etablirCoup(Partie partie) {
         if (!super.getPret()) {
             return this.phaseInitialisation(partie);
+
+        } else if (!this.getChemin().isEmpty()) {
+            return this.getChemin().remove(0);
+
+        } else if (this.setPinguinsSeuls(partie)) {
+            return this.phaseJeuMeilleurChemin(partie);
+
         } else {
             return this.phaseJeu(partie);
         }
@@ -145,7 +170,7 @@ public class JoueurIA extends Joueur {
      * @return
      */
     public static Case phaseInitialisationGourmandeStatic(JoueurIA joueurs, Partie partie) {
-        System.out.println("phaseInitialisationGourmandeStatic");
+        //System.out.println("phaseInitialisationGourmandeStatic");
         Case caseChoisie = null;
         ArrayList<Case> casesAccessible = null;
         int nbPoissons = 3;
@@ -179,7 +204,7 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseInitialisationMaxPossibiliteeStatic(JoueurIA joueurs, Partie partie) {
-        System.out.println("phaseInitialisationMaxPossibiliteeStatic");
+        //System.out.println("phaseInitialisationMaxPossibiliteeStatic");
         Case caseCourante, CaseRes = null;
         int maxCasesAtteignable = -1;
         ArrayList<Case> casesAtteignable;
@@ -208,10 +233,11 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseJeuStatic(JoueurIA joueur, Partie partie) {
+        //System.out.println("jeuAleatoire");
         Random r = new Random();
 
         //Choix aléatoire d'un pinguin vivant
-        Pinguin p = joueur.getPinguinsVivants().get(r.nextInt(joueur.getPinguinsVivants().size()));
+        Pinguin p = joueur.getPinguinNonIsole().get(r.nextInt(joueur.getPinguinNonIsole().size()));
         joueur.setPinguinCourant(p);
 
         //Choix aléatoire d'une case
@@ -226,13 +252,14 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseJeuEliminationStatic(JoueurIA joueur, Partie partie) {
+        //System.out.println("phaseJeuElimination");
         Case caseChoisie = joueur.chercherVictimeStatic(joueur, partie);
         //Si elle ne peut tuer personne, alors elle joue aléatoirement
         if (caseChoisie == null) {
             Random r = new Random();
 
             //Choix aléatoire d'un pinguin vivant
-            Pinguin p = joueur.getPinguinsVivants().get(r.nextInt(joueur.getPinguinsVivants().size()));
+            Pinguin p = joueur.getPinguinNonIsole().get(r.nextInt(joueur.getPinguinNonIsole().size()));
 
             joueur.setPinguinCourant(p);
 
@@ -248,12 +275,16 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseJeuGourmandStatic(JoueurIA joueur, Partie partie) {
+        System.out.println("Gourmand");
         Case caseChoisie = null;
         ArrayList<Case> casesAccessible = null;
         int nbPoissons = 3;
         while (nbPoissons > 0) {
-            for (Pinguin p : joueur.getPinguinsVivants()) {
+            //Pour tous les pinguins du joueur
+            for (Pinguin p : joueur.getPinguinNonIsole()) {
                 casesAccessible = p.getPosition().getCasePossibles();
+
+                //Pour toutes les cases accessibles du pinguin etudie
                 for (Case caseCourante : casesAccessible) {
                     if (caseCourante.getNbPoissons() == nbPoissons) {
                         joueur.setPinguinCourant(p);
@@ -272,13 +303,14 @@ public class JoueurIA extends Joueur {
     }
 
     public static Case phaseJeuMaxPossibiliteeStatic(JoueurIA joueur, Partie partie) {
+        //System.out.println("MaxPossibilitees");
         Pinguin pCourant = null;
         ArrayList<Case> casesPossibles;
         Case caseChoisie = null;
 
         //Selection du pinguin qui a le moins de possibilitee de mouvement
         int min = Integer.MAX_VALUE;
-        for (Pinguin p : joueur.getPinguinsVivants()) {
+        for (Pinguin p : joueur.getPinguinNonIsole()) {
             casesPossibles = p.getPosition().getCasePossibles();
             if (casesPossibles.size() < min) {
                 pCourant = p;
@@ -306,73 +338,87 @@ public class JoueurIA extends Joueur {
 
     public static Case phaseJeuMeilleurCheminStatic(JoueurIA joueur, Partie partie) {
         //Si il n'y a plus pinguin adverse sur l'iceberg
-        //System.out.println("Sont seuls ?");
-        joueur.setPinguinsSeuls(partie);
-        Boolean sontSeuls = joueur.pinguinsSontSeuls();
+        System.out.println("phaseJeuMeilleurCheminStatic");
+        ArrayList<Case> iceberg;
+        int tailleMaximale;
 
-        Case caseChoisie = null;
+        Case caseChoisie;
 
-        if (sontSeuls && !joueur.chemin.isEmpty()) {
-            /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
-             System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant());
-             this.afficherChemin();*/
-            caseChoisie = joueur.chemin.remove(0);
+        Random r = new Random();
 
-        } else if (sontSeuls && joueur.chemin.isEmpty()) {
-            Random r = new Random();
+        Pinguin p = joueur.getPinguinsVivants().get(r.nextInt(joueur.getPinguinsVivants().size()));
 
-            Pinguin p = joueur.getPinguinsVivants().get(r.nextInt(joueur.getPinguinsVivants().size()));
+        joueur.setPinguinCourant(p);
 
-
-            /*DessinateurTexte dt = new DessinateurTexte();
-             System.out.println(this.getCouleur() + this.getNom() + Couleur.ANSI_RESET);
-             dt.visite(partie);*/
-            joueur.setPinguinCourant(p);
-
-            ArrayList<Case> iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
-            int tailleMaximale = iceberg.size();
-            for (Case c : iceberg) {
-                if (c.getPinguin() != null) {
-                    tailleMaximale--;
-                }
+        iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
+        tailleMaximale = iceberg.size();
+        for (Case c : iceberg) {
+            if (c.getPinguin() != null) {
+                tailleMaximale--;
             }
-
-            joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), tailleMaximale - (int) (tailleMaximale * 0.25)));
-
-            /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
-             System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
-             System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
-             this.afficherChemin();*/
-            caseChoisie = joueur.getChemin().remove(0);
         }
+
+        //Methode1 75%  du meilleur chemin
+        //joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.70)));
+        //Methode2 100% à 3sec max
+        EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
+        meilleurChemin.start();
+
+        long startTime;
+
+        startTime = System.nanoTime();
+        while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
+            //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
+        }
+        meilleurChemin.stopThread();
+        try {
+            meilleurChemin.join();
+            System.out.println("Deces " + (System.nanoTime() - startTime));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        caseChoisie = joueur.getChemin().remove(0);
+
+        /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
+         System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
+         System.out.println("chemin de longueur " + chemin.size() + " Pinnguin courant " + this.getPinguinCourant() + "taille iceberg " + iceberg.size() + iceberg);
+         *//*joueur.afficherChemin();
+         caseChoisie = joueur.getChemin().get(0);
+         if (joueur.getChemin().size() != tailleMaximale) {
+         joueur.getChemin().removeAll(joueur.getChemin());
+         joueur.setPinguinCourant(null);
+         }*/
 
         return caseChoisie;
     }
 
-    /*
-    public Case sauveQuiPeut(Partie partie) {
-        return JoueurIA.sauveQuiPeutStatic(this, partie);
+    public Case sauveQuiPeutBasique(Partie partie) {
+        return JoueurIA.sauveQuiPeutBasiqueStatic(this, partie);
     }
-    
-    
-    public static Case sauveQuiPeutStatic(JoueurIA joueur, Partie partie) {
+
+    public static Case sauveQuiPeutBasiqueStatic(Joueur joueur, Partie partie) {
         Case caseChoisie = null;
         boolean risque = false;
-        
-        for(Joueur j : partie.getJoueurs()){
-            if(j != joueur){
-                Pinguin pjcourant = j.getPinguinCourant();
-                if(JoueurIA.chercherVictimePremierDuNomStatic(j, partie) == null){
-                    
+
+        /* Récupère les pingouins menacés */
+        ArrayList<Pinguin> pingouinsMenace = new ArrayList<>();
+
+        for (Pinguin p : joueur.getPinguinsVivants()) {
+            if (p.getPosition().getCasePossibles().size() == 1) {
+                Case c = p.getPosition().getCasePossibles().get(0);
+                for (Joueur j : partie.getJoueurs()) {
+                    for (Pinguin p2 : j.getPinguinsVivants()) {
+                        if (p2.getPosition().getCasePossibles().contains(c)) {
+                            pingouinsMenace.add(p);
+                        }
+                    }
                 }
             }
         }
-        
+
+        /* Si plusieurs pingouins menacés, choix du pingouin à sauver */
         return caseChoisie;
     }
-    */
-    
-    
 
     public Case chercherVictime(Partie partie) {
         return JoueurIA.chercherVictimeStatic(this, partie);
@@ -382,12 +428,14 @@ public class JoueurIA extends Joueur {
      * Une case permettant de tuer un pinguin adverse ou null si une telle case
      * n'existe pas
      *
+     * @param joueur
+     * @param partie
      * @param plateau : plateau de jeu
      * @return Case prochainement joue
      */
-    public static Case chercherVictimeStatic(JoueurIA joueur, Partie partie) {
-        System.out.println("chercherVictimeStatic");
-        Case caseCourante = null, caseResultat = null;
+    public static Case chercherVictimeStatic(Joueur joueur, Partie partie) {
+        //System.out.println("chercherVictimeStatic");
+        Case caseCourante, caseResultat = null;
         ArrayList<Case> mouvementsPossibles;
         CaseCritique cc;
         Pinguin ennemi, PinguinResultat = null;
@@ -403,7 +451,7 @@ public class JoueurIA extends Joueur {
 
                     //Si cette case n'a qu'un seul voisin
                     if (caseCourante.getNbVoisins() == 1) {
-                        for (Pinguin p : joueur.getPinguinsVivants()) {
+                        for (Pinguin p : ((JoueurIA) joueur).getPinguinNonIsole()) {
                             mouvementsPossibles = p.getPosition().getCasePossibles();
                             if (mouvementsPossibles.contains(ennemi.getPosition().getVoisinsEmerges().get(0))) {
                                 PinguinResultat = p;
@@ -412,7 +460,7 @@ public class JoueurIA extends Joueur {
                         }
 
                         //Si on peut isoler un pinguin sur un ilot
-                    } else if ((cc = joueur.estIlot(caseCourante, partie.getPlateau())) != null) {
+                    } else if ((cc = JoueurIA.estIlot(caseCourante, partie.getPlateau())) != null) {
                         caseCourante.setCoulee(Boolean.TRUE);
 
                         int poidsIlot1 = partie.getPlateau().getPoidsIceberg(cc.getIlot1()) / partie.getPlateau().getNbJoueurIceberg(cc.getIlot1());
@@ -458,12 +506,13 @@ public class JoueurIA extends Joueur {
 
     /**
      *
-     * @param plateau : plateau de jeu
+     * @param joueur
+     * @param partie
      * @return Une case permettant de tuer un pinguin adverse ou null si une
      * telle case n'existe pas
      */
-    public static Case chercherVictimePremierDuNomStatic(JoueurIA joueur, Partie partie) {
-        System.out.println("chercherVictimePremierDuNomStatic");
+    public static Case chercherVictimePremierDuNomStatic(Joueur joueur, Partie partie) {
+        //System.out.println("chercherVictimePremierDuNomStatic");
         Case caseCourante = null;
         ArrayList<Pinguin> pinguins = new ArrayList<>();
 
@@ -479,7 +528,7 @@ public class JoueurIA extends Joueur {
 
         //On cherche une case permettant de bloquer un pinguin adverse
         ArrayList<Case> mouvementsPossibles;
-        for (Pinguin p : joueur.getPinguinsVivants()) {
+        for (Pinguin p :  ((JoueurIA) joueur).getPinguinNonIsole()) {
             mouvementsPossibles = p.getPosition().getCasePossibles();
 
             for (Pinguin ennemi : pinguins) {
@@ -499,14 +548,16 @@ public class JoueurIA extends Joueur {
      * Parcours l'ensemble des pinguins vivants pour determiner si ils sont
      * finalement seuls Met la variable estSeul a True des pinguins dans ce cas
      *
-     * @param plateau : plateau de jeu
+     * @param partie
+     * @return
      */
-    public void setPinguinsSeuls(Partie partie) {
+    public Boolean setPinguinsSeuls(Partie partie) {
         for (Pinguin p : super.getPinguinsVivants()) {
             if (!p.estSeul() && p.estSeulIceberg(partie.getPlateau())) {
                 p.setEstSeul(true);
             }
         }
+        return this.pinguinsSontSeuls();
     }
 
     /**
@@ -536,10 +587,16 @@ public class JoueurIA extends Joueur {
         Case c, caseCourante = null;
 
         //Pour tous les pinguins du joueur
-        for (Pinguin p : joueur.getPinguinsVivants()) {
+        for (Pinguin p : joueur.getPinguinNonIsole()) {
             casesAccessibles = p.getPosition().getCasePossibles();
+
+            System.out.println(joueur + " pinguin " + p);
+            System.out.println(ilotsPossibles.size() + " Case critique possibles");
+
             //On regarde si il peut former un ilot
             for (CaseCritique cc : ilotsPossibles) {
+                System.out.println(cc);
+
                 c = cc.getCassure();
                 if (casesAccessibles.contains(c)) {
                     //poids de l'iceberg total
@@ -570,7 +627,6 @@ public class JoueurIA extends Joueur {
                 }
             }
         }
-
         return caseCourante;
     }
 
@@ -584,9 +640,10 @@ public class JoueurIA extends Joueur {
 
         for (int i = 0; i < plateau.getNbLignes(); i++) {
             for (int j = 0; j < plateau.getNbColonnes(); j++) {
+
                 caseCourante = plateau.getCases()[i][j];
                 CaseCritique c = JoueurIA.estIlot(caseCourante, plateau);
-                if (!caseCourante.estCoulee() && caseCourante.getPinguin() == null && c != null) {
+                if (c != null && !caseCourante.estCoulee() && caseCourante.getPinguin() == null) {
                     ilotsPossibles.add(c);
                 }
             }
@@ -601,35 +658,52 @@ public class JoueurIA extends Joueur {
      * @return true si la suppression de cette case peut former un ilot
      */
     public static CaseCritique estIlot(Case caseCourante, Plateau plateau) {
-        Integer[][] dijkstra;
         CaseCritique caseCritique = null;
+        if (!caseCourante.estCoulee()) {
+            Integer[][] dijkstra;
+            caseCourante.setCoulee(true);
 
-        caseCourante.setCoulee(true);
-        if (caseCourante.getVoisinsEmerges().size() == 2) {
-            dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-            if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE) {
-                caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+            if (caseCourante.getVoisinsEmerges().size() == 2) {
+                dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
+                if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+                }
+
+            } else if (caseCourante.getVoisinsEmerges().size() == 3) {
+                dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
+                if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE ^ dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+                }
+
+            } else if (caseCourante.getVoisinsEmerges().size() == 4) {
+                dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
+
+                /*
+                 //Si 0 -> 1 et 0 -/-> 2 et 0 -/-> 3
+                 if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE) {
+                 caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+
+                 //Si 0 -/-> 1 et ( 0 -> 2 xor 0 -> 3 )
+                 } else if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE && (dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] < Integer.MAX_VALUE ^ dijkstra[caseCourante.getVoisinsEmerges().get(3).getNumLigne()][caseCourante.getVoisinsEmerges().get(3).getNumColonne()] < Integer.MAX_VALUE)) {
+                 caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+
+                 //
+                 } */
+                if (!(dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(3).getNumLigne()][caseCourante.getVoisinsEmerges().get(3).getNumColonne()] < Integer.MAX_VALUE)) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
+                }
             }
 
-        } else if (caseCourante.getVoisinsEmerges().size() == 3) {
-            dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-            if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE || dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE) {
-                caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-            }
-
-        } else if (caseCourante.getVoisinsEmerges().size() == 4) {
-            dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-            if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] == Integer.MAX_VALUE) {
-                caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-            } else if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE && (dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] < Integer.MAX_VALUE ^ dijkstra[caseCourante.getVoisinsEmerges().get(3).getNumLigne()][caseCourante.getVoisinsEmerges().get(3).getNumColonne()] < Integer.MAX_VALUE)) {
-                caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-            }
+            caseCourante.setCoulee(false);
         }
 
-        caseCourante.setCoulee(false);
         return caseCritique;
     }
-    
+    public static Case minimax(Joueur joueur, Partie partie) {
+        ArrayList<Pinguin> saveEnnemi = new ArrayList<>();
+
+        return null;
+    }
 
     public ArrayList<Case> getChemin() {
         return chemin;

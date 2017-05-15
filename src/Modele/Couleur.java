@@ -37,12 +37,14 @@ public enum Couleur {
     private Image image;
 
     Couleur(String colorAccessible, String colorBackground, Color couleur) {
+        System.out.println("couleur");
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
     }
 
     Couleur(String colorAccessible, String colorBackground, Color couleur, File f) {
+        System.out.println("couleur fx");
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;

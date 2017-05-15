@@ -28,17 +28,11 @@ public class JoueurIA5 extends JoueurIA {
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
-        if (super.getChemin().isEmpty()) {
-            caseChoisie = this.chercherVictime(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
 
-            }
-        }
-        
-        caseChoisie = super.phaseJeuMeilleurChemin(partie);
+        caseChoisie = this.chercherVictime(partie);
         if (caseChoisie != null) {
             return caseChoisie;
+
         }
 
         return super.phaseJeuGourmand(partie);

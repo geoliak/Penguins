@@ -28,23 +28,22 @@ public class JoueurIA7 extends JoueurIA {
     @Override
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
-        Case caseChoisie = null;
-        if (super.getChemin().isEmpty()) {
-            caseChoisie = this.chercherVictime(partie);
-        } else {
-            caseChoisie = super.phaseJeuMeilleurChemin(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
-            } else {
-                caseChoisie = super.chercheIlot(partie);
-            }
-        }
+        Case caseChoisie;
 
+        caseChoisie = this.chercherVictime(partie);
         if (caseChoisie != null) {
             return caseChoisie;
-        } else {
-            return super.phaseJeuGourmand(partie);
-        }        
+
+        }
+
+        caseChoisie = super.chercheIlot(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+
+        } 
+        
+        return super.phaseJeuGourmand(partie);
+        
     }
 
 }

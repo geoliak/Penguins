@@ -24,17 +24,16 @@ import Vue.DessinateurTexte;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-        Tournoi worldCup = new Tournoi(1);
+        Tournoi worldCup = new Tournoi(60);
 
        /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
         worldCup.ajouterIA(new JoueurIA2(Couleur.Jaune));
-        worldCup.ajouterIA(new JoueurIA3(Couleur.Vert));*/
-        worldCup.ajouterIA(new JoueurIA4(Couleur.Bleu));
+        worldCup.ajouterIA(new JoueurIA3(Couleur.Vert));
+        worldCup.ajouterIA(new JoueurIA4(Couleur.Bleu));*/
         worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge));
         worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune));
         worldCup.ajouterIA(new JoueurIA7(Couleur.Vert));
         worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu));
-        //worldCup.ajouterIA(joueurIA6);
 
 
         
