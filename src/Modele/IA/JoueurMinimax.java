@@ -15,8 +15,8 @@ import Modele.Partie;
  */
 public class JoueurMinimax extends JoueurIA {
 
-    public JoueurMinimax(Couleur couleur) {
-        super(couleur, "JoueurIA Minimax");
+    public JoueurMinimax(Couleur couleur, int numero) {
+        super(couleur, "JoueurIA Minimax", numero);
     }
 
     @Override
