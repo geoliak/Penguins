@@ -28,6 +28,13 @@ public class Pinguin implements Serializable {
 	this.estSeul = false;
         //this.iv = new ImageView(general.getCouleur().getImage());
     }
+    
+    public Pinguin myClone(Plateau plateau) {
+        Case c = plateau.getCases()[this.getPosition().getNumLigne()][this.getPosition().getNumColonne()];
+        Pinguin clone = new Pinguin(c, this.general);
+        c.setPinguin(clone);
+        return clone;
+    }
 
     public void deplace(Case c) {
 	this.position.setPinguin(null);

@@ -16,8 +16,8 @@ import Modele.Plateau;
  */
 public class JoueurIA7 extends JoueurIA {
 
-    public JoueurIA7(Couleur couleur) {
-        super(couleur, "JoueurIA7");
+    public JoueurIA7(Couleur couleur, int numero) {
+        super(couleur, "JoueurIA7", numero);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class JoueurIA7 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie;
 
-        caseChoisie = this.chercherVictime(partie);
+        caseChoisie = this.chercherVictimePremierDuNom(partie);
         if (caseChoisie != null) {
             return caseChoisie;
 

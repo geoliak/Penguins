@@ -8,6 +8,8 @@ package Vue;
 import Controleur.MouseClickerCase;
 import Controleur.MouseClickerPenguin;
 import Modele.Case;
+import Modele.ConfigurationPartie;
+import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -44,7 +46,7 @@ public class DessinateurFX extends Visiteur {
     public DessinateurFX(Group root, AnimationFX a) {
 	this.root = root;
 	this.a = a;
-	this.partie = InterfaceFX.getPartie();
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	sizeGlacon = 50.0;
 	proportion = 1;
 	gap = 4;
@@ -59,9 +61,9 @@ public class DessinateurFX extends Visiteur {
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
 
-	if (InterfaceFX.getPartie().isReloadPartie()) {
+	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    System.out.println("===================RELOAD=======================");
-	    this.partie = InterfaceFX.getPartie();
+	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 
 	    root.getChildren().clear();
 
@@ -202,5 +204,13 @@ public class DessinateurFX extends Visiteur {
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
+    }
+    public void visiteScore(Joueur j) {
+        try{
+            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
+        }
+        catch (Exception e){
+            System.out.println("erreur - visisteScore : " + e.getMessage());
+        }
     }
 }

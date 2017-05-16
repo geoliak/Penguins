@@ -15,6 +15,12 @@ import javafx.scene.shape.Polygon;
 /**
  *
  * @author liakopog
+ * 
+ * TO DO:
+ * 
+ * La classe MyPolygon ne sert plus qu'a stocker l'image view des cases.
+ * Supprimer le "extends polygon" et la création des polygon. 
+ *
  */
 public class MyPolygon extends Polygon implements Serializable {
 
@@ -52,7 +58,7 @@ public class MyPolygon extends Polygon implements Serializable {
 	double width = height * Math.sqrt(3 / 2);
 
 	this.xorigine = ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap*0.8 + (this.y % 2) * gap*0.8 / 2;
-	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap*3 - this.y * size/2;
+	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap*4 - this.y * size/2;
     }
 
     public int getX() {
@@ -80,7 +86,7 @@ public class MyPolygon extends Polygon implements Serializable {
     }
 
     public void setImage(int nbPoisson) {
-        File f = new File("ressources/img/glacon_poisson" + nbPoisson + ".png");
+        File f = new File("ressources/img/glacon_poisson" + nbPoisson + "_mini.png");
                
         this.image = new ImageView(new Image(f.toURI().toString()));
          

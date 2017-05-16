@@ -29,7 +29,7 @@ public class EnumIA extends JoueurIA {
     public static final double TAUX_DE_MUTATION = 0.05;
 
     public EnumIA(Couleur couleur, int generation, String nom) {
-        super(couleur, nom);
+        super(couleur, nom, 1);
         this.initialisation = new ArrayList<>();
         this.debutJeu = new ArrayList<>();
         this.millieuJeu = new ArrayList<>();
