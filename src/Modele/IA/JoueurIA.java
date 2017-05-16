@@ -29,8 +29,8 @@ public class JoueurIA extends Joueur {
 
     private ArrayList<Case> chemin;
 
-    public JoueurIA(Couleur couleur, String nom) {
-        super(couleur);
+    public JoueurIA(Couleur couleur, String nom, int numero) {
+        super(couleur, numero);
         this.chemin = new ArrayList<>();
         this.setEstHumain(false);
         Random r = new Random();

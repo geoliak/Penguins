@@ -33,9 +33,9 @@ public class Test {
 	    Plateau plateau = new Plateau("ressources/plateaux/plateau1");
 	    DessinateurTexte dt = new DessinateurTexte();
 
-	    JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu);
-	    JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge);
-	    JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge);
+	    JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.Bleu, 1);
+	    JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.Rouge, 2);
+	    JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge, 3);
 	    ArrayList<Joueur> joueurs = new ArrayList<>();
 	    joueurs.add(joueurH1);
 	    joueurs.add(joueurIA5);

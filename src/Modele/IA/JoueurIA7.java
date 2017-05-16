@@ -16,8 +16,8 @@ import Modele.Plateau;
  */
 public class JoueurIA7 extends JoueurIA {
 
-    public JoueurIA7(Couleur couleur) {
-        super(couleur, "JoueurIA7");
+    public JoueurIA7(Couleur couleur, int numero) {
+        super(couleur, "JoueurIA7", numero);
     }
 
     @Override

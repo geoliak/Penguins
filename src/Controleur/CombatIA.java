@@ -41,14 +41,14 @@ public class CombatIA {
 
 	DessinateurTexte dt = new DessinateurTexte();
 
-	JoueurIA1 joueurIA1 = new JoueurIA1(Couleur.Rouge);
-	JoueurIA2 joueurIA2 = new JoueurIA2(Couleur.Jaune);
-	JoueurIA3 joueurIA3 = new JoueurIA3(Couleur.Vert);
-	JoueurIA4 joueurIA4 = new JoueurIA4(Couleur.Bleu);
+	JoueurIA1 joueurIA1 = new JoueurIA1(Couleur.Rouge,1);
+	JoueurIA2 joueurIA2 = new JoueurIA2(Couleur.Jaune, 2);
+	JoueurIA3 joueurIA3 = new JoueurIA3(Couleur.Vert, 3);
+	JoueurIA4 joueurIA4 = new JoueurIA4(Couleur.Bleu, 4);
 
-	JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge);
-	JoueurIA6 joueurIA6 = new JoueurIA6(Couleur.Jaune);
-        JoueurIA8 joueurIA8 = new JoueurIA8(Couleur.Jaune);
+	JoueurIA5 joueurIA5 = new JoueurIA5(Couleur.Rouge, 5);
+	JoueurIA6 joueurIA6 = new JoueurIA6(Couleur.Jaune, 6);
+        JoueurIA8 joueurIA8 = new JoueurIA8(Couleur.Jaune, 7);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	joueurs.add(joueurIA8);
