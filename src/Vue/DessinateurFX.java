@@ -204,6 +204,7 @@ public class DessinateurFX extends Visiteur {
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
+    
     public void visiteScore(Joueur j) {
         try{
             InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());

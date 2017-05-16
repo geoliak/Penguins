@@ -155,8 +155,8 @@ public class InterfaceFX extends Application {
         labelScore.setTextFill(Color.WHITE); 
         
         ap.getChildren().addAll(ivBanniere, labelNom, labelScore);
-        //System.out.println("J.getNumero() = " + j.getNumero());
-        //labelScores[j.getNumero()-1]= labelScore;
+        System.out.println("J.getNumero() = " + j.getNumero());
+        labelScores[j.getNumero()-1]= labelScore;
         
         return ap;
     }
