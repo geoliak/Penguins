@@ -17,7 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.ImageView;
+import Modele.MyImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -28,35 +28,36 @@ import javafx.stage.Stage;
  */
 public class ChargerJeuController implements Initializable {
 
-    @FXML private ListView<String> listView; 
-    
+    @FXML
+    private ListView<String> listView;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObservableList<String> items = listView.getItems();
-        items.add("One");
-        items.add("Two");
-        items.add("Three");
-        items.add("Four");
-        items.add("Five");
-        
-        listView.getSelectionModel().select(0);
-        listView.getFocusModel().focus(0);
-    }    
-    
-    public void creerPartie(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
-        Scene scene = new Scene(paramJeu);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+	ObservableList<String> items = listView.getItems();
+	items.add("One");
+	items.add("Two");
+	items.add("Three");
+	items.add("Four");
+	items.add("Five");
+
+	listView.getSelectionModel().select(0);
+	listView.getFocusModel().focus(0);
     }
-    
-    public void on(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(new DropShadow());
+
+    public void creerPartie(MouseEvent e) throws IOException {
+	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
     }
-    
-    public void out(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(null);
+
+    public void on(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
     }
-    
+
+    public void out(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(null);
+    }
+
 }

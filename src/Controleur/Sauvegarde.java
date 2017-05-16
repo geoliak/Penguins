@@ -9,6 +9,7 @@ import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
+import Modele.Plateau;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,14 +53,15 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-	    makeIvNull(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs(), ConfigurationPartie.getConfigurationPartie().getRoot());
-	    partie.isReloadPartie();
+//	    makeIvNull(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs(), ConfigurationPartie.getConfigurationPartie().getRoot());
+	    partie.setReloadPartie(true);
 	    partie.getPlateau().setEstModifié(true);
 
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
 
 	    System.out.println("Partie Sauvegardee a: " + filepath.toString());
+
 	} catch (IOException ex) {
 	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
 	}
