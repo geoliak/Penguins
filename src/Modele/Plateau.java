@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -101,32 +102,32 @@ public class Plateau implements Serializable {
 
     public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
         System.out.println("test");
-	String ligne;
-	int numLigne = 0;
-	char[] c;
-	//Pour toutes les lignes du fichier
-	while ((ligne = br.readLine()) != null) {
-	    c = ligne.toCharArray();
-	    for (int i = 0; i < LONGUEUR; i++) {
+        String ligne;
+        int numLigne = 0;
+        char[] c;
+        //Pour toutes les lignes du fichier
+        while ((ligne = br.readLine()) != null) {
+            c = ligne.toCharArray();
+            for (int i = 0; i < LONGUEUR; i++) {
                 System.out.println(numLigne + " " + i);
-		if (c.length != i && c[i] == '?') {
-		    this.cases[numLigne][i] = new Case(numLigne, i);
-		} else if(c.length != i && c[i] == '1'){
-		    this.cases[numLigne][i] = new Case(numLigne, i, 1);
-		} else if(c.length != i && c[i] == '2'){
-		    this.cases[numLigne][i] = new Case(numLigne, i, 2);
-		} else if(c.length != i && c[i] == '3'){
-		    this.cases[numLigne][i] = new Case(numLigne, i, 3);
-		} else {
-		    this.cases[numLigne][i] = new Case(numLigne, i);
-		    this.cases[numLigne][i].setCoulee(true);
-		}
-	    }
-	    numLigne++;
-	}
-        
-        for(Case[] cases : this.cases){
-            for(Case ca : cases){
+                if (c.length != i && c[i] == '?') {
+                    this.cases[numLigne][i] = new Case(numLigne, i);
+                } else if (c.length != i && c[i] == '1') {
+                    this.cases[numLigne][i] = new Case(numLigne, i, 1);
+                } else if (c.length != i && c[i] == '2') {
+                    this.cases[numLigne][i] = new Case(numLigne, i, 2);
+                } else if (c.length != i && c[i] == '3') {
+                    this.cases[numLigne][i] = new Case(numLigne, i, 3);
+                } else {
+                    this.cases[numLigne][i] = new Case(numLigne, i);
+                    this.cases[numLigne][i].setCoulee(true);
+                }
+            }
+            numLigne++;
+        }
+
+        for (Case[] cases : this.cases) {
+            for (Case ca : cases) {
                 ca.initVoisins(this);
             }
         }
@@ -260,6 +261,23 @@ public class Plateau implements Serializable {
         return rep;
     }
 
+    public HashMap<Joueur, ArrayList<Pinguin>> getPinguinsIceberg(ArrayList<Case> iceberg) {
+        HashMap<Joueur, ArrayList<Pinguin>> rep = new HashMap<>();
+
+        for (Case c : iceberg) {
+
+            if (c.getPinguin() != null && rep.get(c.getPinguin().getGeneral()) == null) {
+                rep.put(c.getPinguin().getGeneral(), new ArrayList<>());
+                rep.get(c.getPinguin().getGeneral()).add(c.getPinguin());
+            } else if (c.getPinguin() != null) {
+                rep.get(c.getPinguin().getGeneral()).add(c.getPinguin());
+            }
+
+        }
+
+        return rep;
+    }
+
     public int getNbJoueurIceberg(ArrayList<Case> iceberg) {
         HashSet<Joueur> joueurs = new HashSet<>();
 
@@ -276,15 +294,33 @@ public class Plateau implements Serializable {
         }
     }
 
-    public Plateau clone() {
-        Plateau clone = new Plateau();
-        Case caseCourante;
-        for (int i = 0; i < this.getNbLignes(); i++) {
-            for (int j = 0; j < this.getNbColonnes(); j++) {
-                caseCourante = new Case(this.cases[i][j]);
-                clone.getCases()[i][j] = caseCourante;
+    public ArrayList<Joueur> getJoueursIceberg(ArrayList<Case> iceberg) {
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+
+        for (Case c : iceberg) {
+            if (c.getPinguin() != null && !joueurs.contains(c.getPinguin().getGeneral())) {
+                joueurs.add(c.getPinguin().getGeneral());
             }
         }
+
+        return joueurs;
+    }
+
+    @Override
+    public Plateau clone() {
+        Plateau clone = new Plateau();
+        for (int i = 0; i < this.getNbLignes(); i++) {
+            for (int j = 0; j < this.getNbColonnes(); j++) {
+                clone.getCases()[i][j] = new Case(this.cases[i][j]);
+            }
+        }
+
+        for (int i = 0; i < this.getNbLignes(); i++) {
+            for (int j = 0; j < this.getNbColonnes(); j++) {
+                clone.getCases()[i][j].initVoisins(clone);
+            }
+        }
+
         return clone;
     }
 
