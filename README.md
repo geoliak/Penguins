@@ -1,2 +1,2 @@
-# Gaufre
-Jeu de gaufre empoisonee
+# Pingouins
+Jeu des pingouins qui ont vraiment faim
