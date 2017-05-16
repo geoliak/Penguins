@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controleur;
+package Modele;
 
-import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
-import Modele.Plateau;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
