@@ -9,6 +9,7 @@ import Controleur.MouseClickerCase;
 import Controleur.MouseClickerPenguin;
 import Modele.Case;
 import Modele.ConfigurationPartie;
+import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -203,5 +204,13 @@ public class DessinateurFX extends Visiteur {
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
+    }
+    public void visiteScore(Joueur j) {
+        try{
+            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
+        }
+        catch (Exception e){
+            System.out.println("erreur - visisteScore : " + e.getMessage());
+        }
     }
 }

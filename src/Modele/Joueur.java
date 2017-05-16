@@ -27,8 +27,9 @@ public abstract class Joueur implements Serializable {
     private Boolean pret;
     private Boolean estHumain;
     private Image image;
+    private int numero;
 
-    public Joueur(Couleur couleur) {
+    public Joueur(Couleur couleur, int numero) {
 	this.pinguins = new ArrayList<>();
 	this.pinguinCourant = null;
 	this.pret = false;
@@ -37,6 +38,7 @@ public abstract class Joueur implements Serializable {
 	this.nom = "Ceci ne devrait pas apparaitre";
 	this.age = -1;
 	this.couleur = couleur;
+        this.numero = numero;
     }
 
     @Override
@@ -50,6 +52,10 @@ public abstract class Joueur implements Serializable {
 	this.pret = false;
 	this.scoreGlacons = 0;
 	this.scorePoissons = 0;
+    }
+
+    public int getNumero() {
+        return numero;
     }
 
     public void ajouterPinguin(Case c) {

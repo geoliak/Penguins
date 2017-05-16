@@ -29,8 +29,8 @@ public class JoueurIA extends Joueur {
 
     private ArrayList<Case> chemin;
 
-    public JoueurIA(Couleur couleur, String nom) {
-        super(couleur);
+    public JoueurIA(Couleur couleur, String nom, int numero) {
+        super(couleur, numero);
         this.chemin = new ArrayList<>();
         this.setEstHumain(false);
         Random r = new Random();
@@ -711,7 +711,7 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
                 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case,Pinguin> rep = minimax.executeMultiThread();
+                MyPair<Case,Pinguin> rep = minimax.execute();
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }

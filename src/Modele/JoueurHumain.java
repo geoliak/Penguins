@@ -11,8 +11,8 @@ package Modele;
  */
 public abstract class JoueurHumain extends Joueur {
 
-    public JoueurHumain(String nom, Couleur couleur) {
-	super(couleur);
+    public JoueurHumain(String nom, Couleur couleur, int numero) {
+	super(couleur, numero);
 	this.setNom(nom);
 	this.setEstHumain(true);
     }

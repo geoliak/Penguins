@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ParamJeuController">
+   <top>
+      <ImageView fx:id="titre" fitHeight="100.0" fitWidth="402.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu_resize.png" />
+         </image>
+      </ImageView>
+   </top>
+   <center>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <VBox maxWidth="100.0" prefHeight="200.0" prefWidth="100.0" spacing="50.0">
+               <children>
+                  <HBox maxWidth="100.0" spacing="50.0">
+                     <children>
+                        <Group>
+                           <children>
+                              <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_rouge_menu.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="nameJ1" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 1" />
+                              <ImageView id="rightJ1" fx:id="rightJ1" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="leftJ1" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Group fx:id="stars1" layoutX="76.0" layoutY="227.0" visible="false">
+                                 <children>
+                                    <ImageView fx:id="star1_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star1_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star1_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children>
+                              </Group>
+                           </children>
+                        </Group>
+                        <Group layoutX="13.0" layoutY="10.0">
+                           <children>
+                              <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_bleu_menu.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 2" />
+                              <ImageView id="rightJ1" fx:id="rightJ2" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="leftJ2" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Group fx:id="stars2" layoutX="76.0" layoutY="227.0" visible="false">
+                                 <children>
+                                    <ImageView fx:id="star2_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star2_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star2_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children>
+                              </Group>
+                           </children>
+                        </Group>
+                        <Group layoutX="314.0" layoutY="10.0">
+                           <children>
+                              <ImageView fx:id="joueur3" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_jaune_menu.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="nameJ3" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 3" />
+                              <ImageView id="rightJ1" fx:id="rightJ3" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="leftJ3" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Group fx:id="stars3" layoutX="76.0" layoutY="227.0" visible="false">
+                                 <children>
+                                    <ImageView fx:id="star3_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star3_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star3_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children>
+                              </Group>
+                           </children>
+                        </Group>
+                        <Group layoutX="615.0" layoutY="10.0">
+                           <children>
+                              <ImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_vert_menu.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="nameJ4" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 4" />
+                              <ImageView id="rightJ1" fx:id="rightJ4" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="leftJ4" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Group fx:id="stars4" layoutX="76.0" layoutY="227.0" visible="false">
+                                 <children>
+                                    <ImageView fx:id="star4_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star4_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="star4_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                 </children>
+                              </Group>
+                           </children>
+                        </Group>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox spacing="250.0">
+                     <children>
+                        <BorderPane>
+                           <left>
+                              <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <BorderPane.margin>
+                                    <Insets right="10.0" />
+                                 </BorderPane.margin>
+                              </ImageView>
+                           </left>
+                           <right>
+                              <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <BorderPane.margin>
+                                    <Insets left="10.0" />
+                                 </BorderPane.margin>
+                              </ImageView>
+                           </right>
+                           <center>
+                              <ImageView fitHeight="337.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/terrain.jpg" />
+                                 </image>
+                              </ImageView>
+                           </center>
+                        </BorderPane>
+                        <BorderPane>
+                           <center>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#jouer" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/src/ressources/images/boutonJouer.jpg" />
+                                 </image>
+                              </ImageView>
+                           </center>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </BorderPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+         <top>
+            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#chargerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
+               <image>
+                  <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/boutonJouer.jpg" />
+               </image>
+               <BorderPane.margin>
+                  <Insets left="50.0" top="20.0" />
+               </BorderPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </top>
+      </BorderPane>
+   </center>
+</BorderPane>
