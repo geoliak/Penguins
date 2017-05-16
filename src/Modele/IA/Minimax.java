@@ -48,13 +48,16 @@ public class Minimax {
         int poidsCourant;
         Case anciennePositionPinguin = null;
         int max = -1;
+        ArrayList<Case> movementPossibles;
 
         for (Pinguin p : pinguinsJoueur) {
+            movementPossibles = p.getPosition().getCasePossibles();
             anciennePositionPinguin = p.getPosition();
+            anciennePositionPinguin.setPinguin(null);
+            anciennePositionPinguin.setCoulee(true);
 
-            for (Case c : p.getPosition().getCasePossibles()) {
+            for (Case c : movementPossibles) {
 
-                anciennePositionPinguin.setCoulee(true);
                 p.setPosition(c);
                 c.setPinguin(p);
 
@@ -64,18 +67,19 @@ public class Minimax {
                     caseRes = c;
                 }
 
-                p.setPosition(anciennePositionPinguin);
                 c.setPinguin(null);
-                anciennePositionPinguin.setCoulee(false);
 
             }
+            p.setPosition(anciennePositionPinguin);
+            anciennePositionPinguin.setCoulee(false);
+            anciennePositionPinguin.setPinguin(p);
         }
 
         MyPair<Case, Pinguin> rep = new MyPair(caseRes, pinguinRep);
 
         return rep;
     }
-    
+
     public void affichePositionPinguin() {
         for (Case[] cs : this.plateau.getCases()) {
             for (Case c : cs) {
@@ -93,28 +97,43 @@ public class Minimax {
         int max = -1;
         CalculBranche cb;
         ArrayList<CalculBranche> cbs = new ArrayList<>();
-
-        
-        
+        ArrayList<Case> movementPossibles;
         for (Pinguin p : pinguinsJoueur) {
+            movementPossibles = p.getPosition().getCasePossibles();
             anciennePositionPinguin = p.getPosition();
+            anciennePositionPinguin.setPinguin(null);
+            anciennePositionPinguin.setCoulee(true);
 
-            for (Case c : p.getPosition().getCasePossibles()) {
-
-                anciennePositionPinguin.setCoulee(true);
+            for (Case c : movementPossibles) {
                 p.setPosition(c);
                 c.setPinguin(p);
-                
-                this.affichePositionPinguin();
-                cb = new CalculBranche((ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), c, plateau.clone(), p);
+
+                /*
+                 System.out.println("---");
+                 this.affichePositionPinguin();
+                 System.out.println("---");
+                 */
+                Plateau plateauClone = plateau.clone();
+
+                ArrayList<Pinguin> joueur1 = new ArrayList<>();
+                for (Pinguin pj1 : this.pinguinsJoueur) {
+                    joueur1.add(p.myClone(plateauClone));
+                }
+
+                ArrayList<Pinguin> joueur2 = new ArrayList<>();
+                for (Pinguin pj2 : this.pinguinsAdverses) {
+                    joueur2.add(p.myClone(plateauClone));
+                }
+
+                cb = new CalculBranche(joueur1, joueur2, c, plateauClone, p);
                 cbs.add(cb);
                 cbs.get(cbs.size() - 1).start();
 
-                p.setPosition(anciennePositionPinguin);
                 c.setPinguin(null);
-                anciennePositionPinguin.setCoulee(false);
-
             }
+            p.setPosition(anciennePositionPinguin);
+            anciennePositionPinguin.setPinguin(p);
+            anciennePositionPinguin.setCoulee(false);
         }
 
         for (CalculBranche calcul : cbs) {
@@ -196,6 +215,7 @@ public class Minimax {
 
         int poidsCourant;
         Case anciennePositionPinguin = null;
+        ArrayList<Case> movementPossibles;
 
         if (pinguinsJoueur.isEmpty()) {
             return bonus;
@@ -205,11 +225,13 @@ public class Minimax {
             int max = -1;
 
             for (Pinguin p : pinguinsJoueur) {
+                movementPossibles = p.getPosition().getCasePossibles();
                 anciennePositionPinguin = p.getPosition();
+                anciennePositionPinguin.setPinguin(null);
+                anciennePositionPinguin.setCoulee(true);
 
-                for (Case c : p.getPosition().getCasePossibles()) {
+                for (Case c : movementPossibles) {
 
-                    anciennePositionPinguin.setCoulee(true);
                     p.setPosition(c);
                     c.setPinguin(p);
 
@@ -217,11 +239,12 @@ public class Minimax {
                         max = poidsCourant;
                     }
 
-                    p.setPosition(anciennePositionPinguin);
                     c.setPinguin(null);
-                    anciennePositionPinguin.setCoulee(false);
-
                 }
+
+                p.setPosition(anciennePositionPinguin);
+                anciennePositionPinguin.setPinguin(p);
+                anciennePositionPinguin.setCoulee(false);
             }
 
             return max;
@@ -231,9 +254,13 @@ public class Minimax {
             int min = Integer.MAX_VALUE;
 
             for (Pinguin p : pinguinsAdverses) {
+                movementPossibles = p.getPosition().getCasePossibles();
                 anciennePositionPinguin = p.getPosition();
-                for (Case c : p.getPosition().getCasePossibles()) {
-                    anciennePositionPinguin.setCoulee(true);
+                anciennePositionPinguin.setPinguin(null);
+                anciennePositionPinguin.setCoulee(true);
+
+                for (Case c : movementPossibles) {
+
                     p.setPosition(c);
                     c.setPinguin(p);
 
@@ -241,10 +268,12 @@ public class Minimax {
                         min = poidsCourant;
                     }
 
-                    p.setPosition(anciennePositionPinguin);
                     c.setPinguin(null);
-                    anciennePositionPinguin.setCoulee(false);
+
                 }
+                p.setPosition(anciennePositionPinguin);
+                anciennePositionPinguin.setPinguin(p);
+                anciennePositionPinguin.setCoulee(false);
             }
             return min;
 
@@ -264,18 +293,12 @@ public class Minimax {
             this.res = 0;
             this.pinguin = pinguin;
             this.casePrecedente = casePrecedente;
-            
+
             this.plateau = plateau;
 
-            this.pinguinsJoueur = new ArrayList<>();
-            for (Pinguin p : pinguinsJoueur) {
-                this.pinguinsJoueur.add(p.myClone(this.plateau));
-            }
+            this.pinguinsJoueur = pinguinsJoueur;
 
-            this.pinguinsAdverses = new ArrayList<>();
-            for (Pinguin p : pinguinsAdverses) {
-                this.pinguinsAdverses.add(p.myClone(this.plateau));
-            }
+            this.pinguinsAdverses = pinguinsAdverses;
         }
 
         public int getRes() {
@@ -292,7 +315,7 @@ public class Minimax {
 
         @Override
         public void run() {
-            this.res = minimaxWorker(1, this.pinguinsJoueur, this.pinguinsAdverses);
+            this.res = this.minimaxWorker(1, this.pinguinsJoueur, this.pinguinsAdverses);
         }
 
         public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses) {
@@ -333,6 +356,7 @@ public class Minimax {
 
             int poidsCourant;
             Case anciennePositionPinguin = null;
+            ArrayList<Case> movementPossibles;
 
             if (pinguinsJoueur.isEmpty()) {
                 return bonus;
@@ -342,11 +366,13 @@ public class Minimax {
                 int max = -1;
 
                 for (Pinguin p : pinguinsJoueur) {
+                    movementPossibles = p.getPosition().getCasePossibles();
                     anciennePositionPinguin = p.getPosition();
+                    anciennePositionPinguin.setCoulee(true);
+                    anciennePositionPinguin.setPinguin(null);
+                    
+                    for (Case c : movementPossibles) {
 
-                    for (Case c : p.getPosition().getCasePossibles()) {
-
-                        anciennePositionPinguin.setCoulee(true);
                         p.setPosition(c);
                         c.setPinguin(p);
 
@@ -354,11 +380,12 @@ public class Minimax {
                             max = poidsCourant;
                         }
 
-                        p.setPosition(anciennePositionPinguin);
                         c.setPinguin(null);
-                        anciennePositionPinguin.setCoulee(false);
 
                     }
+                    p.setPosition(anciennePositionPinguin);
+                    anciennePositionPinguin.setCoulee(false);
+                    anciennePositionPinguin.setPinguin(p);
                 }
 
                 return max;
@@ -368,9 +395,13 @@ public class Minimax {
                 int min = Integer.MAX_VALUE;
 
                 for (Pinguin p : pinguinsAdverses) {
+                    movementPossibles = p.getPosition().getCasePossibles();
                     anciennePositionPinguin = p.getPosition();
-                    for (Case c : p.getPosition().getCasePossibles()) {
-                        anciennePositionPinguin.setCoulee(true);
+                    anciennePositionPinguin.setCoulee(true);
+                    anciennePositionPinguin.setPinguin(null);
+                    
+                    for (Case c : movementPossibles) {
+
                         p.setPosition(c);
                         c.setPinguin(p);
 
@@ -378,10 +409,12 @@ public class Minimax {
                             min = poidsCourant;
                         }
 
-                        p.setPosition(anciennePositionPinguin);
                         c.setPinguin(null);
-                        anciennePositionPinguin.setCoulee(false);
+
                     }
+                    p.setPosition(anciennePositionPinguin);
+                    anciennePositionPinguin.setCoulee(false);
+                    anciennePositionPinguin.setPinguin(p);
                 }
                 return min;
 
