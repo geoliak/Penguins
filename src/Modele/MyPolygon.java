@@ -15,6 +15,12 @@ import javafx.scene.shape.Polygon;
 /**
  *
  * @author liakopog
+ * 
+ * TO DO:
+ * 
+ * La classe MyPolygon ne sert plus qu'a stocker l'image view des cases.
+ * Supprimer le "extends polygon" et la création des polygon. 
+ *
  */
 public class MyPolygon extends Polygon implements Serializable {
 

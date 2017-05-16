@@ -45,7 +45,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
+        //System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
 	rowclic = p.getY();
 	columnclic = p.getX();
@@ -87,10 +87,10 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                     if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
-                    }/*else if (p.getPosition().getCasePossibles().size() == 0) {
+                    } else if (p.getPosition().getCasePossibles().size() == 0) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
-                    }*/
+                    }
                 }
             }
         }
