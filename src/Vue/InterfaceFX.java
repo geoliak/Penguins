@@ -12,9 +12,11 @@ import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
+import Modele.IA.JoueurIA7;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.IA.JoueurIAchercheIlot;
+import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
@@ -66,7 +68,7 @@ public class InterfaceFX extends Application {
 	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
         
 
-        JoueurIA joueuria = new JoueurIA8(Couleur.RougeFX);
+        JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX);
 
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();

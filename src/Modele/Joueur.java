@@ -141,11 +141,7 @@ public abstract class Joueur implements Serializable {
 
     public Boolean estEnJeu() {
 	if (this.pret) {
-	    Boolean enJeu = false;
-	    for (Pinguin p : this.pinguins) {
-		enJeu = enJeu || p.estVivant();
-	    }
-	    return enJeu;
+	    return !this.getPinguinsVivants().isEmpty();
 	} else {
 	    return true;
 	}
