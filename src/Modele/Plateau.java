@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Modele.IA.Methodes.Methode;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -165,6 +166,14 @@ public class Plateau implements Serializable {
      */
     public Boolean estCaseLibre(int x, int y) {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
+    }
+    
+    public void appliquerSurCases(Methode methode) {
+        for (Case[] cases : this.cases) {
+            for (Case c : cases) {
+                methode.execute(c);
+            }
+        }
     }
 
     public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant, int tailleMaximale) {

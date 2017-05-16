@@ -9,6 +9,7 @@ import Modele.Case;
 import Modele.Joueur;
 import Modele.Pinguin;
 import Modele.Plateau;
+import Modele.TypeAutre.MyPair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -169,32 +170,7 @@ public class Minimax {
         return rep;
     }
 
-    public class MyPair<L, R> {
-
-        private L l;
-        private R r;
-
-        public MyPair(L l, R r) {
-            this.l = l;
-            this.r = r;
-        }
-
-        public L getL() {
-            return l;
-        }
-
-        public void setL(L l) {
-            this.l = l;
-        }
-
-        public R getR() {
-            return r;
-        }
-
-        public void setR(R r) {
-            this.r = r;
-        }
-    }
+    
 
     public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses) {
         int bonusJoueur = 0;
@@ -233,13 +209,12 @@ public class Minimax {
         int poidsCourant;
         Case anciennePositionPinguin = null;
         ArrayList<Case> movementPossibles;
-        
+
         //Tour de l'IA   
         if (tour % 2 == 0) {
             if (pinguinsAdverses.isEmpty()) {
                 return bonusJoueur;
 
- 
             }
             int max = -1;
 
@@ -343,93 +318,96 @@ public class Minimax {
         }
 
         public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses) {
-            int bonus = 0;
+            int bonusJoueur = 0;
+            int bonusAdversaire = 0;
 
             ArrayList<Pinguin> potence = new ArrayList<>();
-            if (tour % 2 == 0) {
 
-                for (Pinguin p : pinguinsJoueur) {
-                    if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
-                        potence.remove(p);
-                        try {
-                            bonus += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
-                        } catch (Exception e) {
-                            System.out.println("ERREUR ==================================");
-                            System.out.println("taille iceberg : " + this.plateau.getCasesIceberg(p.getPosition()).size());
-                            System.out.println("Nb Pinguin : " + this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())));
-                        }
-                    } else if (p.getPosition().getCasePossibles().isEmpty()) {
-                        bonus += p.getPosition().getNbPoissons();
-                        potence.remove(p);
-                    }
+            for (Pinguin p : pinguinsJoueur) {
+                if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
+                    potence.add(p);
+                    bonusJoueur += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                    /*if (this.plateau.getCasesIceberg(p.getPosition()).isEmpty() || this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())) == 0) {
+                     System.out.println("=================\nTaille iceberg : " + this.plateau.getCasesIceberg(p.getPosition()) + "\nNb Pinguins : " + this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())));
+                     }*/
+                } else if (p.getPosition().getCasePossibles().isEmpty()) {
+                    bonusJoueur += p.getPosition().getNbPoissons();
+                    potence.add(p);
                 }
-                pinguinsJoueur.removeAll(potence);
-
-            } else {
-                for (Pinguin p : pinguinsAdverses) {
-                    if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
-                        potence.remove(p);
-                        bonus += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
-                    } else if (p.getPosition().getCasePossibles().isEmpty()) {
-                        bonus += p.getPosition().getNbPoissons();
-                        potence.remove(p);
-                    }
-                }
-                pinguinsAdverses.removeAll(potence);
             }
 
+            for (Pinguin p : pinguinsAdverses) {
+                if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
+                    potence.add(p);
+                    bonusAdversaire += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                    /*if (this.plateau.getCasesIceberg(p.getPosition()).isEmpty() || this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())) == 0) {
+                     System.out.println("=================\nTaille iceberg : " + this.plateau.getCasesIceberg(p.getPosition()) + "\nNb Pinguins : " + this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())));
+                     }*/
+                } else if (p.getPosition().getCasePossibles().isEmpty()) {
+                    bonusAdversaire += p.getPosition().getNbPoissons();
+                    potence.add(p);
+                }
+            }
+
+            pinguinsJoueur.removeAll(potence);
+            pinguinsAdverses.removeAll(potence);
             int poidsCourant;
             Case anciennePositionPinguin = null;
             ArrayList<Case> movementPossibles;
 
-            if (pinguinsJoueur.isEmpty()) {
-                return bonus;
+            //Tour de l'IA   
+            if (tour % 2 == 0) {
+                if (pinguinsAdverses.isEmpty()) {
+                    return bonusJoueur;
 
-                //Tour de l'IA
-            } else if (tour % 2 == 0) {
+                }
                 int max = -1;
 
                 for (Pinguin p : pinguinsJoueur) {
                     movementPossibles = p.getPosition().getCasePossibles();
                     anciennePositionPinguin = p.getPosition();
-                    anciennePositionPinguin.setCoulee(true);
                     anciennePositionPinguin.setPinguin(null);
+                    anciennePositionPinguin.setCoulee(true);
 
                     for (Case c : movementPossibles) {
 
                         p.setPosition(c);
                         c.setPinguin(p);
 
-                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur, (ArrayList<Pinguin>) pinguinsAdverses) + c.getNbPoissons()) > max) {
+                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) > max) {
                             max = poidsCourant;
                         }
 
                         c.setPinguin(null);
-
                     }
+
                     p.setPosition(anciennePositionPinguin);
-                    anciennePositionPinguin.setCoulee(false);
                     anciennePositionPinguin.setPinguin(p);
+                    anciennePositionPinguin.setCoulee(false);
                 }
 
                 return max;
 
                 //Tour de l'adversaire                    
             } else {
-                int min = Integer.MAX_VALUE;
+                if (pinguinsJoueur.isEmpty()) {
+                    return bonusAdversaire;
+
+                }
+                int min = 300;
 
                 for (Pinguin p : pinguinsAdverses) {
                     movementPossibles = p.getPosition().getCasePossibles();
                     anciennePositionPinguin = p.getPosition();
-                    anciennePositionPinguin.setCoulee(true);
                     anciennePositionPinguin.setPinguin(null);
+                    anciennePositionPinguin.setCoulee(true);
 
                     for (Case c : movementPossibles) {
 
                         p.setPosition(c);
                         c.setPinguin(p);
 
-                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur, (ArrayList<Pinguin>) pinguinsAdverses) + +c.getNbPoissons()) < min) {
+                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) < min) {
                             min = poidsCourant;
                         }
 
@@ -437,71 +415,15 @@ public class Minimax {
 
                     }
                     p.setPosition(anciennePositionPinguin);
-                    anciennePositionPinguin.setCoulee(false);
                     anciennePositionPinguin.setPinguin(p);
+                    anciennePositionPinguin.setCoulee(false);
                 }
+
                 return min;
 
             }
+
         }
 
-    }
-
-    public class Arbre<T> {
-
-        private ArrayList<T> fils;
-        private Arbre<T> pere;
-        private T t;
-        private int poids;
-
-        public Arbre(T t) {
-            this.poids = 0;
-            this.fils = new ArrayList<>();
-            this.pere = null;
-            this.t = t;
-        }
-
-        public Arbre(Arbre<T> pere, T t) {
-            this.poids = 0;
-            this.pere = pere;
-            this.fils = new ArrayList<>();
-            this.t = t;
-        }
-
-        public Arbre<T> getPere() {
-            return pere;
-        }
-
-        public void setPere(Arbre<T> pere) {
-            this.pere = pere;
-        }
-
-        public T getObjetCourante() {
-            return t;
-        }
-
-        public void setObjetCourante(T t) {
-            this.t = t;
-        }
-
-        public int getPoids() {
-            return poids;
-        }
-
-        public void setPoids(int poids) {
-            this.poids = poids;
-        }
-
-        public void ajouterFils(T fils) {
-            this.fils.add(fils);
-        }
-
-        public ArrayList<T> getFils() {
-            return fils;
-        }
-
-        public void setFils(ArrayList<T> fils) {
-            this.fils = fils;
-        }
     }
 }

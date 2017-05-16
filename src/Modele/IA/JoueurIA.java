@@ -7,19 +7,16 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
-import Modele.IA.Minimax.MyPair;
+import Modele.IA.Methodes.GetIlotsPossibles;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import Modele.TypeAutre.MyPair;
 import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -105,6 +102,7 @@ public class JoueurIA extends Joueur {
         System.out.println("\n\n");
     }
 
+
     @Override
     public void reset() {
         super.reset();
@@ -116,8 +114,7 @@ public class JoueurIA extends Joueur {
      * pour déterminer quelle pinguin jouer et ou. Avant de renvoyer la case
      * choisie, l'IA place le pinguin choisi en tant que pinguinCourant
      *
-     * @param partie
-     * @param plateau : plateau de jeu
+     * @param partie : partie en cours
      * @return la case jouee par l'IA
      */
     @Override
@@ -145,12 +142,13 @@ public class JoueurIA extends Joueur {
     }
 
     /**
-     *
-     * @param joueurs
-     * @param plateau
-     * @return
+     * Cette methode va placer un pinguin au hasard pour le joueur joueur
+     * 
+     * @param joueur : joueur voulant faire ce coup
+     * @param partie : partie en cours
+     * @return Case ou un pinguin doit ce placer
      */
-    public static Case phaseInitialisationStatic(JoueurIA joueurs, Partie partie) {
+    public static Case phaseInitialisationStatic(JoueurIA joueur, Partie partie) {
         Case caseChoisie;
         Random r = new Random();
         int i, j;
@@ -167,13 +165,8 @@ public class JoueurIA extends Joueur {
         return phaseInitialisationGourmandeStatic(this, partie);
     }
 
-    /**
-     *
-     * @param joueurs
-     * @param plateau
-     * @return
-     */
-    public static Case phaseInitialisationGourmandeStatic(JoueurIA joueurs, Partie partie) {
+    //WOLOLO
+    public static Case phaseInitialisationGourmandeStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("phaseInitialisationGourmandeStatic");
         Case caseChoisie = null;
         ArrayList<Case> casesAccessible = null;
@@ -207,7 +200,8 @@ public class JoueurIA extends Joueur {
         return phaseInitialisationMaxPossibiliteeStatic(this, partie);
     }
 
-    public static Case phaseInitialisationMaxPossibiliteeStatic(JoueurIA joueurs, Partie partie) {
+    //WOLOLO
+    public static Case phaseInitialisationMaxPossibiliteeStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("phaseInitialisationMaxPossibiliteeStatic");
         Case caseCourante, CaseRes = null;
         int maxCasesAtteignable = -1;
@@ -236,6 +230,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.phaseJeuStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case phaseJeuStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("jeuAleatoire");
         Random r = new Random();
@@ -255,6 +250,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.phaseJeuEliminationStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case phaseJeuEliminationStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("phaseJeuElimination");
         Case caseChoisie = joueur.chercherVictimeStatic(joueur, partie);
@@ -278,6 +274,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.phaseJeuGourmandStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case phaseJeuGourmandStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("Gourmand");
         Case caseChoisie = null;
@@ -306,6 +303,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.phaseJeuMaxPossibiliteeStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case phaseJeuMaxPossibiliteeStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("MaxPossibilitees");
         Pinguin pCourant = null;
@@ -340,6 +338,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.phaseJeuMeilleurCheminStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case phaseJeuMeilleurCheminStatic(JoueurIA joueur, Partie partie) {
         //Si il n'y a plus pinguin adverse sur l'iceberg
         //System.out.println("phaseJeuMeilleurCheminStatic");
@@ -399,6 +398,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.sauveQuiPeutBasiqueStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case sauveQuiPeutBasiqueStatic(Joueur joueur, Partie partie) {
         Case caseChoisie = null;
         boolean risque = false;
@@ -427,15 +427,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.chercherVictimeStatic(this, partie);
     }
 
-    /**
-     * Une case permettant de tuer un pinguin adverse ou null si une telle case
-     * n'existe pas
-     *
-     * @param joueur
-     * @param partie
-     * @param plateau : plateau de jeu
-     * @return Case prochainement joue
-     */
+    //WOLOLO
     public static Case chercherVictimeStatic(Joueur joueur, Partie partie) {
         //System.out.println("chercherVictimeStatic");
         Case caseCourante, caseResultat = null;
@@ -507,13 +499,7 @@ public class JoueurIA extends Joueur {
         return JoueurIA.chercherVictimePremierDuNomStatic(this, partie);
     }
 
-    /**
-     *
-     * @param joueur
-     * @param partie
-     * @return Une case permettant de tuer un pinguin adverse ou null si une
-     * telle case n'existe pas
-     */
+    //WOLOLO
     public static Case chercherVictimePremierDuNomStatic(Joueur joueur, Partie partie) {
         //System.out.println("chercherVictimePremierDuNomStatic");
         Case caseCourante = null;
@@ -581,12 +567,12 @@ public class JoueurIA extends Joueur {
         return JoueurIA.chercheIlotStatic(this, partie);
     }
 
+    //WOLOLO
     public static Case chercheIlotStatic(JoueurIA joueur, Partie partie) {
         //System.out.println("chercheIlotStatic");
-        ArrayList<CaseCritique> ilotsPossibles = new ArrayList<>();
         ArrayList<Case> casesAccessibles, iceberg;
         int poidsIceberg, maxPoidsIceberg = -1;
-        JoueurIA.getIlotsPossibles(partie.getPlateau(), ilotsPossibles);
+        ArrayList<CaseCritique> ilotsPossibles = JoueurIA.getIlotsPossibles(partie.getPlateau());
         Case c, caseCourante = null;
 
         //Pour tous les pinguins du joueur
@@ -636,14 +622,10 @@ public class JoueurIA extends Joueur {
         return caseCourante;
     }
 
-    /**
-     *
-     * @param plateau : plateau de jeu
-     * @param ilotsPossibles : return par effet de bord
-     */
-    public static void getIlotsPossibles(Plateau plateau, ArrayList<CaseCritique> ilotsPossibles) {
-        Case caseCourante;
-
+    //WOLOLO
+    public static ArrayList<CaseCritique> getIlotsPossibles(Plateau plateau) {
+        /*Case caseCourante;
+        ArrayList<CaseCritique> ilotsPossibles = new ArrayList<>();
         for (int i = 0; i < plateau.getNbLignes(); i++) {
             for (int j = 0; j < plateau.getNbColonnes(); j++) {
 
@@ -654,6 +636,13 @@ public class JoueurIA extends Joueur {
                 }
             }
         }
+        return ilotsPossibles;
+        */
+        
+        GetIlotsPossibles methode = new GetIlotsPossibles(plateau);
+        plateau.appliquerSurCases(methode);
+        return methode.getIlotsPossibles();
+        
     }
 
     /**
@@ -694,6 +683,7 @@ public class JoueurIA extends Joueur {
         return caseCritique;
     }
 
+    //WOLOLO
     public static Case minimax(Joueur joueur, Partie partie) {
         ArrayList<Joueur> joueurs;
         Joueur adversaire;
@@ -721,6 +711,9 @@ public class JoueurIA extends Joueur {
         return null;
     }
 
+    /////////////////////////////
+    // GETTER SETTER AFFICHAGE
+    
     public ArrayList<Case> getChemin() {
         return chemin;
     }
