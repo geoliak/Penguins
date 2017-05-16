@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controleur;
+package Modele;
 
 import Modele.Joueur;
 import Modele.Partie;
@@ -69,7 +69,7 @@ public class AnnulerCoup implements Serializable {
 	coups++;
     }
 
-    void annulerDernierCoup() throws FileNotFoundException {
+    public void annulerDernierCoup() throws FileNotFoundException {
 	if (Files.exists(Paths.get(dossier.toString() + "/Plateau" + (coups - 1)))) {
 	    System.out.println("annulation coup!");
 	    coups--;

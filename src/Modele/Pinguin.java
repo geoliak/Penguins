@@ -7,7 +7,7 @@ package Modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import javafx.scene.image.ImageView;
+import Modele.MyImageView;
 
 /**
  *
@@ -19,21 +19,21 @@ public class Pinguin implements Serializable {
     private Case position;
     private Joueur general;
     private Boolean estSeul;
-    private ImageView iv;
+    private MyImageView iv;
 
     public Pinguin(Case position, Joueur maitre) {
 	this.vivant = true;
 	this.position = position;
 	this.general = maitre;
 	this.estSeul = false;
-        //this.iv = new ImageView(general.getCouleur().getImage());
+	//this.iv = new MyImageView(general.getCouleur().getImage());
     }
-    
+
     public Pinguin myClone(Plateau plateau) {
-        Case c = plateau.getCases()[this.getPosition().getNumLigne()][this.getPosition().getNumColonne()];
-        Pinguin clone = new Pinguin(c, this.general);
-        c.setPinguin(clone);
-        return clone;
+	Case c = plateau.getCases()[this.getPosition().getNumLigne()][this.getPosition().getNumColonne()];
+	Pinguin clone = new Pinguin(c, this.general);
+	c.setPinguin(clone);
+	return clone;
     }
 
     public void deplace(Case c) {
@@ -121,11 +121,11 @@ public class Pinguin implements Serializable {
 	this.estSeul = estSeul;
     }
 
-    public ImageView getIv() {
-        return iv;
+    public MyImageView getIv() {
+	return iv;
     }
 
-    public void setIv(ImageView iv) {
-        this.iv = iv;
+    public void setIv(MyImageView iv) {
+	this.iv = iv;
     }
 }

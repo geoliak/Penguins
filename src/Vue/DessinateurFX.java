@@ -8,6 +8,7 @@ package Vue;
 import Controleur.MouseClickerCase;
 import Controleur.MouseClickerPenguin;
 import Modele.Case;
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
@@ -22,7 +23,7 @@ import javafx.scene.Group;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.image.ImageView;
+import Modele.MyImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -45,7 +46,7 @@ public class DessinateurFX extends Visiteur {
     public DessinateurFX(Group root, AnimationFX a) {
 	this.root = root;
 	this.a = a;
-	this.partie = InterfaceFX.getPartie();
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	sizeGlacon = 50.0;
 	proportion = 1;
 	gap = 4;
@@ -60,14 +61,13 @@ public class DessinateurFX extends Visiteur {
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
 
-	if (InterfaceFX.getPartie().isReloadPartie()) {
+	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    System.out.println("===================RELOAD=======================");
-	    this.partie = InterfaceFX.getPartie();
-
-	    root.getChildren().clear();
+	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 
 	    for (Case[] cases : plateau.getCases()) {
 		for (Case c : cases) {
+//		    c.getPolygon().setImage(null);
 		    c.setPolygon(null);
 		}
 	    }
@@ -131,34 +131,34 @@ public class DessinateurFX extends Visiteur {
 		    break;
 	    }
 	    //MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
-            c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color, c.getNbPoissons()));
-            
-            EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
+	    c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color, c.getNbPoissons()));
+
+	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 	    c.getPolygon().getImage().setOnMouseClicked(clicSourisFX);
 //	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 //	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
 	    root.getChildren().add(c.getPolygon().getImage());
-	} else if (!c.estCoulee() && c.getPolygon() != null){
-            if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-                c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
-            } else {
-                c.getPolygon().getImage().setEffect(null);
-            }
-        } else if(c.estCoulee() && c.getPolygon()!=null){
-            a.efface(c.getPolygon().getImage());
-            c.setPolygon(null);
-        }
+	} else if (!c.estCoulee() && c.getPolygon() != null) {
+	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
+		c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+	    } else {
+		c.getPolygon().getImage().setEffect(null);
+	    }
+	} else if (c.estCoulee() && c.getPolygon() != null) {
+	    a.efface(c.getPolygon().getImage());
+	    c.setPolygon(null);
+	}
     }
 
     @Override
     public void visite(Pinguin p) {
 	if (p.estVivant() && p.getIv() == null) {
-	    ImageView iv = new ImageView(p.getGeneral().getCouleur().getImage());
-	    //ImageView iv = p.getIv();
+	    MyImageView iv = new MyImageView(p.getGeneral().getCouleur().getImage());
+	    //MyImageView iv = p.getIv();
 
 	    iv.setPreserveRatio(true);
-	    iv.setFitHeight(height*0.8);
+	    iv.setFitHeight(height * 0.8);
 
 	    double x = p.getPosition().getPolygon().getXorigine() + width / 2;
 	    double y = p.getPosition().getPolygon().getYorigine() + height / 2;
@@ -204,12 +204,12 @@ public class DessinateurFX extends Visiteur {
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
+
     public void visiteScore(Joueur j) {
-        try{
-            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
-        }
-        catch (Exception e){
-            System.out.println("erreur - visisteScore : " + e.getMessage());
-        }
+	try {
+//            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
+	} catch (Exception e) {
+	    System.out.println("erreur - visisteScore : " + e.getMessage());
+	}
     }
 }

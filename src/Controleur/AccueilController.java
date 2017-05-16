@@ -1,0 +1,67 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controleur;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import Modele.MyImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+public class AccueilController implements Initializable {
+
+    @FXML
+    private MyImageView locale;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //
+        /*File f = new File("ressources/img/bouton_partie_reseau_resize.png");
+	 locale = new MyImageView(new Image(f.toURI().toString()));
+
+	 locale.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	 @Override
+	 public void handle(MouseEvent event) {
+	 try {
+	 System.out.println("handler");
+	 jouerLocal(event);
+	 } catch (IOException ex) {
+	 Logger.getLogger(AccueilController.class.getName()).log(Level.SEVERE, null, ex);
+	 }
+	 }
+	 });*/
+    }
+
+    public void jouerLocal(MouseEvent e) throws IOException {
+	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
+    }
+
+    public void on(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
+    }
+
+    public void out(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(null);
+    }
+
+}

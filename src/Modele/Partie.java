@@ -5,7 +5,6 @@
  */
 package Modele;
 
-import Controleur.AnnulerCoup;
 import java.io.Serializable;
 import java.util.ArrayList;
 
