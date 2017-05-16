@@ -45,7 +45,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        //System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
+        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
 	rowclic = p.getY();
 	columnclic = p.getX();
@@ -59,6 +59,8 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
+                } else {
+                    partie.setTourFini(true);
                 }
             // Phase de jeu
             } else {
@@ -72,19 +74,25 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                         
                         partie.getPlateau().setEstModifié(true);
                         partie.joueurSuivant();
+                    } else {
+                        partie.setTourFini(true);
                     }
+                } else {
+                    partie.setTourFini(true);
                 }
             }
             
-            for(Joueur j : partie.getJoueurs()){
-                for(Pinguin p : j.getPinguinsVivants()){                    
+            for (Joueur j : partie.getJoueurs()) {
+                for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
-                    }
+                    }/*else if (p.getPosition().getCasePossibles().size() == 0) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    }*/
                 }
             }
         }
-	
     }
 }
