@@ -15,8 +15,8 @@ import Modele.Partie;
  */
 public class JoueurIAchercheIlot extends JoueurIA {
 
-    public JoueurIAchercheIlot(Couleur couleur) {
-        super(couleur, "JoueurTestChercherIlot");
+    public JoueurIAchercheIlot(Couleur couleur, int numero) {
+        super(couleur, "JoueurTestChercherIlot", numero);
     }
     
     

@@ -14,8 +14,8 @@ import javafx.scene.paint.Color;
  */
 public class JoueurHumainLocal extends JoueurHumain {
 
-    public JoueurHumainLocal(String nom, Couleur couleur) {
-        super(nom, couleur);
+    public JoueurHumainLocal(String nom, Couleur couleur, int numero) {
+        super(nom, couleur, numero);
     }
 
     /**

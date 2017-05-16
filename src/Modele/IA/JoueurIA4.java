@@ -19,12 +19,12 @@ import java.util.Random;
  */
 public class JoueurIA4 extends JoueurIA {
 
-    public JoueurIA4(Couleur couleur, String nom) {
-        super(couleur, nom);
+    public JoueurIA4(Couleur couleur, String nom, int numero) {
+        super(couleur, nom, numero);
     }
 
-    public JoueurIA4(Couleur couleur) {
-        super(couleur, "JoueurIA4");
+    public JoueurIA4(Couleur couleur, int numero) {
+        super(couleur, "JoueurIA4", numero);
     }
 
     @Override

@@ -20,8 +20,8 @@ import java.util.Random;
  */
 public class JoueurIA5 extends JoueurIA {
 
-    public JoueurIA5(Couleur couleur) {
-        super(couleur, "JoueurIA5");
+    public JoueurIA5(Couleur couleur, int numero) {
+        super(couleur, "JoueurIA5", numero);
     }
 
     @Override
