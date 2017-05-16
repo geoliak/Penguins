@@ -9,26 +9,35 @@ import Controleur.AnnulerCoup;
 import Controleur.Keyboard_Handler;
 import Modele.Couleur;
 import Modele.IA.JoueurIA;
-import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
-import Modele.IA.JoueurIA7;
-import Modele.IA.JoueurIA8;
-import Modele.IA.JoueurIASauveQuiPeut;
-import Modele.IA.JoueurIAchercheIlot;
 import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
 import Modele.Plateau;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -38,55 +47,72 @@ import javafx.stage.Stage;
 public class InterfaceFX extends Application {
 
     static Plateau plateau;
+    static Label labelScores[] = new Label[4];
+    static ImageView imagePing[] = new ImageView[4]; // imageViews pour stocker l'image des pingouins à afficher derrière la banniere score
     static Partie partie;
     static Group root;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws FileNotFoundException {
 	System.out.println("start");
 	stage.setTitle("Nom du jeu");
-
+        BorderPane borderP = new BorderPane();
+        borderP.setBackground(new Background(new BackgroundFill(Color.DODGERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        borderP.setPadding(new Insets(0, 0, 0, 0));
 	root = new Group();
+        Rectangle rect = new Rectangle(0, -40, 30, 30);
+        rect.setFill(Color.DODGERBLUE);
+        root.getChildren().add(rect);
 //        Parent parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
 	//Canvas canvas = new Canvas(1200, 900);
 	//GraphicsContext gc = canvas.getGraphicsContext2D();
 //        root.getChildren().add(parent);
-	Scene scene = new Scene(root, 1200, 900);
+	Scene scene = new Scene(borderP, 1200, 900);
 
 	//root.getChildren().add(canvas);
 	scene.setFill(Color.DODGERBLUE);
-	stage.setScene(scene);
+	
+      
+        borderP.setCenter(root);
+        VBox v = new VBox();
+        v.setAlignment(Pos.CENTER);
+        
+        JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX, 1);
+	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX, 2);
+        JoueurIA joueuria = new JoueurIA3(Couleur.VioletFX, 3);
+        JoueurIA joueuria2 = new JoueurIA5(Couleur.JauneFX, 4);
 
+
+        //JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX, 5);
+
+	ArrayList<Joueur> joueurs = new ArrayList<>();
+        v.getChildren().add(setBanner(joueurH1, "verte"));
+        joueurs.add(joueurH2);
+        v.getChildren().add(setBanner(joueurH2, "rouge"));
+	joueurs.add(joueuria);   
+        v.getChildren().add(setBanner(joueuria, "violette"));
+        joueurs.add(joueuria2);   
+        v.getChildren().add(setBanner(joueuria2, "jaune"));
+        
+        borderP.setRight(v);
+        System.out.println("VBOX AJOUTEE");
 	//Image img = new Image(f.toURI().toString());
 	//plateau.getCases()[4][4].setPinguin(new Pinguin(plateau.getCases()[4][4], new JoueurHumainLocal("Quentin", Couleur.Rouge), img));
 	//plateau.initCase();
-	JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX);
-	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
-        
-
-        JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX);
-
-	ArrayList<Joueur> joueurs = new ArrayList<>();
-	joueurs.add(joueurH1);
-	joueurs.add(joueuria);
-
 	System.out.println(joueurs.size());
 
 	InterfaceFX.partie = new Partie(plateau, joueurs);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
-
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d, this);
-
 	//Initialisation d'Annuler coup et de capteur de clavier
 	AnnulerCoup histcoup = new AnnulerCoup(partie);
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
 	scene.setOnKeyPressed(keypresser);
-
+        stage.setScene(scene);
 	r.start();
-
 	stage.show();
     }
 
@@ -111,5 +137,35 @@ public class InterfaceFX extends Application {
     public static Group getRoot() {
 	return root;
     }
-
+    public static Label[] getLabelScores() {
+        return labelScores;
+    }
+    
+    public static AnchorPane setBanner(Joueur j, String s) throws FileNotFoundException{
+        AnchorPane ap = new AnchorPane();
+        
+        Image imgBaniere = new Image(new FileInputStream("ressources/img/banniere_"+s+".png"));
+        ImageView ivBanniere = new ImageView(imgBaniere);
+        ivBanniere.setLayoutX(0);
+        ivBanniere.setLayoutY(50);
+        ivBanniere.setFitHeight(150);
+        ivBanniere.setPreserveRatio(true);
+        
+        Label labelNom = new Label();
+        labelNom.setLayoutX(150);
+        labelNom.setLayoutY(115);
+        labelNom.setText(j.getNom());
+        
+        Label labelScore = new Label();
+        labelScore.setLayoutX(50); 
+        labelScore.setLayoutY(115);
+        labelScore.setText(Integer.toString(j.getScorePoissons()));
+        labelScore.setTextFill(Color.WHITE); 
+        
+        ap.getChildren().addAll(ivBanniere, labelNom, labelScore);
+        System.out.println("J.getNumero() = " + j.getNumero());
+        labelScores[j.getNumero()-1]= labelScore;
+        
+        return ap;
+    }
 }
