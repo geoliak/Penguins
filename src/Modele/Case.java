@@ -214,6 +214,8 @@ public class Case implements Serializable {
     public boolean estCaseValideInit() {
 	return estCaseLibre() && nbPoissons == 1;
     }
+    
+    
 
     @Override
     public String toString() {

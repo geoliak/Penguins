@@ -22,6 +22,7 @@ public class Partie implements Serializable {
     private Boolean initialisation;
     private int nbPingouinParJoueur;
     private boolean tourFini;
+    private boolean reloadPartie;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
 	this.initialisation = true;
@@ -30,13 +31,22 @@ public class Partie implements Serializable {
 
 	this.joueursEnJeu = (ArrayList<Joueur>) joueurs.clone();
 	this.joueurCourant = joueursEnJeu.remove(0);
-        
-        this.tourFini = true;
+
+	this.tourFini = true;
 
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
     }
 
+//    public Partie(Partie partie) {
+//	this.plateau = partie.plateau;
+//	this.joueurs = partie.joueurs;
+//	this.joueurCourant = partie.joueurCourant;
+//	this.joueursEnJeu = partie.joueursEnJeu;
+//	this.initialisation = partie.initialisation;
+//	this.tourFini = partie.tourFini;
+//	this.nbPingouinParJoueur = partie.nbPingouinParJoueur;
+//    }
     public int nbPingouinsTotal() {
 	int nb = 0;
 	for (Joueur j : joueurs) {
@@ -181,10 +191,18 @@ public class Partie implements Serializable {
     }
 
     public boolean isTourFini() {
-        return tourFini;
+	return tourFini;
     }
 
     public void setTourFini(boolean tourFini) {
-        this.tourFini = tourFini;
+	this.tourFini = tourFini;
+    }
+
+    public boolean isReloadPartie() {
+	return reloadPartie;
+    }
+
+    public void setReloadPartie(boolean reloadPartie) {
+	this.reloadPartie = reloadPartie;
     }
 }
