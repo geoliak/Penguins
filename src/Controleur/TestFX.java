@@ -20,7 +20,7 @@ public class TestFX {
     public static void main(String[] args) {
 	try {
 
-	    Plateau plateau = new Plateau("ressources/plateaux/plateau5");
+	    Plateau plateau = new Plateau("ressources/plateaux/plateau1");
 
 
 	    System.out.println(plateau);

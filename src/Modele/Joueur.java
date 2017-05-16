@@ -85,6 +85,7 @@ public abstract class Joueur implements Serializable {
      * coordonnees de la case desiree (uniquement utilise pour la version
      * textuel)
      *
+     * @param partie
      * @param plateau : plateau de jeu
      * @return Case : case jouee
      */

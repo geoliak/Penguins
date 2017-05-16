@@ -49,11 +49,11 @@ public class GenereIA {
         this.debutJeuCertain.add(JoueurIA::phaseJeuMaxPossibilitee);
 
         this.debutJeuElimination.add(JoueurIA::phaseJeuElimination);
-        this.debutJeuElimination.add(JoueurIA::chercherVictimePremierDuNom);
+        this.debutJeuElimination.add(JoueurIA::chercherVictimeSimple);
 
         this.debutJeu.add(JoueurIA::chercheIlot);
         this.debutJeu.add(JoueurIA::phaseJeuElimination);
-        this.debutJeu.add(JoueurIA::chercherVictimePremierDuNom);
+        this.debutJeu.add(JoueurIA::chercherVictimeSimple);
 
         //Methode pouvant etre utilisées pour le millieu de partie
         this.millieuJeu = new ArrayList<>();
@@ -64,11 +64,11 @@ public class GenereIA {
         this.millieuJeuCertain.add(JoueurIA::phaseJeuMaxPossibilitee);
 
         this.millieuJeuElimination.add(JoueurIA::phaseJeuElimination);
-        this.millieuJeuElimination.add(JoueurIA::chercherVictimePremierDuNom);
+        this.millieuJeuElimination.add(JoueurIA::chercherVictimeSimple);
 
         this.millieuJeu.add(JoueurIA::chercheIlot);
         this.millieuJeu.add(JoueurIA::phaseJeuElimination);
-        this.millieuJeu.add(JoueurIA::chercherVictimePremierDuNom);
+        this.millieuJeu.add(JoueurIA::chercherVictimeSimple);
 
         this.enumeration = new ArrayList<>();
     }

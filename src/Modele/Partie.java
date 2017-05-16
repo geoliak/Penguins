@@ -141,6 +141,16 @@ public class Partie implements Serializable {
 	    }
 	}
     }
+    
+    public ArrayList<Joueur> getAutresJoueurs(Joueur joueur) {
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+        for (Joueur j : this.joueurs) {
+            if (j != joueur) {
+                joueurs.add(j);
+            }
+        }
+        return joueurs;
+    }
 
     public Plateau getPlateau() {
 	return plateau;

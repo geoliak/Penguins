@@ -11,7 +11,9 @@ import Modele.*;
 import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
+import Modele.IA.JoueurIA7;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurMinimax;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -74,18 +76,26 @@ public class InterfaceFX extends Application {
 	JoueurIA joueurIA8 = new JoueurIA8(Couleur.RougeFX, 2);
         JoueurIA joueurIA3 = new JoueurIA3(Couleur.VioletFX, 3);
         JoueurIA joueurIA5 = new JoueurIA5(Couleur.JauneFX, 4);
+        JoueurIA joueurIA7 = new JoueurIA7(Couleur.JauneFX, 4);
 
-        //JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX, 5);
+        JoueurIA joueurIAMinimax = new JoueurMinimax(Couleur.RougeFX, 2);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
-        v.getChildren().add(setBanner(joueurH1, "verte"));
+        joueurs.add(joueurH1);
+        joueurs.add(joueurIAMinimax);
+        
+        for(Joueur j : joueurs) {
+            v.getChildren().add(setBanner(j, j.getCouleur().getNom()));
+        }
+        
+        /*v.getChildren().add(setBanner(joueurH1, "verte"));
         joueurs.add(joueurH1);
         v.getChildren().add(setBanner(joueurIA8, "rouge"));
 	joueurs.add(joueurIA8);   
         v.getChildren().add(setBanner(joueurIA3, "violette"));
         joueurs.add(joueurIA3);   
         v.getChildren().add(setBanner(joueurIA5, "jaune"));
-        joueurs.add(joueurIA5); 
+        joueurs.add(joueurIA5); */
         
         borderP.setRight(v);
         System.out.println("VBOX AJOUTEE");

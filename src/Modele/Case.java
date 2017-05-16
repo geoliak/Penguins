@@ -31,6 +31,7 @@ public class Case implements Serializable {
 	this.voisins = new Case[6];
 	this.numLigne = c.numLigne;
 	this.numColonne = c.numColonne;
+        this.nbPoissons = c.getNbPoissons();
     }
 
     public Case(int numLigne, int numColonne) {

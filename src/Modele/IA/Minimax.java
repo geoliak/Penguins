@@ -10,6 +10,7 @@ import Modele.Joueur;
 import Modele.Pinguin;
 import Modele.Plateau;
 import Modele.TypeAutre.MyPair;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -51,7 +52,6 @@ public class Minimax {
         Case anciennePositionPinguin = null;
         int max = Integer.MIN_VALUE;
         ArrayList<Case> movementPossibles;
-        int i = 0;
         HashMap<Pinguin, Integer> debug = new HashMap<>();
 
         for (Pinguin p : pinguinsJoueur) {
@@ -66,15 +66,10 @@ public class Minimax {
                 p.setPosition(c);
                 c.setPinguin(p);
 
-                if (movementPossibles.size() == 1) {
-                    System.out.println("rkgiherifjme");
-                }
-
                 if ((poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) > max) {
                     max = poidsCourant;
                     pinguinRep = p;
                     caseRes = c;
-                    i++;
                 }
 
                 c.setPinguin(null);
@@ -83,10 +78,6 @@ public class Minimax {
             p.setPosition(anciennePositionPinguin);
             anciennePositionPinguin.setCoulee(false);
             anciennePositionPinguin.setPinguin(p);
-        }
-
-        if (caseRes == null || pinguinRep == null) {
-            System.out.println("efrogpgjpfozefogelfezfirhgmzro");
         }
 
         MyPair<Case, Pinguin> rep = new MyPair(caseRes, pinguinRep);
@@ -131,12 +122,12 @@ public class Minimax {
 
                 ArrayList<Pinguin> joueur1 = new ArrayList<>();
                 for (Pinguin pj1 : this.pinguinsJoueur) {
-                    joueur1.add(p.myClone(plateauClone));
+                    joueur1.add(pj1.myClone(plateauClone));
                 }
 
                 ArrayList<Pinguin> joueur2 = new ArrayList<>();
                 for (Pinguin pj2 : this.pinguinsAdverses) {
-                    joueur2.add(p.myClone(plateauClone));
+                    joueur2.add(pj2.myClone(plateauClone));
                 }
 
                 cb = new CalculBranche(joueur1, joueur2, c, plateauClone, p);
@@ -169,8 +160,6 @@ public class Minimax {
 
         return rep;
     }
-
-    
 
     public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses) {
         int bonusJoueur = 0;
@@ -426,4 +415,181 @@ public class Minimax {
         }
 
     }
+
+    public MyPair<Case, Pinguin> executeElagage() {
+        int poidsCourant, min = Integer.MIN_VALUE;
+        int alpha = -Integer.MIN_VALUE, beta = -Integer.MAX_VALUE;
+
+        Case caseRes = null;
+        Pinguin pinguinRep = null;
+
+        Case anciennePositionPinguin = null;
+        ArrayList<Case> movementPossibles;
+
+        for (Pinguin p : pinguinsJoueur) {
+
+            movementPossibles = p.getPosition().getCasePossibles();
+            anciennePositionPinguin = p.getPosition();
+            anciennePositionPinguin.setPinguin(null);
+            anciennePositionPinguin.setCoulee(true);
+
+            for (Case c : movementPossibles) {
+                p.setPosition(c);
+                c.setPinguin(p);
+
+                //////////
+                poidsCourant = -elagageWorker(1, (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), -beta, -alpha);
+                if (poidsCourant > min) {
+                    min = poidsCourant;
+                    pinguinRep = p;
+                    caseRes = c;
+                    if (min > alpha) {
+                        alpha = min;
+                        if (alpha >= beta) {
+                            c.setPinguin(null);
+                            p.setPosition(anciennePositionPinguin);
+                            anciennePositionPinguin.setCoulee(false);
+                            anciennePositionPinguin.setPinguin(p);
+                            return new MyPair<>(caseRes, pinguinRep);
+                        }
+                    }
+                }
+
+                c.setPinguin(null);
+
+            }
+            p.setPosition(anciennePositionPinguin);
+            anciennePositionPinguin.setCoulee(false);
+            anciennePositionPinguin.setPinguin(p);
+        }
+
+        MyPair<Case, Pinguin> rep = new MyPair(caseRes, pinguinRep);
+
+        return rep;
+    }
+
+    public int elagageWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses, int alpha, int beta) {
+        int bonusJoueur = 0;
+        int bonusAdversaire = 0;
+
+        ArrayList<Pinguin> potence = new ArrayList<>();
+
+        for (Pinguin p : pinguinsJoueur) {
+            if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
+                potence.add(p);
+                bonusJoueur += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                if (this.plateau.getCasesIceberg(p.getPosition()).isEmpty() || this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())) == 0) {
+                    System.out.println("=================\nTaille iceberg : " + this.plateau.getCasesIceberg(p.getPosition()) + "\nNb Pinguins : " + this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())));
+                }
+            } else if (p.getPosition().getCasePossibles().isEmpty()) {
+                bonusJoueur += p.getPosition().getNbPoissons();
+                potence.add(p);
+            }
+        }
+
+        for (Pinguin p : pinguinsAdverses) {
+            if (this.plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
+                potence.add(p);
+                bonusAdversaire += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                if (this.plateau.getCasesIceberg(p.getPosition()).isEmpty() || this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())) == 0) {
+                    System.out.println("=================\nTaille iceberg : " + this.plateau.getCasesIceberg(p.getPosition()) + "\nNb Pinguins : " + this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition())));
+                }
+            } else if (p.getPosition().getCasePossibles().isEmpty()) {
+                bonusAdversaire += p.getPosition().getNbPoissons();
+                potence.add(p);
+            }
+        }
+
+        pinguinsJoueur.removeAll(potence);
+        pinguinsAdverses.removeAll(potence);
+        int poidsCourant;
+        Case anciennePositionPinguin = null;
+        ArrayList<Case> movementPossibles;
+        int min = Integer.MIN_VALUE;
+
+        //Tour de l'IA   
+        if (tour % 2 == 0) {
+            if (pinguinsAdverses.isEmpty()) {
+                return bonusJoueur;
+            }
+
+            for (Pinguin p : pinguinsJoueur) {
+                movementPossibles = p.getPosition().getCasePossibles();
+                anciennePositionPinguin = p.getPosition();
+                anciennePositionPinguin.setPinguin(null);
+                anciennePositionPinguin.setCoulee(true);
+
+                for (Case c : movementPossibles) {
+
+                    p.setPosition(c);
+                    c.setPinguin(p);
+
+                    poidsCourant = -elagageWorker(tour + 1, (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), -beta, -alpha);
+                    if (poidsCourant > min) {
+                        min = poidsCourant;
+                        if (min > alpha) {
+                            alpha = min;
+                            if (alpha >= beta) {
+                                c.setPinguin(null);
+                                p.setPosition(anciennePositionPinguin);
+                                anciennePositionPinguin.setPinguin(p);
+                                anciennePositionPinguin.setCoulee(false);
+                                return min;
+                            }
+                        }
+                    }
+
+                    c.setPinguin(null);
+                }
+
+                p.setPosition(anciennePositionPinguin);
+                anciennePositionPinguin.setPinguin(p);
+                anciennePositionPinguin.setCoulee(false);
+            }
+
+            //Tour de l'adversaire                    
+        } else {
+            if (pinguinsJoueur.isEmpty()) {
+                return bonusAdversaire;
+
+            }
+
+            for (Pinguin p : pinguinsAdverses) {
+                movementPossibles = p.getPosition().getCasePossibles();
+                anciennePositionPinguin = p.getPosition();
+                anciennePositionPinguin.setPinguin(null);
+                anciennePositionPinguin.setCoulee(true);
+
+                for (Case c : movementPossibles) {
+
+                    p.setPosition(c);
+                    c.setPinguin(p);
+
+                    poidsCourant = -elagageWorker(tour + 1, (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), -beta, -alpha);
+                    if (poidsCourant > min) {
+                        min = poidsCourant;
+                        if (min > alpha) {
+                            alpha = min;
+                            if (alpha >= beta) {
+                                c.setPinguin(null);
+                                p.setPosition(anciennePositionPinguin);
+                                anciennePositionPinguin.setPinguin(p);
+                                anciennePositionPinguin.setCoulee(false);
+                                return min;
+                            }
+                        }
+                    }
+
+                    c.setPinguin(null);
+
+                }
+                p.setPosition(anciennePositionPinguin);
+                anciennePositionPinguin.setPinguin(p);
+                anciennePositionPinguin.setCoulee(false);
+            }
+
+        }
+        return min;
+    }
+
 }
