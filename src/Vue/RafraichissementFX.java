@@ -66,13 +66,16 @@ public class RafraichissementFX extends AnimationTimer {
 
 	    }
 	    for (Joueur j : partie.getJoueurs()) {
-		for (Pinguin p : j.getPinguinsVivants()) {
-		    if (p.getPosition().estCoulee()) {
-			p.coullePinguin();
-			partie.getPlateau().setEstModifié(true);
-		    }
-		}
-	    }
+                for (Pinguin p : j.getPinguinsVivants()) {
+                    if (p.getPosition().estCoulee()) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    } else if (p.getPosition().getCasePossibles().size() == 0) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    }
+                }
+            }
 
 	} else {
 	    if (!this.resultatAffiches) {
