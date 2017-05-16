@@ -5,13 +5,22 @@
  */
 package Modele;
 
+import java.io.File;
 import java.io.Serializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 /**
  *
  * @author liakopog
+ * 
+ * TO DO:
+ * 
+ * La classe MyPolygon ne sert plus qu'a stocker l'image view des cases.
+ * Supprimer le "extends polygon" et la création des polygon. 
+ *
  */
 public class MyPolygon extends Polygon implements Serializable {
 
@@ -22,14 +31,25 @@ public class MyPolygon extends Polygon implements Serializable {
     private double yorigine;
     
     private double sizeGlacon;
+    private ImageView image;
 
-    public MyPolygon(int i, int j, double sizeGlacon, double proportion, double gap, Color color) {
+    public MyPolygon(int i, int j, double sizeGlacon, double proportion, double gap, Color color, int nbPoisson) {
 	super();
 	this.x = i;
 	this.y = j;
         this.sizeGlacon = sizeGlacon;
 	this.setOrigine(gap, proportion);
-	this.setPoints(gap, proportion, color, xorigine, yorigine);
+        
+        this.setImage(nbPoisson);
+	//this.setPoints(gap, proportion, color, xorigine, yorigine);
+        
+        /*
+        File f = new File("ressources/img/glacon_mini.png");
+        this.image = new ImageView(new Image(f.toURI().toString()));
+        
+        this.image.setX(xorigine);
+        this.image.setY(yorigine);
+        */
     }
 
     public void setOrigine(double gap, double proportion){
@@ -37,8 +57,8 @@ public class MyPolygon extends Polygon implements Serializable {
 	double height = sizeGlacon * 2;
 	double width = height * Math.sqrt(3 / 2);
 
-	this.xorigine = ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap + (this.y % 2) * gap / 2;
-	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap;
+	this.xorigine = ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap*0.8 + (this.y % 2) * gap*0.8 / 2;
+	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap*4 - this.y * size/2;
     }
 
     public int getX() {
@@ -59,6 +79,19 @@ public class MyPolygon extends Polygon implements Serializable {
 
     public double getSizeGlacon() {
         return sizeGlacon;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(int nbPoisson) {
+        File f = new File("ressources/img/glacon_poisson" + nbPoisson + "_mini.png");
+               
+        this.image = new ImageView(new Image(f.toURI().toString()));
+         
+        this.image.setX(xorigine);
+        this.image.setY(yorigine);
     }
     
     public void setPoints(double gap, double proportion, Color color, double i, double j) {

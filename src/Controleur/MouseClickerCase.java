@@ -59,6 +59,8 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
+                } else {
+                    partie.setTourFini(true);
                 }
             // Phase de jeu
             } else {
@@ -72,19 +74,25 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                         
                         partie.getPlateau().setEstModifié(true);
                         partie.joueurSuivant();
+                    } else {
+                        partie.setTourFini(true);
                     }
+                } else {
+                    partie.setTourFini(true);
                 }
             }
             
-            for(Joueur j : partie.getJoueurs()){
-                for(Pinguin p : j.getPinguinsVivants()){                    
+            for (Joueur j : partie.getJoueurs()) {
+                for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    } else if (p.getPosition().getCasePossibles().size() == 0) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
             }
         }
-	
     }
 }

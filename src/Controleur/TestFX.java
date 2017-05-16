@@ -20,15 +20,15 @@ public class TestFX {
     public static void main(String[] args) {
 	try {
 
-            Plateau plateau = new Plateau("ressources/plateaux/plateau5");
+	    Plateau plateau = new Plateau("ressources/plateaux/plateau1");
 
-            System.out.println(plateau);
+	    System.out.println(plateau);
 	    InterfaceFX i = new InterfaceFX();
 	    i.creer(args, plateau);
-	}  catch (IOException ex) {
-            System.out.println("Erreur d'ouverture du fichier");
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	} catch (IOException ex) {
+	    System.out.println("Erreur d'ouverture du fichier");
+	    Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 
 }

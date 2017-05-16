@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -24,6 +25,7 @@ import java.util.Iterator;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Group;
 
 public class Sauvegarde {
 
@@ -50,7 +52,9 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-	    makeIvNull(partie.getJoueurs());
+	    makeIvNull(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs(), ConfigurationPartie.getConfigurationPartie().getRoot());
+	    partie.isReloadPartie();
+	    partie.getPlateau().setEstModifié(true);
 
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
@@ -59,9 +63,24 @@ public class Sauvegarde {
 	} catch (IOException ex) {
 	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
 	}
-    }
+    }//    public void Save(int filenum) {
+//	try {
+//	    Path filepath = Paths.get(savepath + "/save" + filenum);
+//	    deleteIfExists(filepath);
+//	    Files.createFile(filepath);
+//
+//	    makeIvNull(partie.getJoueurs());
+//
+//	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
+//	    oos.writeObject(partie);
+//
+//	    System.out.println("Partie Sauvegardee a: " + filepath.toString());
+//	} catch (IOException ex) {
+//	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
+//	}
+//    }
 
-    public void Load(int filenum) throws IOException, ClassNotFoundException {
+    public Partie Load(int filenum) throws IOException, ClassNotFoundException {
 	Path filepath = Paths.get(savepath + "/save" + filenum);
 
 	ObjectInputStream ois = null;
@@ -69,22 +88,26 @@ public class Sauvegarde {
 
 	Partie partieacharger = (Partie) ois.readObject();
 
-	partie.setPlateau(partieacharger.getPlateau());
-	partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
-	partie.setJoueurs(partieacharger.getJoueurs());
-	partie.setJoueurCourant(partieacharger.getJoueurCourant());
-	partie.setNbPingouinParJoueur();
-	partie.setInitialisation(partieacharger.getInitialisation());
-	partie.getPlateau().setEstModifié(true);
+	partieacharger.setReloadPartie(true);
+	partieacharger.getPlateau().setEstModifié(true);
 
+//	 partie.setPlateau(partieacharger.getPlateau());
+//	 partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
+//	 partie.setJoueurs(partieacharger.getJoueurs());
+//	 partie.setJoueurCourant(partieacharger.getJoueurCourant());
+//	 partie.setNbPingouinParJoueur();
+//	 partie.setInitialisation(partieacharger.getInitialisation());
+//	 partie.getPlateau().setEstModifié(true);
 //	partie = partieacharger;
+	return partieacharger;
     }
 
-    private void makeIvNull(ArrayList<Joueur> joueurs) {
+    private void makeIvNull(ArrayList<Joueur> joueurs, Group root) {
 	for (Iterator<Joueur> it = joueurs.iterator(); it.hasNext();) {
 	    Joueur joueurCourant = it.next();
 	    for (Iterator<Pinguin> itpin = joueurCourant.getPinguins().iterator(); itpin.hasNext();) {
 		Pinguin pinguin = itpin.next();
+		root.getChildren().remove(pinguin.getIv());
 		pinguin.setIv(null);
 	    }
 	}

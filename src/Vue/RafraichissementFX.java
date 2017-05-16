@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -25,58 +26,64 @@ public class RafraichissementFX extends AnimationTimer {
     int i = 0;
     private boolean resultatAffiches;
 
-    public RafraichissementFX(DessinateurFX d, Partie partie) {
-        this.d = d;
-        this.partie = partie;
-        this.resultatAffiches = false;
+    public RafraichissementFX(DessinateurFX d) {
+	this.d = d;
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
+	this.resultatAffiches = false;
     }
 
     @Override
     public void handle(long now) {
+	if (!partie.equals(ConfigurationPartie.getConfigurationPartie().getPartie())) {
+	    System.out.println("Mise a jour de la partie");
+	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
+	}
 
-        // Rafraichissement du plateau
-        if (partie.getPlateau().isEstModifié()) {
-            d.visite(partie.getPlateau());
-            partie.getPlateau().setEstModifié(false);
-        }
+	// Rafraichissement du plateau
+	if (partie.getPlateau().isEstModifié()) {
+	    d.visite(partie.getPlateau());
+	    partie.getPlateau().setEstModifié(false);
+	}
 
-        // Si la partie n'est pas terminée
-        if (!partie.estTerminee()) {
-            if (partie.estEnInitialisation()) {
-                // Si tout les pingouins ont été placés
-                if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
-                    partie.setInitialisation(false);
+	// Si la partie n'est pas terminée
+	if (!partie.estTerminee()) {
+	    if (partie.estEnInitialisation()) {
+		// Si tout les pingouins ont été placés
+		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
+		    partie.setInitialisation(false);
 
-                    for (Joueur j : partie.getJoueursEnJeu()) {
-                        j.setPret(Boolean.TRUE);
-                    }
-                    partie.getJoueurCourant().setPret(Boolean.TRUE);
+		    for (Joueur j : partie.getJoueursEnJeu()) {
+			j.setPret(Boolean.TRUE);
+		    }
+		    partie.getJoueurCourant().setPret(Boolean.TRUE);
 
-                    // Sinon initialisation : Tour IA
-                }
-            }
-            if (partie.isTourFini()) {
-                partie.getJoueurCourant().attendreCoup(partie);
+		    // Sinon initialisation : Tour IA
+		}
+	    }
+	    if (partie.isTourFini()) {
+		partie.getJoueurCourant().attendreCoup(partie);
 
-                
-            }
-            for (Joueur j : partie.getJoueurs()) {
+	    }
+	    for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
+                        p.coullePinguin();
+                        partie.getPlateau().setEstModifié(true);
+                    } else if (p.getPosition().getCasePossibles().size() == 0) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
             }
 
-        } else {
-            if (!this.resultatAffiches) {
-                System.out.println("PARTIE TERMINEE ===============");
-                partie.afficheResultats();
-                //Platform.exit();
-                this.resultatAffiches = true;
-            }
+	} else {
+	    if (!this.resultatAffiches) {
+		System.out.println("PARTIE TERMINEE ===============");
+		partie.afficheResultats();
+		//Platform.exit();
+		this.resultatAffiches = true;
+	    }
 
-        }
+	}
     }
 }

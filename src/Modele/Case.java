@@ -25,11 +25,10 @@ public class Case implements Serializable {
     private MyPolygon polygon;
 
     public Case(Case c) {
-	this.coulee = c.estCoulee().booleanValue();
+	this.coulee = c.estCoulee();
 	this.pinguin = c.getPinguin();
-	this.accessible = c.getAccessible().booleanValue();
+	this.accessible = c.getAccessible();
 	this.voisins = new Case[6];
-	this.voisins = c.getVoisins().clone();
 	this.numLigne = c.numLigne;
 	this.numColonne = c.numColonne;
     }
@@ -215,6 +214,8 @@ public class Case implements Serializable {
     public boolean estCaseValideInit() {
 	return estCaseLibre() && nbPoissons == 1;
     }
+    
+    
 
     @Override
     public String toString() {
