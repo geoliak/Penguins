@@ -712,7 +712,7 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
                 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case,Pinguin> rep = minimax.executeMultiThread();
+                MyPair<Case,Pinguin> rep = minimax.execute();
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }

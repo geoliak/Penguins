@@ -7,15 +7,11 @@ package Vue;
 
 import Controleur.AnnulerCoup;
 import Controleur.Keyboard_Handler;
-import Modele.Couleur;
+import Modele.*;
 import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA3;
 import Modele.IA.JoueurIA5;
-import Modele.IA.JoueurMinimax;
-import Modele.Joueur;
-import Modele.JoueurHumainLocal;
-import Modele.Partie;
-import Modele.Plateau;
+import Modele.IA.JoueurIA8;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -63,11 +59,7 @@ public class InterfaceFX extends Application {
         Rectangle rect = new Rectangle(0, -40, 30, 30);
         rect.setFill(Color.DODGERBLUE);
         root.getChildren().add(rect);
-//        Parent parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
-	//Canvas canvas = new Canvas(1200, 900);
-	//GraphicsContext gc = canvas.getGraphicsContext2D();
-//        root.getChildren().add(parent);
 	Scene scene = new Scene(borderP, 1200, 900);
 
 	//root.getChildren().add(canvas);
@@ -77,24 +69,22 @@ public class InterfaceFX extends Application {
         borderP.setCenter(root);
         VBox v = new VBox();
         v.setAlignment(Pos.CENTER);
-        
-        JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX);
-	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
-        //JoueurIA joueuria = new JoueurIA3(Couleur.VioletFX);
-        //JoueurIA joueuria2 = new JoueurIA5(Couleur.JauneFX);
-
+        JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.VertFX, 1);
+	JoueurIA joueurIA8 = new JoueurIA8(Couleur.RougeFX, 2);
+        JoueurIA joueurIA3 = new JoueurIA3(Couleur.VioletFX, 3);
+        JoueurIA joueurIA5 = new JoueurIA5(Couleur.JauneFX, 4);
 
         //JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX, 5);
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
         v.getChildren().add(setBanner(joueurH1, "verte"));
-        joueurs.add(joueurH2);
-        v.getChildren().add(setBanner(joueurH2, "rouge"));
-	/*joueurs.add(joueuria);   
-        v.getChildren().add(setBanner(joueuria, "violette"));
-        joueurs.add(joueuria2);   
-        v.getChildren().add(setBanner(joueuria2, "jaune"));
-        */
+        joueurs.add(joueurH1);
+        v.getChildren().add(setBanner(joueurIA8, "rouge"));
+	joueurs.add(joueurIA8);   
+        v.getChildren().add(setBanner(joueurIA3, "violette"));
+        joueurs.add(joueurIA3);   
+        v.getChildren().add(setBanner(joueurIA5, "jaune"));
+        joueurs.add(joueurIA5); 
         
         borderP.setRight(v);
         System.out.println("VBOX AJOUTEE");
@@ -113,6 +103,7 @@ public class InterfaceFX extends Application {
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
 	scene.setOnKeyPressed(keypresser);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(new FileInputStream("ressources/img/pingoo_jaune.png")));
 	r.start();
 	stage.show();
     }

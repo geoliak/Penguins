@@ -101,7 +101,7 @@ public class Plateau implements Serializable {
     }
 
     public void lireFichierTest(String fichierPlateau, BufferedReader br) throws FileNotFoundException, IOException {
-        System.out.println("test");
+        //System.out.println("test");
         String ligne;
         int numLigne = 0;
         char[] c;
@@ -109,7 +109,7 @@ public class Plateau implements Serializable {
         while ((ligne = br.readLine()) != null) {
             c = ligne.toCharArray();
             for (int i = 0; i < LONGUEUR; i++) {
-                System.out.println(numLigne + " " + i);
+                //System.out.println(numLigne + " " + i);
                 if (c.length != i && c[i] == '?') {
                     this.cases[numLigne][i] = new Case(numLigne, i);
                 } else if (c.length != i && c[i] == '1') {
