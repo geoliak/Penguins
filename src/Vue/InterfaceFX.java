@@ -78,10 +78,10 @@ public class InterfaceFX extends Application {
         VBox v = new VBox();
         v.setAlignment(Pos.CENTER);
         
-        JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX, 1);
-	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX, 2);
-        JoueurIA joueuria = new JoueurIA3(Couleur.VioletFX, 3);
-        JoueurIA joueuria2 = new JoueurIA5(Couleur.JauneFX, 4);
+        JoueurHumainLocal joueurH1 = new JoueurHumainLocal("Jean", Couleur.JauneFX);
+	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
+        //JoueurIA joueuria = new JoueurIA3(Couleur.VioletFX);
+        //JoueurIA joueuria2 = new JoueurIA5(Couleur.JauneFX);
 
 
         //JoueurIA joueuria = new JoueurMinimax(Couleur.RougeFX, 5);
@@ -90,10 +90,11 @@ public class InterfaceFX extends Application {
         v.getChildren().add(setBanner(joueurH1, "verte"));
         joueurs.add(joueurH2);
         v.getChildren().add(setBanner(joueurH2, "rouge"));
-	joueurs.add(joueuria);   
+	/*joueurs.add(joueuria);   
         v.getChildren().add(setBanner(joueuria, "violette"));
         joueurs.add(joueuria2);   
         v.getChildren().add(setBanner(joueuria2, "jaune"));
+        */
         
         borderP.setRight(v);
         System.out.println("VBOX AJOUTEE");
@@ -163,8 +164,8 @@ public class InterfaceFX extends Application {
         labelScore.setTextFill(Color.WHITE); 
         
         ap.getChildren().addAll(ivBanniere, labelNom, labelScore);
-        System.out.println("J.getNumero() = " + j.getNumero());
-        labelScores[j.getNumero()-1]= labelScore;
+        //System.out.println("J.getNumero() = " + j.getNumero());
+        //labelScores[j.getNumero()-1]= labelScore;
         
         return ap;
     }
