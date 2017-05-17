@@ -5,8 +5,8 @@
  */
 package Controleur;
 
-import Modele.AnnulerCoup;
 import Modele.ConfigurationPartie;
+import Modele.Historique;
 import Vue.AnimationFX;
 import Vue.DessinateurFX;
 import Vue.RafraichissementFX;
@@ -23,9 +23,9 @@ import javafx.stage.Stage;
  * @author mariobap
  */
 public class FenetreJeuController {
-    
-    public void creerFenetreJeu(Stage stage){
-        
+
+    public void creerFenetreJeu(Stage stage) {
+
 	Group root = new Group();
 
 	Scene scene = new Scene(root, 1200, 900);
@@ -35,7 +35,7 @@ public class FenetreJeuController {
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
 
-	AnnulerCoup histcoup = new AnnulerCoup(ConfigurationPartie.getConfigurationPartie().getPartie());
+	Historique histcoup = new Historique();
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
 	scene.setOnKeyPressed(keypresser);
 
