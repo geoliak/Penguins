@@ -5,10 +5,10 @@
  */
 package Controleur;
 
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
-import Vue.InterfaceFX;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-	    makeIvNull(partie.getJoueurs(), InterfaceFX.getRoot());
+	    makeIvNull(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs(), ConfigurationPartie.getConfigurationPartie().getRoot());
 	    partie.isReloadPartie();
 	    partie.getPlateau().setEstModifié(true);
 

@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
@@ -20,30 +21,28 @@ import javafx.application.Platform;
  */
 public class RafraichissementFX extends AnimationTimer {
 
-    InterfaceFX fx;
     DessinateurFX d;
     Partie partie;
     int i = 0;
     private boolean resultatAffiches;
 
-    public RafraichissementFX(DessinateurFX d, InterfaceFX fx) {
-	this.fx = fx;
+    public RafraichissementFX(DessinateurFX d) {
 	this.d = d;
-	this.partie = fx.getPartie();
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	this.resultatAffiches = false;
     }
 
     @Override
     public void handle(long now) {
-	if (!partie.equals(fx.getPartie())) {
+	if (!partie.equals(ConfigurationPartie.getConfigurationPartie().getPartie())) {
 	    System.out.println("Mise a jour de la partie");
-	    this.partie = fx.getPartie();
+	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	}
 
 	// Rafraichissement du plateau
 	if (partie.getPlateau().isEstModifié()) {
-            for(Joueur j : partie.getJoueurs())
-                d.visiteScore(j);
+            //for(Joueur j : partie.getJoueurs())
+                //d.visiteScore(j);
 	    d.visite(partie.getPlateau());
 	    partie.getPlateau().setEstModifié(false);
 	}

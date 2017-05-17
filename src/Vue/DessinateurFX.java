@@ -8,6 +8,7 @@ package Vue;
 import Controleur.MouseClickerCase;
 import Controleur.MouseClickerPenguin;
 import Modele.Case;
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
@@ -22,6 +23,7 @@ import javafx.scene.Group;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -45,7 +47,7 @@ public class DessinateurFX extends Visiteur {
     public DessinateurFX(Group root, AnimationFX a) {
 	this.root = root;
 	this.a = a;
-	this.partie = InterfaceFX.getPartie();
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	sizeGlacon = 50.0;
 	proportion = 1;
 	gap = 4;
@@ -60,9 +62,9 @@ public class DessinateurFX extends Visiteur {
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
 
-	if (InterfaceFX.getPartie().isReloadPartie()) {
+	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    System.out.println("===================RELOAD=======================");
-	    this.partie = InterfaceFX.getPartie();
+	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 
 	    root.getChildren().clear();
 
@@ -81,22 +83,25 @@ public class DessinateurFX extends Visiteur {
 	    }
 	    partie.setReloadPartie(false);
 	    root.getChildren().clear();
-
 	}
 
 	//root.getChildren().clear();
-	for (Case[] cases : plateau.getCases()) {
-	    for (Case c : cases) {
-		c.setAccessible(Boolean.FALSE);
-	    }
-	}
+        if(!partie.getInitialisation()){
+            for (Case[] cases : plateau.getCases()) {
+                for (Case c : cases) {
+                    c.setAccessible(Boolean.FALSE);
+                }
+            }
 
-	if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
-	    ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
-	    for (Case c : casesaccessibles) {
-		c.setAccessible(Boolean.TRUE);
-	    }
-	}
+            if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
+                ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
+                for (Case c : casesaccessibles) {
+                    c.setAccessible(Boolean.TRUE);
+                }
+            }
+        }
+        
+	
 
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
@@ -145,7 +150,7 @@ public class DessinateurFX extends Visiteur {
             } else {
                 c.getPolygon().getImage().setEffect(null);
             }
-        } else if(c.estCoulee() && c.getPolygon()!=null){
+        } else if(c.estCoulee() && c.getPolygon()!=null && c.getPinguin() == null){
             a.efface(c.getPolygon().getImage());
             c.setPolygon(null);
         }
@@ -196,15 +201,23 @@ public class DessinateurFX extends Visiteur {
 		p.getIv().setEffect(null);
 	    }
 	} else if (!p.estVivant()) {
-	    a.efface(p.getIv());
-	    p.getPosition().setPinguin(null);
+	    //a.efface(p.getIv());
+            Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
+            t.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    partie.setTourFini(true);
+                }
+            });
+            p.getIv().setEffect(new SepiaTone());
+	    p.getPosition().getPolygon().getImage().setEffect(null);
 	}
     }
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
-    
+    /*
     public void visiteScore(Joueur j) {
         try{
             InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
@@ -213,4 +226,5 @@ public class DessinateurFX extends Visiteur {
             System.out.println("erreur - visisteScore : " + e.getMessage());
         }
     }
+    */
 }

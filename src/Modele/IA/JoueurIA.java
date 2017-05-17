@@ -693,7 +693,6 @@ public class JoueurIA extends Joueur {
 
         return caseCritique;
     }
-
     public static Case minimax(Joueur joueur, Partie partie) {
         ArrayList<Joueur> joueurs;
         Joueur adversaire;
