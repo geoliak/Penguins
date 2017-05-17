@@ -23,6 +23,8 @@ import javafx.scene.Group;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.SepiaTone;
+import javafx.scene.image.ImageView;
 import Modele.MyImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -81,22 +83,25 @@ public class DessinateurFX extends Visiteur {
 	    }
 	    partie.setReloadPartie(false);
 	    root.getChildren().clear();
-
 	}
 
 	//root.getChildren().clear();
-	for (Case[] cases : plateau.getCases()) {
-	    for (Case c : cases) {
-		c.setAccessible(Boolean.FALSE);
-	    }
-	}
+        if(!partie.getInitialisation()){
+            for (Case[] cases : plateau.getCases()) {
+                for (Case c : cases) {
+                    c.setAccessible(Boolean.FALSE);
+                }
+            }
 
-	if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
-	    ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
-	    for (Case c : casesaccessibles) {
-		c.setAccessible(Boolean.TRUE);
-	    }
-	}
+            if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
+                ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
+                for (Case c : casesaccessibles) {
+                    c.setAccessible(Boolean.TRUE);
+                }
+            }
+        }
+        
+	
 
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
@@ -107,6 +112,7 @@ public class DessinateurFX extends Visiteur {
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		if (plateau.getCases()[i][j].getPinguin() != null) {
+                    
 		    plateau.getCases()[i][j].getPinguin().accept(this);
 		}
 	    }
@@ -133,27 +139,29 @@ public class DessinateurFX extends Visiteur {
 	    //MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
 	    c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color, c.getNbPoissons()));
 
-	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
+	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon());
 	    c.getPolygon().getImage().setOnMouseClicked(clicSourisFX);
 //	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 //	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
 	    root.getChildren().add(c.getPolygon().getImage());
-	} else if (!c.estCoulee() && c.getPolygon() != null) {
-	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-		c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
-	    } else {
-		c.getPolygon().getImage().setEffect(null);
-	    }
-	} else if (c.estCoulee() && c.getPolygon() != null) {
-	    a.efface(c.getPolygon().getImage());
-	    c.setPolygon(null);
-	}
+	} else if (!c.estCoulee() && c.getPolygon() != null){
+            if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
+                c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+            } else {
+                c.getPolygon().getImage().setEffect(null);
+            }
+        } else if(c.estCoulee() && c.getPolygon()!=null && c.getPinguin() == null){
+            a.efface(c.getPolygon().getImage());
+            c.setPolygon(null);
+        }
     }
 
     @Override
     public void visite(Pinguin p) {
+        System.out.println("PINGOUIN DESSIN");
 	if (p.estVivant() && p.getIv() == null) {
+            System.out.println("premier dessin");
 	    MyImageView iv = new MyImageView(p.getGeneral().getCouleur().getImage());
 	    //MyImageView iv = p.getIv();
 
@@ -196,15 +204,23 @@ public class DessinateurFX extends Visiteur {
 		p.getIv().setEffect(null);
 	    }
 	} else if (!p.estVivant()) {
-	    a.efface(p.getIv());
-	    p.getPosition().setPinguin(null);
+	    //a.efface(p.getIv());
+            Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
+            t.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    partie.setTourFini(true);
+                }
+            });
+            p.getIv().setEffect(new SepiaTone());
+	    p.getPosition().getPolygon().getImage().setEffect(null);
 	}
     }
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
-
+    
     public void visiteScore(Joueur j) {
 	try {
 //            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());

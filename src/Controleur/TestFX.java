@@ -6,7 +6,7 @@
 package Controleur;
 
 import Modele.Plateau;
-import Vue.InterfaceFX;
+//import Vue.InterfaceFX;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +24,8 @@ public class TestFX {
 
 
 	    System.out.println(plateau);
-	    InterfaceFX i = new InterfaceFX();
-	    i.creer(args, plateau);
+	    //InterfaceFX i = new InterfaceFX();
+	    //i.creer(args, plateau);
 	} catch (IOException ex) {
 	    System.out.println("Erreur d'ouverture du fichier");
 	    Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);

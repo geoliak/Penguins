@@ -33,6 +33,7 @@ public class Partie implements Serializable {
 	this.joueurCourant = joueursEnJeu.remove(0);
 
 	this.tourFini = true;
+        
         setPositionsPossiblesInit(true);
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
@@ -215,15 +216,16 @@ public class Partie implements Serializable {
     public void setReloadPartie(boolean reloadPartie) {
 	this.reloadPartie = reloadPartie;
     }
-      public void setPositionsPossiblesInit(boolean b) {
-    // A n'utiliser qu'en cas d'initialisation de la partie
+    
+    public void setPositionsPossiblesInit(boolean b) {
+  // A n'utiliser qu'en cas d'initialisation de la partie
         for (int i = 0; i < this.plateau.getNbLignes(); i++) {
             for (int j = 0; j < this.plateau.getNbColonnes(); j++) {
                 if (this.plateau.getCases()[i][j].getNbPoissons() == 1) {
-                   this.plateau.getCases()[i][j].setAccessible(b);
+                     this.plateau.getCases()[i][j].setAccessible(b);
                 }
             }
         }
- 
+
     }
 }

@@ -27,12 +27,15 @@ public class MouseClickerPenguin implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
 	System.out.println(p.getPosition().getNumColonne() + " " + p.getPosition().getNumLigne() + " pingouin");
-	if (!partie.getInitialisation()) {
-	    if (partie.getJoueurCourant() == p.getGeneral() && partie.getJoueurCourant().getEstHumain()) {
-		p.getGeneral().setPinguinCourant(p);
-		partie.getPlateau().setEstModifié(true);
-	    }
-	}
+        if(p.estVivant()){
+            if (!partie.getInitialisation()) {
+                if (partie.getJoueurCourant() == p.getGeneral() && partie.getJoueurCourant().getEstHumain()) {
+                    p.getGeneral().setPinguinCourant(p);
+                    partie.getPlateau().setEstModifié(true);
+                }
+            }
+        }
+	
 	//il faut recuperer le prochain clic comme destination si possible
 	//faut aussi feedforwarder (wow) les cases ou on peut se deplacer
     }
