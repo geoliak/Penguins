@@ -23,6 +23,7 @@ import Modele.Partie;
 import Modele.Sauvegarde;
 import java.io.File;
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -37,6 +38,7 @@ public class ChargerJeuController implements Initializable {
     @FXML
     private ListView<String> listView;
     private File[] files;
+    @FXML private ImageView terrain;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,11 +76,20 @@ public class ChargerJeuController implements Initializable {
 
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
 	//TODO
-	Partie partie = new Sauvegarde().Load("");
+	Partie partie = new Sauvegarde().Load("1");
 	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+        
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	FenetreJeuController fenetre = new FenetreJeuController();
 	fenetre.creerFenetreJeu(stage);
+        ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
+    }
+    
+    public void saveClick(MouseEvent e){
+        
+        String filename = "./Savefiles/I_" + listView.getSelectionModel().getSelectedItems().toString();
+        //terrain.setImage(new Image(new File(filename)));
+        System.out.println(filename);
     }
 
 }

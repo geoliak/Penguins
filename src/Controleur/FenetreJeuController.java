@@ -32,6 +32,8 @@ public class FenetreJeuController {
 
 	scene.setFill(Color.AQUA);
 	stage.setScene(scene);
+        ConfigurationPartie.getConfigurationPartie().setScene(scene);
+        ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
 

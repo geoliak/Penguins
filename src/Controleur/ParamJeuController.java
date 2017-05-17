@@ -122,8 +122,8 @@ public class ParamJeuController implements Initializable {
     @FXML
     private MyImageView joueur3;
 
-    private int[] typesJoueurs = {0, 0, 0, 0};
-    private int[] difficultesIA = {0, 0, 0, 0};
+    private int[] typesJoueurs = {0, 1, 2, 2};
+    private int[] difficultesIA = {0, 2, 0, 0};
     private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
 
     /**
@@ -395,7 +395,7 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau8"));
+	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
 	return partie;
     }
 
