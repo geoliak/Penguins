@@ -696,10 +696,10 @@ public class JoueurIA extends Joueur {
                     System.out.println("taille -1");
                 } else if (tailleIceberg < 40) {
                     profondeur = 4;
-                    System.out.println("taille 4");
+                    System.out.println("taille 5");
                 } else {
                     profondeur = 3;
-                    System.out.println("taille 3");
+                    System.out.println("taille 4");
                 }
                 
                 
@@ -710,7 +710,7 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case, Pinguin> rep = minimax.execute(profondeur);
+                MyPair<Case, Pinguin> rep = minimax.executeElagageMultiThread(profondeur);
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }
