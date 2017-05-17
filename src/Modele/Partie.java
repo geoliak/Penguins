@@ -76,6 +76,7 @@ public class Partie implements Serializable {
     public void joueurSuivant() {
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
+        System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
@@ -87,6 +88,7 @@ public class Partie implements Serializable {
 		this.joueurCourant.setPinguinCourant(null);
 	    }
 	}
+        System.out.println(this.getJoueurCourant());
     }
 
     public void afficheJoueurs() {
