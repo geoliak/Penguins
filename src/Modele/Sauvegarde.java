@@ -50,13 +50,12 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-//	    partie.setReloadPartie(true);
-	    partie.getPlateau().setEstModifié(true);
+//	    partie.getPlateau().setEstModifié(true);
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
 
 	    //Creation d'image de sauvegarde
-	    Image screenie = ConfigurationPartie.getConfigurationPartie().getScene().snapshot(null);
+	    Image screenie = ConfigurationPartie.getConfigurationPartie().getRoot().snapshot(null, null);
 	    Path filepathim = Paths.get(savepath + "/I_" + nomFichier);
 	    deleteIfExists(filepathim);
 	    Files.createFile(filepathim);
@@ -76,7 +75,7 @@ public class Sauvegarde {
 	Partie partieacharger = (Partie) ois.readObject();
 
 //	partieacharger.setReloadPartie(true);
-	partieacharger.getPlateau().setEstModifié(true);
+//	partieacharger.getPlateau().setEstModifié(true);
 	return partieacharger;
     }
 

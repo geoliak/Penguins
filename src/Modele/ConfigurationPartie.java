@@ -8,6 +8,8 @@ package Modele;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /**
  *
@@ -20,6 +22,8 @@ public class ConfigurationPartie {
     private Partie partie;
     private Node root;
     private Scene scene;
+    private Label labelScores[] = new Label[4];
+    private Stage stage;
 
     private ConfigurationPartie() {
 	root = new Group();
@@ -56,4 +60,21 @@ public class ConfigurationPartie {
 	this.scene = scene;
     }
 
+    public Label[] getLabelScores() {
+        return labelScores;
+    }
+
+    public void setLabelScore(Label labelScore, int i) {
+        labelScores[i] = labelScore;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+    
+    
 }

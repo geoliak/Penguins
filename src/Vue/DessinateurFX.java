@@ -66,7 +66,7 @@ public class DessinateurFX extends Visiteur {
 	int columns = plateau.getNbColonnes();
 
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
-	    System.out.println("===================RELOAD=======================");
+	    //System.out.println("===================RELOAD=======================");
 	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 
 	    for (Case[] cases : plateau.getCases()) {
@@ -142,9 +142,9 @@ public class DessinateurFX extends Visiteur {
 
     @Override
     public void visite(Pinguin p) {
-        System.out.println("PINGOUIN DESSIN");
+        //System.out.println("PINGOUIN DESSIN");
 	if (p.estVivant() && p.getIv() == null) {
-            System.out.println("premier dessin");
+            //System.out.println("premier dessin");
 	    MyImageView iv = new MyImageView(p.getGeneral().getCouleur().getImage());
 	    //MyImageView iv = p.getIv();
 
@@ -204,9 +204,9 @@ public class DessinateurFX extends Visiteur {
 	this.partie = partie;
     }
     
-    public void visiteScore(Joueur j) {
+    public void visit(Joueur j) {
         try{
-            //InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
+            ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText(""+j.getScorePoissons());
         }
         catch (Exception e){
             System.out.println("erreur - visisteScore : " + e.getMessage());
