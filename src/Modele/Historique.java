@@ -5,7 +5,6 @@
  */
 package Modele;
 
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -16,30 +15,50 @@ import java.util.LinkedList;
 public class Historique implements Serializable {
 
     private String dossierNom;
-    private int indice = 0;
+    private int indice = 1;
     private static LinkedList<Coup> historiqueCoups;
 
     public Historique() {
 	Historique.historiqueCoups = new LinkedList<>();
     }
 
+    public void sauvegarderCoup() {
+	historiqueCoups.add(new Coup());
+	if (historiqueCoups.size() > indice) {
+	    for (int i = indice + 1; i == historiqueCoups.size(); i++) {
+		historiqueCoups.remove(i);
+	    }
+	}
+	indice++;
+    }
+
     public void rejouerCoup() {
 	//Teste si on a des coups à refaire
 	if (historiqueCoups.size() > indice) {
-	    //Si oui, alors 
-	    if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().equals(historiqueCoups.get(indice))) {
-
+	    indice++;
+	    //Si c'est le tour du meme joueur, alors on charge la partie
+	    if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().equals(historiqueCoups.get(indice).getJoueurCourant())) {
+		ConfigurationPartie.getConfigurationPartie().getPartie().setJoueursEnJeu(historiqueCoups.get(indice).getJoueursEnJeu());
+		ConfigurationPartie.getConfigurationPartie().getPartie().setPlateau(historiqueCoups.get(indice).getPlateau());
+	    } else {
+		indice++;
+		rejouerCoup();
 	    }
 	}
     }
 
-    public void sauvegarderCoup() {
-	historiqueCoups.add(new Coup());
-	indice++;
+    public void annulerDernierCoup() {
 
-    }
-
-    public void annulerDernierCoup() throws FileNotFoundException {
+	if (indice > 1) {
+	    indice--;
+	    if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().equals(historiqueCoups.get(indice).getJoueurCourant())) {
+		ConfigurationPartie.getConfigurationPartie().getPartie().setJoueursEnJeu(historiqueCoups.get(indice).getJoueursEnJeu());
+		ConfigurationPartie.getConfigurationPartie().getPartie().setPlateau(historiqueCoups.get(indice).getPlateau());
+	    } else {
+		indice--;
+		annulerDernierCoup();
+	    }
+	}
 
     }
 }
