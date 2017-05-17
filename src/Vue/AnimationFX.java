@@ -52,4 +52,12 @@ public class AnimationFX {
 	ft.play();
 	return ft;
     }
+    
+    public void scale(Node n, double x){
+        ScaleTransition st = new ScaleTransition(Duration.millis(300), n);
+        st.setToX(x);
+        st.setToY(x);
+        
+        st.play();
+    }
 }
