@@ -39,8 +39,8 @@ public class MyPolygon extends Polygon implements Serializable {
 	this.y = j;
 	this.sizeGlacon = sizeGlacon;
 	this.setOrigine(gap, proportion);
-
-	this.setImage(nbPoisson);
+        this.setImage(nbPoisson);
+	
 	//this.setPoints(gap, proportion, color, xorigine, yorigine);
 
 	/*
@@ -53,12 +53,13 @@ public class MyPolygon extends Polygon implements Serializable {
     }
 
     public void setOrigine(double gap, double proportion) {
+        double topMargin = 10;
 	double size = sizeGlacon * proportion;
 	double height = sizeGlacon * 2;
 	double width = height * Math.sqrt(3 / 2);
 
-	this.xorigine = ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap * 0.8 + (this.y % 2) * gap * 0.8 / 2;
-	this.yorigine = (height * (3.0 / 4.0)) * this.y + this.y * gap * 4 - this.y * size / 2;
+	this.xorigine = 30 + ((this.y % 2) * width / 2) + (width * this.x) + this.x * gap * 0.8 + (this.y % 2) * gap * 0.8 / 2;
+	this.yorigine = 30 + (height * (3.0 / 4.0)) * this.y + this.y * gap * 4 - this.y * size / 2;
     }
 
     public int getX() {

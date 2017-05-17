@@ -79,7 +79,7 @@
                                     <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_bleu_menu.png" />
                                  </image>
                               </MyImageView>
-                              <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 2" />
+                              <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 2" />
                               <MyImageView id="rightJ1" fx:id="rightJ2" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
@@ -96,7 +96,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </MyImageView>
-                              <Group fx:id="stars2" layoutX="76.0" layoutY="227.0" visible="false">
+                              <Group fx:id="stars2" layoutX="76.0" layoutY="227.0" visible="true">
                                  <children>
                                     <MyImageView fx:id="star2_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -108,7 +108,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star2_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -116,7 +116,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star2_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -133,7 +133,7 @@
                                     <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_jaune_menu.png" />
                                  </image>
                               </MyImageView>
-                              <TextField fx:id="nameJ3" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 3" />
+                              <TextField fx:id="nameJ3" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 3" />
                               <MyImageView id="rightJ1" fx:id="rightJ3" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
@@ -187,7 +187,7 @@
                                     <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_vert_menu.png" />
                                  </image>
                               </MyImageView>
-                              <TextField fx:id="nameJ4" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 4" />
+                              <TextField fx:id="nameJ4" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 4" />
                               <MyImageView id="rightJ1" fx:id="rightJ4" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />

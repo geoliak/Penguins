@@ -6,6 +6,7 @@
 package Modele;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 
 /**
@@ -17,7 +18,7 @@ public class ConfigurationPartie {
     private static ConfigurationPartie configurationPartie;
 
     private Partie partie;
-    private Group root;
+    private Node root;
     private Scene scene;
 
     private ConfigurationPartie() {
@@ -39,11 +40,11 @@ public class ConfigurationPartie {
 	this.partie = partie;
     }
 
-    public Group getRoot() {
+    public Node getRoot() {
 	return root;
     }
 
-    public void setRoot(Group root) {
+    public void setRoot(Node root) {
 	this.root = root;
     }
 

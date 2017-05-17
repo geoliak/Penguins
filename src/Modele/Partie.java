@@ -23,6 +23,7 @@ public class Partie implements Serializable {
     private int nbPingouinParJoueur;
     private boolean tourFini;
     private boolean reloadPartie;
+    private Historique historique;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
 	this.initialisation = true;
@@ -33,21 +34,13 @@ public class Partie implements Serializable {
 	this.joueurCourant = joueursEnJeu.remove(0);
 
 	this.tourFini = true;
-        
-        setPositionsPossiblesInit(true);
+
+	this.historique = new Historique();
+	setPositionsPossiblesInit(true);
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
     }
 
-//    public Partie(Partie partie) {
-//	this.plateau = partie.plateau;
-//	this.joueurs = partie.joueurs;
-//	this.joueurCourant = partie.joueurCourant;
-//	this.joueursEnJeu = partie.joueursEnJeu;
-//	this.initialisation = partie.initialisation;
-//	this.tourFini = partie.tourFini;
-//	this.nbPingouinParJoueur = partie.nbPingouinParJoueur;
-//    }
     public int nbPingouinsTotal() {
 	int nb = 0;
 	for (Joueur j : joueurs) {
@@ -76,20 +69,32 @@ public class Partie implements Serializable {
     public void joueurSuivant() {
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
-        System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
+	System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+        if(!this.initialisation){
+            for(Case[] cases : this.getPlateau().getCases()){
+                for(Case c : cases){
+                    c.setAccessible(false);
+                }
+            }
 
-	if (joueurCourant.getEstHumain()) {
-	    if (this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation) {
-		this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
-	    } else {
-		this.joueurCourant.setPinguinCourant(null);
-	    }
-	}
-        
-        System.out.println(this.getJoueurCourant());
+            if (joueurCourant.getEstHumain()) {
+                if (this.joueurCourant.getPinguinsVivants().size() == 1) {
+                    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+
+                    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
+                    for (Case c : casesaccessibles) {
+                        c.setAccessible(true);
+                    }
+                } else {
+                    this.joueurCourant.setPinguinCourant(null);
+                }
+            }
+
+            this.getPlateau().setEstModifié(true);
+        }
     }
 
     public void afficheJoueurs() {
@@ -144,15 +149,15 @@ public class Partie implements Serializable {
 	    }
 	}
     }
-    
+
     public ArrayList<Joueur> getAutresJoueurs(Joueur joueur) {
-        ArrayList<Joueur> joueurs = new ArrayList<>();
-        for (Joueur j : this.joueurs) {
-            if (j != joueur) {
-                joueurs.add(j);
-            }
-        }
-        return joueurs;
+	ArrayList<Joueur> joueurs = new ArrayList<>();
+	for (Joueur j : this.joueurs) {
+	    if (j != joueur) {
+		joueurs.add(j);
+	    }
+	}
+	return joueurs;
     }
 
     public Plateau getPlateau() {
@@ -219,16 +224,16 @@ public class Partie implements Serializable {
     public void setReloadPartie(boolean reloadPartie) {
 	this.reloadPartie = reloadPartie;
     }
-    
+
     public void setPositionsPossiblesInit(boolean b) {
-  // A n'utiliser qu'en cas d'initialisation de la partie
-        for (int i = 0; i < this.plateau.getNbLignes(); i++) {
-            for (int j = 0; j < this.plateau.getNbColonnes(); j++) {
-                if (this.plateau.getCases()[i][j].getNbPoissons() == 1) {
-                     this.plateau.getCases()[i][j].setAccessible(b);
-                }
-            }
-        }
+	// A n'utiliser qu'en cas d'initialisation de la partie
+	for (int i = 0; i < this.plateau.getNbLignes(); i++) {
+	    for (int j = 0; j < this.plateau.getNbColonnes(); j++) {
+		if (this.plateau.getCases()[i][j].getNbPoissons() == 1) {
+		    this.plateau.getCases()[i][j].setAccessible(b);
+		}
+	    }
+	}
 
     }
 }

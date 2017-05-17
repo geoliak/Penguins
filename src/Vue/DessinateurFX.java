@@ -26,7 +26,9 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.ImageView;
 import Modele.MyImageView;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -37,7 +39,7 @@ public class DessinateurFX extends Visiteur {
 
     private AnimationFX a;
     private Partie partie;
-    private Group root;
+    private Node root;
     private double sizeGlacon;
     private double proportion;
     private int gap;
@@ -45,7 +47,7 @@ public class DessinateurFX extends Visiteur {
     private double height;
     private double width;
 
-    public DessinateurFX(Group root, AnimationFX a) {
+    public DessinateurFX(Node root, AnimationFX a) {
 	this.root = root;
 	this.a = a;
 	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
@@ -82,7 +84,7 @@ public class DessinateurFX extends Visiteur {
 		}
 	    }
 	    partie.setReloadPartie(false);
-	    root.getChildren().clear();
+	    ((AnchorPane) root).getChildren().clear();
 	}
 
 	for (int i = 0; i < rows; i++) {
@@ -94,7 +96,6 @@ public class DessinateurFX extends Visiteur {
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		if (plateau.getCases()[i][j].getPinguin() != null) {
-                    
 		    plateau.getCases()[i][j].getPinguin().accept(this);
 		}
 	    }
@@ -126,7 +127,7 @@ public class DessinateurFX extends Visiteur {
 //	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 //	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
-	    root.getChildren().add(c.getPolygon().getImage());
+	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null){
             if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
                 c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
@@ -162,7 +163,7 @@ public class DessinateurFX extends Visiteur {
 //	    iv.setEffect(new DropShadow());
 
 	    p.setIv(iv);
-	    root.getChildren().add(p.getIv());
+	    ((AnchorPane) root).getChildren().add(p.getIv());
 	    partie.setTourFini(true);
 	} else if (p.estVivant() && p.getIv() != null) {
 
@@ -205,7 +206,7 @@ public class DessinateurFX extends Visiteur {
     
     public void visiteScore(Joueur j) {
         try{
-//            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
+            //InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
         }
         catch (Exception e){
             System.out.println("erreur - visisteScore : " + e.getMessage());
