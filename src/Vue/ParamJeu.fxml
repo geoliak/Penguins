@@ -11,13 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ParamJeuController">
-   <top>
-      <MyImageView fx:id="titre" fitHeight="100.0" fitWidth="402.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu_resize.png" />
-         </image>
-      </MyImageView>
-   </top>
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>

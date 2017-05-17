@@ -130,7 +130,7 @@ public class ParamJeuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	//joueur3.setImage(new Image(new File("./ressources/img/pingouin_jaune_menu.png").toURI().toString()));
+	
     }
 
     public void arrowClick(MouseEvent e) {
@@ -315,67 +315,14 @@ public class ParamJeuController implements Initializable {
 
     public void jouer(MouseEvent e) throws IOException {
 
-	Group root = new Group();
-
-	Scene scene = new Scene(root, 1200, 900);
-
-	scene.setFill(Color.AQUA);
+        
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	stage.setScene(scene);
-
 	Partie partie = creationPartie();
-        System.out.println(partie);
-        System.out.println("");
-	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-	AnimationFX a = new AnimationFX();
-	DessinateurFX d = new DessinateurFX(root, a);
-
-	AnnulerCoup histcoup = new AnnulerCoup(partie);
-	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
-	scene.setOnKeyPressed(keypresser);
-
-	//plateau.accept(d);
-	RafraichissementFX r = new RafraichissementFX(d);
-	r.start();
-	stage.show();
-
-	/* Group root = new Group();
-
-	 Scene scene = new Scene(root, 1200,900);
-
-	 scene.setFill(Color.AQUA);
-	 Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	 stage.setScene(scene);
-	 Plateau plateau = new Plateau("ressources/plateaux/plateau1");
-	 plateau.initCase();
-
-	 String j1;
-	 if(nameJ1.getText().equals("")){
-	 j1 = "Joueur1";
-	 }
-	 else {
-	 j1 = nameJ1.getText();
-	 }
-
-	 JoueurHumainLocal joueurH1 = new JoueurHumainLocal(j1, Couleur.JauneFX);
-	 JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
-
-	 JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
-
-	 ArrayList<Joueur> joueurs = new ArrayList<>();
-	 joueurs.add(joueurH1);
-	 joueurs.add(joueuria);
-
-	 System.out.println(joueurs.size());
-
-	 Partie partie = new Partie(plateau, joueurs);
-	 AnimationFX a = new AnimationFX();
-	 DessinateurFX d = new  DessinateurFX(root, partie, a);
-
-	 //plateau.accept(d);
-	 RafraichissementFX r = new RafraichissementFX(d, partie);
-	 r.start();
-	 stage.show();*/
+        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+        
+        FenetreJeuController fenetre = new FenetreJeuController();
+        fenetre.creerFenetreJeu(stage);
+	
     }
 
     public void on(MouseEvent e) {
