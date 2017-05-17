@@ -35,7 +35,7 @@
          <center>
             <BorderPane>
                <center>
-                  <MyImageView fx:id="terrain" fitHeight="285.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true">
+                  <MyImageView fx:id="terrain" fitHeight="500.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/terrain.jpg" />
                      </image>
@@ -47,7 +47,7 @@
                <bottom>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <left>
-                        <MyImageView fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <MyImageView onMouseClicked="#deleteSave" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                            <image>
                               <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize2.png" />
                            </image>
