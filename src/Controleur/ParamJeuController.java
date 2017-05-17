@@ -319,8 +319,9 @@ public class ParamJeuController implements Initializable {
 	Group root = new Group();
 
 	Scene scene = new Scene(root, 1200, 900);
-
 	scene.setFill(Color.AQUA);
+	ConfigurationPartie.getConfigurationPartie().setScene(scene);
+
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
 

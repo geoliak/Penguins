@@ -222,10 +222,11 @@ public class DessinateurFX extends Visiteur {
     }
     
     public void visiteScore(Joueur j) {
-	try {
+        try{
 //            InterfaceFX.getLabelScores()[j.getNumero()-1].setText(""+j.getScorePoissons());
-	} catch (Exception e) {
-	    System.out.println("erreur - visisteScore : " + e.getMessage());
-	}
+        }
+        catch (Exception e){
+            System.out.println("erreur - visisteScore : " + e.getMessage());
+        }
     }
 }

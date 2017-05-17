@@ -246,7 +246,7 @@
                         <Insets top="50.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox spacing="250.0">
+                  <HBox spacing="180.0">
                      <children>
                         <BorderPane>
                            <left>
@@ -285,10 +285,13 @@
                         </BorderPane>
                         <BorderPane>
                            <center>
-                              <MyImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#jouer" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                              <MyImageView fitHeight="178.0" fitWidth="450.0" onMouseClicked="#jouer" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/src/ressources/images/boutonJouer.jpg" />
+                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize.png" />
                                  </image>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
                               </MyImageView>
                            </center>
                            <cursor>
@@ -304,9 +307,9 @@
             </VBox>
          </center>
          <top>
-            <MyImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#chargerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
+            <MyImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#chargerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
                <image>
-                  <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/boutonJouer.jpg" />
+                  <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_charger_partie_resize.png" />
                </image>
                <BorderPane.margin>
                   <Insets left="50.0" top="20.0" />
