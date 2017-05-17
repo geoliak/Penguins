@@ -42,12 +42,12 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	} else if (event.isControlDown() && event.getCode() == KeyCode.S) {
-	    this.s = new Sauvegarde(ConfigurationPartie.getConfigurationPartie().getPartie());
+	    this.s = new Sauvegarde();
 	    s.Save(1);
 
 	} else if (event.isControlDown() && event.getCode() == KeyCode.L) {
 	    try {
-		this.s = new Sauvegarde(ConfigurationPartie.getConfigurationPartie().getPartie());
+		this.s = new Sauvegarde();
 
 		DessinateurTexte d = new DessinateurTexte();
 

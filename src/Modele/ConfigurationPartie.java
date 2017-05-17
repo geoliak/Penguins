@@ -6,44 +6,53 @@
 package Modele;
 
 import javafx.scene.Group;
+import javafx.scene.Scene;
 
 /**
  *
  * @author mariobap
  */
 public class ConfigurationPartie {
+
     private static ConfigurationPartie configurationPartie;
-    
+
     private Partie partie;
     private Group root;
-    
-    private ConfigurationPartie(){
-        root = new Group();
+    private Scene scene;
+
+    private ConfigurationPartie() {
+	root = new Group();
     }
 
     public static ConfigurationPartie getConfigurationPartie() {
-        if(configurationPartie == null){
-            configurationPartie = new ConfigurationPartie();
-        }
-            return configurationPartie;
+	if (configurationPartie == null) {
+	    configurationPartie = new ConfigurationPartie();
+	}
+	return configurationPartie;
     }
 
     public Partie getPartie() {
-        return partie;
+	return partie;
     }
 
     public void setPartie(Partie partie) {
-        this.partie = partie;
+	this.partie = partie;
     }
 
     public Group getRoot() {
-        return root;
+	return root;
     }
 
     public void setRoot(Group root) {
-        this.root = root;
+	this.root = root;
     }
-    
-    
-    
+
+    public Scene getScene() {
+	return scene;
+    }
+
+    public void setScene(Scene scene) {
+	this.scene = scene;
+    }
+
 }
