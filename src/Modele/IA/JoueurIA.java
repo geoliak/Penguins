@@ -695,7 +695,7 @@ public class JoueurIA extends Joueur {
                     profondeur = -1;
                     System.out.println("taille -1");
                 } else if (tailleIceberg < 40) {
-                    profondeur = 6;
+                    profondeur = 5;
                     System.out.println("taille 5");
                 } else {
                     profondeur = 4;
