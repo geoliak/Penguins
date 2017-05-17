@@ -88,6 +88,7 @@ public class Partie implements Serializable {
 		this.joueurCourant.setPinguinCourant(null);
 	    }
 	}
+        
         System.out.println(this.getJoueurCourant());
     }
 

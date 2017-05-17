@@ -331,6 +331,8 @@ public class ParamJeuController implements Initializable {
 	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
+        
+        partie.getPlateau().accept(d);
 
 	AnnulerCoup histcoup = new AnnulerCoup(partie);
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);

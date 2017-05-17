@@ -85,24 +85,6 @@ public class DessinateurFX extends Visiteur {
 	    root.getChildren().clear();
 	}
 
-	//root.getChildren().clear();
-        if(!partie.getInitialisation()){
-            for (Case[] cases : plateau.getCases()) {
-                for (Case c : cases) {
-                    c.setAccessible(Boolean.FALSE);
-                }
-            }
-
-            if (partie.getJoueurCourant() != null && partie.getJoueurCourant().getPinguinCourant() != null) {
-                ArrayList<Case> casesaccessibles = partie.getJoueurCourant().getPinguinCourant().getPosition().getCasePossibles();
-                for (Case c : casesaccessibles) {
-                    c.setAccessible(Boolean.TRUE);
-                }
-            }
-        }
-        
-	
-
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		plateau.getCases()[i][j].accept(this);

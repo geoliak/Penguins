@@ -61,6 +61,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
                     System.out.println("BLABLA");
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
+                    partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
                 } else {
@@ -96,7 +97,14 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                 } else {
                     partie.setTourFini(true);
                 }
+                
+                for(Case[] cases : partie.getPlateau().getCases()){
+                    for(Case c : cases){
+                        c.setAccessible(false);
+                    }
+                }
             }
+            
             for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
