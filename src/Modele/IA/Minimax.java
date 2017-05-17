@@ -288,7 +288,8 @@ public class Minimax {
                 c.setPinguin(p);
 
                 poidsCourant = -NegaMax(plateau, (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), profondeur - 1, -1, 0, c.getNbPoissons());
-                if (poidsCourant >= meilleurPoids) {
+                if (poidsCourant > meilleurPoids) {
+                    meilleurPoids = poidsCourant;
                     pinguinRep = p;
                     caseRes = c;
                 }
@@ -330,7 +331,6 @@ public class Minimax {
 
                 poidsCourant = -NegaMaxElagage(plateau, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1, -beta, -alpha, 0, c.getNbPoissons(), true);
                 if (poidsCourant > meilleurPoids) {
-
                     meilleurPoids = poidsCourant;
                     caseRes = c;
                     pinguinRep = p;

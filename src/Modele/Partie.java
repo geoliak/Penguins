@@ -54,7 +54,7 @@ public class Partie implements Serializable {
 	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 2;
+		nbPinguin = 4;
 		break;
 	    case 3:
 		nbPinguin = 3;
