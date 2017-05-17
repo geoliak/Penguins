@@ -22,34 +22,14 @@ public class JoueurMinimax extends JoueurIA {
         super(couleur, "JoueurIA Minimax", numero);
     }
 
-    public Case PhaseInitialisation(Partie partie) {
+    @Override
+    public Case phaseInitialisation(Partie partie) {
         return this.phaseInitialisationMaxPossibilitee(partie);
     }
 
     @Override
     public Case phaseJeu(Partie partie) {
-        int nbCasesPossibles = 0;
-        Case caseChoisie = null;
-        for (Pinguin p : this.getPinguinNonIsole()) {
-            nbCasesPossibles += p.getPosition().getCasePossibles().size();
-        }
-
-        caseChoisie = JoueurIA.minimax(this, partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
-
-        caseChoisie = this.chercherVictimeSimple(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
-
-        caseChoisie = this.phaseJeuGourmand(partie);
-        if (caseChoisie == null) {
-            System.out.println("");
-        }
-
-        return caseChoisie;
+        return JoueurIA.minimax(this, partie);
     }
 
 }

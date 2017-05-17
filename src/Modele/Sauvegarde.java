@@ -5,9 +5,6 @@
  */
 package Modele;
 
-import Modele.Joueur;
-import Modele.Partie;
-import Modele.Pinguin;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,18 +18,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 
 public class Sauvegarde {
 
     private Partie partie;
     private Path savepath;
 
-    public Sauvegarde(Partie p) {
-	this.partie = p;
+    public Sauvegarde() {
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	this.savepath = Paths.get("Savefiles");
 
 	//creation du dossier de sauvegarde
@@ -51,34 +50,23 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-//	    makeIvNull(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs(), ConfigurationPartie.getConfigurationPartie().getRoot());
 	    partie.setReloadPartie(true);
 	    partie.getPlateau().setEstModifié(true);
 
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
 
-	    System.out.println("Partie Sauvegardee a: " + filepath.toString());
+	    //Creation d'image de sauvegarde
+	    Image screenie = ConfigurationPartie.getConfigurationPartie().getScene().snapshot(null);
+	    Path filepathim = Paths.get(savepath + "/savescr" + filenum);
+	    deleteIfExists(filepathim);
+	    Files.createFile(filepathim);
+	    ImageIO.write(SwingFXUtils.fromFXImage(screenie, null), "png", filepathim.toFile());
 
 	} catch (IOException ex) {
 	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
 	}
-    }//    public void Save(int filenum) {
-//	try {
-//	    Path filepath = Paths.get(savepath + "/save" + filenum);
-//	    deleteIfExists(filepath);
-//	    Files.createFile(filepath);
-//
-//	    makeIvNull(partie.getJoueurs());
-//
-//	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
-//	    oos.writeObject(partie);
-//
-//	    System.out.println("Partie Sauvegardee a: " + filepath.toString());
-//	} catch (IOException ex) {
-//	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
-//	}
-//    }
+    }
 
     public Partie Load(int filenum) throws IOException, ClassNotFoundException {
 	Path filepath = Paths.get(savepath + "/save" + filenum);
@@ -91,14 +79,6 @@ public class Sauvegarde {
 	partieacharger.setReloadPartie(true);
 	partieacharger.getPlateau().setEstModifié(true);
 
-//	 partie.setPlateau(partieacharger.getPlateau());
-//	 partie.setJoueursEnJeu(partieacharger.getJoueursEnJeu());
-//	 partie.setJoueurs(partieacharger.getJoueurs());
-//	 partie.setJoueurCourant(partieacharger.getJoueurCourant());
-//	 partie.setNbPingouinParJoueur();
-//	 partie.setInitialisation(partieacharger.getInitialisation());
-//	 partie.getPlateau().setEstModifié(true);
-//	partie = partieacharger;
 	return partieacharger;
     }
 

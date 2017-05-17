@@ -61,11 +61,13 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
                     System.out.println("BLABLA");
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
+                    partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
                 } else {
                     partie.setTourFini(true);
                 }
+                
             // Phase de jeu
             } else {
                 Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
@@ -77,12 +79,29 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                         pingouin.deplace(caseDest);
                         
                         partie.getPlateau().setEstModifié(true);
+                        for (Joueur j : partie.getJoueurs()) {
+                            for (Pinguin p : j.getPinguinsVivants()) {
+                                if (p.getPosition().estCoulee()) {
+                                    p.coullePinguin();
+                                    partie.getPlateau().setEstModifié(true);
+                                } else if (p.getPosition().getCasePossibles().size() == 0) {
+                                    p.coullePinguin();
+                                    partie.getPlateau().setEstModifié(true);
+                                }
+                            }
+                        }
                         partie.joueurSuivant();
                     } else {
                         partie.setTourFini(true);
                     }
                 } else {
                     partie.setTourFini(true);
+                }
+                
+                for(Case[] cases : partie.getPlateau().getCases()){
+                    for(Case c : cases){
+                        c.setAccessible(false);
+                    }
                 }
             }
             

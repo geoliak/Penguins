@@ -14,6 +14,7 @@ import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA5;
 import Modele.IA.JoueurIA6;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
 import Modele.JoueurHumain;
 import Modele.JoueurHumainLocal;
@@ -315,7 +316,6 @@ public class ParamJeuController implements Initializable {
 
     public void jouer(MouseEvent e) throws IOException {
 
-        
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	Partie partie = creationPartie();
         ConfigurationPartie.getConfigurationPartie().setPartie(partie);
@@ -323,6 +323,7 @@ public class ParamJeuController implements Initializable {
         FenetreJeuController fenetre = new FenetreJeuController();
         fenetre.creerFenetreJeu(stage);
 	
+
     }
 
     public void on(MouseEvent e) {
@@ -384,10 +385,10 @@ public class ParamJeuController implements Initializable {
 		    joueurs.add(new JoueurIA1(couleurs[i], i));
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
-		    joueurs.add(new JoueurIA5(couleurs[i], i));
+		    joueurs.add(new JoueurIA8(couleurs[i], i));
 		} else {
 		    System.out.println("IA difficile");
-		    joueurs.add(new JoueurIA6(couleurs[i], i));
+		    joueurs.add(new JoueurMinimax(couleurs[i], i));
 		}
 	    } else {
 		System.out.println("pas de joueur");

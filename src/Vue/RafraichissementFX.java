@@ -5,11 +5,13 @@
  */
 package Vue;
 
+import Modele.Case;
 import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -44,6 +46,7 @@ public class RafraichissementFX extends AnimationTimer {
 //            for(Joueur j : partie.getJoueurs())
 //                d.visiteScore(j);
 	    d.visite(partie.getPlateau());
+            
 	    partie.getPlateau().setEstModifié(false);
 	}
 
@@ -52,20 +55,26 @@ public class RafraichissementFX extends AnimationTimer {
 	    if (partie.estEnInitialisation()) {
 		// Si tout les pingouins ont été placés
 		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
+                    for(Case[] cases : partie.getPlateau().getCases()){
+                        for(Case c : cases){
+                            c.setAccessible(false);
+                        }
+                    }
 		    partie.setInitialisation(false);
 
 		    for (Joueur j : partie.getJoueursEnJeu()) {
 			j.setPret(Boolean.TRUE);
 		    }
+                    
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
-
-		    // Sinon initialisation : Tour IA
+                    partie.getPlateau().setEstModifié(true);
 		}
-	    }
+	    } 
+            
 	    if (partie.isTourFini()) {
 		partie.getJoueurCourant().attendreCoup(partie);
-
 	    }
+            
 	    for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
@@ -77,7 +86,6 @@ public class RafraichissementFX extends AnimationTimer {
                     }
                 }
             }
-
 	} else {
 	    if (!this.resultatAffiches) {
 		System.out.println("PARTIE TERMINEE ===============");

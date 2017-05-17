@@ -75,7 +75,7 @@ public class ChargerJeuController implements Initializable {
     }
     
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException{
-        Partie partie = new Sauvegarde(null).Load(1);
+        Partie partie = new Sauvegarde().Load(1);
         ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         FenetreJeuController fenetre = new FenetreJeuController();
