@@ -5,8 +5,10 @@
  */
 package Modele;
 
+import Vue.AnimationFX;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.animation.Animation;
 
 /**
  *
@@ -54,7 +56,7 @@ public class Partie implements Serializable {
 	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 2;
+		nbPinguin = 4;
 		break;
 	    case 3:
 		nbPinguin = 3;
@@ -67,12 +69,16 @@ public class Partie implements Serializable {
     }
 
     public void joueurSuivant() {
+        Joueur old = this.joueurCourant;
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
-	System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+        
+        AnimationFX a = new AnimationFX();
+        a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[this.joueurCourant.getNumero()], 1.5);
+        
         if(!this.initialisation){
             for(Case[] cases : this.getPlateau().getCases()){
                 for(Case c : cases){
