@@ -90,18 +90,13 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                                 }
                             }
                         }
+                        
                         partie.joueurSuivant();
                     } else {
                         partie.setTourFini(true);
                     }
                 } else {
                     partie.setTourFini(true);
-                }
-                
-                for(Case[] cases : partie.getPlateau().getCases()){
-                    for(Case c : cases){
-                        c.setAccessible(false);
-                    }
                 }
             }
             

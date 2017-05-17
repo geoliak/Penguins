@@ -73,15 +73,28 @@ public class Partie implements Serializable {
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+        if(!this.initialisation){
+            for(Case[] cases : this.getPlateau().getCases()){
+                for(Case c : cases){
+                    c.setAccessible(false);
+                }
+            }
 
-	if (joueurCourant.getEstHumain()) {
-	    if (this.joueurCourant.getPinguinsVivants().size() == 1 && !this.initialisation) {
-		this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
-	    } else {
-		this.joueurCourant.setPinguinCourant(null);
-	    }
-	}
-	System.out.println(this.getJoueurCourant());
+            if (joueurCourant.getEstHumain()) {
+                if (this.joueurCourant.getPinguinsVivants().size() == 1) {
+                    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+
+                    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
+                    for (Case c : casesaccessibles) {
+                        c.setAccessible(true);
+                    }
+                } else {
+                    this.joueurCourant.setPinguinCourant(null);
+                }
+            }
+
+            this.getPlateau().setEstModifié(true);
+        }
     }
 
     public void afficheJoueurs() {
