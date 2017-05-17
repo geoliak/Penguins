@@ -5,8 +5,10 @@
  */
 package Modele;
 
+import Vue.AnimationFX;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.animation.Animation;
 
 /**
  *
@@ -67,11 +69,16 @@ public class Partie implements Serializable {
     }
 
     public void joueurSuivant() {
+        Joueur old = this.joueurCourant;
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
+        
+        AnimationFX a = new AnimationFX();
+        a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[this.joueurCourant.getNumero()], 1.5);
+        
         if(!this.initialisation){
             for(Case[] cases : this.getPlateau().getCases()){
                 for(Case c : cases){
