@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #99BFE3;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.ParamJeuController">
+   <children>
+      <ImageView fitHeight="100.0" fitWidth="402.0" layoutX="199.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/titre.png" />
+         </image>
+      </ImageView>
+      <BorderPane layoutX="25.0" layoutY="180.0">
+         <center>
+            <HBox spacing="5.0">
+               <children>
+                  <Group>
+                     <children>
+                        <ImageView fitHeight="184.0" fitWidth="148.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingouin_rouge_menu.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="nameJ1" layoutX="38.0" layoutY="150.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 1" />
+                        <ImageView id="rightJ1" fx:id="rightJ1" layoutX="166.0" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="leftJ1" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Group fx:id="stars1" layoutX="45.0" layoutY="147.0" visible="false">
+                           <children>
+                              <ImageView fx:id="star1_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="star1_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="star1_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Group>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <ImageView fitHeight="184.0" fitWidth="148.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingouin_bleu_menu.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="nameJ2" layoutX="38.0" layoutY="150.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 2" />
+                        <ImageView fx:id="rightJ2" layoutX="166.0" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="leftJ2" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Group fx:id="stars11" visible="false">
+                           <children>
+                              <ImageView fx:id="star1_11" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="star1_31" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="star1_21" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Group>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <ImageView fitHeight="184.0" fitWidth="148.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingouin_jaune_menu.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="nameJ3" layoutX="38.0" layoutY="150.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 3" />
+                        <ImageView fx:id="rightJ3" layoutX="166.0" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="leftJ3" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <ImageView fitHeight="184.0" fitWidth="148.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingouin_vert_menu.png" />
+                           </image>
+                        </ImageView>
+                        <TextField fx:id="nameJ4" layoutX="38.0" layoutY="150.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 4" />
+                        <ImageView fx:id="rightJ4" layoutX="166.0" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="leftJ4" layoutY="112.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Group>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

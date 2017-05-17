@@ -30,7 +30,7 @@ public class JoueurIA7 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie;
 
-        caseChoisie = this.chercherVictimePremierDuNom(partie);
+        caseChoisie = this.chercherVictimeSimple(partie);
         if (caseChoisie != null) {
             return caseChoisie;
 
@@ -42,7 +42,12 @@ public class JoueurIA7 extends JoueurIA {
 
         } 
         
-        return super.phaseJeuGourmand(partie);
+                caseChoisie = super.phaseJeuGourmand(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
+
+        return caseChoisie;
         
     }
 

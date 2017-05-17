@@ -3,48 +3,48 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import Modele.MyImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.AccueilController">
    <top>
-      <ImageView fitHeight="320.0" fitWidth="1010.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <MyImageView fitHeight="320.0" fitWidth="1010.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu.png" />
          </image>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
-      </ImageView>
+      </MyImageView>
    </top>
    <right>
       <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="locale" fitHeight="174.0" fitWidth="450.0" onMouseClicked="#jouerLocal" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView fx:id="locale" fitHeight="174.0" fitWidth="450.0" onMouseClicked="#jouerLocal" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_locale_resize.png" />
                </image>
-            </ImageView>
-            <ImageView fitHeight="169.0" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            </MyImageView>
+            <MyImageView fitHeight="169.0" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_reseau_resize.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-            </ImageView>
-            <ImageView fitHeight="117.0" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            </MyImageView>
+            <MyImageView fitHeight="117.0" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_didacticiel_resize.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-            </ImageView>
+            </MyImageView>
          </children>
          <padding>
             <Insets right="100.0" top="100.0" />
@@ -52,13 +52,13 @@
       </VBox>
    </right>
    <center>
-      <ImageView fitHeight="500.0" fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <MyImageView fitHeight="500.0" fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingoins.jpg" />
          </image>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
-      </ImageView>
+      </MyImageView>
    </center>
 </BorderPane>

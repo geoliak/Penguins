@@ -8,6 +8,8 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
+import Modele.Pinguin;
+import Vue.DessinateurTexte;
 
 /**
  *
@@ -21,7 +23,27 @@ public class JoueurMinimax extends JoueurIA {
 
     @Override
     public Case phaseJeu(Partie partie) {
-        return JoueurIA.minimax(this, partie);
+        int nbCasesPossibles = 0;
+        Case caseChoisie = null;
+        for (Pinguin p : this.getPinguinNonIsole()) {
+            nbCasesPossibles += p.getPosition().getCasePossibles().size();
+        }
+
+        if (nbCasesPossibles < 5 && super.nbCasesRestantesEstMoinsQue(partie, 12)) {
+            caseChoisie = JoueurIA.minimax(this, partie);
+            if (caseChoisie == null) {
+                DessinateurTexte dt = new DessinateurTexte();
+                partie.getPlateau().accept(dt);
+                System.out.println("");
+            }
+        } else {
+            caseChoisie = this.phaseJeuGourmand(partie);
+            if (caseChoisie == null) {
+                System.out.println("");
+            }
+        }
+
+        return caseChoisie;
     }
 
 }

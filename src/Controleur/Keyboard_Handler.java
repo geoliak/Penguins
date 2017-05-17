@@ -5,6 +5,8 @@
  */
 package Controleur;
 
+import Modele.AnnulerCoup;
+import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
 import Modele.Partie;
 import Vue.DessinateurTexte;

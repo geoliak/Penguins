@@ -117,7 +117,7 @@ public class Tournoi {
             for (Joueur ia2 : this.IA) {
                 for (Joueur ia3 : this.IA) {
                     for (Joueur ia4 : this.IA) {
-                        if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2) {
+                        if (ia != ia2 && ia != ia3 && ia != ia4 && ia3 != ia2 && ia4 != ia2 && ia3 != ia2 && ia4 != ia3) {
                             c.ajouterJoueur(ia);
                             c.ajouterJoueur(ia2);
                             c.ajouterJoueur(ia3);
@@ -165,6 +165,11 @@ public class Tournoi {
 
             System.out.println("] " + (float) ((float) 100 * (avancement * (tousLesMatch.size() / 10) + i) / tousLesMatch.size()) + "%");
 
+            for (Joueur j : c.getComposition()) {
+                System.out.println(j);
+            }
+            System.out.println(" ");
+            
             this.match(c);
 
             i++;
@@ -256,7 +261,13 @@ public class Tournoi {
 
                     //Si le joueur n'est pas elimine
                     if (joueurCourant.estEnJeu()) {
-                        joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
+                        try {
+                            joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
+                        } catch (Exception e) {
+                            plateau.accept(dt);
+                            System.out.println("");
+                        }
+                        
 
                         aJoue = true;
                     } else {

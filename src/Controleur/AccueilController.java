@@ -20,35 +20,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import Modele.MyImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-
-
 public class AccueilController implements Initializable {
-    
-    @FXML private ImageView locale;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
     }
-    
-    public void jouerLocal(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
-        Scene scene = new Scene(paramJeu);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+
+    public void jouerLocal(MouseEvent e) throws IOException {
+	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
     }
-    
-    public void on(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(new DropShadow());
+
+    public void on(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
     }
-    
-    public void out(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(null);
+
+    public void out(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(null);
     }
-    
+
 }

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import Modele.MyImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -12,14 +12,14 @@
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <top>
-            <ImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#creerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
+            <MyImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#creerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_nouvelle_partie_resize.png" />
                </image>
                <BorderPane.margin>
                   <Insets left="50.0" top="20.0" />
                </BorderPane.margin>
-            </ImageView>
+            </MyImageView>
          </top>
          <left>
             <VBox spacing="10.0" BorderPane.alignment="CENTER">
@@ -35,36 +35,36 @@
          <center>
             <BorderPane>
                <center>
-                  <ImageView fitHeight="285.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true">
+                  <MyImageView fitHeight="285.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/terrain.jpg" />
                      </image>
                      <BorderPane.margin>
                         <Insets top="40.0" />
                      </BorderPane.margin>
-                  </ImageView>
+                  </MyImageView>
                </center>
                <bottom>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <left>
-                        <ImageView fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <MyImageView fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                            <image>
                               <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize2.png" />
                            </image>
                            <BorderPane.margin>
                               <Insets left="75.0" />
                            </BorderPane.margin>
-                        </ImageView>
+                        </MyImageView>
                      </left>
                      <right>
-                        <ImageView fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <MyImageView fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                            <image>
                               <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize2.png" />
                            </image>
                            <BorderPane.margin>
                               <Insets right="75.0" />
                            </BorderPane.margin>
-                        </ImageView>
+                        </MyImageView>
                      </right>
                   </BorderPane>
                </bottom>
