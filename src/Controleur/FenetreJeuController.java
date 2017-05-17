@@ -43,6 +43,8 @@ public class FenetreJeuController {
 	Scene scene = new Scene(b, 1200, 900);
 	
 	stage.setScene(scene);
+        ConfigurationPartie.getConfigurationPartie().setScene(scene);
+        ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
         
