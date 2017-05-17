@@ -39,12 +39,24 @@ public class Plateau implements Serializable {
         } else {
             this.lireFichierTest(fichierPlateau, br);
         }
-        //setCases();
+        
+        setCasesValidesInit();
+        
         estModifié = true;
     }
 
     private Plateau() {
         this.cases = new Case[LARGEUR][LONGUEUR];
+    }
+    
+    public void setCasesValidesInit(){
+        for(Case[] cases: cases){
+            for(Case c : cases){
+                if(c.getNbPoissons() == 1){
+                    c.setAccessible(true);
+                }
+            }
+        }
     }
 
     /**

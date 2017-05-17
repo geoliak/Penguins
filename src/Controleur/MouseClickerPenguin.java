@@ -5,8 +5,10 @@
  */
 package Controleur;
 
+import Modele.Case;
 import Modele.Partie;
 import Modele.Pinguin;
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -31,6 +33,11 @@ public class MouseClickerPenguin implements EventHandler<MouseEvent> {
             if (!partie.getInitialisation()) {
                 if (partie.getJoueurCourant() == p.getGeneral() && partie.getJoueurCourant().getEstHumain()) {
                     p.getGeneral().setPinguinCourant(p);
+
+                    ArrayList<Case> casesaccessibles = p.getPosition().getCasePossibles();
+                    for (Case c : casesaccessibles) {
+                        c.setAccessible(Boolean.TRUE);
+                    }
                     partie.getPlateau().setEstModifié(true);
                 }
             }

@@ -27,6 +27,7 @@ public class PhaseInitialisationMaxPossibilitee implements Methode {
 
         if (caseCourante != null && !caseCourante.estCoulee() && caseCourante.getPinguin() == null && caseCourante.getNbPoissons() == 1) {
             casesAtteignable = caseCourante.getCasePossibles();
+            System.out.println(caseCourante + " -> " + casesAtteignable.size() + " > " +  this.maxCasesAtteignable + " ?");
             if (casesAtteignable.size() > this.maxCasesAtteignable) {
                 this.maxCasesAtteignable = casesAtteignable.size();
                 this.caseChoisie = caseCourante;

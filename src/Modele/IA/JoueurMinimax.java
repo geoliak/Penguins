@@ -22,7 +22,8 @@ public class JoueurMinimax extends JoueurIA {
         super(couleur, "JoueurIA Minimax", numero);
     }
 
-    public Case PhaseInitialisation(Partie partie) {
+    @Override
+    public Case phaseInitialisation(Partie partie) {
         return this.phaseInitialisationMaxPossibilitee(partie);
     }
 
