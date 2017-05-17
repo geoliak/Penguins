@@ -29,16 +29,18 @@ import javafx.stage.Stage;
  */
 public class FenetreJeuController {    
     public void creerFenetreJeu(Stage stage){
-        HBox h = new HBox();
-        VBox v = new VBox();
+        BorderPane b = new BorderPane();
+        VBox scores = new VBox();
+        HBox bas = new HBox();
         
 	AnchorPane root = new AnchorPane();
         
-        h.getChildren().add(root);
-        h.getChildren().add(v);
+        b.setCenter(root);
+        b.setRight(scores);
+        
+        setBannieresJoueurs(scores);
 
-	Scene scene = new Scene(h, 1200, 900);
-
+	Scene scene = new Scene(b, 1200, 900);
 	
 	stage.setScene(scene);
 	AnimationFX a = new AnimationFX();
@@ -54,5 +56,9 @@ public class FenetreJeuController {
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
 	stage.show();
+    }
+    
+    public void setBannieresJoueurs(VBox v){
+        
     }
 }
