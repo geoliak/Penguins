@@ -49,7 +49,7 @@ public enum Couleur {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
-	setImage(f);
+	//setImage(f);
     }
 
     public void setImage(File f) {

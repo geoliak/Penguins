@@ -72,7 +72,6 @@ public class Partie implements Serializable {
         Joueur old = this.joueurCourant;
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
-	System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
 	}
