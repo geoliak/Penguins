@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Coup {
 
-    private Joueur joueurCourant;
-    private ArrayList<Joueur> joueurs;
-    private Plateau plateau;
+    private final Joueur joueurCourant;
+    private final ArrayList<Joueur> joueursEnJeu;
+    private final Plateau plateau;
 
     public Coup() {
 	this.joueurCourant = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
-	this.joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
+	this.joueursEnJeu = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueursEnJeu();
 	this.plateau = ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau();
     }
 
@@ -27,8 +27,8 @@ public class Coup {
 	return joueurCourant;
     }
 
-    public ArrayList<Joueur> getJoueurs() {
-	return joueurs;
+    public ArrayList<Joueur> getJoueursEnJeu() {
+	return joueursEnJeu;
     }
 
     public Plateau getPlateau() {

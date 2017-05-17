@@ -34,9 +34,15 @@ public class MouseClickerPenguin implements EventHandler<MouseEvent> {
                 if (partie.getJoueurCourant() == p.getGeneral() && partie.getJoueurCourant().getEstHumain()) {
                     p.getGeneral().setPinguinCourant(p);
 
+                    for(Case[] cases : partie.getPlateau().getCases()){
+                        for(Case c : cases){
+                            c.setAccessible(false);
+                        }
+                    }
+
                     ArrayList<Case> casesaccessibles = p.getPosition().getCasePossibles();
                     for (Case c : casesaccessibles) {
-                        c.setAccessible(Boolean.TRUE);
+                        c.setAccessible(true);
                     }
                     partie.getPlateau().setEstModifié(true);
                 }

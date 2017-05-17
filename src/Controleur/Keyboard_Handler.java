@@ -8,9 +8,6 @@ package Controleur;
 import Modele.Historique;
 import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
-import Modele.Partie;
-import Vue.DessinateurTexte;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,12 +32,8 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
     public void handle(KeyEvent event) {
 	System.out.println("key pressed");
 	if (event.isControlDown() && event.getCode() == KeyCode.Z) {
-	    try {
-		System.out.println("ctrl+z");
-		ac.annulerDernierCoup();
-	    } catch (FileNotFoundException ex) {
-		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	    System.out.println("ctrl+z");
+	    ac.annulerDernierCoup();
 	} else if (event.isControlDown() && event.getCode() == KeyCode.S) {
 	    this.s = new Sauvegarde();
 	    s.Save("1");
