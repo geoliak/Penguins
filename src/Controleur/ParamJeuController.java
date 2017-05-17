@@ -5,7 +5,7 @@
  */
 package Controleur;
 
-import Modele.AnnulerCoup;
+import Modele.Historique;
 import Controleur.Test;
 import Modele.ConfigurationPartie;
 import Modele.Couleur;
@@ -326,13 +326,13 @@ public class ParamJeuController implements Initializable {
 	stage.setScene(scene);
 
 	Partie partie = creationPartie();
-        System.out.println(partie);
-        System.out.println("");
+	System.out.println(partie);
+	System.out.println("");
 	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);
 
-	AnnulerCoup histcoup = new AnnulerCoup(partie);
+	Historique histcoup = new Historique();
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
 	scene.setOnKeyPressed(keypresser);
 
