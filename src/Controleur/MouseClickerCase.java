@@ -6,6 +6,7 @@
 package Controleur;
 
 import Modele.Case;
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.JoueurHumain;
 import Modele.MyPolygon;
@@ -38,24 +39,27 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     int size;
 
-    public MouseClickerCase(MyPolygon p, Partie partie) {
+    public MouseClickerCase(MyPolygon p) {
 	this.p = p;
-	this.partie = partie;
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
+        System.out.println(partie);
     }
 
     @Override
     public void handle(MouseEvent event) {
-        //System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
+        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
 	rowclic = p.getY();
 	columnclic = p.getX();
         
         // Joueur Humain
         if(partie.getJoueurCourant().getEstHumain() && partie.isTourFini()){
+            
             partie.setTourFini(false);
             // Initialisation : Placement pingouins
             if (partie.estEnInitialisation()) {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
+                    System.out.println("BLABLA");
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();

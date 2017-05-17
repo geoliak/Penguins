@@ -32,7 +32,6 @@ public class Menus extends Application{
        stage.setScene(new Scene(root, 1200, 900));
        stage.setResizable(false);
        stage.show();
-       
     }
     
     public static void main(String[] args){

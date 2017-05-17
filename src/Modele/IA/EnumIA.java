@@ -60,7 +60,7 @@ public class EnumIA extends JoueurIA {
                 if (!this.estFinJeu(partie)) {
                     //saute l'allele 50% de chance
                     if (r.nextBoolean()) {
-                        if (this.nbCasesRestantesEstMoinsQue(partie, 19)) {
+                        if (this.nbCasesRestantes(partie) < 19) {
                             fonction = this.debutJeu.get(i % this.debutJeu.size());
                             caseChoisie = fonction.apply(this, partie);
                             //System.out.println("debutJeu <" + i % this.debutJeu.size() + ">");

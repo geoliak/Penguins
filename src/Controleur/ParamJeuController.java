@@ -324,6 +324,8 @@ public class ParamJeuController implements Initializable {
 	stage.setScene(scene);
 
 	Partie partie = creationPartie();
+        System.out.println(partie);
+        System.out.println("");
 	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 	AnimationFX a = new AnimationFX();
 	DessinateurFX d = new DessinateurFX(root, a);

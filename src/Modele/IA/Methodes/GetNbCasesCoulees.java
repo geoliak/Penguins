@@ -13,20 +13,20 @@ import Modele.Case;
  */
 public class GetNbCasesCoulees implements Methode {
 
-    private int nbCasesCoulees;
+    private int nbCasesRestantes;
 
     public GetNbCasesCoulees() {
-        this.nbCasesCoulees = 0;
+        this.nbCasesRestantes = 0;
     }
 
     @Override
     public void execute(Case c) {
-        if (c.estCoulee()) {
-            this.nbCasesCoulees++;
+        if (!c.estCoulee()) {
+            this.nbCasesRestantes++;
         }
     }
 
     public int getNbCasesCoulees() {
-        return nbCasesCoulees;
+        return nbCasesRestantes;
     }
 }
