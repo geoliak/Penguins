@@ -45,7 +45,11 @@ public class RafraichissementFX extends AnimationTimer {
 	if (partie.getPlateau().isEstModifié()) {
 //            for(Joueur j : partie.getJoueurs())
 //                d.visiteScore(j);
-	    d.visite(partie.getPlateau());
+	    partie.getPlateau().accept(d);
+            for(Joueur j : partie.getJoueurs()){
+                j.accept(d);
+            }
+            
             
 	    partie.getPlateau().setEstModifié(false);
 	}

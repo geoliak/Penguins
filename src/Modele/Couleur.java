@@ -16,9 +16,9 @@ import javafx.scene.paint.Color;
  */
 public enum Couleur {
 
-    Noir("Noir","\u001B[30m", "\u001B[40m", Color.BLACK),
+    Noir("noir","\u001B[30m", "\u001B[40m", Color.BLACK),
     Rouge("rouge","\u001B[31m", "\u001B[41m", Color.RED),
-    Bleu("Bleu","\u001B[34m", "\u001B[44m", Color.BLUE),
+    Bleu("bleu","\u001B[34m", "\u001B[44m", Color.BLUE),
     Vert("verte","\u001B[32m", "\u001B[42m", Color.GREEN),
     Jaune("jaune","\u001B[33m", "\u001B[43m", Color.YELLOW),
     RougeFX("rouge","\u001B[31m", "\u001B[41m", Color.RED, new File("ressources/img/pingouin_rouge_mini.png")),

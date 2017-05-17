@@ -42,12 +42,12 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
     public MouseClickerCase(MyPolygon p) {
 	this.p = p;
 	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
-        System.out.println(partie);
+        //System.out.println(partie);
     }
 
     @Override
     public void handle(MouseEvent event) {
-        System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
+        //System.out.println("POINT CLIC : " + (event.getX()+p.getXorigine()) + " " + (event.getY()+p.getYorigine()));
 	// Récupération de la ligne et colonne de l'ilot cliqué
 	rowclic = p.getY();
 	columnclic = p.getX();
@@ -59,7 +59,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
             // Initialisation : Placement pingouins
             if (partie.estEnInitialisation()) {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
-                    System.out.println("BLABLA");
+                    //System.out.println("BLABLA");
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
                     partie.getPlateau().setEstModifié(true);
