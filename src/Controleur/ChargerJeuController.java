@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.ConfigurationPartie;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
+import Modele.Partie;
+import Modele.Sauvegarde;
+import java.io.File;
+import java.util.ArrayList;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -30,15 +36,23 @@ public class ChargerJeuController implements Initializable {
 
     @FXML
     private ListView<String> listView;
+    private File[] files;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        ArrayList<String> results = new ArrayList<>();
 	ObservableList<String> items = listView.getItems();
-	items.add("One");
-	items.add("Two");
-	items.add("Three");
-	items.add("Four");
-	items.add("Five");
+
+
+        files = new File("./Savefiles").listFiles();
+
+        for (File file : files) {
+            if (file.isFile()) {
+                items.add(file.getName());
+            }
+        }
+	
 
 	listView.getSelectionModel().select(0);
 	listView.getFocusModel().focus(0);
@@ -58,6 +72,14 @@ public class ChargerJeuController implements Initializable {
 
     public void out(MouseEvent e) {
 	((MyImageView) e.getSource()).setEffect(null);
+    }
+    
+    public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException{
+        Partie partie = new Sauvegarde().Load(1);
+        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        FenetreJeuController fenetre = new FenetreJeuController();
+        fenetre.creerFenetreJeu(stage);
     }
 
 }
