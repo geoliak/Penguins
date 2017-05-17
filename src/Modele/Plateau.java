@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Modele.IA.Methodes.Methode;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -165,6 +166,18 @@ public class Plateau implements Serializable {
      */
     public Boolean estCaseLibre(int x, int y) {
         return (!this.cases[x][y].estCoulee() && this.cases[x][y].getPinguin() == null);
+    }
+
+    public void appliquerSurCasesAvecDebut(int x, int y, Methode methode) {
+        for (int i = x; i < x + this.getNbLignes(); i++) {
+            for (int j = y; j < y + this.getNbColonnes(); j++) {
+                methode.execute(this.cases[i % this.getNbLignes()][j % this.getNbColonnes()]);
+            }
+        }
+    }
+
+    public void appliquerSurCases(Methode methode) {
+        this.appliquerSurCasesAvecDebut(0, 0, methode);
     }
 
     public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant, int tailleMaximale) {
@@ -378,11 +391,11 @@ public class Plateau implements Serializable {
     public void setCases(Case[][] cases) {
         this.cases = cases;
     }
-    
-    public void setCases(){
-        for(Case[] cases : this.cases){
-            for(Case c : cases){
-                if(c.getPolygon() != null){
+
+    public void setCases() {
+        for (Case[] cases : this.cases) {
+            for (Case c : cases) {
+                if (c.getPolygon() != null) {
                     c.getPolygon().setImage(c.getNbPoissons());
                 }
             }
