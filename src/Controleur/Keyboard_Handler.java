@@ -43,13 +43,13 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 	    }
 	} else if (event.isControlDown() && event.getCode() == KeyCode.S) {
 	    this.s = new Sauvegarde();
-	    s.Save(1);
+	    s.Save("1");
 
 	} else if (event.isControlDown() && event.getCode() == KeyCode.L) {
 	    try {
 		this.s = new Sauvegarde();
 
-		ConfigurationPartie.getConfigurationPartie().setPartie(this.s.Load(1));
+		ConfigurationPartie.getConfigurationPartie().setPartie(this.s.Load("1"));
 		ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 		ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 

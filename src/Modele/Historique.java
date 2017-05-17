@@ -5,22 +5,9 @@
  */
 package Modele;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
-import static java.nio.file.Files.createDirectory;
-import static java.nio.file.Files.isExecutable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +24,9 @@ public class Historique implements Serializable {
     }
 
     public void rejouerCoup() {
+	//Teste si on a des coups à refaire
 	if (historiqueCoups.size() > indice) {
+	    //Si oui, alors 
 	    if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().equals(historiqueCoups.get(indice))) {
 
 	    }
