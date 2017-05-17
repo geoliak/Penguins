@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.AnnulerCoup;
 import Controleur.Test;
 import Modele.ConfigurationPartie;
 import Modele.Couleur;
@@ -40,7 +41,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import Modele.MyImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -52,403 +53,402 @@ import javafx.stage.Stage;
  * @author mariobap
  */
 public class ParamJeuController implements Initializable {
-    
-    @FXML private ImageView titre;
-    
-    @FXML private ImageView rightJ1;
-    @FXML private ImageView rightJ2;
-    @FXML private ImageView rightJ3;
-    @FXML private ImageView rightJ4;
-    
-    @FXML private ImageView leftJ1;
-    @FXML private ImageView leftJ2;
-    @FXML private ImageView leftJ3;
-    @FXML private ImageView leftJ4;
-    
-    @FXML private TextField nameJ1;
-    @FXML private TextField nameJ2;
-    @FXML private TextField nameJ3;
-    @FXML private TextField nameJ4;
-    
-    @FXML private Group stars1;
-    @FXML private Group stars2;
-    @FXML private Group stars3;
-    @FXML private Group stars4;
-    
-    @FXML private ImageView star1_1;
-    @FXML private ImageView star1_2;
-    @FXML private ImageView star1_3;
-    @FXML private ImageView star2_1;
-    @FXML private ImageView star2_2;
-    @FXML private ImageView star2_3;
-    @FXML private ImageView star3_1;
-    @FXML private ImageView star3_2;
-    @FXML private ImageView star3_3;
-    @FXML private ImageView star4_1;
-    @FXML private ImageView star4_2;
-    @FXML private ImageView star4_3;
-    
-    @FXML private ImageView joueur3;
-    
-    
-    private int [] typesJoueurs = {0, 0, 0, 0};
-    private int [] difficultesIA = {0, 0, 0, 0};
-    private Image [] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
-        
+
+    @FXML
+    private MyImageView titre;
+
+    @FXML
+    private MyImageView rightJ1;
+    @FXML
+    private MyImageView rightJ2;
+    @FXML
+    private MyImageView rightJ3;
+    @FXML
+    private MyImageView rightJ4;
+
+    @FXML
+    private MyImageView leftJ1;
+    @FXML
+    private MyImageView leftJ2;
+    @FXML
+    private MyImageView leftJ3;
+    @FXML
+    private MyImageView leftJ4;
+
+    @FXML
+    private TextField nameJ1;
+    @FXML
+    private TextField nameJ2;
+    @FXML
+    private TextField nameJ3;
+    @FXML
+    private TextField nameJ4;
+
+    @FXML
+    private Group stars1;
+    @FXML
+    private Group stars2;
+    @FXML
+    private Group stars3;
+    @FXML
+    private Group stars4;
+
+    @FXML
+    private MyImageView star1_1;
+    @FXML
+    private MyImageView star1_2;
+    @FXML
+    private MyImageView star1_3;
+    @FXML
+    private MyImageView star2_1;
+    @FXML
+    private MyImageView star2_2;
+    @FXML
+    private MyImageView star2_3;
+    @FXML
+    private MyImageView star3_1;
+    @FXML
+    private MyImageView star3_2;
+    @FXML
+    private MyImageView star3_3;
+    @FXML
+    private MyImageView star4_1;
+    @FXML
+    private MyImageView star4_2;
+    @FXML
+    private MyImageView star4_3;
+
+    @FXML
+    private MyImageView joueur3;
+
+    private int[] typesJoueurs = {0, 0, 0, 0};
+    private int[] difficultesIA = {0, 0, 0, 0};
+    private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //joueur3.setImage(new Image(new File("./ressources/img/pingouin_jaune_menu.png").toURI().toString()));
+	//joueur3.setImage(new Image(new File("./ressources/img/pingouin_jaune_menu.png").toURI().toString()));
     }
-    
-    public void arrowClick(MouseEvent e){
-        //Fleche Droite
-        if(e.getSource().equals(rightJ1)) {
-            changeJoueur(0, 1);
-        }
-        else if(e.getSource().equals(rightJ2)) {
-            changeJoueur(1, 1);
-            
-        }
-        else if(e.getSource().equals(rightJ3)) {
-            changeJoueur(2, 1);
-            
-        }
-        else if(e.getSource().equals(rightJ4)) {
-            changeJoueur(3, 1);
-            
-        }
-        
-        //Fleche Gauche
-        else if(e.getSource().equals(leftJ1)) {
-            changeJoueur(0, -1);
-            
-        }
-        else if(e.getSource().equals(leftJ2)) {
-            changeJoueur(1, -1);
-            
-        }
-        else if(e.getSource().equals(leftJ3)) {
-            changeJoueur(2, -1);
-            
-        }
-        else if(e.getSource().equals(leftJ4)) {
-            changeJoueur(3, -1);
-            
-        }
-    }
-    
-    public void starClick(MouseEvent e){
-        if(e.getSource().equals(star1_1)){
-            star1_1.setImage(stars[1]);
-            star1_2.setImage(stars[0]);
-            star1_3.setImage(stars[0]);
-            difficultesIA[0] = 0;
-        }
-        else if(e.getSource().equals(star1_2)){
-            star1_1.setImage(stars[1]);
-            star1_2.setImage(stars[1]);
-            star1_3.setImage(stars[0]);
-            difficultesIA[0] = 1;
-        }
-        else if(e.getSource().equals(star1_3)){
-            star1_1.setImage(stars[1]);
-            star1_2.setImage(stars[1]);
-            star1_3.setImage(stars[1]);
-            difficultesIA[0] = 2;
-        }
-        
-        else if(e.getSource().equals(star2_1)){
-            star2_1.setImage(stars[1]);
-            star2_2.setImage(stars[0]);
-            star2_3.setImage(stars[0]);
-            difficultesIA[1] = 0;
-        }
-        else if(e.getSource().equals(star2_2)){
-            star2_1.setImage(stars[1]);
-            star2_2.setImage(stars[1]);
-            star2_3.setImage(stars[0]);
-            difficultesIA[1] = 1;
-        }
-        else if(e.getSource().equals(star2_3)){
-            star2_1.setImage(stars[1]);
-            star2_2.setImage(stars[1]);
-            star2_3.setImage(stars[1]);
-            difficultesIA[1] = 2;
-        }
-        
-        else if(e.getSource().equals(star3_1)){
-            star3_1.setImage(stars[1]);
-            star3_2.setImage(stars[0]);
-            star3_3.setImage(stars[0]);
-            difficultesIA[2] = 0;
-        }
-        else if(e.getSource().equals(star3_2)){
-            star3_1.setImage(stars[1]);
-            star3_2.setImage(stars[1]);
-            star3_3.setImage(stars[0]);
-            difficultesIA[2] = 1;
-        }
-        else if(e.getSource().equals(star3_3)){
-            star3_1.setImage(stars[1]);
-            star3_2.setImage(stars[1]);
-            star3_3.setImage(stars[1]);
-            difficultesIA[2] = 2;
-        }
-        
-        else if(e.getSource().equals(star4_1)){
-            star4_1.setImage(stars[1]);
-            star4_2.setImage(stars[0]);
-            star4_3.setImage(stars[0]);
-            difficultesIA[3] = 0;
-        }
-        else if(e.getSource().equals(star4_2)){
-            star4_1.setImage(stars[1]);
-            star4_2.setImage(stars[1]);
-            star4_3.setImage(stars[0]);
-            difficultesIA[3] = 1;
-        }
-        else if(e.getSource().equals(star4_3)){
-            star4_1.setImage(stars[1]);
-            star4_2.setImage(stars[1]);
-            star4_3.setImage(stars[1]);
-            difficultesIA[3] = 2;
-        }
-    }
-    
-    private void changeJoueur(int Joueur, int deplacement){
-        typesJoueurs[Joueur] = (typesJoueurs[Joueur] + deplacement) % 3;
-        if(typesJoueurs[Joueur] < 0) typesJoueurs[Joueur] = 2;
-        
-        //type du joueur
-        switch(typesJoueurs[Joueur]){
-            //joueur humain
-            case 0:
-                //numéro du joueur
-                switch(Joueur){
-                    case 0:
-                        nameJ1.setVisible(true);
-                        stars1.setVisible(false);
-                        break;
-                    
-                    case 1:
-                        stars2.setVisible(false);
-                        nameJ2.setVisible(true);
-                        break;
-                    
-                    case 2:
-                        stars3.setVisible(false);
-                        nameJ3.setVisible(true);
-                        break;
-                    
-                    case 3:
-                        stars4.setVisible(false);
-                        nameJ4.setVisible(true);
-                        break;
-                }
-                break;
-                
-            case 1:
-                // joueur IA
-                switch(Joueur){
-                    case 0:
-                        nameJ1.setVisible(false);
-                        stars1.setVisible(true);
-                        break;
-                    
-                    case 1:
-                        stars2.setVisible(true);
-                        nameJ2.setVisible(false);
-                        break;
-                    
-                    case 2:
-                        stars3.setVisible(true);
-                        nameJ3.setVisible(false);
-                        break;
-                    
-                    case 3:
-                        stars4.setVisible(true);
-                        nameJ4.setVisible(false);
-                        break;
-                }
-                break;
-                
-            //pas de joueur
-            case 2:
-                //numéro du joueur
-                switch(Joueur){
-                    case 0:
-                        nameJ1.setVisible(false);
-                        stars1.setVisible(false);
-                        break;
-                    
-                    case 1:
-                        stars2.setVisible(false);
-                        nameJ2.setVisible(false);
-                        break;
-                    
-                    case 2:
-                        stars3.setVisible(false);
-                        nameJ3.setVisible(false);
-                        break;
-                    
-                    case 3:
-                        stars4.setVisible(false);
-                        nameJ4.setVisible(false);
-                        break;
-                }
-                break;
-        }
-    }
-    
-    public void jouer(MouseEvent e) throws IOException{
-        
-        Group root = new Group();
-        
-	Scene scene = new Scene(root, 1200,900);
-        
-	scene.setFill(Color.AQUA);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	stage.setScene(scene);
-        
-        Partie partie = creationPartie();
-        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-        AnimationFX a = new AnimationFX();
-	DessinateurFX d = new  DessinateurFX(root, a);
 
-        
-        AnnulerCoup histcoup = new AnnulerCoup(partie);
+    public void arrowClick(MouseEvent e) {
+	//Fleche Droite
+	if (e.getSource().equals(rightJ1)) {
+	    changeJoueur(0, 1);
+	} else if (e.getSource().equals(rightJ2)) {
+	    changeJoueur(1, 1);
+
+	} else if (e.getSource().equals(rightJ3)) {
+	    changeJoueur(2, 1);
+
+	} else if (e.getSource().equals(rightJ4)) {
+	    changeJoueur(3, 1);
+
+	} //Fleche Gauche
+	else if (e.getSource().equals(leftJ1)) {
+	    changeJoueur(0, -1);
+
+	} else if (e.getSource().equals(leftJ2)) {
+	    changeJoueur(1, -1);
+
+	} else if (e.getSource().equals(leftJ3)) {
+	    changeJoueur(2, -1);
+
+	} else if (e.getSource().equals(leftJ4)) {
+	    changeJoueur(3, -1);
+
+	}
+    }
+
+    public void starClick(MouseEvent e) {
+	if (e.getSource().equals(star1_1)) {
+	    star1_1.setImage(stars[1]);
+	    star1_2.setImage(stars[0]);
+	    star1_3.setImage(stars[0]);
+	    difficultesIA[0] = 0;
+	} else if (e.getSource().equals(star1_2)) {
+	    star1_1.setImage(stars[1]);
+	    star1_2.setImage(stars[1]);
+	    star1_3.setImage(stars[0]);
+	    difficultesIA[0] = 1;
+	} else if (e.getSource().equals(star1_3)) {
+	    star1_1.setImage(stars[1]);
+	    star1_2.setImage(stars[1]);
+	    star1_3.setImage(stars[1]);
+	    difficultesIA[0] = 2;
+	} else if (e.getSource().equals(star2_1)) {
+	    star2_1.setImage(stars[1]);
+	    star2_2.setImage(stars[0]);
+	    star2_3.setImage(stars[0]);
+	    difficultesIA[1] = 0;
+	} else if (e.getSource().equals(star2_2)) {
+	    star2_1.setImage(stars[1]);
+	    star2_2.setImage(stars[1]);
+	    star2_3.setImage(stars[0]);
+	    difficultesIA[1] = 1;
+	} else if (e.getSource().equals(star2_3)) {
+	    star2_1.setImage(stars[1]);
+	    star2_2.setImage(stars[1]);
+	    star2_3.setImage(stars[1]);
+	    difficultesIA[1] = 2;
+	} else if (e.getSource().equals(star3_1)) {
+	    star3_1.setImage(stars[1]);
+	    star3_2.setImage(stars[0]);
+	    star3_3.setImage(stars[0]);
+	    difficultesIA[2] = 0;
+	} else if (e.getSource().equals(star3_2)) {
+	    star3_1.setImage(stars[1]);
+	    star3_2.setImage(stars[1]);
+	    star3_3.setImage(stars[0]);
+	    difficultesIA[2] = 1;
+	} else if (e.getSource().equals(star3_3)) {
+	    star3_1.setImage(stars[1]);
+	    star3_2.setImage(stars[1]);
+	    star3_3.setImage(stars[1]);
+	    difficultesIA[2] = 2;
+	} else if (e.getSource().equals(star4_1)) {
+	    star4_1.setImage(stars[1]);
+	    star4_2.setImage(stars[0]);
+	    star4_3.setImage(stars[0]);
+	    difficultesIA[3] = 0;
+	} else if (e.getSource().equals(star4_2)) {
+	    star4_1.setImage(stars[1]);
+	    star4_2.setImage(stars[1]);
+	    star4_3.setImage(stars[0]);
+	    difficultesIA[3] = 1;
+	} else if (e.getSource().equals(star4_3)) {
+	    star4_1.setImage(stars[1]);
+	    star4_2.setImage(stars[1]);
+	    star4_3.setImage(stars[1]);
+	    difficultesIA[3] = 2;
+	}
+    }
+
+    private void changeJoueur(int Joueur, int deplacement) {
+	typesJoueurs[Joueur] = (typesJoueurs[Joueur] + deplacement) % 3;
+	if (typesJoueurs[Joueur] < 0) {
+	    typesJoueurs[Joueur] = 2;
+	}
+
+	//type du joueur
+	switch (typesJoueurs[Joueur]) {
+	    //joueur humain
+	    case 0:
+		//numéro du joueur
+		switch (Joueur) {
+		    case 0:
+			nameJ1.setVisible(true);
+			stars1.setVisible(false);
+			break;
+
+		    case 1:
+			stars2.setVisible(false);
+			nameJ2.setVisible(true);
+			break;
+
+		    case 2:
+			stars3.setVisible(false);
+			nameJ3.setVisible(true);
+			break;
+
+		    case 3:
+			stars4.setVisible(false);
+			nameJ4.setVisible(true);
+			break;
+		}
+		break;
+
+	    case 1:
+		// joueur IA
+		switch (Joueur) {
+		    case 0:
+			nameJ1.setVisible(false);
+			stars1.setVisible(true);
+			break;
+
+		    case 1:
+			stars2.setVisible(true);
+			nameJ2.setVisible(false);
+			break;
+
+		    case 2:
+			stars3.setVisible(true);
+			nameJ3.setVisible(false);
+			break;
+
+		    case 3:
+			stars4.setVisible(true);
+			nameJ4.setVisible(false);
+			break;
+		}
+		break;
+
+	    //pas de joueur
+	    case 2:
+		//numéro du joueur
+		switch (Joueur) {
+		    case 0:
+			nameJ1.setVisible(false);
+			stars1.setVisible(false);
+			break;
+
+		    case 1:
+			stars2.setVisible(false);
+			nameJ2.setVisible(false);
+			break;
+
+		    case 2:
+			stars3.setVisible(false);
+			nameJ3.setVisible(false);
+			break;
+
+		    case 3:
+			stars4.setVisible(false);
+			nameJ4.setVisible(false);
+			break;
+		}
+		break;
+	}
+    }
+
+    public void jouer(MouseEvent e) throws IOException {
+
+	Group root = new Group();
+
+	Scene scene = new Scene(root, 1200, 900);
+
+	scene.setFill(Color.AQUA);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+
+	Partie partie = creationPartie();
+        System.out.println(partie);
+        System.out.println("");
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+	AnimationFX a = new AnimationFX();
+	DessinateurFX d = new DessinateurFX(root, a);
+
+	AnnulerCoup histcoup = new AnnulerCoup(partie);
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler(histcoup);
-        scene.setOnKeyPressed(keypresser);
-        
-        
+	scene.setOnKeyPressed(keypresser);
+
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
 	stage.show();
-        
-        
-       /* Group root = new Group();
-        
-	Scene scene = new Scene(root, 1200,900);
-        
-	scene.setFill(Color.AQUA);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+	/* Group root = new Group();
+
+	 Scene scene = new Scene(root, 1200,900);
+
+	 scene.setFill(Color.AQUA);
+	 Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	 stage.setScene(scene);
+	 Plateau plateau = new Plateau("ressources/plateaux/plateau1");
+	 plateau.initCase();
+
+	 String j1;
+	 if(nameJ1.getText().equals("")){
+	 j1 = "Joueur1";
+	 }
+	 else {
+	 j1 = nameJ1.getText();
+	 }
+
+	 JoueurHumainLocal joueurH1 = new JoueurHumainLocal(j1, Couleur.JauneFX);
+	 JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
+
+	 JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+
+	 ArrayList<Joueur> joueurs = new ArrayList<>();
+	 joueurs.add(joueurH1);
+	 joueurs.add(joueuria);
+
+	 System.out.println(joueurs.size());
+
+	 Partie partie = new Partie(plateau, joueurs);
+	 AnimationFX a = new AnimationFX();
+	 DessinateurFX d = new  DessinateurFX(root, partie, a);
+
+	 //plateau.accept(d);
+	 RafraichissementFX r = new RafraichissementFX(d, partie);
+	 r.start();
+	 stage.show();*/
+    }
+
+    public void on(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
+    }
+
+    public void out(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(null);
+    }
+
+    public void chargerPartie(MouseEvent e) throws IOException {
+	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ChargerJeu.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
-        Plateau plateau = new Plateau("ressources/plateaux/plateau1");
+	stage.show();
+    }
+
+    public Partie creationPartie() throws IOException {
+	Plateau plateau = new Plateau("ressources/plateaux/plateau1");
 	plateau.initCase();
 
-        String j1;
-        if(nameJ1.getText().equals("")){
-            j1 = "Joueur1";
-        }
-        else {
-            j1 = nameJ1.getText();
-        }
-        
-	JoueurHumainLocal joueurH1 = new JoueurHumainLocal(j1, Couleur.JauneFX);
-	JoueurHumainLocal joueurH2 = new JoueurHumainLocal("Pierre", Couleur.RougeFX);
-        
-        JoueurIA joueuria = new JoueurIA5(Couleur.RougeFX);
+	String[] names = new String[4];
+	Couleur[] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
+
+	if (nameJ1.getText().equals("")) {
+	    names[0] = "Joueur 1";
+	} else {
+	    names[0] = nameJ1.getText();
+	}
+
+	if (nameJ2.getText().equals("")) {
+	    names[1] = "Joueur 2";
+	} else {
+	    names[1] = nameJ2.getText();
+	}
+
+	if (nameJ3.getText().equals("")) {
+	    names[2] = "Joueur 3";
+	} else {
+	    names[2] = nameJ3.getText();
+	}
+
+	if (nameJ4.getText().equals("")) {
+	    names[3] = "Joueur 4";
+	} else {
+	    names[3] = nameJ4.getText();
+	}
 
 	ArrayList<Joueur> joueurs = new ArrayList<>();
-	joueurs.add(joueurH1);
-	joueurs.add(joueuria);
-
-	System.out.println(joueurs.size());
-
+	for (int i = 0; i < 4; i++) {
+	    System.out.print("Joueur " + i + " : ");
+	    if (typesJoueurs[i] == 0) {
+		System.out.println("humain");
+		joueurs.add(new JoueurHumainLocal(names[i], couleurs[i], i));
+	    } else if (typesJoueurs[i] == 1) {
+		if (difficultesIA[i] == 0) {
+		    System.out.println("IA facile");
+		    joueurs.add(new JoueurIA1(couleurs[i], i));
+		} else if (difficultesIA[i] == 1) {
+		    System.out.println("IA moyenne");
+		    joueurs.add(new JoueurIA5(couleurs[i], i));
+		} else {
+		    System.out.println("IA difficile");
+		    joueurs.add(new JoueurIA6(couleurs[i], i));
+		}
+	    } else {
+		System.out.println("pas de joueur");
+	    }
+	}
 	Partie partie = new Partie(plateau, joueurs);
-        AnimationFX a = new AnimationFX();
-	DessinateurFX d = new  DessinateurFX(root, partie, a);
-
-	//plateau.accept(d);
-	RafraichissementFX r = new RafraichissementFX(d, partie);
-	r.start();
-	stage.show();*/
-        
-    }
-    
-    public void on(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(new DropShadow());
-    }
-    
-    public void out(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(null);
-    }
-    
-    public void chargerPartie(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ChargerJeu.fxml"));
-        Scene scene = new Scene(paramJeu);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    public Partie creationPartie() throws IOException{
-        Plateau plateau = new Plateau("ressources/plateaux/plateau1");
-	plateau.initCase();
-
-        String [] names = new String[4];
-        Couleur [] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
-        
-        if(nameJ1.getText().equals("")){
-            names[0] = "Joueur 1";
-        }
-        else {
-            names[0] = nameJ1.getText();
-        }
-        
-        if(nameJ2.getText().equals("")){
-            names[1] = "Joueur 2";
-        }
-        else {
-            names[1] = nameJ2.getText();
-        }
-        
-        if(nameJ3.getText().equals("")){
-            names[2] = "Joueur 3";
-        }
-        else {
-            names[2] = nameJ3.getText();
-        }
-        
-        if(nameJ4.getText().equals("")){
-            names[3] = "Joueur 4";
-        }
-        else {
-            names[3] = nameJ4.getText();
-        }
-        
-        ArrayList<Joueur> joueurs = new ArrayList<>();
-        for(int i=0; i<4; i++){
-            System.out.print("Joueur " + i + " : ");
-            if(typesJoueurs[i] == 0){
-                System.out.println("humain");
-                joueurs.add(new JoueurHumainLocal(names[i], couleurs[i], i));
-            }
-            else if(typesJoueurs[i] == 1){
-                if(difficultesIA[i] == 0){
-                    System.out.println("IA facile");
-                    joueurs.add(new JoueurIA1(couleurs[i], i));
-                }
-                else if(difficultesIA[i] == 1){
-                    System.out.println("IA moyenne");
-                    joueurs.add(new JoueurIA5(couleurs[i], i));
-                }
-                else {
-                    System.out.println("IA difficile");
-                    joueurs.add(new JoueurIA6(couleurs[i], i));
-                }
-            }
-            else {
-                System.out.println("pas de joueur");
-            }
-        }
-        Partie partie = new Partie(plateau, joueurs);
-        partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
+	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
 	return partie;
     }
-    
+
 }

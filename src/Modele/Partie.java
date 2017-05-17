@@ -5,7 +5,6 @@
  */
 package Modele;
 
-import Controleur.AnnulerCoup;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -141,6 +140,16 @@ public class Partie implements Serializable {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
 	    }
 	}
+    }
+    
+    public ArrayList<Joueur> getAutresJoueurs(Joueur joueur) {
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+        for (Joueur j : this.joueurs) {
+            if (j != joueur) {
+                joueurs.add(j);
+            }
+        }
+        return joueurs;
     }
 
     public Plateau getPlateau() {
