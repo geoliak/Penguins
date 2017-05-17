@@ -150,6 +150,7 @@ public abstract class Joueur implements Serializable {
     }
 
     public Boolean estEnJeu() {
+        
 	if (this.pret) {
 	    return !this.getPinguinsVivants().isEmpty();
 	} else {
