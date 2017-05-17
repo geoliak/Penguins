@@ -177,6 +177,10 @@ public abstract class Joueur implements Serializable {
     public void setEstHumain(Boolean estHumain) {
 	this.estHumain = estHumain;
     }
+    
+    public void accept(Visiteur v){
+        v.visit(this);
+    }
 
     @Override
     public String toString() {

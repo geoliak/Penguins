@@ -29,7 +29,18 @@ public class JoueurMinimax extends JoueurIA {
 
     @Override
     public Case phaseJeu(Partie partie) {
-        return JoueurIA.minimax(this, partie);
-    }
+        Case caseChoisie = null;
 
+        caseChoisie = JoueurIA.minimax(this, partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
+
+        caseChoisie = this.chercherVictimeSimple(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
+
+        return super.phaseInitialisationMaxPossibilitee(partie);
+    }
 }
