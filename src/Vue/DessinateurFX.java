@@ -186,7 +186,7 @@ public class DessinateurFX extends Visiteur {
 	    } else {
 		p.getIv().setEffect(null);
 	    }
-	} else if (!p.estVivant()) {
+	} else if (!p.estVivant() && p.getIv() != null) {
 	    //a.efface(p.getIv());
             Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
             t.setOnFinished(new EventHandler<ActionEvent>() {

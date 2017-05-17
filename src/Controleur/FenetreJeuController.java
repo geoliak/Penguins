@@ -52,6 +52,7 @@ public class FenetreJeuController {
         b.setBottom(bas);
         
         setBannieresJoueurs(scores);
+        setBottom(bas);
 
 	Scene scene = new Scene(b, 1200, 900);
 	
@@ -108,5 +109,32 @@ public class FenetreJeuController {
             
             ((VBox) v).getChildren().add(ap);
         }
+    }
+    
+    public void setBottom(Node n){
+        VBox v = new VBox();
+        HBox h = new HBox();
+        File f = new File("ressources/img/img_menu/abandonner.png");
+        ImageView abandonner = new ImageView(new Image(f.toURI().toString()));
+        
+        File f2 = new File("ressources/img/img_menu/volume.png");
+        ImageView volume = new ImageView(new Image(f2.toURI().toString()));
+        volume.setPreserveRatio(true);
+        volume.setFitHeight(30);
+        
+        File f3 = new File("ressources/img/img_menu/note.png");
+        ImageView note = new ImageView(new Image(f3.toURI().toString()));
+        note.setPreserveRatio(true);
+        note.setFitHeight(30);
+        
+        h.getChildren().addAll(volume, note);
+        h.setAlignment(Pos.TOP_LEFT);
+        h.setSpacing(20);
+        
+        v.getChildren().addAll(abandonner, h);
+        v.setAlignment(Pos.TOP_LEFT);
+        v.setSpacing(20);
+        ((HBox) n).getChildren().add(v);
+        
     }
 }

@@ -264,8 +264,8 @@ public class Tournoi {
                         try {
                             joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
                         } catch (Exception e) {
-                            plateau.accept(dt);
-                            System.out.println("");
+                            System.out.println(joueurCourant);
+                            plateau.accept(dt);      
                         }
                         
 
@@ -285,7 +285,7 @@ public class Tournoi {
 
             }
 
-            //partie.afficheResultats();
+            partie.afficheResultats();
             for (Joueur j : joueurs) {
                 nbPartie.put(j, nbPartie.get(j) + 1);
                 j.reset();

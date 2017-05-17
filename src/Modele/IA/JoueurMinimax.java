@@ -31,7 +31,7 @@ public class JoueurMinimax extends JoueurIA {
     public Case phaseJeu(Partie partie) {
         Case caseChoisie = null;
 
-        caseChoisie = JoueurIA.minimax(this, partie);
+        caseChoisie = JoueurIA.minimax(this, partie, false);
         if (caseChoisie != null) {
             return caseChoisie;
         }
@@ -41,6 +41,6 @@ public class JoueurMinimax extends JoueurIA {
             return caseChoisie;
         }
 
-        return super.phaseInitialisationMaxPossibilitee(partie);
+        return super.phaseJeuMaxPossibilitee(partie);
     }
 }
