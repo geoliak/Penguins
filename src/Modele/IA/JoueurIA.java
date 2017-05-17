@@ -679,30 +679,31 @@ public class JoueurIA extends Joueur {
     }
 
     //WOLOLO
-    public static Case minimax(Joueur joueur, Partie partie) {
+    public static Case minimax(Joueur joueur, Partie partie, boolean elagage) {
         ArrayList<Joueur> joueurs;
         Joueur adversaire;
         Case caseRep = null;
         HashMap<Joueur, ArrayList<Pinguin>> pinguinDeJoueurs;
         ArrayList<Case> iceberg;
         int tailleIceberg, profondeur = 20;
-        
+
         for (Pinguin p : ((JoueurIA) joueur).getPinguinNonIsole()) {
             iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
             tailleIceberg = iceberg.size();
-            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2 ) {
-                if (tailleIceberg < 17) {
+            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2) {
+                if (tailleIceberg < 20) {
                     profondeur = -1;
-                    System.out.println("taille -1");
+                } else if (tailleIceberg < 25) {
+                    profondeur = 8;
+                }else if (tailleIceberg < 30) {
+                    profondeur = 7;
                 } else if (tailleIceberg < 40) {
                     profondeur = 5;
-                    System.out.println("taille 5");
                 } else {
                     profondeur = 4;
-                    System.out.println("taille 4");
                 }
-                
-                
+                System.out.println("profondeur "+ profondeur);
+
                 joueurs = partie.getPlateau().getJoueursIceberg(iceberg);
                 joueurs.remove(joueur);
                 adversaire = joueurs.get(0);
@@ -710,7 +711,13 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case, Pinguin> rep = minimax.executeNegamax(profondeur);
+                MyPair<Case, Pinguin> rep = null;
+                if (elagage) {
+                    rep = minimax.executeNegamaxElagage(profondeur);
+                } else {
+                    rep = minimax.executeNegamaxMultiThread(profondeur);
+                }
+
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }

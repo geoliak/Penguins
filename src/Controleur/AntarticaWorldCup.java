@@ -15,6 +15,7 @@ import Modele.IA.JoueurIA6;
 import Modele.IA.JoueurIA7;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurMinimax;
+import Modele.IA.JoueurMinimaxElagage;
 import Modele.Tournoi;
 import Vue.DessinateurTexte;
 
@@ -25,7 +26,7 @@ import Vue.DessinateurTexte;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-        Tournoi worldCup = new Tournoi(1000);
+        Tournoi worldCup = new Tournoi(20);
 
        /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
         worldCup.ajouterIA(new JoueurIA2(Couleur.Jaune));
@@ -34,8 +35,9 @@ public class AntarticaWorldCup {
         //worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge, 1));
         //worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
         //worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));
-        worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu, 4));
+        //worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu, 4));
         worldCup.ajouterIA(new JoueurMinimax(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurIA1(Couleur.VioletFX, 2));
 
 
         
