@@ -14,22 +14,30 @@ import Vue.RafraichissementFX;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -55,6 +63,7 @@ public class FenetreJeuController {
         setBottom(bas);
 
 	Scene scene = new Scene(b, 1200, 900);
+        b.setStyle("-fx-background-color: #addaf9;");
 	
 	stage.setScene(scene);
         ConfigurationPartie.getConfigurationPartie().setScene(scene);
@@ -78,10 +87,7 @@ public class FenetreJeuController {
     public void setBannieresJoueurs(Node v){
         ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
         for(Joueur j : joueurs){
-            System.out.println(j.getNumero());
             AnchorPane ap = new AnchorPane();
-            
-            System.out.println(j.getNumero());
                     
             File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");
             Image imgBaniere = new Image(f.toURI().toString());
@@ -116,6 +122,21 @@ public class FenetreJeuController {
         HBox h = new HBox();
         File f = new File("ressources/img/img_menu/abandonner.png");
         ImageView abandonner = new ImageView(new Image(f.toURI().toString()));
+        abandonner.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                abandonner.setEffect(new DropShadow());
+            }
+        });
+        
+        abandonner.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                abandonner.setEffect(null);
+            }
+            
+        });
         
         File f2 = new File("ressources/img/img_menu/volume.png");
         ImageView volume = new ImageView(new Image(f2.toURI().toString()));
@@ -130,11 +151,50 @@ public class FenetreJeuController {
         h.getChildren().addAll(volume, note);
         h.setAlignment(Pos.TOP_LEFT);
         h.setSpacing(20);
+        h.setPadding(new Insets(0, 0, 0, 20));
         
         v.getChildren().addAll(abandonner, h);
         v.setAlignment(Pos.TOP_LEFT);
         v.setSpacing(20);
+        
         ((HBox) n).getChildren().add(v);
+        ((HBox) n).setAlignment(Pos.TOP_LEFT);
+        ((HBox) n).setPadding(new Insets(0, 0, 20, 0));
+        
+        AnimationFX a = new AnimationFX();
+        volume.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                a.scale(volume, 1.2);
+            }
+            
+        });
+        volume.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                a.scale(volume, 1);
+            }
+            
+        });
+        
+        note.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                a.scale(note, 1.2);
+            }
+            
+        });
+        note.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                a.scale(note, 1);
+            }
+            
+        });
         
     }
 }
