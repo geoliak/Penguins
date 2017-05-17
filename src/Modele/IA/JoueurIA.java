@@ -38,10 +38,10 @@ public class JoueurIA extends Joueur {
         this.setAge(r.nextInt(123)); // Jeanne Calment
     }
 
-    public Boolean nbCasesRestantesEstMoinsQue(Partie partie, int comparateur) {
+    public int nbCasesRestantes(Partie partie) {
         GetNbCasesCoulees methode = new GetNbCasesCoulees();
         partie.getPlateau().appliquerSurCases(methode);
-        return methode.getNbCasesCoulees() < comparateur; //Yolo
+        return methode.getNbCasesCoulees();
     }
 
     public Boolean estFinJeu(Partie partie) {
@@ -684,12 +684,14 @@ public class JoueurIA extends Joueur {
         Joueur adversaire;
         Case caseRep = null;
         HashMap<Joueur, ArrayList<Pinguin>> pinguinDeJoueurs;
-
         ArrayList<Case> iceberg;
+        
         for (Pinguin p : ((JoueurIA) joueur).getPinguinNonIsole()) {
             iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
 
-            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2) {
+            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2 && partie.getPlateau().getCasesIceberg(p.getPosition()).size() < 20) {
+                
+                
                 joueurs = partie.getPlateau().getJoueursIceberg(iceberg);
                 joueurs.remove(joueur);
                 adversaire = joueurs.get(0);
@@ -697,7 +699,7 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case, Pinguin> rep = minimax.execute();
+                MyPair<Case, Pinguin> rep = minimax.executeMultiThread();
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }

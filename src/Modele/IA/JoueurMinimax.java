@@ -7,6 +7,7 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.IA.Methodes.PhaseInitialisationGourmande;
 import Modele.Partie;
 import Modele.Pinguin;
 import Vue.DessinateurTexte;
@@ -21,6 +22,10 @@ public class JoueurMinimax extends JoueurIA {
         super(couleur, "JoueurIA Minimax", numero);
     }
 
+    public Case PhaseInitialisation(Partie partie) {
+        return this.phaseInitialisationMaxPossibilitee(partie);
+    }
+
     @Override
     public Case phaseJeu(Partie partie) {
         int nbCasesPossibles = 0;
@@ -29,18 +34,19 @@ public class JoueurMinimax extends JoueurIA {
             nbCasesPossibles += p.getPosition().getCasePossibles().size();
         }
 
-        if (nbCasesPossibles < 5 && super.nbCasesRestantesEstMoinsQue(partie, 12)) {
-            caseChoisie = JoueurIA.minimax(this, partie);
-            if (caseChoisie == null) {
-                DessinateurTexte dt = new DessinateurTexte();
-                partie.getPlateau().accept(dt);
-                System.out.println("");
-            }
-        } else {
-            caseChoisie = this.phaseJeuGourmand(partie);
-            if (caseChoisie == null) {
-                System.out.println("");
-            }
+        caseChoisie = JoueurIA.minimax(this, partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
+
+        caseChoisie = this.chercherVictimeSimple(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
+
+        caseChoisie = this.phaseJeuGourmand(partie);
+        if (caseChoisie == null) {
+            System.out.println("");
         }
 
         return caseChoisie;

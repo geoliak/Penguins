@@ -66,7 +66,9 @@ public class Minimax {
                 p.setPosition(c);
                 c.setPinguin(p);
 
-                if ((poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) > max) {
+                poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons();
+                
+                if (poidsCourant > max) {
                     max = poidsCourant;
                     pinguinRep = p;
                     caseRes = c;
