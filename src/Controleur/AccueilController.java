@@ -32,21 +32,7 @@ public class AccueilController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //
-        /*File f = new File("ressources/img/bouton_partie_reseau_resize.png");
-        locale = new ImageView(new Image(f.toURI().toString()));
         
-        locale.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    System.out.println("handler");
-                    jouerLocal(event);
-                } catch (IOException ex) {
-                    Logger.getLogger(AccueilController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });*/
     }
     
     public void jouerLocal(MouseEvent e) throws IOException{
