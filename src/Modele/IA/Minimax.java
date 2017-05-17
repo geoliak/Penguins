@@ -67,7 +67,7 @@ public class Minimax {
                 c.setPinguin(p);
 
                 poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur) + c.getNbPoissons();
-                
+
                 if (poidsCourant > max) {
                     max = poidsCourant;
                     pinguinRep = p;
@@ -203,7 +203,13 @@ public class Minimax {
 
         //Tour de l'IA   
         if (tour % 2 == 0) {
-            if (pinguinsAdverses.isEmpty() || profondeur == 0) {
+            if (pinguinsAdverses.isEmpty()) {
+                return bonusJoueur;
+            } else if (profondeur == 0) {
+                bonusJoueur = 0;
+                for (Pinguin p : pinguinsJoueur) {
+                    bonusJoueur += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                }
                 return bonusJoueur;
             }
             int max = -1;
@@ -236,7 +242,13 @@ public class Minimax {
             //Tour de l'adversaire                    
         } else {
             if (pinguinsJoueur.isEmpty() || profondeur == 0) {
-                return bonusJoueur;
+                return bonusAdversaire;
+            } else if (profondeur == 0) {
+                bonusAdversaire = 0;
+                for (Pinguin p : pinguinsAdverses) {
+                    bonusAdversaire += this.plateau.getPoidsIceberg(this.plateau.getCasesIceberg(p.getPosition())) / this.plateau.getNbPinguinIceberg(this.plateau.getCasesIceberg(p.getPosition()));
+                }
+                return bonusAdversaire;
             }
             int min = 300;
 
