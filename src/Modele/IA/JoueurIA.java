@@ -691,7 +691,7 @@ public class JoueurIA extends Joueur {
             iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
             tailleIceberg = iceberg.size();
             if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2) {
-                if (tailleIceberg < 20) {
+                if (tailleIceberg < 22) {
                     profondeur = -1;
                 } else if (tailleIceberg < 25) {
                     profondeur = 8;
