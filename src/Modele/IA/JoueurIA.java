@@ -685,11 +685,22 @@ public class JoueurIA extends Joueur {
         Case caseRep = null;
         HashMap<Joueur, ArrayList<Pinguin>> pinguinDeJoueurs;
         ArrayList<Case> iceberg;
+        int tailleIceberg, profondeur = 20;
         
         for (Pinguin p : ((JoueurIA) joueur).getPinguinNonIsole()) {
             iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
-
-            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2 && partie.getPlateau().getCasesIceberg(p.getPosition()).size() < 20) {
+            tailleIceberg = iceberg.size();
+            if (partie.getPlateau().getNbJoueurIceberg(iceberg) == 2 ) {
+                if (tailleIceberg < 17) {
+                    profondeur = -1;
+                    System.out.println("taille -1");
+                } else if (tailleIceberg < 40) {
+                    profondeur = 4;
+                    System.out.println("taille 4");
+                } else {
+                    profondeur = 3;
+                    System.out.println("taille 3");
+                }
                 
                 
                 joueurs = partie.getPlateau().getJoueursIceberg(iceberg);
@@ -699,7 +710,7 @@ public class JoueurIA extends Joueur {
                 pinguinDeJoueurs = partie.getPlateau().getPinguinsIceberg(iceberg);
 
                 Minimax minimax = new Minimax(partie.getPlateau(), pinguinDeJoueurs.get(joueur), pinguinDeJoueurs.get(adversaire));
-                MyPair<Case, Pinguin> rep = minimax.executeMultiThread();
+                MyPair<Case, Pinguin> rep = minimax.execute(profondeur);
                 joueur.setPinguinCourant(rep.getR());
                 return rep.getL();
             }

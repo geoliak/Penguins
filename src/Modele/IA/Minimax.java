@@ -45,7 +45,7 @@ public class Minimax {
      minimax(p) = MAX(minimax( O 1 {\displaystyle O_{1}} O_{1}), …, minimax( O n {\displaystyle O_{n}} O_{n})) si p est un nœud Joueur avec fils O 1 {\displaystyle O_{1}} O_{1}, …, O n {\displaystyle O_{n}} O_{n}
      minimax(p) = MIN(minimax( O 1 {\displaystyle O_{1}} O_{1}), …, minimax( O n {\displaystyle O_{n}} O_{n})) si p est un nœud Opposant avec fils O 1 {\displaystyle O_{1}} O_{1}, …, O n {\displaystyle O_{n}} O_{n}    
      */
-    public MyPair<Case, Pinguin> execute() {
+    public MyPair<Case, Pinguin> execute(int profondeur) {
         Case caseRes = null;
         Pinguin pinguinRep = null;
         int poidsCourant;
@@ -66,7 +66,7 @@ public class Minimax {
                 p.setPosition(c);
                 c.setPinguin(p);
 
-                poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons();
+                poidsCourant = minimaxWorker(1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur) + c.getNbPoissons();
                 
                 if (poidsCourant > max) {
                     max = poidsCourant;
@@ -163,7 +163,7 @@ public class Minimax {
         return rep;
     }
 
-    public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses) {
+    public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses, int profondeur) {
         int bonusJoueur = 0;
         int bonusAdversaire = 0;
 
@@ -203,9 +203,8 @@ public class Minimax {
 
         //Tour de l'IA   
         if (tour % 2 == 0) {
-            if (pinguinsAdverses.isEmpty()) {
+            if (pinguinsAdverses.isEmpty() || profondeur == 0) {
                 return bonusJoueur;
-
             }
             int max = -1;
 
@@ -220,7 +219,7 @@ public class Minimax {
                     p.setPosition(c);
                     c.setPinguin(p);
 
-                    if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) > max) {
+                    if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1) + c.getNbPoissons()) > max) {
                         max = poidsCourant;
                     }
 
@@ -236,9 +235,8 @@ public class Minimax {
 
             //Tour de l'adversaire                    
         } else {
-            if (pinguinsJoueur.isEmpty()) {
-                return bonusAdversaire;
-
+            if (pinguinsJoueur.isEmpty() || profondeur == 0) {
+                return bonusJoueur;
             }
             int min = 300;
 
@@ -253,7 +251,7 @@ public class Minimax {
                     p.setPosition(c);
                     c.setPinguin(p);
 
-                    if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone()) + c.getNbPoissons()) < min) {
+                    if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1) + c.getNbPoissons()) < min) {
                         min = poidsCourant;
                     }
 
