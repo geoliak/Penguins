@@ -46,6 +46,9 @@ public abstract class Joueur implements Serializable {
 	return (Joueur) (super.clone());
     }
 
+    /**
+     * Le joueur va reprendre le meme etat que lors de sa creation
+     */
     public void reset() {
 	this.pinguins = new ArrayList<>();
 	this.pinguinCourant = null;
@@ -82,6 +85,7 @@ public abstract class Joueur implements Serializable {
      * coordonnees de la case desiree (uniquement utilise pour la version
      * textuel)
      *
+     * @param partie
      * @param plateau : plateau de jeu
      * @return Case : case jouee
      */
@@ -146,6 +150,7 @@ public abstract class Joueur implements Serializable {
     }
 
     public Boolean estEnJeu() {
+        
 	if (this.pret) {
 	    return !this.getPinguinsVivants().isEmpty();
 	} else {
@@ -171,6 +176,10 @@ public abstract class Joueur implements Serializable {
 
     public void setEstHumain(Boolean estHumain) {
 	this.estHumain = estHumain;
+    }
+    
+    public void accept(Visiteur v){
+        v.visit(this);
     }
 
     @Override

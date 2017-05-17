@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.ConfigurationPartie;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
+import Modele.MyImageView;
+import Modele.Partie;
+import Modele.Sauvegarde;
+import java.io.File;
+import java.util.ArrayList;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -28,35 +35,61 @@ import javafx.stage.Stage;
  */
 public class ChargerJeuController implements Initializable {
 
-    @FXML private ListView<String> listView; 
-    
+    @FXML
+    private ListView<String> listView;
+    private File[] files;
+    @FXML private ImageView terrain;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObservableList<String> items = listView.getItems();
-        items.add("One");
-        items.add("Two");
-        items.add("Three");
-        items.add("Four");
-        items.add("Five");
+
+	ArrayList<String> results = new ArrayList<>();
+	ObservableList<String> items = listView.getItems();
+
+	files = new File("./Savefiles").listFiles();
+
+	for (File file : files) {
+	    if (file.isFile()) {
+		items.add(file.getName());
+	    }
+	}
+
+	listView.getSelectionModel().select(0);
+	listView.getFocusModel().focus(0);
+    }
+
+    public void creerPartie(MouseEvent e) throws IOException {
+	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
+    }
+
+    public void on(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
+    }
+
+    public void out(MouseEvent e) {
+	((MyImageView) e.getSource()).setEffect(null);
+    }
+
+    public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
+	//TODO
+	Partie partie = new Sauvegarde().Load("1");
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
         
-        listView.getSelectionModel().select(0);
-        listView.getFocusModel().focus(0);
-    }    
-    
-    public void creerPartie(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
-        Scene scene = new Scene(paramJeu);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	FenetreJeuController fenetre = new FenetreJeuController();
+	fenetre.creerFenetreJeu(stage);
+        ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
     }
     
-    public void on(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(new DropShadow());
+    public void saveClick(MouseEvent e){
+        
+        String filename = "./Savefiles/I_" + listView.getSelectionModel().getSelectedItems().toString();
+        //terrain.setImage(new Image(new File(filename)));
+        System.out.println(filename);
     }
-    
-    public void out(MouseEvent e){
-        ((ImageView) e.getSource()).setEffect(null);
-    }
-    
+
 }

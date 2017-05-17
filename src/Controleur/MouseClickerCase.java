@@ -6,6 +6,7 @@
 package Controleur;
 
 import Modele.Case;
+import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.JoueurHumain;
 import Modele.MyPolygon;
@@ -38,9 +39,10 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
     int size;
 
-    public MouseClickerCase(MyPolygon p, Partie partie) {
+    public MouseClickerCase(MyPolygon p) {
 	this.p = p;
-	this.partie = partie;
+	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
+        //System.out.println(partie);
     }
 
     @Override
@@ -52,16 +54,20 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
         
         // Joueur Humain
         if(partie.getJoueurCourant().getEstHumain() && partie.isTourFini()){
+            
             partie.setTourFini(false);
             // Initialisation : Placement pingouins
             if (partie.estEnInitialisation()) {
                 if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
+                    //System.out.println("BLABLA");
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
+                    partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
                     partie.getPlateau().setEstModifié(true);
                     partie.joueurSuivant();
                 } else {
                     partie.setTourFini(true);
                 }
+                
             // Phase de jeu
             } else {
                 Pinguin pingouin = partie.getJoueurCourant().getPinguinCourant();
@@ -73,6 +79,18 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                         pingouin.deplace(caseDest);
                         
                         partie.getPlateau().setEstModifié(true);
+                        for (Joueur j : partie.getJoueurs()) {
+                            for (Pinguin p : j.getPinguinsVivants()) {
+                                if (p.getPosition().estCoulee()) {
+                                    p.coullePinguin();
+                                    partie.getPlateau().setEstModifié(true);
+                                } else if (p.getPosition().getCasePossibles().size() == 0) {
+                                    p.coullePinguin();
+                                    partie.getPlateau().setEstModifié(true);
+                                }
+                            }
+                        }
+                        
                         partie.joueurSuivant();
                     } else {
                         partie.setTourFini(true);

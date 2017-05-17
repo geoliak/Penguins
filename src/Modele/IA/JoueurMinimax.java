@@ -7,7 +7,10 @@ package Modele.IA;
 
 import Modele.Case;
 import Modele.Couleur;
+import Modele.IA.Methodes.PhaseInitialisationGourmande;
 import Modele.Partie;
+import Modele.Pinguin;
+import Vue.DessinateurTexte;
 
 /**
  *
@@ -17,6 +20,11 @@ public class JoueurMinimax extends JoueurIA {
 
     public JoueurMinimax(Couleur couleur, int numero) {
         super(couleur, "JoueurIA Minimax", numero);
+    }
+
+    @Override
+    public Case phaseInitialisation(Partie partie) {
+        return this.phaseInitialisationMaxPossibilitee(partie);
     }
 
     @Override
