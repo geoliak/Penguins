@@ -200,7 +200,10 @@ public class Minimax {
         if (tour % 2 == 0) {
             if (pinguinsAdverses.isEmpty() || profondeur == 0) {
                 return bonusJoueur;
-            } 
+            } else if (profondeur == 0) {
+
+            }
+
             int max = -1;
 
             for (Pinguin p : pinguinsJoueur) {
@@ -232,7 +235,7 @@ public class Minimax {
         } else {
             if (pinguinsJoueur.isEmpty() || profondeur == 0) {
                 return bonusAdversaire;
-            } 
+            }
             int min = 300;
 
             for (Pinguin p : pinguinsAdverses) {
@@ -262,6 +265,37 @@ public class Minimax {
             return min;
 
         }
+    }
+
+    public static int squelletteNegaMax(Plateau plateau, ArrayList<Pinguin> pinguinsJoueur1, ArrayList<Pinguin> pinguinsJoueur2, int profondeur, int alpha, int beta, boolean elagage) {
+        int bonusJoueur = 0;
+        int meilleurPoids = Integer.MIN_VALUE;
+        int poidsCourant = Integer.MIN_VALUE;
+        
+        for (Pinguin p : pinguinsJoueur1) {
+            //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera bonusJoueur
+            if (plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
+                pinguinsJoueur1.remove(p);
+                poidsCourant = plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
+                
+            } else if (profondeur == 0) {
+                return 0;
+                
+            } else if (elagage) {
+                poidsCourant = -squelletteNegaMax(plateau, (ArrayList<Pinguin>) pinguinsJoueur2.clone(), (ArrayList<Pinguin>) pinguinsJoueur1.clone(), profondeur - 1, -beta, -alpha, true);
+                if (poidsCourant > meilleurPoids) {
+                    
+                }
+            } else {
+                
+            }
+            
+            if (poidsCourant > meilleurPoids) {
+                meilleurPoids = poidsCourant;
+            }
+        }
+        
+        return meilleurPoids;
     }
 
     public class CalculBranche extends Thread {
@@ -347,7 +381,7 @@ public class Minimax {
             if (tour % 2 == 0) {
                 if (pinguinsAdverses.isEmpty() || profondeur == 0) {
                     return bonusJoueur;
-                } 
+                }
                 int max = -1;
 
                 for (Pinguin p : pinguinsJoueur) {
@@ -379,7 +413,7 @@ public class Minimax {
             } else {
                 if (pinguinsJoueur.isEmpty() || profondeur == 0) {
                     return bonusAdversaire;
-                } 
+                }
                 int min = 300;
 
                 for (Pinguin p : pinguinsAdverses) {
@@ -501,7 +535,7 @@ public class Minimax {
 
         //Tour de l'IA   
         if (tour % 2 == 0) {
-            if (pinguinsAdverses.isEmpty()|| profondeur == 0) {
+            if (pinguinsAdverses.isEmpty() || profondeur == 0) {
                 return bonusJoueur;
             }
 
@@ -541,7 +575,7 @@ public class Minimax {
 
             //Tour de l'adversaire                    
         } else {
-            if (pinguinsJoueur.isEmpty()|| profondeur == 0) {
+            if (pinguinsJoueur.isEmpty() || profondeur == 0) {
                 return bonusAdversaire;
             }
 
@@ -706,7 +740,7 @@ public class Minimax {
         public int elagageWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses, int alpha, int beta, int profondeur) {
             int bonusJoueur = 0;
             int bonusAdversaire = 0;
-            
+
             System.out.println(super.getName() + " profondeur : " + profondeur);
 
             ArrayList<Pinguin> potence = new ArrayList<>();
@@ -780,7 +814,7 @@ public class Minimax {
 
                 //Tour de l'adversaire                    
             } else {
-                if (pinguinsJoueur.isEmpty()|| profondeur == 0) {
+                if (pinguinsJoueur.isEmpty() || profondeur == 0) {
                     return bonusAdversaire;
                 }
 

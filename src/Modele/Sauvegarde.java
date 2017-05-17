@@ -44,21 +44,20 @@ public class Sauvegarde {
 	}
     }
 
-    public void Save(int filenum) {
+    public void Save(String nomFichier) {
 	try {
-	    Path filepath = Paths.get(savepath + "/save" + filenum);
+	    Path filepath = Paths.get(savepath + "/S_" + nomFichier);
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-	    partie.setReloadPartie(true);
+//	    partie.setReloadPartie(true);
 	    partie.getPlateau().setEstModifié(true);
-
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
 
 	    //Creation d'image de sauvegarde
 	    Image screenie = ConfigurationPartie.getConfigurationPartie().getScene().snapshot(null);
-	    Path filepathim = Paths.get(savepath + "/savescr" + filenum);
+	    Path filepathim = Paths.get(savepath + "/I_" + nomFichier);
 	    deleteIfExists(filepathim);
 	    Files.createFile(filepathim);
 	    ImageIO.write(SwingFXUtils.fromFXImage(screenie, null), "png", filepathim.toFile());
@@ -68,17 +67,16 @@ public class Sauvegarde {
 	}
     }
 
-    public Partie Load(int filenum) throws IOException, ClassNotFoundException {
-	Path filepath = Paths.get(savepath + "/save" + filenum);
+    public Partie Load(String nomFichier) throws IOException, ClassNotFoundException {
+	Path filepath = Paths.get(savepath + "/S_" + nomFichier);
 
 	ObjectInputStream ois = null;
 	ois = new ObjectInputStream(new FileInputStream(filepath.toFile()));
 
 	Partie partieacharger = (Partie) ois.readObject();
 
-	partieacharger.setReloadPartie(true);
+//	partieacharger.setReloadPartie(true);
 	partieacharger.getPlateau().setEstModifié(true);
-
 	return partieacharger;
     }
 

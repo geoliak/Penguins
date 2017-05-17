@@ -40,19 +40,17 @@ public class ChargerJeuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        ArrayList<String> results = new ArrayList<>();
+
+	ArrayList<String> results = new ArrayList<>();
 	ObservableList<String> items = listView.getItems();
 
+	files = new File("./Savefiles").listFiles();
 
-        files = new File("./Savefiles").listFiles();
-
-        for (File file : files) {
-            if (file.isFile()) {
-                items.add(file.getName());
-            }
-        }
-	
+	for (File file : files) {
+	    if (file.isFile()) {
+		items.add(file.getName());
+	    }
+	}
 
 	listView.getSelectionModel().select(0);
 	listView.getFocusModel().focus(0);
@@ -73,13 +71,14 @@ public class ChargerJeuController implements Initializable {
     public void out(MouseEvent e) {
 	((MyImageView) e.getSource()).setEffect(null);
     }
-    
-    public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException{
-        Partie partie = new Sauvegarde().Load(1);
-        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+
+    public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
+	//TODO
+	Partie partie = new Sauvegarde().Load("");
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        FenetreJeuController fenetre = new FenetreJeuController();
-        fenetre.creerFenetreJeu(stage);
+	FenetreJeuController fenetre = new FenetreJeuController();
+	fenetre.creerFenetreJeu(stage);
     }
 
 }

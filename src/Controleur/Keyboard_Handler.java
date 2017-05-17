@@ -5,7 +5,7 @@
  */
 package Controleur;
 
-import Modele.AnnulerCoup;
+import Modele.Historique;
 import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
 import Modele.Partie;
@@ -24,10 +24,10 @@ import javafx.scene.input.KeyEvent;
  */
 public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
-    private AnnulerCoup ac;
+    private Historique ac;
     private Sauvegarde s;
 
-    public Keyboard_Handler(AnnulerCoup a) {
+    public Keyboard_Handler(Historique a) {
 	this.ac = a;
     }
 
@@ -43,17 +43,13 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 	    }
 	} else if (event.isControlDown() && event.getCode() == KeyCode.S) {
 	    this.s = new Sauvegarde();
-	    s.Save(1);
+	    s.Save("1");
 
 	} else if (event.isControlDown() && event.getCode() == KeyCode.L) {
 	    try {
 		this.s = new Sauvegarde();
 
-		DessinateurTexte d = new DessinateurTexte();
-
-//		InterfaceFX.getPartie().getPlateau().accept(d);
-		ConfigurationPartie.getConfigurationPartie().setPartie(this.s.Load(1));
-//		InterfaceFX.getPartie().getPlateau().accept(d);
+		ConfigurationPartie.getConfigurationPartie().setPartie(this.s.Load("1"));
 		ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 		ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 

@@ -5,7 +5,7 @@
  */
 package Controleur;
 
-import Modele.AnnulerCoup;
+import Modele.Historique;
 import Controleur.Test;
 import Modele.ConfigurationPartie;
 import Modele.Couleur;
