@@ -53,8 +53,9 @@ public class AnimationFX {
 	return ft;
     }
     
-    public void scale(Node n, double x){
-        ScaleTransition st = new ScaleTransition(Duration.millis(300), n);
+    public void scale(Node n, double x, int t){
+        System.out.println("SCALE");
+        ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
         st.setToX(x);
         st.setToY(x);
         
