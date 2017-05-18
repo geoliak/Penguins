@@ -54,7 +54,7 @@
    <center>
       <MyImageView fitHeight="500.0" fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
-            <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingoins.jpg" />
+            <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingoins.png" />
          </image>
          <BorderPane.margin>
             <Insets />

@@ -30,6 +30,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -63,8 +68,9 @@ public class FenetreJeuController {
         setBottom(bas);
 
 	Scene scene = new Scene(b, 1200, 900);
-        b.setStyle("-fx-background-color: #addaf9;");
-	
+        BackgroundImage bg = new BackgroundImage(new Image(new File("ressources/img/img_menu/banquise_fenetre_jeu.png").toURI().toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+	b.setBackground(new Background(bg));
+        
 	stage.setScene(scene);
         ConfigurationPartie.getConfigurationPartie().setScene(scene);
         ConfigurationPartie.getConfigurationPartie().setRoot(root);
@@ -170,7 +176,7 @@ public class FenetreJeuController {
         volume.setPreserveRatio(true);
         volume.setFitHeight(30);
         
-        File f3 = new File("ressources/img/img_menu/note.png");
+        File f3 = new File("ressources/img/img_menu/note.jpg");
         ImageView note = new ImageView(new Image(f3.toURI().toString()));
         note.setPreserveRatio(true);
         note.setFitHeight(30);
