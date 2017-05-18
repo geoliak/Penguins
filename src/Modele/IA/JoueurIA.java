@@ -696,7 +696,7 @@ public class JoueurIA extends Joueur {
                 } else if (tailleIceberg < 25) {
                     profondeur = 8;
                 }else if (tailleIceberg < 30) {
-                    profondeur = 7;
+                    profondeur = 6;
                 } else if (tailleIceberg < 40) {
                     profondeur = 5;
                 } else {
@@ -715,7 +715,7 @@ public class JoueurIA extends Joueur {
                 if (elagage) {
                     rep = minimax.executeNegamaxElagage(profondeur);
                 } else {
-                    rep = minimax.executeNegamaxMultiThread(profondeur);
+                    rep = minimax.executeNegamax(profondeur);
                 }
 
                 joueur.setPinguinCourant(rep.getR());
