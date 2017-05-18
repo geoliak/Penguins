@@ -46,6 +46,7 @@ public class DessinateurFX extends Visiteur {
     private double size;
     private double height;
     private double width;
+    private Joueur joueurCourant;
 
     public DessinateurFX(Node root, AnimationFX a) {
 	this.root = root;
@@ -57,13 +58,24 @@ public class DessinateurFX extends Visiteur {
 	size = sizeGlacon * proportion;
 	height = size * 2;
 	width = height * Math.sqrt(3 / 2);
+        joueurCourant = partie.getJoueurCourant();
     }
 
     @Override
     public void visite(Plateau plateau) {
-
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
+        
+        boolean animFini = false;
+        
+        if(joueurCourant != partie.getJoueurCourant() && !partie.estTerminee()){
+            Transition t1 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+            Transition t2 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[partie.getJoueurCourant().getNumero()].getParent(), 1.2, 200);
+            
+            joueurCourant = partie.getJoueurCourant();
+        } else if(partie.estTerminee()){
+            Transition t3 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+        }
 
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    //System.out.println("===================RELOAD=======================");
@@ -86,7 +98,7 @@ public class DessinateurFX extends Visiteur {
 	    partie.setReloadPartie(false);
 	    ((AnchorPane) root).getChildren().clear();
 	}
-
+        
 	for (int i = 0; i < rows; i++) {
 	    for (int j = 0; j < columns; j++) {
 		plateau.getCases()[i][j].accept(this);
@@ -128,7 +140,7 @@ public class DessinateurFX extends Visiteur {
 //	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
 	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
-	} else if (!c.estCoulee() && c.getPolygon() != null){
+	} else if (!c.estCoulee() && c.getPolygon() != null && !partie.getInitialisation()){
             if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
                 c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
             } else {

@@ -69,21 +69,13 @@ public class Partie implements Serializable {
     }
 
     public void joueurSuivant() {
-        Joueur old = this.joueurCourant;
         AnimationFX a = new AnimationFX();
         
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
-	}
-        
-        if(old != this.joueurCourant){
-            a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[old.getNumero()].getParent(), 1, 200);
-            a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[this.joueurCourant.getNumero()].getParent(), 1.2, 200);
-        }
-            
-        
+	}        
         
         if(!this.initialisation){
             for(Case[] cases : this.getPlateau().getCases()){
