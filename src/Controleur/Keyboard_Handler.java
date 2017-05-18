@@ -5,14 +5,27 @@
  */
 package Controleur;
 
+import Modele.Case;
 import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
+import Modele.Couleur;
+import Modele.IA.JoueurIA;
+import Modele.IA.JoueurIA8;
+import Modele.Joueur;
+import Modele.JoueurHumainLocal;
+import Modele.SuggestionCoup;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import jdk.nashorn.internal.parser.TokenType;
 
 /**
  *
@@ -60,7 +73,16 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
 	}//Peut etre utilise pour des tests, pas assigne
 	else if (event.isControlDown() && event.getCode() == KeyCode.P) {
-	    System.out.println("Bouton pas utilisé");
+	    System.out.println("bouton pas utilise");
+
+	}//Suggestion du prochain coup
+	else if (event.isControlDown() && event.getCode() == KeyCode.C) {
+
+	    try {
+		SuggestionCoup.suggestionCoup();
+	    } catch (InterruptedException ex) {
+		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 
 	}
     }
