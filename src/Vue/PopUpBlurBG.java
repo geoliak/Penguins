@@ -14,13 +14,13 @@ import java.awt.Robot;
 import java.io.File;
 import java.io.FileNotFoundException;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.*;
-import javafx.scene.control.Button;
 import javafx.scene.effect.*;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -60,6 +60,14 @@ public class PopUpBlurBG {
 //                stage.setScene(oldScene);                    
 //                    //Platform.exit();
 //        });
+        newScene.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ESCAPE) {
+                    stage.setScene(oldScene);
+                }
+            }
+        });
         makeSmoke(stage);
 
         stage.setScene(newScene);
