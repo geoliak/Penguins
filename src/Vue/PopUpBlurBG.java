@@ -47,7 +47,7 @@ public class PopUpBlurBG {
                 Color.TRANSPARENT
         );
         scene.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2)
+            if (event.getClickCount() == 1)
                 stage.setScene(oldScene);                    
                     //Platform.exit();
         });
