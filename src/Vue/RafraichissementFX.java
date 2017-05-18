@@ -96,6 +96,7 @@ public class RafraichissementFX extends AnimationTimer {
 		partie.afficheResultats();
 		//Platform.exit();
 		this.resultatAffiches = true;
+                PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
 	    }
 
 	}

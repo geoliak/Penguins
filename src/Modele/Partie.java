@@ -5,8 +5,10 @@
  */
 package Modele;
 
+import Vue.AnimationFX;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.animation.Animation;
 
 /**
  *
@@ -67,12 +69,14 @@ public class Partie implements Serializable {
     }
 
     public void joueurSuivant() {
+        AnimationFX a = new AnimationFX();
+        
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
-	System.out.println("Nombre pingouins vivants de " + this.joueurCourant.getNom() + ": " + this.joueurCourant.getPinguinsVivants().size() + " " + this.joueurCourant.estEnJeu());
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
-	}
+	}        
+        
         if(!this.initialisation){
             for(Case[] cases : this.getPlateau().getCases()){
                 for(Case c : cases){
