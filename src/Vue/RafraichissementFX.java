@@ -11,6 +11,7 @@ import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,7 +97,11 @@ public class RafraichissementFX extends AnimationTimer {
 		partie.afficheResultats();
 		//Platform.exit();
 		this.resultatAffiches = true;
-                PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
+                try {
+                    PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(RafraichissementFX.class.getName()).log(Level.SEVERE, null, ex);
+                }
 	    }
 
 	}

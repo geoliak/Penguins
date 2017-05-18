@@ -12,19 +12,14 @@ import Vue.AnimationFX;
 import Vue.DessinateurFX;
 import Vue.RafraichissementFX;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -35,15 +30,11 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 /**
  *
@@ -109,6 +100,7 @@ public class FenetreJeuController {
         ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
         
         for(Joueur j : joueurs){
+            System.out.println(j.getNumero());
             AnchorPane ap = new AnchorPane();
                     
             File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");
@@ -193,7 +185,7 @@ public class FenetreJeuController {
         abandonner.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                abandonner.setEffect(new DropShadow());
+                abandonner.setEffect(new Lighting());
             }
         });
         
