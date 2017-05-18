@@ -287,7 +287,7 @@ public class Minimax {
                 p.setPosition(c);
                 c.setPinguin(p);
 
-                poidsCourant = -NegaMax(plateau, (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), profondeur - 1, -1, 0, c.getNbPoissons());
+                poidsCourant = -NegaMax(plateau,(ArrayList<Pinguin>) this.pinguinsAdverses.clone() ,(ArrayList<Pinguin>) this.pinguinsJoueur.clone(), profondeur - 1, -1, 0, c.getNbPoissons());
                 if (poidsCourant > meilleurPoids) {
                     meilleurPoids = poidsCourant;
                     pinguinRep = p;
@@ -319,17 +319,21 @@ public class Minimax {
         if (profondeur == 0) {
             int nbCasesAccessible = 0;
             for (Pinguin p : pinguinsJoueur1) {
-                nbCasesAccessible += p.getPosition().getCasePossibles().size();
+                nbCasesAccessible += p.getPosition().getNbVoisins();
             }
             return (poidsChemin1 + (int) (nbCasesAccessible)) * color;
 
         } else {
             //Supprime les pinguins inutiles
             for (Pinguin p : pinguinsJoueur1) {
+                //Si un pinguin ne peut plus bouger
                 if (p.getPosition().getCasePossibles().isEmpty()) {
                     poidsFeuille += p.getPosition().getNbPoissons();
                     suppression = p;
-                    //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera le poids de l'iceberg
+                    poidsChemin1 -= plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
+                    poidsChemin2 += plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition())); //Yolo ponderation
+                
+                //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera le poids de l'iceberg
                 } else if (plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
                     suppression = p;
                     poidsFeuille += plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
@@ -342,6 +346,7 @@ public class Minimax {
                 return color * (poidsChemin1 + poidsFeuille);
             }
 
+            //Pour tous les noeux de l'arbre
             for (Pinguin p : pinguinsJoueur1) {
                 mouvementsPossibles = p.getPosition().getCasePossibles();
                 anciennePositionPinguin = p.getPosition();

@@ -401,7 +401,7 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
+	partie.setPlateau(new Plateau("ressources/plateaux/plateau8"));
 	return partie;
     }
 
