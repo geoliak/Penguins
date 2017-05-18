@@ -32,6 +32,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -109,16 +112,26 @@ public class ParamJeuController implements Initializable {
     @FXML
     private MyImageView joueur3;
 
+    @FXML
+    private MyImageView terrain;
+
+    @FXML
+    private MyImageView nextTerrain;
+
+    @FXML
+    private MyImageView prevTerrain;
+
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
     private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
+    private int terrainCharge = 1;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	
+
     }
 
     public void arrowClick(MouseEvent e) {
@@ -305,11 +318,10 @@ public class ParamJeuController implements Initializable {
 
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	Partie partie = creationPartie();
-        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-        
-        FenetreJeuController fenetre = new FenetreJeuController();
-        fenetre.creerFenetreJeu(stage);
-	
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+
+	FenetreJeuController fenetre = new FenetreJeuController();
+	fenetre.creerFenetreJeu(stage);
 
     }
 
@@ -369,18 +381,18 @@ public class ParamJeuController implements Initializable {
 	    } else if (typesJoueurs[i] == 1) {
 		if (difficultesIA[i] == 0) {
 		    System.out.println("IA facile");
-                    Joueur j = new JoueurIA1(couleurs[i], i);
-                    j.setDifficulte(1);
+		    Joueur j = new JoueurIA1(couleurs[i], i);
+		    j.setDifficulte(1);
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
 		    Joueur j = new JoueurIA8(couleurs[i], i);
-                    j.setDifficulte(2);
+		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {
 		    System.out.println("IA difficile");
 		    Joueur j = new JoueurMinimax(couleurs[i], i);
-                    j.setDifficulte(3);
+		    j.setDifficulte(3);
 		    joueurs.add(j);
 		}
 	    } else {
@@ -388,8 +400,24 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
+
 	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
+
 	return partie;
+    }
+
+    public void changerTerrain(MouseEvent e) {
+	if (e.getSource().equals(nextTerrain)) {
+	    if (terrainCharge < 3) {
+		terrainCharge++;
+	    } else {
+		terrainCharge = 1;
+	    }
+	    String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+	    ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
+	} else if (e.getSource().equals(prevTerrain)) {
+
+	}
     }
 
 }

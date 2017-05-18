@@ -11,6 +11,7 @@ import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,12 +46,13 @@ public class RafraichissementFX extends AnimationTimer {
 	if (partie.getPlateau().isEstModifié()) {
 //            for(Joueur j : partie.getJoueurs())
 //                d.visiteScore(j);
+
 	    partie.getPlateau().accept(d);
-            for(Joueur j : partie.getJoueurs()){
-                j.accept(d);
-            }
-            
-            
+
+	    for (Joueur j : partie.getJoueurs()) {
+		j.accept(d);
+	    }
+
 	    partie.getPlateau().setEstModifié(false);
 	}
 
@@ -59,44 +61,48 @@ public class RafraichissementFX extends AnimationTimer {
 	    if (partie.estEnInitialisation()) {
 		// Si tout les pingouins ont été placés
 		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
-                    for(Case[] cases : partie.getPlateau().getCases()){
-                        for(Case c : cases){
-                            c.setAccessible(false);
-                        }
-                    }
+		    for (Case[] cases : partie.getPlateau().getCases()) {
+			for (Case c : cases) {
+			    c.setAccessible(false);
+			}
+		    }
 		    partie.setInitialisation(false);
 
 		    for (Joueur j : partie.getJoueursEnJeu()) {
 			j.setPret(Boolean.TRUE);
 		    }
-                    
+
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
-                    partie.getPlateau().setEstModifié(true);
+		    partie.getPlateau().setEstModifié(true);
 		}
-	    } 
-            
+	    }
+
 	    if (partie.isTourFini()) {
 		partie.getJoueurCourant().attendreCoup(partie);
 	    }
-            
+
 	    for (Joueur j : partie.getJoueurs()) {
-                for (Pinguin p : j.getPinguinsVivants()) {
-                    if (p.getPosition().estCoulee()) {
-                        p.coullePinguin();
-                        partie.getPlateau().setEstModifié(true);
-                    } else if (p.getPosition().getCasePossibles().size() == 0) {
-                        p.coullePinguin();
-                        partie.getPlateau().setEstModifié(true);
-                    }
-                }
-            }
+		for (Pinguin p : j.getPinguinsVivants()) {
+		    if (p.getPosition().estCoulee()) {
+			p.coullePinguin();
+			partie.getPlateau().setEstModifié(true);
+		    } else if (p.getPosition().getCasePossibles().size() == 0) {
+			p.coullePinguin();
+			partie.getPlateau().setEstModifié(true);
+		    }
+		}
+	    }
 	} else {
 	    if (!this.resultatAffiches) {
 		System.out.println("PARTIE TERMINEE ===============");
 		partie.afficheResultats();
 		//Platform.exit();
 		this.resultatAffiches = true;
-                PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
+		try {
+		    PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
+		} catch (FileNotFoundException ex) {
+		    Logger.getLogger(RafraichissementFX.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	    }
 
 	}

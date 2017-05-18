@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -24,7 +25,8 @@ public class ConfigurationPartie {
     private Scene scene;
     private Label labelScores[] = new Label[4];
     private Stage stage;
-
+    private ImageView[][] initpingoos;
+    
     private ConfigurationPartie() {
 	root = new Group();
     }
@@ -75,6 +77,12 @@ public class ConfigurationPartie {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-    
+
+    public ImageView[][] getInitpingoos() {
+        return initpingoos;
+    }
+
+    public void setInitpingoos(ImageView[][] initpingoos) {
+        this.initpingoos = initpingoos;
+    }
 }
