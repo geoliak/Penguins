@@ -53,7 +53,6 @@ public class PopUpBlurBG {
         });
         makeSmoke(stage);
 
-        //stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
 
