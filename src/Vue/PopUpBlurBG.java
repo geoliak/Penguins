@@ -55,11 +55,7 @@ public class PopUpBlurBG {
                 stage.getScene().getWidth(), stage.getScene().getHeight(),
                 Color.TRANSPARENT
         );
-//        scene.setOnMouseClicked(event -> {
-//            if (event.getClickCount() == 1)
-//                stage.setScene(oldScene);                    
-//                    //Platform.exit();
-//        });
+
         newScene.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
