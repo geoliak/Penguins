@@ -96,7 +96,10 @@ public class FenetreJeuController {
         ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
         Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
         Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
+        Image ping = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
             
+        ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
+        
         for(Joueur j : joueurs){
             AnchorPane ap = new AnchorPane();
                     
@@ -145,6 +148,23 @@ public class FenetreJeuController {
                 
                 ap.getChildren().addAll(etoile1, etoile2, etoile3);
             }
+            
+            ImageView[] init = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
+            
+            ImageView pInit;
+            for(int i = 0; i < ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur(); i++){
+                System.out.println("init");
+                pInit = new ImageView(ping);
+                pInit.setLayoutX(130 + 30*i);
+                pInit.setLayoutY(65);
+                pInit.setPreserveRatio(true);
+                pInit.setFitHeight(30);
+                ap.getChildren().add(pInit);
+                init[i] = pInit;
+            }
+            initpingoos[j.getNumero()] = init;
+            
+            ConfigurationPartie.getConfigurationPartie().setInitpingoos(initpingoos);
             
             ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
             
