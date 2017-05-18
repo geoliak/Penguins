@@ -166,7 +166,7 @@ public class FenetreJeuController {
 
             @Override
             public void handle(MouseEvent event) {
-                a.scale(volume, 1.2);
+                a.scale(volume, 1.2, 200);
             }
             
         });
@@ -174,7 +174,7 @@ public class FenetreJeuController {
 
             @Override
             public void handle(MouseEvent event) {
-                a.scale(volume, 1);
+                a.scale(volume, 1, 200);
             }
             
         });
@@ -183,7 +183,7 @@ public class FenetreJeuController {
 
             @Override
             public void handle(MouseEvent event) {
-                a.scale(note, 1.2);
+                a.scale(note, 1.2, 200);
             }
             
         });
@@ -191,7 +191,7 @@ public class FenetreJeuController {
 
             @Override
             public void handle(MouseEvent event) {
-                a.scale(note, 1);
+                a.scale(note, 1, 200);
             }
             
         });

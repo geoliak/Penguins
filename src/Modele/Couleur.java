@@ -49,7 +49,9 @@ public enum Couleur {
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
 	this.couleur = couleur;
-	//setImage(f);
+        try{
+            setImage(f);
+        } catch(Exception e){}
     }
 
     public void setImage(File f) {

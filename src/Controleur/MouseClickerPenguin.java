@@ -28,7 +28,7 @@ public class MouseClickerPenguin implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-	System.out.println(p.getPosition().getNumColonne() + " " + p.getPosition().getNumLigne() + " pingouin");
+	//System.out.println(p.getPosition().getNumColonne() + " " + p.getPosition().getNumLigne() + " pingouin");
         if(p.estVivant()){
             if (!partie.getInitialisation()) {
                 if (partie.getJoueurCourant() == p.getGeneral() && partie.getJoueurCourant().getEstHumain()) {

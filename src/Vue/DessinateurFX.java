@@ -130,7 +130,7 @@ public class DessinateurFX extends Visiteur {
 	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null){
             if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
-                c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
+                //c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
             } else {
                 c.getPolygon().getImage().setEffect(null);
             }
