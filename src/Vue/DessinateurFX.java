@@ -26,7 +26,9 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.ImageView;
 import Modele.MyImageView;
+import java.io.File;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -59,6 +61,7 @@ public class DessinateurFX extends Visiteur {
 	height = size * 2;
 	width = height * Math.sqrt(3 / 2);
         joueurCourant = partie.getJoueurCourant();
+        a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1.2, 200);
     }
 
     @Override
@@ -209,6 +212,9 @@ public class DessinateurFX extends Visiteur {
             });
             p.getIv().setEffect(new SepiaTone());
 	    p.getPosition().getPolygon().getImage().setEffect(null);
+            for(int i = ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()-1; i > p.getGeneral().getPinguinsVivants().size()-1; i--){
+                ConfigurationPartie.getConfigurationPartie().getInitpingoos()[p.getGeneral().getNumero()][i].setVisible(false);
+            }
 	}
     }
 
@@ -218,7 +224,16 @@ public class DessinateurFX extends Visiteur {
     
     public void visit(Joueur j) {
         try{
+            Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
+            
             ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText(""+j.getScorePoissons());
+            
+            //ImageView[][] ivs = ;
+            
+            //int nbPingouinsParJoueur = ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur();
+            for(int i = 0; i < j.getPinguins().size(); i++){
+                ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(ping);
+            }
         }
         catch (Exception e){
             System.out.println("erreur - visisteScore : " + e.getMessage());

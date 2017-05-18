@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.Image;
@@ -93,6 +95,8 @@ public class ChargerJeuController implements Initializable {
             FenetreJeuController fenetre = new FenetreJeuController();
             fenetre.creerFenetreJeu(stage);
             ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
+            
+            ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
         }
     }
     

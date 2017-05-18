@@ -25,6 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -55,8 +60,9 @@ public class FenetreJeuController {
         setBottom(bas);
 
 	Scene scene = new Scene(b, 1200, 900);
-        b.setStyle("-fx-background-color: #addaf9;");
-	
+        BackgroundImage bg = new BackgroundImage(new Image(new File("ressources/img/img_menu/banquise_fenetre_jeu.png").toURI().toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+	b.setBackground(new Background(bg));
+        
 	stage.setScene(scene);
         //stage.initStyle(StageStyle.TRANSPARENT);
         ConfigurationPartie.getConfigurationPartie().setScene(scene);
@@ -81,7 +87,10 @@ public class FenetreJeuController {
         ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
         Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
         Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
+        Image ping = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
             
+        ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
+        
         for(Joueur j : joueurs){
             AnchorPane ap = new AnchorPane();
                     
@@ -131,6 +140,23 @@ public class FenetreJeuController {
                 ap.getChildren().addAll(etoile1, etoile2, etoile3);
             }
             
+            ImageView[] init = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
+            
+            ImageView pInit;
+            for(int i = 0; i < ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur(); i++){
+                System.out.println("init");
+                pInit = new ImageView(ping);
+                pInit.setLayoutX(130 + 30*i);
+                pInit.setLayoutY(65);
+                pInit.setPreserveRatio(true);
+                pInit.setFitHeight(30);
+                ap.getChildren().add(pInit);
+                init[i] = pInit;
+            }
+            initpingoos[j.getNumero()] = init;
+            
+            ConfigurationPartie.getConfigurationPartie().setInitpingoos(initpingoos);
+            
             ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
             
             ((VBox) v).getChildren().add(ap);
@@ -163,7 +189,7 @@ public class FenetreJeuController {
         volume.setPreserveRatio(true);
         volume.setFitHeight(30);
         
-        File f3 = new File("ressources/img/img_menu/note.png");
+        File f3 = new File("ressources/img/img_menu/note.jpg");
         ImageView note = new ImageView(new Image(f3.toURI().toString()));
         note.setPreserveRatio(true);
         note.setFitHeight(30);
