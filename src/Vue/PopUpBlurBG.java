@@ -10,13 +10,18 @@ package Vue;
  * @author boussedm
  */
 import Modele.Partie;
-import javafx.application.*;
+import java.awt.Robot;
+import java.io.File;
+import java.io.FileNotFoundException;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.effect.*;
 import javafx.scene.image.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,26 +39,30 @@ public class PopUpBlurBG {
 
     private static final ImageView background = new ImageView();
     private static final StackPane layout = new StackPane();
+    private Scene oldScene;
+    private Stage stage;
     
 
-    PopUpBlurBG(Stage stage, Partie partie) {
+    PopUpBlurBG(Stage stage, Partie partie) throws FileNotFoundException {
         layout.getChildren().setAll(background, createContent(partie));
         layout.setStyle("-fx-background-color: null");
         
-        Scene oldScene = stage.getScene(); // Copie de la scene d'avant
-        Scene scene = new Scene(
+        this.oldScene = stage.getScene(); // Copie de la scene d'avant
+        this.stage = stage;
+        
+        Scene newScene = new Scene(
                 layout,
                 stage.getScene().getWidth(), stage.getScene().getHeight(),
                 Color.TRANSPARENT
         );
-        scene.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1)
-                stage.setScene(oldScene);                    
-                    //Platform.exit();
-        });
+//        scene.setOnMouseClicked(event -> {
+//            if (event.getClickCount() == 1)
+//                stage.setScene(oldScene);                    
+//                    //Platform.exit();
+//        });
         makeSmoke(stage);
 
-        stage.setScene(scene);
+        stage.setScene(newScene);
         stage.show();
 
         background.setImage(copyBackground(stage));
@@ -68,7 +77,7 @@ public class PopUpBlurBG {
         final int H = (int) stage.getHeight()-gap;
 
         try {
-            java.awt.Robot robot = new java.awt.Robot();
+            Robot robot = new Robot();
             java.awt.image.BufferedImage image = robot.createScreenCapture(new java.awt.Rectangle(X, Y, W, H));
 
             return SwingFXUtils.toFXImage(image, null);
@@ -78,17 +87,47 @@ public class PopUpBlurBG {
         }
     }
 
-    private BorderPane createContent(Partie partie) {
+    private BorderPane createContent(Partie partie) throws FileNotFoundException {
         BorderPane bp = new BorderPane();
         HBox ap = new HBox(); 
         ap.setAlignment(Pos.CENTER);
         ap.setStyle("-fx-font-size: 15px; -fx-text-fill: green;");
+        
         Text texte = new Text();
         texte.setFont(new Font("Arial Black", 30));
         texte.setText("  "+partie.getJoueurGagnant().get(0).getNom()+" a gagné !!");
         
+        ImageView ivBouttonX = new ImageView(new Image(new File("./ressources/img/boutton-x.png").toURI().toString()));
+
+                
+        ivBouttonX.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivBouttonX.setEffect(new DropShadow());
+            }
+        });
+        
+        ivBouttonX.setOnMouseExited(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ivBouttonX.setEffect(null);
+            }
+            
+        });
+       
+        ivBouttonX.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setScene(oldScene);
+            }
+        });
+        //ivBouttonX.setCancelButton(true);
+
+        
         ImageView ivGagnant = new ImageView(partie.getJoueurGagnant().get(0).getCouleur().getImage());        
-        ap.getChildren().addAll(ivGagnant, texte);    
+        ap.getChildren().addAll(ivGagnant, texte, ivBouttonX);    
         bp.setCenter(ap);
         return bp;
     }
