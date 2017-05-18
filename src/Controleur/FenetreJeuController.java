@@ -49,7 +49,15 @@ import javafx.util.Duration;
  *
  * @author mariobap
  */
-public class FenetreJeuController {    
+
+
+public class FenetreJeuController {
+    private ImageView [][] stars;    
+    
+    public FenetreJeuController(){
+        stars = new ImageView[4][3];
+    }
+    
     public void creerFenetreJeu(Stage stage){
         BorderPane b = new BorderPane();
         
@@ -130,12 +138,17 @@ public class FenetreJeuController {
                 ImageView etoile1 = new ImageView(yellow);
                 etoile1.setLayoutX(130);
                 etoile1.setLayoutY(155);
+                stars[j.getNumero()][0] = etoile1;
+                
                 ImageView etoile2 = new ImageView(grey);
                 etoile2.setLayoutX(160);
                 etoile2.setLayoutY(155);
+                stars[j.getNumero()][1] = etoile2;
+                
                 ImageView etoile3 = new ImageView(grey);
                 etoile3.setLayoutX(190);
                 etoile3.setLayoutY(155);
+                stars[j.getNumero()][2] = etoile3;
 
 
                 if(j.getDifficulte() > 1){
@@ -250,6 +263,10 @@ public class FenetreJeuController {
             }
             
         });
+        
+    }
+    
+    public void changeIA(MouseEvent e){
         
     }
 }
