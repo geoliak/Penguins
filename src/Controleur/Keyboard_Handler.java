@@ -21,24 +21,29 @@ import javafx.scene.input.KeyEvent;
  */
 public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
-    private Historique ac;
     private Sauvegarde s;
 
-    public Keyboard_Handler(Historique a) {
-	this.ac = a;
+    public Keyboard_Handler() {
     }
 
     @Override
     public void handle(KeyEvent event) {
 	System.out.println("key pressed");
+	//Annuler coup
 	if (event.isControlDown() && event.getCode() == KeyCode.Z) {
 	    System.out.println("ctrl+z");
-	    ac.annulerDernierCoup();
-	} else if (event.isControlDown() && event.getCode() == KeyCode.S) {
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getHistorique().annulerDernierCoup();
+	} //Rejouer coup
+	else if (event.isControlDown() && event.getCode() == KeyCode.R) {
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getHistorique().rejouerCoup();
+
+	}//Sauvegarder
+	else if (event.isControlDown() && event.getCode() == KeyCode.S) {
 	    this.s = new Sauvegarde();
 	    s.Save("1");
 
-	} else if (event.isControlDown() && event.getCode() == KeyCode.L) {
+	}//Charger
+	else if (event.isControlDown() && event.getCode() == KeyCode.L) {
 	    try {
 		this.s = new Sauvegarde();
 
@@ -54,8 +59,10 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 	    System.out.println("load : " + ConfigurationPartie.getConfigurationPartie().getPartie());
 	    System.out.println("load done");
 
-	} else if (event.isControlDown() && event.getCode() == KeyCode.P) {
+	}//Peut etre utilise pour des tests, pas assigne
+	else if (event.isControlDown() && event.getCode() == KeyCode.P) {
 	    System.out.println("Bouton pas utilisé");
+
 	}
     }
 }

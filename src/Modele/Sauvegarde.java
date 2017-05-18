@@ -50,7 +50,6 @@ public class Sauvegarde {
 	    deleteIfExists(filepath);
 	    Files.createFile(filepath);
 
-//	    partie.getPlateau().setEstModifié(true);
 	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
 	    oos.writeObject(partie);
 
@@ -74,8 +73,6 @@ public class Sauvegarde {
 
 	Partie partieacharger = (Partie) ois.readObject();
 
-//	partieacharger.setReloadPartie(true);
-//	partieacharger.getPlateau().setEstModifié(true);
 	return partieacharger;
     }
 

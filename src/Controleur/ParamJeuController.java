@@ -131,7 +131,7 @@ public class ParamJeuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	
+
     }
 
     public void arrowClick(MouseEvent e) {
@@ -318,11 +318,10 @@ public class ParamJeuController implements Initializable {
 
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	Partie partie = creationPartie();
-        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-        
-        FenetreJeuController fenetre = new FenetreJeuController();
-        fenetre.creerFenetreJeu(stage);
-	
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+
+	FenetreJeuController fenetre = new FenetreJeuController();
+	fenetre.creerFenetreJeu(stage);
 
     }
 
@@ -382,18 +381,18 @@ public class ParamJeuController implements Initializable {
 	    } else if (typesJoueurs[i] == 1) {
 		if (difficultesIA[i] == 0) {
 		    System.out.println("IA facile");
-                    Joueur j = new JoueurIA1(couleurs[i], i);
-                    j.setDifficulte(1);
+		    Joueur j = new JoueurIA1(couleurs[i], i);
+		    j.setDifficulte(1);
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
 		    Joueur j = new JoueurIA8(couleurs[i], i);
-                    j.setDifficulte(2);
+		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {
 		    System.out.println("IA difficile");
 		    Joueur j = new JoueurMinimax(couleurs[i], i);
-                    j.setDifficulte(3);
+		    j.setDifficulte(3);
 		    joueurs.add(j);
 		}
 	    } else {
@@ -401,7 +400,7 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau8"));
+	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
 	return partie;
     }
 
