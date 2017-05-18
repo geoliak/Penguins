@@ -43,6 +43,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -121,10 +122,20 @@ public class ParamJeuController implements Initializable {
 
     @FXML
     private MyImageView joueur3;
+    
+    @FXML
+    private MyImageView terrain;
+    
+    @FXML
+    private MyImageView nextTerrain;
+    
+    @FXML
+    private MyImageView prevTerrain;
 
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
     private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
+    private int terrainCharge = 1;
 
     /**
      * Initializes the controller class.
@@ -401,8 +412,22 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
+	//partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
 	return partie;
+    }
+    
+    public void changerTerrain(MouseEvent e){
+        if(e.getSource().equals(nextTerrain)){
+            if(terrainCharge<3){
+                terrainCharge ++;
+            } else {
+                terrainCharge = 1;
+            }
+            String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+            ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
+        } else if(e.getSource().equals(prevTerrain)){
+            
+        }
     }
 
 }

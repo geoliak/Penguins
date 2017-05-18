@@ -101,6 +101,7 @@ public class FenetreJeuController {
         ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
         
         for(Joueur j : joueurs){
+            System.out.println(j.getNumero());
             AnchorPane ap = new AnchorPane();
                     
             File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");

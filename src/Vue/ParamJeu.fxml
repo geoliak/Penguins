@@ -243,7 +243,7 @@
                      <children>
                         <BorderPane>
                            <left>
-                              <MyImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                              <MyImageView fx:id="prevTerrain" onMouseClicked="#changerTerrain" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
                                     <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
                                  </image>
@@ -256,7 +256,7 @@
                               </MyImageView>
                            </left>
                            <right>
-                              <MyImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                              <MyImageView fx:id="nextTerrain" onMouseClicked="#changerTerrain" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
                                     <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
                                  </image>
@@ -269,9 +269,9 @@
                               </MyImageView>
                            </right>
                            <center>
-                              <MyImageView fitHeight="337.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                              <MyImageView fx:id="terrain" preserveRatio="true" fitWidth="432.0" pickOnBounds="true" BorderPane.alignment="CENTER">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/terrain.jpg" />
+                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/plateaux_jeu/img/plateau1.png" />
                                  </image>
                               </MyImageView>
                            </center>
