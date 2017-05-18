@@ -715,7 +715,7 @@ public class JoueurIA extends Joueur {
                 if (elagage) {
                     rep = minimax.executeNegamaxElagage(profondeur);
                 } else {
-                    rep = minimax.executeNegamax(profondeur);
+                    rep = minimax.executeNegamaxMultiThread(profondeur);
                 }
 
                 joueur.setPinguinCourant(rep.getR());

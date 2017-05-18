@@ -330,8 +330,9 @@ public class Minimax {
                 if (p.getPosition().getCasePossibles().isEmpty()) {
                     poidsFeuille += p.getPosition().getNbPoissons();
                     suppression = p;
-                    poidsChemin1 -= plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
-                    poidsChemin2 += plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition())); //Yolo ponderation
+                    int tmp = plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
+                    poidsChemin1 -= tmp;
+                    poidsChemin2 += tmp; //Yolo ponderation
                 
                 //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera le poids de l'iceberg
                 } else if (plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {

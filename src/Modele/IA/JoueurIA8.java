@@ -30,11 +30,6 @@ public class JoueurIA8 extends JoueurIA {
             return caseChoisie;
         }
         
-        caseChoisie = super.phaseJeuGourmand(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
-
-        return caseChoisie;
+        return super.phaseJeuGourmand(partie);
     }
 }
