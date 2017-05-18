@@ -39,17 +39,18 @@ public class PopUpBlurBG {
     PopUpBlurBG(Stage stage, Partie partie) {
         layout.getChildren().setAll(background, createContent(partie));
         layout.setStyle("-fx-background-color: null");
-
+        
+        Scene oldScene = stage.getScene(); // Copie de la scene d'avant
         Scene scene = new Scene(
                 layout,
                 stage.getScene().getWidth(), stage.getScene().getHeight(),
                 Color.TRANSPARENT
         );
-        Platform.setImplicitExit(true);
-        
-//        scene.setOnMouseClicked(event -> {
-//                if (event.getClickCount() == 2) Platform.exit();
-//        });
+        scene.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2)
+                stage.setScene(oldScene);                    
+                    //Platform.exit();
+        });
         makeSmoke(stage);
 
         //stage.initStyle(StageStyle.TRANSPARENT);
@@ -73,9 +74,7 @@ public class PopUpBlurBG {
 
             return SwingFXUtils.toFXImage(image, null);
         } catch (java.awt.AWTException e) {
-            System.out.println("The robot of doom strikes!");
             e.printStackTrace();
-
             return null;
         }
     }
@@ -103,11 +102,6 @@ public class PopUpBlurBG {
                         0, 1, 1, 0.08
                 )
         );
-    }
-
-    /** records relative x and y co-ordinates. */
-    private static class Delta {
-        double x, y;
     }
 
 }  
