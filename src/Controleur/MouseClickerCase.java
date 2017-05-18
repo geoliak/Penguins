@@ -63,11 +63,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                     partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
                     partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
                     partie.getPlateau().setEstModifié(true);
-                    try {
-                        partie.joueurSuivant();
-                    } catch (CloneNotSupportedException ex) {
-                        Logger.getLogger(MouseClickerCase.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    partie.joueurSuivant();
                 } else {
                     partie.setTourFini(true);
                 }
@@ -95,11 +91,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
                             }
                         }
                         
-                        try {
-                            partie.joueurSuivant();
-                        } catch (CloneNotSupportedException ex) {
-                            Logger.getLogger(MouseClickerCase.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        partie.joueurSuivant();
                     } else {
                         partie.setTourFini(true);
                     }

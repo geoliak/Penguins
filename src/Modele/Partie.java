@@ -68,7 +68,7 @@ public class Partie implements Serializable {
 	nbPingouinParJoueur = nbPinguin;
     }
 
-    public void joueurSuivant() throws CloneNotSupportedException {
+    public void joueurSuivant() {
         Joueur old = this.joueurCourant;
         AnimationFX a = new AnimationFX();
         

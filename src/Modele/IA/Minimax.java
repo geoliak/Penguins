@@ -317,7 +317,11 @@ public class Minimax {
 
         //On stop l'enumeration
         if (profondeur == 0) {
-            return poidsChemin1 * color;
+            int nbCasesAccessible = 0;
+            for (Pinguin p : pinguinsJoueur1) {
+                nbCasesAccessible += p.getPosition().getCasePossibles().size();
+            }
+            return (poidsChemin1 + (int) (nbCasesAccessible)) * color;
 
         } else {
             //Supprime les pinguins inutiles

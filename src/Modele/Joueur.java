@@ -28,6 +28,7 @@ public abstract class Joueur implements Serializable {
     private Boolean estHumain;
     private Image image;
     private int numero;
+    private int difficulte;
 
     public Joueur(Couleur couleur, int numero) {
         this.pinguins = new ArrayList<>();
@@ -39,6 +40,7 @@ public abstract class Joueur implements Serializable {
         this.age = -1;
         this.couleur = couleur;
         this.numero = numero;
+        this.difficulte = 0;
     }
 
     @Override
@@ -108,6 +110,14 @@ public abstract class Joueur implements Serializable {
 
     public void setScoreGlacons(int scoreGlacons) {
         this.scoreGlacons = scoreGlacons;
+    }
+
+    public int getDifficulte() {
+        return difficulte;
+    }
+
+    public void setDifficulte(int difficulte) {
+        this.difficulte = difficulte;
     }
 
     public int getScorePoissons() {

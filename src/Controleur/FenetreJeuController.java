@@ -86,6 +86,9 @@ public class FenetreJeuController {
     
     public void setBannieresJoueurs(Node v){
         ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
+        Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
+        Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
+            
         for(Joueur j : joueurs){
             AnchorPane ap = new AnchorPane();
                     
@@ -110,6 +113,30 @@ public class FenetreJeuController {
             labelScore.setTextFill(Color.WHITE); 
 
             ap.getChildren().addAll(ivBanniere, labelNom, labelScore);
+            
+            if(j.getDifficulte() != 0) {
+                //étoiles
+                ImageView etoile1 = new ImageView(yellow);
+                etoile1.setLayoutX(130);
+                etoile1.setLayoutY(155);
+                ImageView etoile2 = new ImageView(grey);
+                etoile2.setLayoutX(160);
+                etoile2.setLayoutY(155);
+                ImageView etoile3 = new ImageView(grey);
+                etoile3.setLayoutX(190);
+                etoile3.setLayoutY(155);
+
+
+                if(j.getDifficulte() > 1){
+                    etoile2.setImage(yellow);
+                }
+
+                if(j.getDifficulte() > 2){
+                    etoile3.setImage(yellow);
+                }
+                
+                ap.getChildren().addAll(etoile1, etoile2, etoile3);
+            }
             
             ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
             
