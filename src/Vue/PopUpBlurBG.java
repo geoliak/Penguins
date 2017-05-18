@@ -84,20 +84,14 @@ public class PopUpBlurBG {
         BorderPane bp = new BorderPane();
         HBox ap = new HBox(); 
         ap.setAlignment(Pos.CENTER);
-        
         ap.setStyle("-fx-font-size: 15px; -fx-text-fill: green;");
-        
         Text texte = new Text();
         texte.setFont(new Font("Arial Black", 30));
-        texte.setText("Le joueur "+partie.getJoueurGagnant().get(0).getNom()+" a gagné !!");
+        texte.setText("  "+partie.getJoueurGagnant().get(0).getNom()+" a gagné !!");
         
-        ImageView ivGagnant = new ImageView(partie.getJoueurGagnant().get(0).getCouleur().getImage());
-    
-        
+        ImageView ivGagnant = new ImageView(partie.getJoueurGagnant().get(0).getCouleur().getImage());        
         ap.getChildren().addAll(ivGagnant, texte);    
-        
         bp.setCenter(ap);
-        
         return bp;
     }
 
