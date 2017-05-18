@@ -42,6 +42,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
@@ -72,6 +73,7 @@ public class FenetreJeuController {
 	b.setBackground(new Background(bg));
         
 	stage.setScene(scene);
+        //stage.initStyle(StageStyle.TRANSPARENT);
         ConfigurationPartie.getConfigurationPartie().setScene(scene);
         ConfigurationPartie.getConfigurationPartie().setRoot(root);
         ConfigurationPartie.getConfigurationPartie().setStage(stage);
