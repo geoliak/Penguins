@@ -165,9 +165,9 @@ public class Tournoi {
 
             System.out.println("] " + (float) ((float) 100 * (avancement * (tousLesMatch.size() / 10) + i) / tousLesMatch.size()) + "%");
 
-            for (Joueur j : c.getComposition()) {
+            c.getComposition().stream().forEach((j) -> {
                 System.out.println(j);
-            }
+            });
             System.out.println(" ");
             
             this.match(c);
@@ -217,7 +217,7 @@ public class Tournoi {
             Boolean pinguinPlace;
             int numLigne, numColonne;
             Case caseChoisie;
-            Joueur joueurCourant;
+            Joueur joueurCourant = null;
 
             for (int i = 0; i < nbPinguin * (joueurs.size()); i++) {
                 joueurCourant = partie.getJoueurCourant();
@@ -247,8 +247,10 @@ public class Tournoi {
             boolean aJoue;
             ArrayList<Case> casesPossibles;
             while (!partie.estTerminee()) {
+                System.out.print(joueurCourant + " -> ");
                 aJoue = false;
                 while (!aJoue) {
+                    System.out.println(" vas Jouer");
                     joueurCourant = partie.getJoueurCourant();
 
                     //On tue les pinguins qui n'ont plus de cases accessibles
@@ -261,12 +263,12 @@ public class Tournoi {
 
                     //Si le joueur n'est pas elimine
                     if (joueurCourant.estEnJeu()) {
-                        try {
+                        //try {
                             joueurCourant.joueCoup(joueurCourant.etablirCoup(partie));
-                        } catch (Exception e) {
+                       /* } catch (Exception e) {
                             System.out.println(joueurCourant);
                             plateau.accept(dt);      
-                        }
+                        }*/
                         
 
                         aJoue = true;
@@ -275,7 +277,9 @@ public class Tournoi {
                     }
 
                 }
+                System.out.print("Je change de joueur " + joueurCourant);
                 partie.joueurSuivant();
+                System.out.println(" - OK");
             }
 
             compo.setVainceurs(partie.getJoueurGagnant());

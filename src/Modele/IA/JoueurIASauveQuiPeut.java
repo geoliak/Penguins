@@ -18,19 +18,17 @@ public class JoueurIASauveQuiPeut extends JoueurIA {
     public JoueurIASauveQuiPeut(Couleur couleur, int numero) {
         super(couleur, "JoueurIA SauveQuiPeut", numero);
     }
-    
+
     @Override
     public Case phaseJeu(Partie partie) {
         //On regarde si on peut éliminer un pinguin
-        Case caseChoisie = null;
-        if (super.getChemin().isEmpty()) {
-            caseChoisie = this.sauveQuiPeutBasique(partie);
-            if (caseChoisie != null) {
-                return caseChoisie;
-            }
+        Case caseChoisie = this.sauveQuiPeutBasique(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
         }
-        
+
+        System.out.println("Pas sauve qui peut");
         return super.phaseJeuGourmand(partie);
     }
-    
+
 }

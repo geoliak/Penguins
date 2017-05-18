@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Modele.IA.JoueurIA;
 import Modele.IA.Methodes.Methode;
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,20 +40,20 @@ public class Plateau implements Serializable {
         } else {
             this.lireFichierTest(fichierPlateau, br);
         }
-        
+
         setCasesValidesInit();
-        
+
         estModifié = true;
     }
 
     private Plateau() {
         this.cases = new Case[LARGEUR][LONGUEUR];
     }
-    
-    public void setCasesValidesInit(){
-        for(Case[] cases: cases){
-            for(Case c : cases){
-                if(c.getNbPoissons() == 1){
+
+    public void setCasesValidesInit() {
+        for (Case[] cases : cases) {
+            for (Case c : cases) {
+                if (c.getNbPoissons() == 1) {
                     c.setAccessible(true);
                 }
             }
@@ -264,6 +265,30 @@ public class Plateau implements Serializable {
         }
     }
 
+    public ArrayList<Case> getCasesIcebergSansCassures(Case source) {
+        ArrayList<Case> iceberg = new ArrayList<>();
+        iceberg.add(source);
+        source.setCoulee(true);
+        for (Case voisin : source.getVoisinsEmerges()) {
+            this.getCasesIcebergSansCassuresWorker(voisin, iceberg);
+        }
+        
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
+    }
+
+    private void getCasesIcebergSansCassuresWorker(Case source, ArrayList<Case> iceberg) {
+        if (!source.estCoulee() && !(JoueurIA.estIlot(source, this) != null && source.getPinguin() != null)) {
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIcebergWorker(c, iceberg);
+            }
+        }
+    }
+
     public int getPoidsIceberg(ArrayList<Case> iceberg) {
         int rep = 0;
 
@@ -389,6 +414,26 @@ public class Plateau implements Serializable {
         }
 
         return D;
+    }
+
+    public Boolean existeChemin(Case source, Case destination, int profondeur) {
+        if (profondeur == 0) {
+            return false;
+            
+        } else if (source == destination) {
+            return true;
+            
+        } else {
+            source.setCoulee(true);
+            boolean rep = false;
+
+            for (Case voisins : source.getVoisinsJouable()) {
+                rep = rep || this.existeChemin(voisins, destination, profondeur - 1);
+            }
+
+            source.setCoulee(false);
+            return rep;
+        }
     }
 
     //GETTER ET SETTER

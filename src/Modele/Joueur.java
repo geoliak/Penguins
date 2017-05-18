@@ -88,6 +88,18 @@ public abstract class Joueur implements Serializable {
      */
     public abstract Case etablirCoup(Partie partie);
 
+        public ArrayList<Pinguin> getPinguinNonIsole() {
+        ArrayList<Pinguin> pinguins = new ArrayList<>();
+
+        for (Pinguin p : this.getPinguinsVivants()) {
+            if (!p.estSeul()) {
+                pinguins.add(p);
+            }
+        }
+
+        return pinguins;
+    }
+    
     public int getAge() {
         return age;
     }

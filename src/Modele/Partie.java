@@ -56,7 +56,7 @@ public class Partie implements Serializable {
 	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 4;
+		nbPinguin = 1;
 		break;
 	    case 3:
 		nbPinguin = 3;
@@ -144,11 +144,10 @@ public class Partie implements Serializable {
 
     public void afficheResultats() {
 	if (this.estTerminee()) {
-	    this.joueursEnJeu.add(joueurCourant);
 	    for (Joueur j : this.getJoueurGagnant()) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
 	    }
-	    for (Joueur j : this.joueursEnJeu) {
+	    for (Joueur j : this.joueurs) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
 	    }
 	}

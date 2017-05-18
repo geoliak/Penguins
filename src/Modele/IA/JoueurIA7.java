@@ -40,15 +40,15 @@ public class JoueurIA7 extends JoueurIA {
         if (caseChoisie != null) {
             return caseChoisie;
 
-        } 
-        
-                caseChoisie = super.phaseJeuGourmand(partie);
+        }
+
+        caseChoisie = super.phaseJeuGourmand(partie);
         if (caseChoisie != null) {
             return caseChoisie;
         }
 
         return caseChoisie;
-        
+
     }
 
 }

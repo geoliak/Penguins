@@ -36,7 +36,7 @@ public class JoueurIA3 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
 
-        caseChoisie = this.chercherVictime(partie);
+        caseChoisie = this.chercherVictimeIlot(partie);
         if (caseChoisie != null) {
             return caseChoisie;
 

@@ -74,7 +74,7 @@ public class Pinguin implements Serializable {
      * l'iceberg
      */
     public Boolean estSeulIceberg(Plateau plateau) {
-	ArrayList<Case> iceberg = plateau.getCasesIceberg(this.position);
+	ArrayList<Case> iceberg = plateau.getCasesIcebergSansCassures(this.position);
 	for (Case c : iceberg) {
 	    if (c.getPinguin() != null && c.getPinguin().getGeneral() != this.general) {
 		return false;
@@ -82,6 +82,8 @@ public class Pinguin implements Serializable {
 	}
 	return true;
     }
+    
+    
 
     public void accept(Visiteur v) {
 	v.visite(this);

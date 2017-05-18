@@ -31,16 +31,15 @@ public class JoueurMinimax extends JoueurIA {
     public Case phaseJeu(Partie partie) {
         Case caseChoisie = null;
 
-        caseChoisie = JoueurIA.minimax(this, partie, false);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
-
+        caseChoisie = JoueurIA.minimax(this, partie, 100);
+        return caseChoisie;
+        
+/*
         caseChoisie = this.chercherVictimeSimple(partie);
         if (caseChoisie != null) {
             return caseChoisie;
         }
 
-        return super.phaseJeuMaxPossibilitee(partie);
+        return super.phaseJeuMaxPossibilitee(partie);*/
     }
 }

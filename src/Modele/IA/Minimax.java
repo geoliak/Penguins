@@ -13,6 +13,7 @@ import Modele.TypeAutre.MyPair;
 import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -287,7 +288,7 @@ public class Minimax {
                 p.setPosition(c);
                 c.setPinguin(p);
 
-                poidsCourant = -NegaMax(plateau,(ArrayList<Pinguin>) this.pinguinsAdverses.clone() ,(ArrayList<Pinguin>) this.pinguinsJoueur.clone(), profondeur - 1, -1, 0, c.getNbPoissons());
+                poidsCourant = -NegaMax(plateau, (ArrayList<Pinguin>) this.pinguinsAdverses.clone(), (ArrayList<Pinguin>) this.pinguinsJoueur.clone(), profondeur - 1, -1, 0, c.getNbPoissons());
                 if (poidsCourant > meilleurPoids) {
                     meilleurPoids = poidsCourant;
                     pinguinRep = p;
@@ -313,34 +314,38 @@ public class Minimax {
         int poidsCourant, poidsFeuille = 0;
         ArrayList<Case> mouvementsPossibles;
         Case anciennePositionPinguin;
-        Pinguin suppression = null;
+        Random r = new Random();
+        ArrayList<Pinguin> suppr = new ArrayList<>();
+
+        System.out.println(profondeur);
 
         //On stop l'enumeration
         if (profondeur == 0) {
             int nbCasesAccessible = 0;
-            for (Pinguin p : pinguinsJoueur1) {
-                nbCasesAccessible += p.getPosition().getNbVoisins();
-            }
+            /*for (Pinguin p : pinguinsJoueur1) {
+             nbCasesAccessible += p.getPosition().getNbVoisins();
+             }*/
             return (poidsChemin1 + (int) (nbCasesAccessible)) * color;
 
         } else {
             //Supprime les pinguins inutiles
-            for (Pinguin p : pinguinsJoueur1) {
+            for (int i = 0; i < pinguinsJoueur1.size(); i++) {
                 //Si un pinguin ne peut plus bouger
-                if (p.getPosition().getCasePossibles().isEmpty()) {
-                    poidsFeuille += p.getPosition().getNbPoissons();
-                    suppression = p;
-                    int tmp = plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
-                    poidsChemin1 -= tmp;
-                    poidsChemin2 += tmp; //Yolo ponderation
-                
-                //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera le poids de l'iceberg
-                } else if (plateau.getNbJoueurIceberg(plateau.getCasesIceberg(p.getPosition())) == 1) {
-                    suppression = p;
-                    poidsFeuille += plateau.getPoidsIceberg(plateau.getCasesIceberg(p.getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(p.getPosition()));
+                if (pinguinsJoueur1.get(i).getPosition().getCasePossibles().isEmpty()) {
+                    poidsFeuille += pinguinsJoueur1.get(i).getPosition().getNbPoissons();
+                    pinguinsJoueur1.remove(i);
+                    i--;
+
+                    //Si le joueur est seul sur l'iceberg alors on considere la configuration comme une feuille et on retournera le poids de l'iceberg
+                } else if (plateau.getNbJoueurIceberg(plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition())) == 1) {
+                    poidsFeuille += plateau.getPoidsIceberg(plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition())) / plateau.getNbPinguinIceberg(plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition()));
+                    pinguinsJoueur1.remove(i);
+                    i--;
                 }
+
             }
-            pinguinsJoueur1.remove(suppression);
+
+            pinguinsJoueur1.removeAll(suppr);
 
             //Feuille
             if (pinguinsJoueur1.isEmpty()) {
@@ -353,6 +358,8 @@ public class Minimax {
                 anciennePositionPinguin = p.getPosition();
                 anciennePositionPinguin.setPinguin(null);
                 anciennePositionPinguin.setCoulee(true);
+
+                int test = r.nextInt(mouvementsPossibles.size());
                 for (Case c : mouvementsPossibles) {
                     p.setPosition(c);
                     c.setPinguin(p);
@@ -360,6 +367,7 @@ public class Minimax {
                     poidsCourant = -NegaMax(plateau, (ArrayList<Pinguin>) pinguinsJoueur2.clone(), (ArrayList<Pinguin>) pinguinsJoueur1.clone(), profondeur - 1, -color, poidsChemin2, c.getNbPoissons() + poidsChemin1 + poidsFeuille);
                     meilleurPoids = Integer.max(poidsCourant, meilleurPoids);
 
+                    test--;
                     c.setPinguin(null);
                 }
                 p.setPosition(anciennePositionPinguin);
@@ -429,7 +437,6 @@ public class Minimax {
     public MyPair<Case, Pinguin> executeNegamaxMultiThread(int profondeur) {
         Case caseRes = null;
         Pinguin pinguinRep = null;
-        int poidsCourant;
         Case anciennePositionPinguin;
         int meilleurPoids = Integer.MIN_VALUE;
         ArrayList<Case> movementPossibles;
@@ -473,15 +480,13 @@ public class Minimax {
         for (CalculBrancheNegamax calcul : cbs) {
             try {
                 calcul.join();
+                if (calcul.getRes() > meilleurPoids) {
+                    meilleurPoids = calcul.getRes();
+                    pinguinRep = calcul.getPinguinEtudie();
+                    caseRes = calcul.getCaseEtudiee();
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Minimax.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        for (CalculBrancheNegamax calcul : cbs) {
-            if (calcul.getRes() > meilleurPoids) {
-                meilleurPoids = calcul.getRes();
-                pinguinRep = calcul.getPinguinEtudie();
-                caseRes = calcul.getCaseEtudiee();
             }
         }
 
@@ -523,7 +528,7 @@ public class Minimax {
 
         @Override
         public void run() {
-            this.res = Minimax.NegaMax(plateau, pinguinsJoueur1, pinguinsJoueur2, profondeur, 1, 0, 0);
+            this.res = -Minimax.NegaMax(plateau, pinguinsJoueur2, pinguinsJoueur1, profondeur, -1, 0, this.caseEtudiee.getNbPoissons());
         }
 
     }
@@ -645,10 +650,10 @@ public class Minimax {
 
         @Override
         public void run() {
-            this.res = this.minimaxWorker(1, this.pinguinsJoueur, this.pinguinsAdverses, this.profondeur);
+            this.res = this.minimaxWorker(1, this.pinguinsJoueur, this.pinguinsAdverses, this.profondeur, this.casePrecedente.getNbPoissons(), 0);
         }
 
-        public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses, int profondeur) {
+        public int minimaxWorker(int tour, ArrayList<Pinguin> pinguinsJoueur, ArrayList<Pinguin> pinguinsAdverses, int profondeur, int poidsJoueur1, int poidsJoueur2) {
             int bonusJoueur = 0;
             int bonusAdversaire = 0;
 
@@ -689,7 +694,7 @@ public class Minimax {
             //Tour de l'IA   
             if (tour % 2 == 0) {
                 if (pinguinsAdverses.isEmpty() || profondeur == 0) {
-                    return bonusJoueur;
+                    return bonusJoueur + poidsJoueur1;
                 }
                 int max = -1;
 
@@ -704,7 +709,7 @@ public class Minimax {
                         p.setPosition(c);
                         c.setPinguin(p);
 
-                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1) + c.getNbPoissons()) > max) {
+                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1, poidsJoueur1 + bonusJoueur + c.getNbPoissons(), poidsJoueur2 + bonusAdversaire) + c.getNbPoissons()) > max) {
                             max = poidsCourant;
                         }
 
@@ -721,7 +726,7 @@ public class Minimax {
                 //Tour de l'adversaire                    
             } else {
                 if (pinguinsJoueur.isEmpty() || profondeur == 0) {
-                    return bonusAdversaire;
+                    return bonusAdversaire + poidsJoueur2;
                 }
                 int min = 300;
 
@@ -736,7 +741,7 @@ public class Minimax {
                         p.setPosition(c);
                         c.setPinguin(p);
 
-                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1) + c.getNbPoissons()) < min) {
+                        if ((poidsCourant = minimaxWorker(tour + 1, (ArrayList<Pinguin>) pinguinsJoueur.clone(), (ArrayList<Pinguin>) pinguinsAdverses.clone(), profondeur - 1, poidsJoueur1 + bonusJoueur, poidsJoueur2 + bonusAdversaire + c.getNbPoissons()) + c.getNbPoissons()) < min) {
                             min = poidsCourant;
                         }
 

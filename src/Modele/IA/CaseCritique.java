@@ -6,6 +6,7 @@
 package Modele.IA;
 
 import Modele.Case;
+import Modele.Plateau;
 import java.util.ArrayList;
 
 /**
@@ -18,19 +19,33 @@ public class CaseCritique {
     private ArrayList<Case> ilot2;
     private Case cassure;
 
-    public CaseCritique(Case cassure, ArrayList<Case> voisins, Integer[][] dijkstra) {
+    public CaseCritique(Case cassure, ArrayList<Case> voisins, Plateau plateau) {
         this.cassure = cassure;
         this.ilot1 = new ArrayList<>();
         this.ilot2 = new ArrayList<>();
-        this.init(voisins, dijkstra);
+        this.init(voisins, plateau);
     }
 
-    public void init(ArrayList<Case> voisins, Integer[][] dijkstra) {
+    public void initObsolete(ArrayList<Case> voisins, Integer[][] dijkstra) {
         Case ancien = null;
         for (Case c : voisins) {
             if (ancien == null) {
                 this.ilot1.add(c);
             } else if (dijkstra[c.getNumLigne()][c.getNumColonne()] < Integer.MAX_VALUE) {
+                this.ilot1.add(c);
+            } else {
+                this.ilot2.add(c);
+            }
+            ancien = c;
+        }
+    }
+    
+        public void init(ArrayList<Case> voisins, Plateau plateau) {
+        Case ancien = null;
+        for (Case c : voisins) {
+            if (ancien == null) {
+                this.ilot1.add(c);
+            } else if (plateau.existeChemin(ilot1.get(0), c, 2)) {
                 this.ilot1.add(c);
             } else {
                 this.ilot2.add(c);
