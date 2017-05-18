@@ -44,9 +44,9 @@ public class RafraichissementFX extends AnimationTimer {
 
 	// Rafraichissement du plateau
 	if (partie.getPlateau().isEstModifié()) {
-//            for(Joueur j : partie.getJoueurs())
-//                d.visiteScore(j);
+            
 	    partie.getPlateau().accept(d);
+            
             for(Joueur j : partie.getJoueurs()){
                 j.accept(d);
             }

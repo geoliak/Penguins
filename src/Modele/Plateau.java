@@ -33,7 +33,9 @@ public class Plateau implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
         String ligne;
         ligne = br.readLine();
+        System.out.println(ligne);
         if (ligne.equals("jeu")) {
+            System.out.println("JEU");
             this.lireFichierJeu(fichierPlateau, br);
             this.initCase();
         } else {
@@ -64,6 +66,7 @@ public class Plateau implements Serializable {
      * une configuration jouable
      */
     public void initCase() {
+        
         int nbCaseUnPoissons = 0;
         for (int i = 0; i < this.LARGEUR; i++) {
             for (int j = 0; j < this.LONGUEUR; j++) {

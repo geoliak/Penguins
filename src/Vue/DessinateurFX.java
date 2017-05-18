@@ -187,6 +187,7 @@ public class DessinateurFX extends Visiteur {
 		    partie.setTourFini(false);
 		}
 		Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
+                
 		t.setOnFinished(new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent event) {
