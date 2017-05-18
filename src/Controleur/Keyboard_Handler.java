@@ -5,7 +5,6 @@
  */
 package Controleur;
 
-import Modele.Historique;
 import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
 import java.io.IOException;

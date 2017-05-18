@@ -122,13 +122,13 @@ public class ParamJeuController implements Initializable {
 
     @FXML
     private MyImageView joueur3;
-    
+
     @FXML
     private MyImageView terrain;
-    
+
     @FXML
     private MyImageView nextTerrain;
-    
+
     @FXML
     private MyImageView prevTerrain;
 
@@ -414,19 +414,19 @@ public class ParamJeuController implements Initializable {
 	//partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
 	return partie;
     }
-    
-    public void changerTerrain(MouseEvent e){
-        if(e.getSource().equals(nextTerrain)){
-            if(terrainCharge<3){
-                terrainCharge ++;
-            } else {
-                terrainCharge = 1;
-            }
-            String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
-            ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
-        } else if(e.getSource().equals(prevTerrain)){
-            
-        }
+
+    public void changerTerrain(MouseEvent e) {
+	if (e.getSource().equals(nextTerrain)) {
+	    if (terrainCharge < 3) {
+		terrainCharge++;
+	    } else {
+		terrainCharge = 1;
+	    }
+	    String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+	    ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
+	} else if (e.getSource().equals(prevTerrain)) {
+
+	}
     }
 
 }

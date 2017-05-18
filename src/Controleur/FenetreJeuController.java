@@ -61,9 +61,9 @@ public class FenetreJeuController {
 	setBottom(bas);
 
 	Scene scene = new Scene(b, 1200, 900);
-        BackgroundImage bg = new BackgroundImage(new Image(new File("ressources/img/img_menu/banquise_fenetre_jeu.png").toURI().toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+	BackgroundImage bg = new BackgroundImage(new Image(new File("ressources/img/img_menu/banquise_fenetre_jeu.png").toURI().toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 	b.setBackground(new Background(bg));
-        
+
 	stage.setScene(scene);
 	//stage.initStyle(StageStyle.TRANSPARENT);
 	ConfigurationPartie.getConfigurationPartie().setScene(scene);
@@ -82,34 +82,17 @@ public class FenetreJeuController {
 	r.start();
 	stage.show();
     }
-    
-    public void setBannieresJoueurs(Node v){
-        ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
-        Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
-        Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
-        Image ping = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
-            
-        ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
-        
-        for(Joueur j : joueurs){
-            System.out.println(j.getNumero());
-            AnchorPane ap = new AnchorPane();
-                    
-            File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");
-            Image imgBaniere = new Image(f.toURI().toString());
-            
-            ImageView ivBanniere = new ImageView(imgBaniere);
-            ivBanniere.setLayoutX(0);
-            ivBanniere.setLayoutY(50);
-            ivBanniere.setFitHeight(150);
-            ivBanniere.setPreserveRatio(true);
 
     public void setBannieresJoueurs(Node v) {
 	ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
 	Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
 	Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
+	Image ping = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
+
+	ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
 
 	for (Joueur j : joueurs) {
+	    System.out.println(j.getNumero());
 	    AnchorPane ap = new AnchorPane();
 
 	    File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");
@@ -126,82 +109,71 @@ public class FenetreJeuController {
 	    labelNom.setLayoutY(115);
 	    labelNom.setText(j.getNom());
 
-                if(j.getDifficulte() > 2){
-                    etoile3.setImage(yellow);
-                }
-                
-                ap.getChildren().addAll(etoile1, etoile2, etoile3);
-            }
-            
-            ImageView[] init = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
-            
-            ImageView pInit;
-            for(int i = 0; i < ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur(); i++){
-                System.out.println("init");
-                pInit = new ImageView(ping);
-                pInit.setLayoutX(130 + 30*i);
-                pInit.setLayoutY(65);
-                pInit.setPreserveRatio(true);
-                pInit.setFitHeight(30);
-                ap.getChildren().add(pInit);
-                init[i] = pInit;
-            }
-            initpingoos[j.getNumero()] = init;
-            
-            ConfigurationPartie.getConfigurationPartie().setInitpingoos(initpingoos);
-            
-            ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
-            
-            ((VBox) v).getChildren().add(ap);
-        }
-    }
-    
-    public void setBottom(Node n){
-        VBox v = new VBox();
-        HBox h = new HBox();
-        File f = new File("ressources/img/img_menu/abandonner.png");
-        ImageView abandonner = new ImageView(new Image(f.toURI().toString()));
-        abandonner.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                abandonner.setEffect(new Lighting());
-            }
-        });
-        
-        abandonner.setOnMouseExited(new EventHandler<MouseEvent>(){
+	    Label labelScore = new Label();
+	    labelScore.setLayoutX(50);
+	    labelScore.setLayoutY(115);
+	    labelScore.setText(Integer.toString(j.getScorePoissons()));
+	    labelScore.setTextFill(Color.WHITE);
 
-            @Override
-            public void handle(MouseEvent event) {
-                abandonner.setEffect(null);
-            }
-            
-        });
-        
-        File f2 = new File("ressources/img/img_menu/volume.png");
-        ImageView volume = new ImageView(new Image(f2.toURI().toString()));
-        volume.setPreserveRatio(true);
-        volume.setFitHeight(30);
-        
-        File f3 = new File("ressources/img/img_menu/note.jpg");
-        ImageView note = new ImageView(new Image(f3.toURI().toString()));
-        note.setPreserveRatio(true);
-        note.setFitHeight(30);
-        
-        h.getChildren().addAll(volume, note);
-        h.setAlignment(Pos.TOP_LEFT);
-        h.setSpacing(20);
-        h.setPadding(new Insets(0, 0, 0, 20));
-        
-        v.getChildren().addAll(abandonner, h);
-        v.setAlignment(Pos.TOP_LEFT);
-        v.setSpacing(20);
-        
-        ((HBox) n).getChildren().add(v);
-        ((HBox) n).setAlignment(Pos.TOP_LEFT);
-        ((HBox) n).setPadding(new Insets(0, 0, 20, 0));
-        
-        AnimationFX a = new AnimationFX();
-        volume.setOnMouseEntered(new EventHandler<MouseEvent>(){
+	    ap.getChildren().addAll(ivBanniere, labelNom, labelScore);
+
+	    if (j.getDifficulte() != 0) {
+		//étoiles
+		ImageView etoile1 = new ImageView(yellow);
+		etoile1.setLayoutX(130);
+		etoile1.setLayoutY(155);
+		ImageView etoile2 = new ImageView(grey);
+		etoile2.setLayoutX(160);
+		etoile2.setLayoutY(155);
+		ImageView etoile3 = new ImageView(grey);
+		etoile3.setLayoutX(190);
+		etoile3.setLayoutY(155);
+
+		if (j.getDifficulte() > 1) {
+		    etoile2.setImage(yellow);
+		}
+
+		if (j.getDifficulte() > 2) {
+		    etoile3.setImage(yellow);
+		}
+
+		ap.getChildren().addAll(etoile1, etoile2, etoile3);
+	    }
+
+	    ImageView[] init = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
+
+	    ImageView pInit;
+	    for (int i = 0; i < ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur(); i++) {
+		System.out.println("init");
+		pInit = new ImageView(ping);
+		pInit.setLayoutX(130 + 30 * i);
+		pInit.setLayoutY(65);
+		pInit.setPreserveRatio(true);
+		pInit.setFitHeight(30);
+		ap.getChildren().add(pInit);
+		init[i] = pInit;
+	    }
+	    initpingoos[j.getNumero()] = init;
+
+	    ConfigurationPartie.getConfigurationPartie().setInitpingoos(initpingoos);
+
+	    ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
+
+	    ((VBox) v).getChildren().add(ap);
+	}
+    }
+
+    public void setBottom(Node n) {
+	VBox v = new VBox();
+	HBox h = new HBox();
+	File f = new File("ressources/img/img_menu/abandonner.png");
+	ImageView abandonner = new ImageView(new Image(f.toURI().toString()));
+	abandonner.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		abandonner.setEffect(new Lighting());
+	    }
+	});
 
 	abandonner.setOnMouseExited(new EventHandler<MouseEvent>() {
 
@@ -217,7 +189,7 @@ public class FenetreJeuController {
 	volume.setPreserveRatio(true);
 	volume.setFitHeight(30);
 
-	File f3 = new File("ressources/img/img_menu/note.png");
+	File f3 = new File("ressources/img/img_menu/note.jpg");
 	ImageView note = new ImageView(new Image(f3.toURI().toString()));
 	note.setPreserveRatio(true);
 	note.setFitHeight(30);
