@@ -34,7 +34,7 @@ public class AntarticaWorldCup {
         //worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
         //worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));
         //worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu, 4));
-        worldCup.ajouterIA(new JoueurIA8(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurMinimax(Couleur.Rouge, 1));
         worldCup.ajouterIA(new JoueurIA1(Couleur.VioletFX, 2));
 
 
