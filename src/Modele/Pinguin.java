@@ -7,7 +7,6 @@ package Modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import Modele.MyImageView;
 
 /**
  *
@@ -82,8 +81,6 @@ public class Pinguin implements Serializable {
 	}
 	return true;
     }
-    
-    
 
     public void accept(Visiteur v) {
 	v.visite(this);

@@ -22,15 +22,7 @@ import Modele.MyImageView;
 import Modele.Partie;
 import Modele.Sauvegarde;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,7 +38,8 @@ public class ChargerJeuController implements Initializable {
     @FXML
     private ListView<String> listView;
     private File[] files;
-    @FXML private ImageView terrain;
+    @FXML
+    private ImageView terrain;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,17 +50,17 @@ public class ChargerJeuController implements Initializable {
 
 	for (File file : files) {
 	    if (file.isFile()) {
-                String [] name = file.getName().split("_");
-                if(name[0].equals("S")){
-                    items.add(name[1]);
-                }
-		
+		String[] name = file.getName().split("_");
+		if (name[0].equals("S")) {
+		    items.add(name[1]);
+		}
+
 	    }
 	}
 
 	listView.getSelectionModel().select(0);
 	listView.getFocusModel().focus(0);
-        saveClick(null);
+	saveClick(null);
     }
 
     public void creerPartie(MouseEvent e) throws IOException {
@@ -87,69 +80,67 @@ public class ChargerJeuController implements Initializable {
     }
 
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
-	if(listView.getSelectionModel().getSelectedItems().size() != 0){
-            Partie partie = new Sauvegarde().Load("1");
-            ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+	if (listView.getSelectionModel().getSelectedItems().size() != 0) {
+	    Partie partie = new Sauvegarde().Load("1");
+	    ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            FenetreJeuController fenetre = new FenetreJeuController();
-            fenetre.creerFenetreJeu(stage);
-            ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
-            
-            ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
-        }
-    }
-    
-    public void saveClick(MouseEvent e){
-        if(listView.getSelectionModel().getSelectedItems().size() != 0){
-            String filename = "./Savefiles/I_" + listView.getSelectionModel().getSelectedItems().get(0).toString();
-            terrain.setImage(new Image(new File(filename).toURI().toString())); 
-        }else {
-            terrain.setImage(null);
-        }
-        
-    }
-    
-    public void deleteSave(MouseEvent e){
-        if(listView.getItems().size() != 0){
-            String filename = listView.getSelectionModel().getSelectedItems().get(0).toString();
-        
-        int i = listView.getSelectionModel().getSelectedIndices().get(0);
-        
-        File f = new File("./Savefiles/S_" + filename);
-        f.delete();
-        
-        f = new File("./Savefiles/I_" + filename);
-        f.delete();
-        
-        List<String> items = listView.getItems();
-        items.removeAll(items);
+	    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	    FenetreJeuController fenetre = new FenetreJeuController();
+	    fenetre.creerFenetreJeu(stage);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 
-	files = new File("./Savefiles").listFiles();
-
-	for (File file : files) {
-	    if (file.isFile()) {
-                String [] name = file.getName().split("_");
-                if(name[0].equals("S")){
-                    items.add(name[1]);
-                }
-		
-	    }
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 	}
-        
-        if(listView.getItems().size() !=i){
-            listView.getSelectionModel().select(i);
-            listView.getFocusModel().focus(i);
-        }
-        else {
-           listView.getSelectionModel().select(i-1);
-            listView.getFocusModel().focus(i-1); 
-        }
-        
-        saveClick(null);
-        }
-        
-        
+    }
+
+    public void saveClick(MouseEvent e) {
+	if (listView.getSelectionModel().getSelectedItems().size() != 0) {
+	    String filename = "./Savefiles/I_" + listView.getSelectionModel().getSelectedItems().get(0).toString();
+	    terrain.setImage(new Image(new File(filename).toURI().toString()));
+	} else {
+	    terrain.setImage(null);
+	}
+
+    }
+
+    public void deleteSave(MouseEvent e) {
+	if (listView.getItems().size() != 0) {
+	    String filename = listView.getSelectionModel().getSelectedItems().get(0).toString();
+
+	    int i = listView.getSelectionModel().getSelectedIndices().get(0);
+
+	    File f = new File("./Savefiles/S_" + filename);
+	    f.delete();
+
+	    f = new File("./Savefiles/I_" + filename);
+	    f.delete();
+
+	    List<String> items = listView.getItems();
+	    items.removeAll(items);
+
+	    files = new File("./Savefiles").listFiles();
+
+	    for (File file : files) {
+		if (file.isFile()) {
+		    String[] name = file.getName().split("_");
+		    if (name[0].equals("S")) {
+			items.add(name[1]);
+		    }
+
+		}
+	    }
+
+	    if (listView.getItems().size() != i) {
+		listView.getSelectionModel().select(i);
+		listView.getFocusModel().focus(i);
+	    } else {
+		listView.getSelectionModel().select(i - 1);
+		listView.getFocusModel().focus(i - 1);
+	    }
+
+	    saveClick(null);
+	}
+
     }
 
 }

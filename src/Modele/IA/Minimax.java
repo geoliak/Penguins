@@ -10,7 +10,6 @@ import Modele.Joueur;
 import Modele.Pinguin;
 import Modele.Plateau;
 import Modele.TypeAutre.MyPair;
-import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;

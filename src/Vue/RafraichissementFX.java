@@ -10,13 +10,10 @@ import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
-import Modele.Plateau;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 
 /**
  *
