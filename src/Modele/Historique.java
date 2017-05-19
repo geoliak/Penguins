@@ -90,4 +90,9 @@ public class Historique implements Serializable {
     public boolean sauvegardeDebut() {
 	return (indice == 0);
     }
+
+    public void recommencer() {
+	this.indice = 1;
+	this.annulerDernierCoup();
+    }
 }
