@@ -247,10 +247,10 @@ public class Tournoi {
             boolean aJoue;
             ArrayList<Case> casesPossibles;
             while (!partie.estTerminee()) {
-                System.out.print(joueurCourant + " -> ");
+                //System.out.print(joueurCourant + " -> ");
                 aJoue = false;
                 while (!aJoue) {
-                    System.out.println(" vas Jouer");
+                    //System.out.println(" vas Jouer");
                     joueurCourant = partie.getJoueurCourant();
 
                     //On tue les pinguins qui n'ont plus de cases accessibles
@@ -277,9 +277,9 @@ public class Tournoi {
                     }
 
                 }
-                System.out.print("Je change de joueur " + joueurCourant);
+                //System.out.print("Je change de joueur " + joueurCourant);
                 partie.joueurSuivant();
-                System.out.println(" - OK");
+                //System.out.println(" - OK");
             }
 
             compo.setVainceurs(partie.getJoueurGagnant());
