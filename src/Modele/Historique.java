@@ -29,14 +29,18 @@ public class Historique implements Serializable {
     }
 
     public void sauvegarderCoup() {
-	historiqueCoups.add(indice, new Coup());
-	indice++;
-	System.out.println("indice " + indice + " size " + historiqueCoups.size());
+	if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain()) {
+	    System.out.println("indice ou le nouveau coup va " + indice);
+	    Coup nouveauCoup = new Coup();
+	    historiqueCoups.add(indice, nouveauCoup);
+	    indice++;
+	    System.out.println("indice " + indice + " size " + historiqueCoups.size());
 
-	if (historiqueCoups.size() > indice) {
-	    for (int i = indice; i < historiqueCoups.size();) {
-		historiqueCoups.remove(i);
-		System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
+	    if (historiqueCoups.size() > indice) {
+		for (int i = indice; i < historiqueCoups.size();) {
+		    historiqueCoups.remove(i);
+		    System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
+		}
 	    }
 	}
     }
@@ -45,52 +49,45 @@ public class Historique implements Serializable {
 	//Teste si on a des coups à refaire, le +1 sert parce que normalement l'emplacement "indice" doit etre vide
 	if (historiqueCoups.size() > indice + 1) {
 	    indice++;
-	    if (historiqueCoups.get(indice).getEstJoueurHumain()) {
-		try {
-		    ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
-		    ObjectInputStream instr = new ObjectInputStream(in);
-		    ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
-		} catch (IOException ex) {
-		    Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ClassNotFoundException ex) {
-		    Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
-		ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
-
-	    } else {
-		rejouerCoup();
+	    try {
+		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
+		ObjectInputStream instr = new ObjectInputStream(in);
+		ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
+	    } catch (IOException ex) {
+		Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (ClassNotFoundException ex) {
+		Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
 	    }
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 	} else {
 	    System.out.println("Pas des coups a refaire");
 	}
     }
 
     public void annulerDernierCoup() {
+	System.out.println("indice avant decrementation " + indice);
 
 	if (indice > 0) {
 	    indice--;
-	    if (historiqueCoups.get(indice).getEstJoueurHumain()) {
-		try {
-		    ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
-		    ObjectInputStream instr = new ObjectInputStream(in);
-		    ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
-		} catch (IOException ex) {
-		    Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ClassNotFoundException ex) {
-		    Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
-		ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
-		System.out.println(indice + " charge");
-
-	    } else {
-		annulerDernierCoup();
-		System.out.println("rec " + indice);
+	    try {
+		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
+		ObjectInputStream instr = new ObjectInputStream(in);
+		ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
+	    } catch (IOException ex) {
+		Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (ClassNotFoundException ex) {
+		Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
 	    }
-
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+	    System.out.println(indice + " charge");
 	} else {
 	    System.out.println("plus de coups a annuler");
 	}
+    }
+
+    public boolean sauvegardeDebut() {
+	return (indice == 0);
     }
 }

@@ -161,12 +161,6 @@ public class Partie implements Serializable {
 	return joueurs;
     }
 
-    public void sauvegarderCoup() {
-	if (joueurCourant.getEstHumain()) {
-	    historique.sauvegarderCoup();
-	}
-    }
-
     public Plateau getPlateau() {
 	return plateau;
     }
