@@ -8,7 +8,6 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Plateau;
 
 /**
  *
@@ -17,12 +16,12 @@ import Modele.Plateau;
 public class JoueurIA8 extends JoueurIA {
 
     public JoueurIA8(Couleur couleur, int numero) {
-        super(couleur, "JoueurIA8", numero);
+	super(couleur, "JoueurIA8", numero);
     }
 
     @Override
     public Case phaseInitialisation(Partie partie) {
-        return super.phaseInitialisationMaxPossibilitee(partie);
+	return super.phaseInitialisationMaxPossibilitee(partie);
     }
 
     @Override

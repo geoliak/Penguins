@@ -7,8 +7,6 @@ package Modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
 /**
@@ -31,46 +29,46 @@ public abstract class Joueur implements Serializable {
     private int difficulte;
 
     public Joueur(Couleur couleur, int numero) {
-        this.pinguins = new ArrayList<>();
-        this.pinguinCourant = null;
-        this.pret = false;
-        this.scoreGlacons = 0;
-        this.scorePoissons = 0;
-        this.nom = "Ceci ne devrait pas apparaitre";
-        this.age = -1;
-        this.couleur = couleur;
-        this.numero = numero;
-        this.difficulte = 0;
+	this.pinguins = new ArrayList<>();
+	this.pinguinCourant = null;
+	this.pret = false;
+	this.scoreGlacons = 0;
+	this.scorePoissons = 0;
+	this.nom = "Ceci ne devrait pas apparaitre";
+	this.age = -1;
+	this.couleur = couleur;
+	this.numero = numero;
+	this.difficulte = 0;
     }
 
     @Override
     public Joueur clone() throws CloneNotSupportedException {
-        return (Joueur) (super.clone());
+	return (Joueur) (super.clone());
     }
 
     /**
      * Le joueur va reprendre le meme etat que lors de sa creation
      */
     public void reset() {
-        this.pinguins = new ArrayList<>();
-        this.pinguinCourant = null;
-        this.pret = false;
-        this.scoreGlacons = 0;
-        this.scorePoissons = 0;
+	this.pinguins = new ArrayList<>();
+	this.pinguinCourant = null;
+	this.pret = false;
+	this.scoreGlacons = 0;
+	this.scorePoissons = 0;
     }
 
     public int getNumero() {
-        return numero;
+	return numero;
     }
 
     public void ajouterPinguin(Case c) {
-        Pinguin p = new Pinguin(c, this);
-        c.setPinguin(p);
-        this.pinguins.add(p);
+	Pinguin p = new Pinguin(c, this);
+	c.setPinguin(p);
+	this.pinguins.add(p);
     }
 
     public void joueCoup(Case c) {
-        this.getPinguinCourant().deplace(c);
+	this.getPinguinCourant().deplace(c);
     }
 
     public abstract void attendreCoup(Partie partie);
@@ -88,119 +86,119 @@ public abstract class Joueur implements Serializable {
      */
     public abstract Case etablirCoup(Partie partie);
 
-        public ArrayList<Pinguin> getPinguinNonIsole() {
-        ArrayList<Pinguin> pinguins = new ArrayList<>();
+    public ArrayList<Pinguin> getPinguinNonIsole() {
+	ArrayList<Pinguin> pinguins = new ArrayList<>();
 
-        for (Pinguin p : this.getPinguinsVivants()) {
-            if (!p.estSeul()) {
-                pinguins.add(p);
-            }
-        }
+	for (Pinguin p : this.getPinguinsVivants()) {
+	    if (!p.estSeul()) {
+		pinguins.add(p);
+	    }
+	}
 
-        return pinguins;
+	return pinguins;
     }
-    
+
     public int getAge() {
-        return age;
+	return age;
     }
 
     public void setAge(int age) {
-        this.age = age;
+	this.age = age;
     }
 
     public String getNom() {
-        return nom;
+	return nom;
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+	this.nom = nom;
     }
 
     public int getScoreGlacons() {
-        return scoreGlacons;
+	return scoreGlacons;
     }
 
     public void setScoreGlacons(int scoreGlacons) {
-        this.scoreGlacons = scoreGlacons;
+	this.scoreGlacons = scoreGlacons;
     }
 
     public int getDifficulte() {
-        return difficulte;
+	return difficulte;
     }
 
     public void setDifficulte(int difficulte) {
-        this.difficulte = difficulte;
+	this.difficulte = difficulte;
     }
 
     public int getScorePoissons() {
-        return scorePoissons;
+	return scorePoissons;
     }
 
     public void setScorePoissons(int scorePoissons) {
-        this.scorePoissons = scorePoissons;
+	this.scorePoissons = scorePoissons;
     }
 
     public ArrayList<Pinguin> getPinguins() {
-        return pinguins;
+	return pinguins;
     }
 
     public void setPinguins(ArrayList<Pinguin> pinguins) {
-        this.pinguins = pinguins;
+	this.pinguins = pinguins;
     }
 
     public ArrayList<Pinguin> getPinguinsVivants() {
-        ArrayList<Pinguin> res = new ArrayList<>();
-        for (Pinguin p : this.pinguins) {
-            if (p.estVivant()) {
-                res.add(p);
-            }
-        }
-        return res;
+	ArrayList<Pinguin> res = new ArrayList<>();
+	for (Pinguin p : this.pinguins) {
+	    if (p.estVivant()) {
+		res.add(p);
+	    }
+	}
+	return res;
     }
 
     public Pinguin getPinguinCourant() {
-        return pinguinCourant;
+	return pinguinCourant;
     }
 
     public void setPinguinCourant(Pinguin pinguinCourant) {
-        this.pinguinCourant = pinguinCourant;
+	this.pinguinCourant = pinguinCourant;
     }
 
     public Boolean estEnJeu() {
 
-        if (this.pret) {
-            return !this.getPinguinsVivants().isEmpty();
-        } else {
-            return true;
-        }
+	if (this.pret) {
+	    return !this.getPinguinsVivants().isEmpty();
+	} else {
+	    return true;
+	}
     }
 
     public Boolean getPret() {
-        return pret;
+	return pret;
     }
 
     public void setPret(Boolean pret) {
-        this.pret = pret;
+	this.pret = pret;
     }
 
     public Couleur getCouleur() {
-        return couleur;
+	return couleur;
     }
 
     public Boolean getEstHumain() {
-        return estHumain;
+	return estHumain;
     }
 
     public void setEstHumain(Boolean estHumain) {
-        this.estHumain = estHumain;
+	this.estHumain = estHumain;
     }
 
     public void accept(Visiteur v) {
-        v.visit(this);
+	v.visit(this);
     }
 
     @Override
     public String toString() {
-        return this.getCouleur() + this.nom + Couleur.ANSI_RESET;
+	return this.getCouleur() + this.nom + Couleur.ANSI_RESET;
     }
 }

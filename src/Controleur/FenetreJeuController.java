@@ -6,7 +6,6 @@
 package Controleur;
 
 import Modele.ConfigurationPartie;
-import Modele.Historique;
 import Modele.Joueur;
 import Vue.AnimationFX;
 import Vue.DessinateurFX;

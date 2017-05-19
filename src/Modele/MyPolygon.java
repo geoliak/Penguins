@@ -8,7 +8,6 @@ package Modele;
 import java.io.File;
 import java.io.Serializable;
 import javafx.scene.image.Image;
-import Modele.MyImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
@@ -39,8 +38,8 @@ public class MyPolygon extends Polygon implements Serializable {
 	this.y = j;
 	this.sizeGlacon = sizeGlacon;
 	this.setOrigine(gap, proportion);
-        this.setImage(nbPoisson);
-	
+	this.setImage(nbPoisson);
+
 	//this.setPoints(gap, proportion, color, xorigine, yorigine);
 
 	/*
@@ -53,7 +52,7 @@ public class MyPolygon extends Polygon implements Serializable {
     }
 
     public void setOrigine(double gap, double proportion) {
-        double topMargin = 10;
+	double topMargin = 10;
 	double size = sizeGlacon * proportion;
 	double height = sizeGlacon * 2;
 	double width = height * Math.sqrt(3 / 2);

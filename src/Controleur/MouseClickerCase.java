@@ -8,23 +8,11 @@ package Controleur;
 import Modele.Case;
 import Modele.ConfigurationPartie;
 import Modele.Joueur;
-import Modele.JoueurHumain;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
-import Vue.AnimationFX;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 /**
  *
