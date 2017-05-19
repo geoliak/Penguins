@@ -16,6 +16,9 @@ import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurMinimax;
 import Modele.Tournoi;
 import Vue.DessinateurTexte;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,11 +33,10 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA2(Couleur.Jaune));
         worldCup.ajouterIA(new JoueurIA3(Couleur.Vert));
         worldCup.ajouterIA(new JoueurIA4(Couleur.Bleu));*/
-        //worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge, 1));
-        //worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
-        //worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));
-        //worldCup.ajouterIA(new JoueurIA8(Couleur.Bleu, 4));
-        worldCup.ajouterIA(new JoueurMinimax(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
+        worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));
+        worldCup.ajouterIA(new JoueurIA8(Couleur.Rouge, 1));
         worldCup.ajouterIA(new JoueurIA1(Couleur.VioletFX, 2));
 
 
@@ -42,6 +44,12 @@ public class AntarticaWorldCup {
         worldCup.executerLesCombats(true, false, false);
         
         worldCup.afficheResultats(true, false, false);
+        
+        try {
+            worldCup.sortirResultat();
+        } catch (IOException ex) {
+            Logger.getLogger(AntarticaWorldCup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     

@@ -55,7 +55,7 @@ public class JoueurIA8 extends JoueurIA {
             return caseChoisie;
         }*/
 
-        System.out.println("--------------------------");
+        
         return super.phaseJeuGourmand(partie);
     }
 }

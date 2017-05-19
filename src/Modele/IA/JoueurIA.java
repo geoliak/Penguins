@@ -223,7 +223,7 @@ public class JoueurIA extends Joueur {
 
     //WOLOLO
     public static Case phaseJeuGourmandStatic(JoueurIA joueur, Partie partie) {
-        System.out.println("Gourmand");
+        //System.out.println("Gourmand");
         Case caseChoisie = null;
         ArrayList<Case> casesAccessible = null;
         int nbPoissons = 3;
@@ -291,7 +291,7 @@ public class JoueurIA extends Joueur {
     //WOLOLO
     public static Case phaseJeuMeilleurCheminStatic(JoueurIA joueur, Partie partie) {
         //Si il n'y a plus pinguin adverse sur l'iceberg
-        //System.out.print("phaseJeuMeilleurCheminStatic");
+        System.out.print("phaseJeuMeilleurCheminStatic ");
         ArrayList<Case> iceberg;
         int tailleMaximale;
         Case caseChoisie = null;
@@ -301,7 +301,9 @@ public class JoueurIA extends Joueur {
 
         joueur.setPinguinCourant(p);
 
+        System.out.print(" (sans cassure ");
         iceberg = partie.getPlateau().getCasesIcebergSansCassures(p.getPosition());
+        System.out.print("- Ok)");
         tailleMaximale = iceberg.size();
         for (Case c : iceberg) {
             if (c.getPinguin() != null) {
@@ -310,7 +312,7 @@ public class JoueurIA extends Joueur {
         }
 
         //Methode1 75%  du meilleur chemin
-        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.70)));
+        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.60)));
         //Methode2 100% à 3sec max
         /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
          meilleurChemin.start();
@@ -346,7 +348,7 @@ public class JoueurIA extends Joueur {
          joueur.setPinguinCourant(null);
          }*/
 
-        //System.out.println(" - Ok");
+        System.out.println(" - Ok");
         return caseChoisie;
     }
 

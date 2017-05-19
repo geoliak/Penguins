@@ -290,7 +290,6 @@ public class Tournoi {
             for (Joueur j : partie.getJoueurGagnant()) {
                 compo.ajouterVictoire(j);
                 score.put(j, score.get(j) + 1);
-
             }
 
             partie.afficheResultats();
@@ -384,7 +383,7 @@ public class Tournoi {
 
     }
 
-    public void sortirResultat() {
+    public void sortirResultat() throws IOException {
         String dossier = "IA";
         if (!new File("IA").exists() && !new File("IA").mkdir()) {
             System.out.println("Erreur de creation du fichier");
@@ -392,53 +391,63 @@ public class Tournoi {
         }
 
         if (!this.compoDeuxJoueurs.isEmpty()) {
-            reunirCompositions(this.compoDeuxJoueurs);
+            sortirCompositions(dossier, reunirCompositions(this.compoDeuxJoueurs));
         }
 
         if (!this.compoTroisJoueurs.isEmpty()) {
             reunirCompositions(this.compoTroisJoueurs);
+            sortirCompositions(dossier, compoTroisJoueurs);
         }
 
         if (!this.compoQuatreJoueurs.isEmpty()) {
             reunirCompositions(this.compoQuatreJoueurs);
+            sortirCompositions(dossier, compoQuatreJoueurs);
         }
 
     }
 
-    private void reunirCompositions(ArrayList<Composition> compositions) {
-        ArrayList<ArrayList<Composition>> compoReuni = new ArrayList<>();
-        boolean present;
+    private ArrayList<Composition> reunirCompositions(ArrayList<Composition> compositions) {
+        Composition compoCourante;
+
         for (Composition compo : compositions) {
-            if (compo.getNbCouplage() < compo.composition.size()) {
+            if (compo.getNbCouplage() < compo.getComposition().size()) {
+
                 for (Composition compo2 : compositions) {
                     //Si la composition n'a pas deja ete reuni
-                    if (compo.getComposition().containsAll(compo2.getComposition())) {
+                    if (compo2.getNbMatch() ompo != compo2 && compo.getComposition().containsAll(compo2.getComposition())) {
+
+                        compoCourante = new Composition(compo.getComposition());
                         for (Joueur j : compo2.getComposition()) {
                             compo.getScores().put(j, compo.getScores().get(j) + compo2.getScores().get(j));
                         }
+
+                        
                         compo.effectueCouplage();
-                        compo2.effectueCouplage();
+                        compo2.effectueCouplage(10);
                     }
                 }
             }
         }
+
+        return reunion;
     }
 
     private void sortirCompositions(String dossier, ArrayList<Composition> compositions) throws IOException {
-        dossier = dossier + "\\" + compositions.get(0).getComposition().size() + "-Joueurs";
+        dossier = dossier + "/" + compositions.get(0).getComposition().size() + "-Joueurs";
         File resultats = new File(dossier);
-        if (resultats.exists()) {
-            if (!resultats.delete()) {
-                System.out.println("Erreur de la suppression du fichier IA\\" + compositions.get(0).getComposition().size() + "-Joueurs");
+        if (!resultats.exists()) {
+            if (!resultats.mkdir()) {
+                System.out.println("Erreur de la creation du fichier IA\\" + compositions.get(0).getComposition().size() + "-Joueurs");
                 System.exit(0);
             }
-        }
-        if (!resultats.mkdirs()) {
-            System.out.println("Erreur de la creation du fichier IA\\" + compositions.get(0).getComposition().size() + "-Joueurs");
-            System.exit(0);
+        } else {
+            for (File f : resultats.listFiles()) {
+                f.delete();
+            }
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb;
+        StringBuilder autresJoueurs;
         File fichierJoueur;
         BufferedWriter out;
         for (Joueur joueur : this.IA) {
@@ -447,21 +456,29 @@ public class Tournoi {
                 System.out.println("Erreur de creation du fichier " + dossier + "/" + joueur.getNom());
                 System.exit(0);
             }
+            sb = new StringBuilder();
+            autresJoueurs = new StringBuilder();
             out = new BufferedWriter(new FileWriter(fichierJoueur));
-            
+
             sb.append(joueur.getNom()).append("\n");
-            
+
             for (Composition compo : compositions) {
-                 if (compo.getComposition().contains(joueur)) {
-                     
-                     for (Joueur joueurCompo : compo.getComposition()) {
-                         if (joueur != joueurCompo) {
-                             sb.append(compo.getScores().get(joueurCompo)).append("\t-> ").append(joueurCompo).append("\n");
-                         }
-                     }
-                 }
+                if (compo.getComposition().contains(joueur)) {
+
+                    for (Joueur joueurCompo : compo.getComposition()) {
+                        if (joueur == joueurCompo) {
+                            sb.append((float) (100 * compo.getScores().get(joueurCompo) / compo.nbMatch)).append("\t-> ");
+                        } else {
+                            autresJoueurs.append("   ").append(joueurCompo.getNom());
+                        }
+                    }
+                    sb.append(autresJoueurs.toString()).append("\n");
+                }
+
             }
-            out.write(sb.toString(), 0, sb.length());            
+            out.write(sb.toString(), 0, sb.length());
+            out.flush();
+            out.close();
         }
 
     }
@@ -559,12 +576,22 @@ public class Tournoi {
             this.scores = new HashMap<>();
         }
 
+        public Composition(ArrayList<Joueur> joueurs) {
+            this.nbCouplage = 0;
+            this.composition = joueurs;
+            this.scores = new HashMap<>();
+        }
+
         public void ajouterVictoire(Joueur j) {
             if (!this.scores.containsKey(j)) {
                 this.scores.put(j, 0);
             }
-            this.scores.put(j, this.scores.get(j));
+            this.scores.put(j, this.scores.get(j) + 1);
             this.nbMatch++;
+        }
+
+        public void setNbMatch(int nbMatch) {
+            this.nbMatch = nbMatch;
         }
 
         public void ajouterJoueur(Joueur j) {
@@ -573,6 +600,10 @@ public class Tournoi {
 
         public void effectueCouplage() {
             this.nbCouplage++;
+        }
+
+        public void effectueCouplage(int nb) {
+            this.nbCouplage = nb;
         }
 
         public int getNbCouplage() {
