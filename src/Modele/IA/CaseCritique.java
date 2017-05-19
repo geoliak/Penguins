@@ -39,8 +39,8 @@ public class CaseCritique {
             ancien = c;
         }
     }
-    
-        public void init(ArrayList<Case> voisins, Plateau plateau) {
+
+    public void init(ArrayList<Case> voisins, Plateau plateau) {
         Case ancien = null;
         for (Case c : voisins) {
             if (ancien == null) {
@@ -65,7 +65,7 @@ public class CaseCritique {
     public Case getCassure() {
         return cassure;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -73,12 +73,12 @@ public class CaseCritique {
         for (Case c : this.ilot1) {
             sb.append("ilot1 : ").append(c).append("\n");
         }
-        
+
         for (Case c : this.ilot2) {
             sb.append("ilot2 : ").append(c).append("\n");
         }
         sb.append("\n");
-        
+
         return sb.toString();
     }
 

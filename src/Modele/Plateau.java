@@ -248,21 +248,21 @@ public class Plateau implements Serializable {
 	return res;
     }
 
-    public ArrayList<Case> getCasesIceberg(Case source) {
+    public static ArrayList<Case> getCasesIceberg(Case source) {
 	ArrayList<Case> iceberg = new ArrayList<>();
-	this.getCasesIcebergWorker(source, iceberg);
+	Plateau.getCasesIcebergWorker(source, iceberg);
 	for (Case c : iceberg) {
 	    c.setCoulee(false);
 	}
 	return iceberg;
     }
 
-    private void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
+    private static void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
 	if (!source.estCoulee()) {
 	    iceberg.add(source);
 	    source.setCoulee(true);
 	    for (Case c : source.getVoisinsEmerges()) {
-		this.getCasesIcebergWorker(c, iceberg);
+		Plateau.getCasesIcebergWorker(c, iceberg);
 	    }
 	}
     }
@@ -291,7 +291,7 @@ public class Plateau implements Serializable {
         }
     }
 
-    public int getPoidsIceberg(ArrayList<Case> iceberg) {
+    public static int getPoidsIceberg(ArrayList<Case> iceberg) {
 	int rep = 0;
 
 	for (Case c : iceberg) {
@@ -301,7 +301,7 @@ public class Plateau implements Serializable {
 	return rep;
     }
 
-    public int getNbPinguinIceberg(ArrayList<Case> iceberg) {
+    public static int getNbPinguinIceberg(ArrayList<Case> iceberg) {
 	int rep = 0;
 
 	for (Case c : iceberg) {
@@ -313,7 +313,7 @@ public class Plateau implements Serializable {
 	return rep;
     }
 
-    public HashMap<Joueur, ArrayList<Pinguin>> getPinguinsIceberg(ArrayList<Case> iceberg) {
+    public static HashMap<Joueur, ArrayList<Pinguin>> getPinguinsIceberg(ArrayList<Case> iceberg) {
 	HashMap<Joueur, ArrayList<Pinguin>> rep = new HashMap<>();
 
 	for (Case c : iceberg) {
@@ -330,7 +330,7 @@ public class Plateau implements Serializable {
 	return rep;
     }
 
-    public int getNbJoueurIceberg(ArrayList<Case> iceberg) {
+    public static int getNbJoueurIceberg(ArrayList<Case> iceberg) {
 	HashSet<Joueur> joueurs = new HashSet<>();
 
 	for (Case c : iceberg) {
@@ -346,7 +346,7 @@ public class Plateau implements Serializable {
 	}
     }
 
-    public ArrayList<Joueur> getJoueursIceberg(ArrayList<Case> iceberg) {
+    public static ArrayList<Joueur> getJoueursIceberg(ArrayList<Case> iceberg) {
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 
 	for (Case c : iceberg) {
