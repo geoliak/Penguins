@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.ClientJeu;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+import Modele.ServeurJeu;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -47,4 +49,11 @@ public class AccueilController implements Initializable {
 	((MyImageView) e.getSource()).setEffect(null);
     }
 
+    public void reseau(MouseEvent e) throws IOException{
+        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/JouerReseau.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
+    }
 }

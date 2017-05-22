@@ -131,16 +131,19 @@ public class FenetreJeuController {
                 etoile1.setLayoutX(130);
                 etoile1.setLayoutY(155);
                 stars[j.getNumero()][0] = etoile1;
+                //etoile1.setOnMouseClicked(new MouseClickerStar(0, stars[j.getNumero()], yellow, grey, j.getNumero()));
                 
                 ImageView etoile2 = new ImageView(grey);
                 etoile2.setLayoutX(160);
                 etoile2.setLayoutY(155);
                 stars[j.getNumero()][1] = etoile2;
+                //etoile2.setOnMouseClicked(new MouseClickerStar(1, stars[j.getNumero()], yellow, grey, j.getNumero()));
                 
                 ImageView etoile3 = new ImageView(grey);
                 etoile3.setLayoutX(190);
                 etoile3.setLayoutY(155);
                 stars[j.getNumero()][2] = etoile3;
+                //etoile3.setOnMouseClicked(new MouseClickerStar(2, stars[j.getNumero()], yellow, grey, j.getNumero()));
 
 
                 if(j.getDifficulte() > 1){
@@ -172,6 +175,7 @@ public class FenetreJeuController {
             ConfigurationPartie.getConfigurationPartie().setInitpingoos(initpingoos);
             
             ConfigurationPartie.getConfigurationPartie().setLabelScore(labelScore, j.getNumero());
+//            ConfigurationPartie.getConfigurationPartie().getLabelNoms()[j.getNumero()] = labelNom;
             
             ((VBox) v).getChildren().add(ap);
         }
