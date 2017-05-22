@@ -44,7 +44,7 @@ public class EtablirMeilleurChemin extends Thread {
     }
 
     public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant) {
-        if (System.nanoTime() - this.lastModif > 5E6) {
+        if (System.nanoTime() - this.lastModif > 5E8) {
             //System.out.println("lastModif perime " + (System.nanoTime() - this.debutThread));
             this.stopThread();
             return cheminCourant;

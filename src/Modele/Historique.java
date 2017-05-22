@@ -29,16 +29,16 @@ public class Historique implements Serializable {
 
     public void sauvegarderCoup() {
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain()) {
-	    System.out.println("indice ou le nouveau coup va " + indice);
+	    //System.out.println("indice ou le nouveau coup va " + indice);
 	    Coup nouveauCoup = new Coup();
 	    historiqueCoups.add(indice, nouveauCoup);
 	    indice++;
-	    System.out.println("indice " + indice + " size " + historiqueCoups.size());
+	    //System.out.println("indice " + indice + " size " + historiqueCoups.size());
 
 	    if (historiqueCoups.size() > indice) {
 		for (int i = indice; i < historiqueCoups.size();) {
 		    historiqueCoups.remove(i);
-		    System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
+		    //System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
 		}
 	    }
 	}

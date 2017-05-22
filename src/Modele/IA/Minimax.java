@@ -11,6 +11,7 @@ import Modele.Partie;
 import Modele.Pinguin;
 import Modele.Plateau;
 import Modele.TypeAutre.MyPair;
+import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -251,7 +252,7 @@ public class Minimax {
 
         @Override
         public void run() {
-            this.res = -Minimax.NegaMaxElagage(plateau, pinguinsJoueur2, pinguinsJoueur1, profondeur, Integer.MAX_VALUE, Integer.MIN_VALUE, 0, this.caseEtudiee.getNbPoissons());
+            this.res = -Minimax.NegaMaxElagage(plateau, pinguinsJoueur1, pinguinsJoueur2 , profondeur, Integer.MAX_VALUE, Integer.MIN_VALUE, 0, this.caseEtudiee.getNbPoissons()+ this.pointsInitiaux);
             //this.res = -Minimax.NegaMax(plateau, pinguinsJoueur1, pinguinsJoueur2, profondeur, 0, this.caseEtudiee.getNbPoissons() + this.pointsInitiaux);
         }
     }
@@ -318,7 +319,7 @@ public class Minimax {
 
         //On stop l'enumeration
         if (profondeur == 0) {
-            return poidsChemin1 + JoueurIA.evaluationEtatV2(pinguinsJoueur1, plateau);
+            return poidsChemin1 + JoueurIA.evaluationEtatV2(pinguinsJoueur1, plateau) - JoueurIA.evaluationEtatV2(pinguinsJoueur2, plateau);
 
         } else {
             //On retire les pinguins qui sont dans un etat final
@@ -331,7 +332,8 @@ public class Minimax {
 
                     //Si le joueur est seul sur l'iceberg alors on considere que le joueur gagne les points de cet iceberg
                 } else if (Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition())) == 1) {
-                    poidsFeuille += Plateau.getPoidsIceberg(Plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition())) / Plateau.getNbPinguinIceberg(Plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition()));
+                    ArrayList<Case> iceberg = Plateau.getCasesIceberg(pinguinsJoueur1.get(i).getPosition());
+                    poidsFeuille +=  Plateau.getPoidsIceberg(iceberg) / Plateau.getNbPinguinIceberg(iceberg);
                     pinguinsJoueur1.remove(i);
                     i--;
                 }
@@ -339,7 +341,7 @@ public class Minimax {
 
             //Feuille
             if (pinguinsJoueur1.isEmpty()) {
-                return poidsChemin1 + poidsFeuille;
+                return poidsChemin1 + JoueurIA.evaluationEtatV2(pinguinsJoueur1, plateau) - JoueurIA.evaluationEtatV2(pinguinsJoueur2, plateau) + poidsFeuille - poidsChemin2;
             }
 
             //Pour tous les pinguins du joueur courant

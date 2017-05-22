@@ -10,6 +10,7 @@ import Modele.Couleur;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA2;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIA9;
 import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
@@ -405,7 +406,7 @@ public class ParamJeuController implements Initializable {
 	Partie partie = new Partie(plateau, joueurs);
 
 
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau9"));
+	partie.setPlateau(new Plateau("ressources/plateaux/plateau25"));
 
 	return partie;
     }

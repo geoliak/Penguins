@@ -26,8 +26,8 @@ import java.util.Scanner;
 public class Spartacus {
 
     public static void main(String[] args) {
-	GenereIA genereIA = new GenereIA(new JoueurIA(Couleur.Rouge, "Dans ta gueule", 1));
-	int tailleGroupe = 40;
+	GenereIA genereIA = new GenereIA();
+	int tailleGroupe = 30;
 	int generation = 0;
 	Tournoi theArena;
 	ArrayList<Joueur> groupeCourant = genereIA.genererGroupeIndividu(tailleGroupe, generation, 0);
@@ -41,7 +41,7 @@ public class Spartacus {
         
 	while (generation < nbGeneration) {
 
-	    theArena = new Tournoi(10);
+	    theArena = new Tournoi(1);
 	    for (Joueur j : groupeCourant) {
 		theArena.ajouterIA(j);
 	    }
@@ -52,7 +52,7 @@ public class Spartacus {
 	    System.out.println("Generation " + generation);
 	    theArena.afficheResultats(true, false, false);
 
-	    groupeCourant = genereIA.nouvelleGeneration(groupeCourant, tailleGroupe, generation);
+	    groupeCourant = genereIA.nouvelleGeneration(resultats, tailleGroupe, generation);
             
             
             

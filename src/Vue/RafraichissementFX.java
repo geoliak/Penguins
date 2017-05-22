@@ -98,9 +98,9 @@ public class RafraichissementFX extends AnimationTimer {
                     if (!partie.getJoueurCourant().getEstHumain()) {
                         partie.setTourFini(false);
                         //
-                        System.out.println("JOUEUR COURANT " + partie.getJoueurCourant().getNom() + " " + partie.getJoueurCourant().getCouleur().getNom());
+                        //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant().getNom() + " " + partie.getJoueurCourant().getCouleur().getNom());
                         partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
-                        System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
+                        //System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
                         
                         for (Joueur j : partie.getJoueurs()) {
                             for (Pinguin p : j.getPinguinsVivants()) {
