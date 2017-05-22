@@ -23,4 +23,9 @@ public abstract class JoueurHumain extends Joueur {
     public void attendreCoup(Partie partie){
         
     }
+    
+    @Override
+    public String getSpecialitees() {
+        return this.getNom() + " -> Joueur Humain";
+    }
 }

@@ -201,4 +201,6 @@ public abstract class Joueur implements Serializable {
     public String toString() {
 	return this.getCouleur() + this.nom + Couleur.ANSI_RESET;
     }
+    
+    public abstract String getSpecialitees();
 }

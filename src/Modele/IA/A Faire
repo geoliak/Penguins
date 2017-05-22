@@ -10,4 +10,6 @@ verifier les GetIceberg avec cassure
 
 verifier le existe chemin
 
-La poderation de l'arbre ne devrait elle pas ne représenter que le joueur1 ?
+La ponderation de l'arbre ne devrait elle pas ne représenter que le joueur1 ?
+
+cloner les joueurs pour multithreader les tournois

@@ -29,7 +29,7 @@ public class JoueurMinimax extends JoueurIA {
     public Case phaseJeu(Partie partie) {
 	Case caseChoisie = null;
 
-	caseChoisie = JoueurIA.minimax(this, partie, 100);
+	caseChoisie = JoueurIA.minimax(this, partie);
 	return caseChoisie;
 
 	/*

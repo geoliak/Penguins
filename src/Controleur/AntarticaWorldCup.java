@@ -15,13 +15,11 @@ import Modele.IA.JoueurIA7;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurMinimax;
 import Modele.Tournoi;
-<<<<<<< HEAD
 import Vue.DessinateurTexte;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-=======
->>>>>>> a6880c0c6fce86af8b47275e2fd1872cd3eec962
+
 
 /**
  *
@@ -30,7 +28,7 @@ import java.util.logging.Logger;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-	Tournoi worldCup = new Tournoi(100);
+	Tournoi worldCup = new Tournoi(200);
 
 
        /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
@@ -44,9 +42,9 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA1(Couleur.VioletFX, 2));
 
 
-	worldCup.executerLesCombats(true, false, false);
+	worldCup.executerLesCombats(true, true, true);
         
-        worldCup.afficheResultats(true, false, false);
+        worldCup.afficheResultats(true, true, true);
         
         try {
             worldCup.sortirResultat();

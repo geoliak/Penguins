@@ -21,6 +21,8 @@ import Vue.DessinateurTexte;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -301,9 +303,7 @@ public class JoueurIA extends Joueur {
 
         joueur.setPinguinCourant(p);
 
-        System.out.print(" (sans cassure ");
         iceberg = partie.getPlateau().getCasesIcebergSansCassures(p.getPosition());
-        System.out.print("- Ok)");
         tailleMaximale = iceberg.size();
         for (Case c : iceberg) {
             if (c.getPinguin() != null) {
@@ -311,25 +311,27 @@ public class JoueurIA extends Joueur {
             }
         }
 
-        //Methode1 75%  du meilleur chemin
-        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.60)));
-        //Methode2 100% à 3sec max
+        //Methode1 70%  du meilleur chemin
+        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.10)+1));
+        
+//Methode2 100% à 3sec max
         /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
-         meilleurChemin.start();
+        meilleurChemin.start();
 
-         long startTime;
+        long startTime;
 
-         startTime = System.nanoTime();
-         while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
-         //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
-         }
-         meilleurChemin.stopThread();
-         try {
-         meilleurChemin.join();
-         System.out.println("Deces " + (System.nanoTime() - startTime));
-         } catch (InterruptedException ex) {
-         Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+        startTime = System.nanoTime();
+        while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E7) {
+            //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
+        }
+        meilleurChemin.stopThread();
+        try {
+            meilleurChemin.join();
+            //System.out.println("Deces " + (System.nanoTime() - startTime));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+
         try {
             caseChoisie = joueur.getChemin().remove(0);
         } catch (Exception e) {
@@ -337,6 +339,11 @@ public class JoueurIA extends Joueur {
             partie.getPlateau().accept(dt);
             System.out.println("");
         }
+/*
+        if (joueur.getChemin().size() != tailleMaximale - 1) {
+            joueur.getChemin().removeAll(joueur.getChemin());
+        }
+        */
 
         /*System.out.println("Taille pinguin vivants : " + super.getPinguinsVivants().size());
          System.out.println("seul " + p.getPosition().getNumLigne() + "," + p.getPosition().getNumColonne());
@@ -688,7 +695,8 @@ public class JoueurIA extends Joueur {
     }
 
     //WOLOLO
-    public static Case minimax(Joueur joueur, Partie partie, int depart) {
+    public static Case minimax(Joueur joueur, Partie partie) {
+        System.out.println("Minimax ");
         ArrayList<Joueur> joueurs;
         Joueur adversaire;
         HashMap<Joueur, ArrayList<Pinguin>> pinguinDeJoueurs;
@@ -698,12 +706,9 @@ public class JoueurIA extends Joueur {
         for (Pinguin p : ((JoueurIA) joueur).getPinguinNonIsole()) {
             iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
             tailleIceberg = iceberg.size();
-            if (depart < tailleIceberg) {
-                break;
-            }
 
             if (Plateau.getNbJoueurIceberg(iceberg) == 2) {
-                if (tailleIceberg <=18) {
+                if (tailleIceberg <= 18) {
                     profondeur = 18;
                 } else if (tailleIceberg < 25) {
                     profondeur = 6;
@@ -726,10 +731,11 @@ public class JoueurIA extends Joueur {
                 MyPair<Case, Pinguin> rep = minimax.executeNegamaxMultiThread(profondeur);
 
                 joueur.setPinguinCourant(rep.getR());
+                System.out.println(" - OK");
                 return rep.getL();
             }
         }
-
+System.out.println(" - OK");
         return null;
     }
 
@@ -748,6 +754,11 @@ public class JoueurIA extends Joueur {
         for (Case c : this.chemin) {
             System.out.println(c.getNumLigne() + "," + c.getNumColonne());
         }
+    }
+
+    @Override
+    public String getSpecialitees() {
+        return this.getNom() + "Joueur IA";
     }
 
 }
