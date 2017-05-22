@@ -122,7 +122,7 @@ public class Minimax {
 
             //Feuille
             if (pinguinsJoueur1.isEmpty()) {
-                return poidsChemin1 + poidsFeuille;
+                return poidsChemin1 + poidsFeuille - poidsChemin2;
             }
 
             //Pour tous les pinguins du joueur courant
@@ -251,8 +251,8 @@ public class Minimax {
 
         @Override
         public void run() {
-            //this.res = Minimax.NegaMaxElagage(plateau, pinguinsJoueur2, pinguinsJoueur1, profondeur, Integer.MAX_VALUE, Integer.MIN_VALUE, 0, this.caseEtudiee.getNbPoissons());
-            this.res = -Minimax.NegaMax(plateau, pinguinsJoueur1, pinguinsJoueur2, profondeur, 0, this.caseEtudiee.getNbPoissons() + this.pointsInitiaux);
+            this.res = -Minimax.NegaMaxElagage(plateau, pinguinsJoueur2, pinguinsJoueur1, profondeur, Integer.MAX_VALUE, Integer.MIN_VALUE, 0, this.caseEtudiee.getNbPoissons());
+            //this.res = -Minimax.NegaMax(plateau, pinguinsJoueur1, pinguinsJoueur2, profondeur, 0, this.caseEtudiee.getNbPoissons() + this.pointsInitiaux);
         }
     }
 

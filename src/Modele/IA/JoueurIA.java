@@ -696,7 +696,7 @@ public class JoueurIA extends Joueur {
                 } else {
                     profondeur = 3;
                 }
-                System.out.print("profondeur " + profondeur);
+                //System.out.print("profondeur " + profondeur);
 
                 joueurs = Plateau.getJoueursIceberg(iceberg);
                 joueurs.remove(joueur);
@@ -708,7 +708,7 @@ public class JoueurIA extends Joueur {
                 MyPair<Case, Pinguin> rep = minimax.executeNegamaxMultiThread(profondeur);
 
                 joueur.setPinguinCourant(rep.getR());
-                System.out.println(" - OK");
+                //System.out.println(" - OK");
                 return rep.getL();
             }
         }

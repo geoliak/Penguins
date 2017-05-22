@@ -76,7 +76,7 @@ public class Partie implements Serializable {
         if(demo == null){
             switch (joueurs.size()) {
                 case 2:
-                    nbPinguin = 4;
+                    nbPinguin = 2;
                     break;
                 case 3:
                     nbPinguin = 3;
