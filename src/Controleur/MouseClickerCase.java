@@ -8,23 +8,11 @@ package Controleur;
 import Modele.Case;
 import Modele.ConfigurationPartie;
 import Modele.Joueur;
-import Modele.JoueurHumain;
 import Modele.MyPolygon;
 import Modele.Partie;
 import Modele.Pinguin;
-import Vue.AnimationFX;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 /**
  *
@@ -54,13 +42,15 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 
 	// Joueur Humain
 	if (partie.getJoueurCourant().getEstHumain() && partie.isTourFini()) {
-	    partie.sauvegarderCoup();
+	    if (partie.getHistorique().sauvegardeDebut()) {
+		partie.getHistorique().sauvegarderCoup();
+	    }
 
 	    partie.setTourFini(false);
 	    // Initialisation : Placement pingouins
 	    if (partie.estEnInitialisation()) {
 		if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
-		    //System.out.println("BLABLA");
+
 		    partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
 		    partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
 		    partie.getPlateau().setEstModifié(true);
@@ -76,10 +66,10 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 		if (pingouin != null) {
 		    Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
 		    if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
-
+			partie.getHistorique().sauvegarderCoup();
 			pingouin.deplace(caseDest);
 
-			partie.getPlateau().setEstModifié(true);
+//			partie.getPlateau().setEstModifié(true);
 			for (Joueur j : partie.getJoueurs()) {
 			    for (Pinguin p : j.getPinguinsVivants()) {
 				if (p.getPosition().estCoulee()) {

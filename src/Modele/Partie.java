@@ -73,7 +73,6 @@ public class Partie implements Serializable {
 
     public void setNbPingouinParJoueur() {
 	int nbPinguin = 0;
-	System.out.println("DEMO " + demo);
         if(demo == null){
             switch (joueurs.size()) {
                 case 2:
@@ -89,7 +88,7 @@ public class Partie implements Serializable {
         } else {
             nbPinguin = 2;
         }
-	
+        
 	nbPingouinParJoueur = nbPinguin;
     }
 
@@ -174,11 +173,10 @@ public class Partie implements Serializable {
 
     public void afficheResultats() {
 	if (this.estTerminee()) {
-	    this.joueursEnJeu.add(joueurCourant);
 	    for (Joueur j : this.getJoueurGagnant()) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
 	    }
-	    for (Joueur j : this.joueursEnJeu) {
+	    for (Joueur j : this.joueurs) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
 	    }
 	}
@@ -192,12 +190,6 @@ public class Partie implements Serializable {
 	    }
 	}
 	return joueurs;
-    }
-
-    public void sauvegarderCoup() {
-	if (joueurCourant.getEstHumain()) {
-	    historique.sauvegarderCoup();
-	}
     }
 
     public Plateau getPlateau() {

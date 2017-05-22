@@ -9,8 +9,6 @@ import Modele.Case;
 import Modele.Couleur;
 import Modele.IA.Methodes.PhaseInitialisationGourmande;
 import Modele.Partie;
-import Modele.Pinguin;
-import Vue.DessinateurTexte;
 
 /**
  *
@@ -19,28 +17,27 @@ import Vue.DessinateurTexte;
 public class JoueurMinimax extends JoueurIA {
 
     public JoueurMinimax(Couleur couleur, int numero) {
-        super(couleur, "JoueurIA Minimax", numero);
+	super(couleur, "JoueurIA Minimax", numero);
     }
 
     @Override
     public Case phaseInitialisation(Partie partie) {
-        return this.phaseInitialisationMaxPossibilitee(partie);
+	return this.phaseInitialisationMaxPossibilitee(partie);
     }
 
     @Override
     public Case phaseJeu(Partie partie) {
-        Case caseChoisie = null;
+	Case caseChoisie = null;
 
-        caseChoisie = JoueurIA.minimax(this, partie, false);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
+	caseChoisie = JoueurIA.minimax(this, partie);
+	return caseChoisie;
 
-        caseChoisie = this.chercherVictimeSimple(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
-        }
+	/*
+	 caseChoisie = this.chercherVictimeSimple(partie);
+	 if (caseChoisie != null) {
+	 return caseChoisie;
+	 }
 
-        return super.phaseJeuMaxPossibilitee(partie);
+	 return super.phaseJeuMaxPossibilitee(partie);*/
     }
 }

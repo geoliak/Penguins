@@ -5,32 +5,22 @@
  */
 package Controleur;
 
-import Modele.Historique;
-import Controleur.Test;
 import Modele.ConfigurationPartie;
 import Modele.Couleur;
-import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
-import Modele.IA.JoueurIA5;
-import Modele.IA.JoueurIA6;
+import Modele.IA.JoueurIA2;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
-import Modele.JoueurHumain;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
 import Modele.Plateau;
-import Vue.AnimationFX;
-import Vue.DessinateurFX;
-import Vue.RafraichissementFX;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,15 +28,14 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -414,8 +403,6 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	//partie.setPlateau(new Plateau("ressources/plateaux/plateau3"));
-        
 	return partie;
     }
     

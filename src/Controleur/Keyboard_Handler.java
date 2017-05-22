@@ -7,6 +7,7 @@ package Controleur;
 
 import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
+import Modele.SuggestionCoup;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +61,16 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
 	}//Peut etre utilise pour des tests, pas assigne
 	else if (event.isControlDown() && event.getCode() == KeyCode.P) {
-	    System.out.println("Bouton pas utilisé");
+	    System.out.println("bouton pas utilise");
+
+	}//Suggestion du prochain coup
+	else if (event.isControlDown() && event.getCode() == KeyCode.C) {
+
+	    try {
+		SuggestionCoup.suggestionCoup();
+	    } catch (InterruptedException ex) {
+		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 
 	}
     }

@@ -10,13 +10,10 @@ import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
-import Modele.Plateau;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 
 /**
  *
@@ -54,7 +51,6 @@ public class RafraichissementFX extends AnimationTimer {
             for(Joueur j : partie.getJoueurs()){
                 j.accept(d);
             }
-            
 	    partie.getPlateau().setEstModifié(false);
 	}
 
@@ -63,11 +59,11 @@ public class RafraichissementFX extends AnimationTimer {
 	    if (partie.estEnInitialisation()) {
 		// Si tout les pingouins ont été placés
 		if (partie.nbPingouinsTotal() == partie.getNbPingouinParJoueur() * partie.getJoueurs().size()) {
-                    for(Case[] cases : partie.getPlateau().getCases()){
-                        for(Case c : cases){
-                            c.setAccessible(false);
-                        }
-                    }
+		    for (Case[] cases : partie.getPlateau().getCases()) {
+			for (Case c : cases) {
+			    c.setAccessible(false);
+			}
+		    }
 		    partie.setInitialisation(false);
                     if(partie.getDemo() != null){
                         partie.getDemo().nextPhase();
@@ -76,7 +72,7 @@ public class RafraichissementFX extends AnimationTimer {
 		    for (Joueur j : partie.getJoueursEnJeu()) {
 			j.setPret(Boolean.TRUE);
 		    }
-                    
+
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
                     
                     if(partie.getDemo()!=null){
@@ -85,8 +81,8 @@ public class RafraichissementFX extends AnimationTimer {
                     
                     partie.getPlateau().setEstModifié(true);
 		}
-	    } 
-            
+	    }
+
 	    if (partie.isTourFini()) {
 		//partie.getJoueurCourant().attendreCoup(partie);
                 if (partie.estEnInitialisation()) {
@@ -122,7 +118,7 @@ public class RafraichissementFX extends AnimationTimer {
                 
                 
 	    }
-            
+
 	    for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {
                     if (p.getPosition().estCoulee()) {
@@ -140,11 +136,11 @@ public class RafraichissementFX extends AnimationTimer {
 		partie.afficheResultats();
 		//Platform.exit();
 		this.resultatAffiches = true;
-                try {
-                    PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(RafraichissementFX.class.getName()).log(Level.SEVERE, null, ex);
-                }
+		try {
+		    PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
+		} catch (FileNotFoundException ex) {
+		    Logger.getLogger(RafraichissementFX.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	    }
 
 	}

@@ -5,19 +5,16 @@
  */
 package Modele;
 
-import Modele.Case;
-import Modele.Plateau;
-
 /**
  *
  * @author novelm
  */
 public abstract class Visiteur {
-    
+
     public abstract void visite(Plateau plateau);
-    
+
     public abstract void visite(Case c);
-    
+
     public abstract void visite(Pinguin p);
 
     public abstract void visit(Joueur j);

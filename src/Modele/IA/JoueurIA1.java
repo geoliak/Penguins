@@ -6,8 +6,6 @@
 package Modele.IA;
 
 import Modele.Couleur;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Choisie un pinguin aléatoirement et le fait jouer aleatoirement
@@ -17,6 +15,6 @@ import java.util.Random;
 public class JoueurIA1 extends JoueurIA {
 
     public JoueurIA1(Couleur couleur, int numero) {
-        super(couleur, "JoueurIA1", numero);
+	super(couleur, "JoueurIA1", numero);
     }
 }
