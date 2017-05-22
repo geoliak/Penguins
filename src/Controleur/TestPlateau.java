@@ -28,16 +28,16 @@ public class TestPlateau extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-	Plateau p = new Plateau("ressources/plateaux_jeu/plateau3");
-
-	ArrayList<Joueur> joueurs = new ArrayList<>();
-	joueurs.add(new JoueurHumainLocal("jean", Couleur.RougeFX, 0));
-
-	Partie partie = new Partie(p, joueurs);
-
-	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-
-	FenetreJeuController f = new FenetreJeuController();
-	f.creerFenetreJeu(new Stage());
+        Plateau p = new Plateau("ressources/plateaux_didacticiel/plateau_init_move");
+        
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+        joueurs.add(new JoueurHumainLocal("jean", Couleur.RougeFX, 0));
+        
+        Partie partie = new Partie(p, joueurs);
+        
+        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+        
+        FenetreJeuController f = new FenetreJeuController();
+        f.creerFenetreJeu(new Stage());
     }
 }

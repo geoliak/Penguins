@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 public class FenetreJeuController {
 
     public void creerFenetreJeu(Stage stage) {
+        System.out.println(ConfigurationPartie.getConfigurationPartie().getPartie());
 	BorderPane b = new BorderPane();
 
 	VBox scores = new VBox();

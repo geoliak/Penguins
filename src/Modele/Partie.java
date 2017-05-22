@@ -25,6 +25,7 @@ public class Partie implements Serializable {
     private boolean tourFini;
     private boolean reloadPartie;
     private Historique historique;
+    private Demo demo;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
 	this.initialisation = true;
@@ -41,6 +42,26 @@ public class Partie implements Serializable {
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
     }
+    
+    public Partie(Plateau plateau, ArrayList<Joueur> joueurs, boolean demo) {
+	this.initialisation = true;
+	this.plateau = plateau;
+	this.joueurs = joueurs;
+
+	this.joueursEnJeu = (ArrayList<Joueur>) joueurs.clone();
+	this.joueurCourant = joueursEnJeu.remove(0);
+
+	this.tourFini = true;
+
+	this.historique = new Historique();
+	setPositionsPossiblesInit(true);
+	//Ne pas mettre après remove joueur
+	setNbPingouinParJoueur();
+        
+        if(demo){
+            this.demo = new Demo();
+        }
+    }
 
     public int nbPingouinsTotal() {
 	int nb = 0;
@@ -52,18 +73,22 @@ public class Partie implements Serializable {
 
     public void setNbPingouinParJoueur() {
 	int nbPinguin = 0;
-	//System.out.println("JOUEURS SIZE: " + joueurs.size());
-	switch (joueurs.size()) {
-	    case 2:
-		nbPinguin = 2;
-		break;
-	    case 3:
-		nbPinguin = 3;
-		break;
-	    case 4:
-		nbPinguin = 2;
-		break;
-	}
+        if(demo == null){
+            switch (joueurs.size()) {
+                case 2:
+                    nbPinguin = 4;
+                    break;
+                case 3:
+                    nbPinguin = 3;
+                    break;
+                case 4:
+                    nbPinguin = 2;
+                    break;
+            }
+        } else {
+            nbPinguin = 2;
+        }
+        
 	nbPingouinParJoueur = nbPinguin;
     }
 
@@ -112,10 +137,16 @@ public class Partie implements Serializable {
     }
 
     public Boolean estTerminee() {
-	Boolean res = joueurCourant.estEnJeu();
-	for (Joueur j : this.joueursEnJeu) {
-	    res = res || j.estEnJeu();
-	}
+        Boolean res;
+        if(demo == null){
+            res = joueurCourant.estEnJeu();
+            for (Joueur j : this.joueursEnJeu) {
+                res = res || j.estEnJeu();
+            }
+        }else {
+            return demo.isDemoFinie();
+        }
+	
 	return !res;
     }
 
@@ -236,5 +267,13 @@ public class Partie implements Serializable {
 	    }
 	}
 
+    }
+
+    public Demo getDemo() {
+        return demo;
+    }
+
+    public void setDemo(Demo demo) {
+        this.demo = demo;
     }
 }

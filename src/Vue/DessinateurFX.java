@@ -9,6 +9,7 @@ import Controleur.MouseClickerCase;
 import Controleur.MouseClickerPenguin;
 import Modele.Case;
 import Modele.ConfigurationPartie;
+import Modele.Demo;
 import Modele.Joueur;
 import Modele.MyPolygon;
 import Modele.Partie;
@@ -23,7 +24,9 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.SepiaTone;
 import Modele.MyImageView;
 import java.io.File;
+import javafx.animation.Animation;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -56,25 +59,31 @@ public class DessinateurFX extends Visiteur {
 	size = sizeGlacon * proportion;
 	height = size * 2;
 	width = height * Math.sqrt(3 / 2);
-	joueurCourant = partie.getJoueurCourant();
-	a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1.2, 200);
+        joueurCourant = partie.getJoueurCourant();
+        a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1.2, 200);
+        
+        if(partie.getDemo() != null){
+            Label label = new Label();
+            label.setId("consigne");
+            ((AnchorPane) this.root).getChildren().add(label);
+            label.setLayoutX(100);
+            label.setLayoutY(100);
+        }
     }
 
     @Override
     public void visite(Plateau plateau) {
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
-
-	boolean animFini = false;
-
-	if (joueurCourant != partie.getJoueurCourant() && !partie.estTerminee()) {
-	    Transition t1 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
-	    Transition t2 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[partie.getJoueurCourant().getNumero()].getParent(), 1.2, 200);
-
-	    joueurCourant = partie.getJoueurCourant();
-	} else if (partie.estTerminee()) {
-	    Transition t3 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
-	}
+        
+        if(joueurCourant != partie.getJoueurCourant() && !partie.estTerminee()){
+            Transition t1 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+            Transition t2 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[partie.getJoueurCourant().getNumero()].getParent(), 1.2, 200);
+            
+            joueurCourant = partie.getJoueurCourant();
+        } else if(partie.estTerminee()){
+            Transition t3 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+        }
 
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    //System.out.println("===================RELOAD=======================");
@@ -183,6 +192,7 @@ public class DessinateurFX extends Visiteur {
 		    partie.setTourFini(false);
 		}
 		Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
+                
 		t.setOnFinished(new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent event) {
@@ -213,11 +223,7 @@ public class DessinateurFX extends Visiteur {
 	    }
 	}
     }
-
-    public void setPartie(Partie partie) {
-	this.partie = partie;
-    }
-
+    
     public void visit(Joueur j) {
 	try {
 	    Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
@@ -232,5 +238,20 @@ public class DessinateurFX extends Visiteur {
 	} catch (Exception e) {
 	    System.out.println("erreur - visisteScore : " + e.getMessage());
 	}
+    }
+    
+    public void visit(Demo d){
+        Label label = (Label) ((AnchorPane) this.root).lookup("#consigne");
+        if(!partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
+            label.setText("");
+
+            a.AnimateText(label, partie.getDemo().getConsigne());
+        }
+    }
+    
+    
+
+    public void setPartie(Partie partie) {
+	this.partie = partie;
     }
 }
