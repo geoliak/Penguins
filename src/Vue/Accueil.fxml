@@ -37,7 +37,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MyImageView>
-            <MyImageView fitHeight="117.0" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView fx:id="demo" onMouseClicked="#lancerDidacticiel" fitHeight="117.0" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_didacticiel_resize.png" />
                </image>

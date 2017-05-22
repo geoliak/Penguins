@@ -51,42 +51,18 @@ public class JoueurIA extends Joueur {
         return this.pinguinsSontSeuls();
     }
 
-    @Override
-    public void attendreCoup(Partie partie) {
-        if (partie.isTourFini()) {
-            // Initialisation
-            if (partie.estEnInitialisation()) {
+    public ArrayList<Pinguin> getPinguinNonIsole() {
+        ArrayList<Pinguin> pinguins = new ArrayList<>();
 
-                if (!partie.getJoueurCourant().getEstHumain()) {
-                    //Défini placement pingouin
-                    partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie));
-                    partie.getPlateau().setEstModifié(true);
-                    partie.joueurSuivant();
-                }
-                // Phase de jeu : Tour IA
-            } else {
-                if (!partie.getJoueurCourant().getEstHumain()) {
-                    //System.out.println("TOUR IA =======================");
-                    partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
-                    //System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
-                    partie.getPlateau().setEstModifié(true);
-                    for (Joueur j : partie.getJoueurs()) {
-                        for (Pinguin p : j.getPinguinsVivants()) {
-                            if (p.getPosition().getCasePossibles().size() == 0) {
-                                p.coullePinguin();
-                                partie.getPlateau().setEstModifié(true);
-                            }
-                        }
-                    }
-                    partie.joueurSuivant();
-                    //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
-                    //System.out.println("Fin tour IA");
-                }
+        for (Pinguin p : this.getPinguinsVivants()) {
+            if (!p.estSeul()) {
+                pinguins.add(p);
             }
         }
 
+        return pinguins;
     }
-
+    
     @Override
     public void reset() {
         super.reset();

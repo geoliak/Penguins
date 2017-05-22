@@ -71,8 +71,6 @@ public abstract class Joueur implements Serializable {
 	this.getPinguinCourant().deplace(c);
     }
 
-    public abstract void attendreCoup(Partie partie);
-
     /**
      * Si cette methode est utilisee par l'IA alors elle va place le pinguin
      * choisi en tant que pinguinCourant puis renvoyer la case destination de ce

@@ -34,7 +34,9 @@ public class Plateau implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
         String ligne;
         ligne = br.readLine();
+        System.out.println(ligne);
         if (ligne.equals("jeu")) {
+            System.out.println("JEU");
             this.lireFichierJeu(fichierPlateau, br);
             this.initCase();
         } else {

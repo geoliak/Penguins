@@ -12,6 +12,12 @@ import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
+import javafx.animation.Animation;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
@@ -55,5 +61,22 @@ public class AnimationFX {
 
 	st.play();
 	return st;
+    }
+    
+    public Transition AnimateText(Label lbl, String descImp) {
+        String content = descImp;
+        final Transition animation = new Transition() {
+            {
+                setCycleDuration(Duration.millis(2000));
+            }
+
+            protected void interpolate(double frac) {
+                final int length = content.length();
+                final int n = Math.round(length * (float) frac);
+                lbl.setText(content.substring(0, n));
+            }
+        };
+        animation.play();
+        return animation;
     }
 }

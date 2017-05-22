@@ -131,7 +131,7 @@ public class ParamJeuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+	((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
     }
 
     public void arrowClick(MouseEvent e) {
@@ -342,8 +342,11 @@ public class ParamJeuController implements Initializable {
     }
 
     public Partie creationPartie() throws IOException {
-	Plateau plateau = new Plateau("ressources/plateaux/plateau1");
-	plateau.initCase();
+        System.out.println(terrainCharge);
+        
+	Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
+        //System.out.println("PARTIE PLATEAU 3");
+	//plateau.initCase();
 
 	String[] names = new String[4];
 	Couleur[] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
@@ -400,24 +403,25 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau1"));
-
 	return partie;
     }
-
-    public void changerTerrain(MouseEvent e) {
-	if (e.getSource().equals(nextTerrain)) {
-	    if (terrainCharge < 3) {
-		terrainCharge++;
-	    } else {
-		terrainCharge = 1;
-	    }
-	    String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
-	    ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
-	} else if (e.getSource().equals(prevTerrain)) {
-
-	}
+    
+    public void changerTerrain(MouseEvent e){
+        if(e.getSource().equals(nextTerrain)){
+            if(terrainCharge<3){
+                terrainCharge ++;
+            } else {
+                terrainCharge = 1;
+            }
+        } else if(e.getSource().equals(prevTerrain)){
+            if(terrainCharge>1){
+                terrainCharge --;
+            } else {
+                terrainCharge = 3;
+            }
+        }
+        String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+        ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
     }
 
 }

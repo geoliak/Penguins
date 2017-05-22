@@ -48,4 +48,9 @@ public class AccueilController implements Initializable {
 	stage.setScene(scene);
 	stage.show();
     }
+    
+    public void lancerDidacticiel(MouseEvent e) throws IOException{
+        DidacticielController d = new DidacticielController();
+        d.start((Stage) ((Node) e.getSource()).getScene().getWindow());
+    }
 }

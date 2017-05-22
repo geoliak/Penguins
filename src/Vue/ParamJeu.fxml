@@ -270,9 +270,6 @@
                            </right>
                            <center>
                               <MyImageView fx:id="terrain" preserveRatio="true" fitWidth="432.0" pickOnBounds="true" BorderPane.alignment="CENTER">
-                                 <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/plateaux_jeu/img/plateau1.png" />
-                                 </image>
                               </MyImageView>
                            </center>
                         </BorderPane>
