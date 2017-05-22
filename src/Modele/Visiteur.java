@@ -22,4 +22,5 @@ public abstract class Visiteur {
 
     public abstract void visit(Joueur j);
     
+    public abstract void visit(Demo d);
 }

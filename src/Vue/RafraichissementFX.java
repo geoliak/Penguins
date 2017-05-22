@@ -33,6 +33,10 @@ public class RafraichissementFX extends AnimationTimer {
 	this.d = d;
 	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	this.resultatAffiches = false;
+        
+        if(partie.getDemo()!=null){
+            partie.getDemo().accept(d);
+        }
     }
 
     @Override
@@ -51,7 +55,6 @@ public class RafraichissementFX extends AnimationTimer {
                 j.accept(d);
             }
             
-            
 	    partie.getPlateau().setEstModifié(false);
 	}
 
@@ -66,18 +69,58 @@ public class RafraichissementFX extends AnimationTimer {
                         }
                     }
 		    partie.setInitialisation(false);
+                    if(partie.getDemo() != null){
+                        partie.getDemo().nextPhase();
+                    }
 
 		    for (Joueur j : partie.getJoueursEnJeu()) {
 			j.setPret(Boolean.TRUE);
 		    }
                     
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
+                    
+                    if(partie.getDemo()!=null){
+                        partie.getDemo().accept(d);
+                    }
+                    
                     partie.getPlateau().setEstModifié(true);
 		}
 	    } 
             
 	    if (partie.isTourFini()) {
-		partie.getJoueurCourant().attendreCoup(partie);
+		//partie.getJoueurCourant().attendreCoup(partie);
+                if (partie.estEnInitialisation()) {
+                    if (!partie.getJoueurCourant().getEstHumain()) {
+                        //Défini placement pingouin
+                        partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie));
+                        partie.getPlateau().setEstModifié(true);
+                        partie.joueurSuivant();
+                    }
+                    // Phase de jeu : Tour IA
+                } else {
+                    if (!partie.getJoueurCourant().getEstHumain()) {
+                        partie.setTourFini(false);
+                        //
+                        System.out.println("JOUEUR COURANT " + partie.getJoueurCourant().getNom() + " " + partie.getJoueurCourant().getCouleur().getNom());
+                        partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
+                        System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
+                        
+                        for (Joueur j : partie.getJoueurs()) {
+                            for (Pinguin p : j.getPinguinsVivants()) {
+                                if (p.getPosition().getCasePossibles().size() == 0) {
+                                    p.coullePinguin();
+                                    partie.getPlateau().setEstModifié(true);
+                                }
+                            }
+                        }
+                        partie.joueurSuivant();
+                        //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
+                        //System.out.println("DEMO: " + partie.getDemo().getPhase());
+                        partie.getPlateau().setEstModifié(true);
+                    }
+                }
+                
+                
 	    }
             
 	    for (Joueur j : partie.getJoueurs()) {
@@ -91,7 +134,7 @@ public class RafraichissementFX extends AnimationTimer {
                     }
                 }
             }
-	} else {
+	} else if (partie.estTerminee() && partie.isTourFini() && partie.getDemo() == null){
 	    if (!this.resultatAffiches) {
 		System.out.println("PARTIE TERMINEE ===============");
 		partie.afficheResultats();

@@ -28,7 +28,7 @@ public class TestPlateau extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Plateau p = new Plateau("ressources/plateaux_jeu/plateau3");
+        Plateau p = new Plateau("ressources/plateaux_didacticiel/plateau_init_move");
         
         ArrayList<Joueur> joueurs = new ArrayList<>();
         joueurs.add(new JoueurHumainLocal("jean", Couleur.RougeFX, 0));

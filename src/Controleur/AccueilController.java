@@ -46,5 +46,9 @@ public class AccueilController implements Initializable {
     public void out(MouseEvent e) {
 	((MyImageView) e.getSource()).setEffect(null);
     }
-
+    
+    public void lancerDidacticiel(MouseEvent e) throws IOException{
+        DidacticielController d = new DidacticielController();
+        d.start((Stage) ((Node) e.getSource()).getScene().getWindow());
+    }
 }

@@ -59,45 +59,41 @@ public class JoueurIA extends Joueur {
 
         return pinguins;
     }
-
+    
+    /*
     @Override
     public void attendreCoup(Partie partie) {
-        if (partie.isTourFini()) {
-            // Initialisation
-            if (partie.estEnInitialisation()) {
+        // Initialisation
+        if (partie.estEnInitialisation()) {
 
-                if (!partie.getJoueurCourant().getEstHumain()) {
-                    //Défini placement pingouin
-                    partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie));
-                    partie.getPlateau().setEstModifié(true);
-                    partie.joueurSuivant();
-                }
-                // Phase de jeu : Tour IA
-            } else {
-                if (!partie.getJoueurCourant().getEstHumain()) {
-                    //System.out.println("TOUR IA =======================");
-                    partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
-                    System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
-                    partie.getPlateau().setEstModifié(true);
-                    for (Joueur j : partie.getJoueurs()) {
-                        for (Pinguin p : j.getPinguinsVivants()) {
-                            if (p.getPosition().getCasePossibles().size() == 0) {
-                                p.coullePinguin();
-                                partie.getPlateau().setEstModifié(true);
-                            }
+            if (!partie.getJoueurCourant().getEstHumain()) {
+                //Défini placement pingouin
+                partie.getJoueurCourant().ajouterPinguin(partie.getJoueurCourant().etablirCoup(partie));
+                partie.getPlateau().setEstModifié(true);
+                partie.joueurSuivant();
+            }
+            // Phase de jeu : Tour IA
+        } else {
+            if (!partie.getJoueurCourant().getEstHumain()) {
+                //System.out.println("TOUR IA =======================");
+                partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
+                System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
+                partie.getPlateau().setEstModifié(true);
+                for (Joueur j : partie.getJoueurs()) {
+                    for (Pinguin p : j.getPinguinsVivants()) {
+                        if (p.getPosition().getCasePossibles().size() == 0) {
+                            p.coullePinguin();
+                            partie.getPlateau().setEstModifié(true);
                         }
                     }
-                    partie.joueurSuivant();
-                    //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
-                    //System.out.println("Fin tour IA");
                 }
+                partie.joueurSuivant();
+                //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
+                //System.out.println("Fin tour IA");
             }
         }
-
-        DessinateurTexte d = new DessinateurTexte();
-        partie.getPlateau().accept(d);
-        System.out.println("\n\n");
     }
+    */
 
     @Override
     public void reset() {

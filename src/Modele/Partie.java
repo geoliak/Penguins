@@ -8,7 +8,6 @@ package Modele;
 import Vue.AnimationFX;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javafx.animation.Animation;
 
 /**
  *
@@ -26,6 +25,7 @@ public class Partie implements Serializable {
     private boolean tourFini;
     private boolean reloadPartie;
     private Historique historique;
+    private Demo demo;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
 	this.initialisation = true;
@@ -42,6 +42,26 @@ public class Partie implements Serializable {
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
     }
+    
+    public Partie(Plateau plateau, ArrayList<Joueur> joueurs, boolean demo) {
+	this.initialisation = true;
+	this.plateau = plateau;
+	this.joueurs = joueurs;
+
+	this.joueursEnJeu = (ArrayList<Joueur>) joueurs.clone();
+	this.joueurCourant = joueursEnJeu.remove(0);
+
+	this.tourFini = true;
+
+	this.historique = new Historique();
+	setPositionsPossiblesInit(true);
+	//Ne pas mettre après remove joueur
+	setNbPingouinParJoueur();
+        
+        if(demo){
+            this.demo = new Demo();
+        }
+    }
 
     public int nbPingouinsTotal() {
 	int nb = 0;
@@ -53,52 +73,56 @@ public class Partie implements Serializable {
 
     public void setNbPingouinParJoueur() {
 	int nbPinguin = 0;
-	//System.out.println("JOUEURS SIZE: " + joueurs.size());
-	switch (joueurs.size()) {
-	    case 2:
-		nbPinguin = 4;
-		break;
-	    case 3:
-		nbPinguin = 3;
-		break;
-	    case 4:
-		nbPinguin = 2;
-		break;
-	}
+	System.out.println("DEMO " + demo);
+        if(demo == null){
+            switch (joueurs.size()) {
+                case 2:
+                    nbPinguin = 4;
+                    break;
+                case 3:
+                    nbPinguin = 3;
+                    break;
+                case 4:
+                    nbPinguin = 2;
+                    break;
+            }
+        } else {
+            nbPinguin = 2;
+        }
+	
 	nbPingouinParJoueur = nbPinguin;
     }
 
     public void joueurSuivant() {
-        AnimationFX a = new AnimationFX();
-        
+	AnimationFX a = new AnimationFX();
+
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
-	}        
-        
-        if(!this.initialisation){
-            for(Case[] cases : this.getPlateau().getCases()){
-                for(Case c : cases){
-                    c.setAccessible(false);
-                }
-            }
+	}
 
-            if (joueurCourant.getEstHumain()) {
-                if (this.joueurCourant.getPinguinsVivants().size() == 1) {
-                    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+	if (!this.initialisation) {
+	    for (Case[] cases : this.getPlateau().getCases()) {
+		for (Case c : cases) {
+		    c.setAccessible(false);
+		}
+	    }
 
-                    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
-                    for (Case c : casesaccessibles) {
-                        c.setAccessible(true);
-                    }
-                } else {
-                    this.joueurCourant.setPinguinCourant(null);
-                }
-            }
+	    if (joueurCourant.getEstHumain()) {
+		if (this.joueurCourant.getPinguinsVivants().size() == 1) {
+		    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
 
-            this.getPlateau().setEstModifié(true);
-        }
+		    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
+		    for (Case c : casesaccessibles) {
+			c.setAccessible(true);
+		    }
+		} else {
+		    this.joueurCourant.setPinguinCourant(null);
+		}
+	    }
+	    this.getPlateau().setEstModifié(true);
+	}
     }
 
     public void afficheJoueurs() {
@@ -114,10 +138,16 @@ public class Partie implements Serializable {
     }
 
     public Boolean estTerminee() {
-	Boolean res = joueurCourant.estEnJeu();
-	for (Joueur j : this.joueursEnJeu) {
-	    res = res || j.estEnJeu();
-	}
+        Boolean res;
+        if(demo == null){
+            res = joueurCourant.estEnJeu();
+            for (Joueur j : this.joueursEnJeu) {
+                res = res || j.estEnJeu();
+            }
+        }else {
+            return demo.isDemoFinie();
+        }
+	
 	return !res;
     }
 
@@ -164,12 +194,14 @@ public class Partie implements Serializable {
 	return joueurs;
     }
 
-    public Plateau getPlateau() {
-	return plateau;
+    public void sauvegarderCoup() {
+	if (joueurCourant.getEstHumain()) {
+	    historique.sauvegarderCoup();
+	}
     }
 
-    public Boolean sauvegarde() {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Plateau getPlateau() {
+	return plateau;
     }
 
     public Boolean estEnInitialisation() {
@@ -229,6 +261,10 @@ public class Partie implements Serializable {
 	this.reloadPartie = reloadPartie;
     }
 
+    public Historique getHistorique() {
+	return historique;
+    }
+
     public void setPositionsPossiblesInit(boolean b) {
 	// A n'utiliser qu'en cas d'initialisation de la partie
 	for (int i = 0; i < this.plateau.getNbLignes(); i++) {
@@ -239,5 +275,13 @@ public class Partie implements Serializable {
 	    }
 	}
 
+    }
+
+    public Demo getDemo() {
+        return demo;
+    }
+
+    public void setDemo(Demo demo) {
+        this.demo = demo;
     }
 }
