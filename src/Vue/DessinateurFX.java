@@ -31,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 /**
  *
@@ -248,8 +249,6 @@ public class DessinateurFX extends Visiteur {
             a.AnimateText(label, partie.getDemo().getConsigne());
         }
     }
-    
-    
 
     public void setPartie(Partie partie) {
 	this.partie = partie;

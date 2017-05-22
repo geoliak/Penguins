@@ -37,7 +37,7 @@ public class RafraichissementFX extends AnimationTimer {
     }
 
     @Override
-    public void handle(long now) {
+    public void handle(long now) {        
 	if (!partie.equals(ConfigurationPartie.getConfigurationPartie().getPartie())) {
 	    System.out.println("Mise a jour de la partie");
 	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
@@ -65,6 +65,7 @@ public class RafraichissementFX extends AnimationTimer {
 			}
 		    }
 		    partie.setInitialisation(false);
+                    
                     if(partie.getDemo() != null){
                         partie.getDemo().nextPhase();
                     }
@@ -112,6 +113,11 @@ public class RafraichissementFX extends AnimationTimer {
                         partie.joueurSuivant();
                         //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
                         //System.out.println("DEMO: " + partie.getDemo().getPhase());
+                        
+                        if(partie.getDemo() != null){
+                            partie.getDemo().nextPhase();
+                        }
+                        
                         partie.getPlateau().setEstModifié(true);
                     }
                 }

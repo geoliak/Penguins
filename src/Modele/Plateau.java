@@ -36,7 +36,6 @@ public class Plateau implements Serializable {
         ligne = br.readLine();
         System.out.println(ligne);
         if (ligne.equals("jeu")) {
-            System.out.println("JEU");
             this.lireFichierJeu(fichierPlateau, br);
             this.initCase();
         } else {
