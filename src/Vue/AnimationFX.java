@@ -7,16 +7,11 @@ package Vue;
 
 import Modele.MyPolygon;
 import javafx.animation.FadeTransition;
-import javafx.animation.PathTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
@@ -36,7 +31,7 @@ public class AnimationFX {
 	double newx = p.getXorigine() + width / 2;
 	double newy = p.getYorigine() + height / 2;
 
-        //double d = Math.sqrt(Math.pow(newx-oldx, 2) + Math.pow(newy-oldy,2));
+	//double d = Math.sqrt(Math.pow(newx-oldx, 2) + Math.pow(newy-oldy,2));
 	TranslateTransition tt = new TranslateTransition(Duration.millis(400), iv);
 	tt.setToX((newx - width / 2.8) - oldx);
 	tt.setToY((newy - iv.getFitHeight()) - oldy);
@@ -52,13 +47,13 @@ public class AnimationFX {
 	ft.play();
 	return ft;
     }
-    
-    public Transition scale(Node n, double x, int t){
-        ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
-        st.setToX(x);
-        st.setToY(x);
-        
-        st.play();
-        return st;
+
+    public Transition scale(Node n, double x, int t) {
+	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
+	st.setToX(x);
+	st.setToY(x);
+
+	st.play();
+	return st;
     }
 }

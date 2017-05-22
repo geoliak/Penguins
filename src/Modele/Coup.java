@@ -5,7 +5,11 @@
  */
 package Modele;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,26 +17,31 @@ import java.util.ArrayList;
  */
 public class Coup {
 
-    private final Joueur joueurCourant;
-    private final ArrayList<Joueur> joueursEnJeu;
-    private final Plateau plateau;
+    private Joueur joueurCourant;
+    private ByteArrayOutputStream out;
 
     public Coup() {
-	this.joueurCourant = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
-	this.joueursEnJeu = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueursEnJeu();
-	this.plateau = ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau();
+	try {
+	    this.joueurCourant = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
+	    out = new ByteArrayOutputStream();
+	    ObjectOutputStream oos = new ObjectOutputStream(out);
+	    oos.writeObject(ConfigurationPartie.getConfigurationPartie().getPartie());
+	} catch (IOException ex) {
+	    Logger.getLogger(Coup.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
     }
 
     public Joueur getJoueurCourant() {
-	return joueurCourant;
+	return this.joueurCourant;
     }
 
-    public ArrayList<Joueur> getJoueursEnJeu() {
-	return joueursEnJeu;
+    public boolean getEstJoueurHumain() {
+	return this.getJoueurCourant().getEstHumain();
     }
 
-    public Plateau getPlateau() {
-	return plateau;
+    public ByteArrayOutputStream getOut() {
+	return out;
     }
 
 }

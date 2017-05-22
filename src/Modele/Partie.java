@@ -8,7 +8,6 @@ package Modele;
 import Vue.AnimationFX;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javafx.animation.Animation;
 
 /**
  *
@@ -56,7 +55,7 @@ public class Partie implements Serializable {
 	//System.out.println("JOUEURS SIZE: " + joueurs.size());
 	switch (joueurs.size()) {
 	    case 2:
-		nbPinguin = 4;
+		nbPinguin = 2;
 		break;
 	    case 3:
 		nbPinguin = 3;
@@ -69,36 +68,35 @@ public class Partie implements Serializable {
     }
 
     public void joueurSuivant() {
-        AnimationFX a = new AnimationFX();
-        
+	AnimationFX a = new AnimationFX();
+
 	this.joueursEnJeu.add(this.joueurCourant);
 	this.joueurCourant = this.joueursEnJeu.remove(0);
 	if (!this.initialisation && !this.estTerminee() && !this.joueurCourant.estEnJeu()) {
 	    joueurSuivant();
-	}        
-        
-        if(!this.initialisation){
-            for(Case[] cases : this.getPlateau().getCases()){
-                for(Case c : cases){
-                    c.setAccessible(false);
-                }
-            }
+	}
 
-            if (joueurCourant.getEstHumain()) {
-                if (this.joueurCourant.getPinguinsVivants().size() == 1) {
-                    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
+	if (!this.initialisation) {
+	    for (Case[] cases : this.getPlateau().getCases()) {
+		for (Case c : cases) {
+		    c.setAccessible(false);
+		}
+	    }
 
-                    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
-                    for (Case c : casesaccessibles) {
-                        c.setAccessible(true);
-                    }
-                } else {
-                    this.joueurCourant.setPinguinCourant(null);
-                }
-            }
+	    if (joueurCourant.getEstHumain()) {
+		if (this.joueurCourant.getPinguinsVivants().size() == 1) {
+		    this.joueurCourant.setPinguinCourant(this.joueurCourant.getPinguinsVivants().get(0));
 
-            this.getPlateau().setEstModifié(true);
-        }
+		    ArrayList<Case> casesaccessibles = this.joueurCourant.getPinguinCourant().getPosition().getCasePossibles();
+		    for (Case c : casesaccessibles) {
+			c.setAccessible(true);
+		    }
+		} else {
+		    this.joueurCourant.setPinguinCourant(null);
+		}
+	    }
+	    this.getPlateau().setEstModifié(true);
+	}
     }
 
     public void afficheJoueurs() {
@@ -144,11 +142,10 @@ public class Partie implements Serializable {
 
     public void afficheResultats() {
 	if (this.estTerminee()) {
-	    this.joueursEnJeu.add(joueurCourant);
 	    for (Joueur j : this.getJoueurGagnant()) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " a gagne la partie");
 	    }
-	    for (Joueur j : this.joueursEnJeu) {
+	    for (Joueur j : this.joueurs) {
 		System.out.println(j.getCouleur() + j.getNom() + Couleur.ANSI_RESET + " => " + j.getScorePoissons() + "," + j.getScoreGlacons());
 	    }
 	}
@@ -166,10 +163,6 @@ public class Partie implements Serializable {
 
     public Plateau getPlateau() {
 	return plateau;
-    }
-
-    public Boolean sauvegarde() {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Boolean estEnInitialisation() {
@@ -227,6 +220,10 @@ public class Partie implements Serializable {
 
     public void setReloadPartie(boolean reloadPartie) {
 	this.reloadPartie = reloadPartie;
+    }
+
+    public Historique getHistorique() {
+	return historique;
     }
 
     public void setPositionsPossiblesInit(boolean b) {

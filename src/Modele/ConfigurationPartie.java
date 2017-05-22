@@ -23,12 +23,15 @@ public class ConfigurationPartie {
     private Partie partie;
     private Node root;
     private Scene scene;
-    private Label labelScores[] = new Label[4];
+    private Label [] labelScores;
+    //private Label [] labelNoms;
     private Stage stage;
     private ImageView[][] initpingoos;
     
     private ConfigurationPartie() {
 	root = new Group();
+        labelScores  = new Label[4];
+        // = new Label[4];
     }
 
     public static ConfigurationPartie getConfigurationPartie() {
@@ -69,6 +72,14 @@ public class ConfigurationPartie {
     public void setLabelScore(Label labelScore, int i) {
         labelScores[i] = labelScore;
     }
+
+//    public Label[] getLabelNoms() {
+//        return labelNoms;
+//    }
+//
+//    public void setLabelNoms(Label[] labelNoms) {
+//        this.labelNoms = labelNoms;
+//    }
 
     public Stage getStage() {
         return stage;

@@ -8,11 +8,6 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
-import Modele.Plateau;
-import Vue.DessinateurTexte;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
@@ -21,25 +16,25 @@ import java.util.Random;
 public class JoueurIA6 extends JoueurIA {
 
     public JoueurIA6(Couleur couleur, int numero) {
-        super(couleur, "JoueurIA6", numero);
+	super(couleur, "JoueurIA6", numero);
     }
 
     @Override
     public Case phaseInitialisation(Partie partie) {
-        return super.phaseInitialisationMaxPossibilitee(partie);
+	return super.phaseInitialisationMaxPossibilitee(partie);
     }
 
     @Override
     public Case phaseJeu(Partie partie) {
-        //On regarde si on peut éliminer un pinguin
-        Case caseChoisie = null;
+	//On regarde si on peut éliminer un pinguin
+	Case caseChoisie = null;
 
-        caseChoisie = this.chercherVictime(partie);
-        if (caseChoisie != null) {
-            return caseChoisie;
+	caseChoisie = this.chercherVictimeIlot(partie);
+	if (caseChoisie != null) {
+	    return caseChoisie;
 
-        }
+	}
 
-        return super.phaseJeuMaxPossibilitee(partie);
+	return super.phaseJeuMaxPossibilitee(partie);
     }
 }

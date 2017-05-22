@@ -8,10 +8,6 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
-import Modele.Plateau;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
@@ -20,21 +16,21 @@ import java.util.Random;
 public class JoueurIA4 extends JoueurIA {
 
     public JoueurIA4(Couleur couleur, String nom, int numero) {
-        super(couleur, nom, numero);
+	super(couleur, nom, numero);
     }
 
     public JoueurIA4(Couleur couleur, int numero) {
-        super(couleur, "JoueurIA4", numero);
+	super(couleur, "JoueurIA4", numero);
     }
 
     @Override
     public Case phaseInitialisation(Partie partie) {
-        return super.phaseInitialisationGourmande(partie);
+	return super.phaseInitialisationGourmande(partie);
     }
 
     @Override
     public Case phaseJeu(Partie partie) {
-        return super.phaseJeuGourmand(partie);
+	return super.phaseJeuGourmand(partie);
     }
 
 }

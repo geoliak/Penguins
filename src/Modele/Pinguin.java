@@ -7,7 +7,6 @@ package Modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import Modele.MyImageView;
 
 /**
  *
@@ -74,7 +73,7 @@ public class Pinguin implements Serializable {
      * l'iceberg
      */
     public Boolean estSeulIceberg(Plateau plateau) {
-	ArrayList<Case> iceberg = plateau.getCasesIceberg(this.position);
+	ArrayList<Case> iceberg = plateau.getCasesIcebergSansCassures(this.position);
 	for (Case c : iceberg) {
 	    if (c.getPinguin() != null && c.getPinguin().getGeneral() != this.general) {
 		return false;

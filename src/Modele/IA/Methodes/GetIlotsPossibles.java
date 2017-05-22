@@ -28,7 +28,7 @@ public class GetIlotsPossibles implements Methode {
     @Override
     public void execute(Case c) {
         CaseCritique caseCritique = JoueurIA.estIlot(c, this.plateau);
-        if (caseCritique != null && c.getPinguin() == null) {
+        if (caseCritique != null && !c.estCoulee() && c.getPinguin() == null) {
             this.ilotsPossibles.add(caseCritique);
         }
     }

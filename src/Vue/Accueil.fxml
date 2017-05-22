@@ -29,7 +29,7 @@
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_locale_resize.png" />
                </image>
             </MyImageView>
-            <MyImageView fitHeight="169.0" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView onMouseClicked="#reseau" fitHeight="169.0" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_reseau_resize.png" />
                </image>

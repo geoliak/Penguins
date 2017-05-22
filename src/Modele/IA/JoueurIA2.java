@@ -8,14 +8,10 @@ package Modele.IA;
 import Modele.Case;
 import Modele.Couleur;
 import Modele.Partie;
-import Modele.Pinguin;
-import Modele.Plateau;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
- * @author Mathias
+ * @author novelm
  */
 public class JoueurIA2 extends JoueurIA {
 
@@ -25,7 +21,13 @@ public class JoueurIA2 extends JoueurIA {
 
     @Override
     public Case phaseJeu(Partie partie) {
-        return super.phaseJeuElimination(partie);
-    }
+        //On regarde si on peut éliminer un pinguin
+        Case caseChoisie = this.chercherVictimeIlot(partie);
+        if (caseChoisie != null) {
+            return caseChoisie;
+        }
 
+        System.out.println("Pas de meurtre ilot");
+        return super.phaseJeu(partie);
+    }
 }
