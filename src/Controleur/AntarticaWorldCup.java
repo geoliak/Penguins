@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-	Tournoi worldCup = new Tournoi(10);
+	Tournoi worldCup = new Tournoi(15);
 
 
        /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
@@ -39,7 +39,7 @@ public class AntarticaWorldCup {
         worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge, 1));
         worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
         worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));*/
-        worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurIA9(Couleur.Rouge, 1));
         worldCup.ajouterIA(new JoueurMinimax(Couleur.VioletFX, 2));
 
 
