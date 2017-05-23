@@ -1,5 +1,19 @@
-Le chercherVictime avec isolation doit etre verifié
+Ne pas mourir en jouant
 
-Ne pas mourir en tuant
+fonction d'évaluation du plateau
 
-Minimax a planté lorsque ses pinguins ont ete kill
+cherche ilot cassé
+
+factoriser chercherVictimeIlot
+
+verifier les GetIceberg avec cassure
+
+verifier le existe chemin
+
+La ponderation de l'arbre ne devrait elle pas ne représenter que le joueur1 ?
+
+cloner les joueurs pour multithreader les tournois
+
+revoir le estSeul
+
+initialisation a revoir

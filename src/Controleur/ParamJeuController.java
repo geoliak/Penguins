@@ -5,32 +5,23 @@
  */
 package Controleur;
 
-import Modele.Historique;
-import Controleur.Test;
 import Modele.ConfigurationPartie;
 import Modele.Couleur;
-import Modele.IA.JoueurIA;
 import Modele.IA.JoueurIA1;
-import Modele.IA.JoueurIA5;
-import Modele.IA.JoueurIA6;
+import Modele.IA.JoueurIA2;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIA9;
+import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
-import Modele.JoueurHumain;
 import Modele.JoueurHumainLocal;
 import Modele.Partie;
 import Modele.Plateau;
-import Vue.AnimationFX;
-import Vue.DessinateurFX;
-import Vue.RafraichissementFX;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,14 +29,16 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+import javafx.scene.effect.InnerShadow;
+
+import javafx.scene.image.ImageView;
+import static javafx.scene.input.KeyCode.C;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -122,16 +115,39 @@ public class ParamJeuController implements Initializable {
     @FXML
     private MyImageView joueur3;
 
+    @FXML
+    private MyImageView terrain;
+
+    @FXML
+    private MyImageView nextTerrain;
+
+    @FXML
+    private MyImageView prevTerrain;
+    
+    @FXML
+    private MyImageView fermer, retour; 
+    
+    @FXML
+    private MyImageView chargerpartie, jouer;
+
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
     private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
+    private int terrainCharge = 1;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	
+	((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
+        jouer.setEffect(new DropShadow());
+        chargerpartie.setEffect(new DropShadow());
+        
+        chargerpartie.setX(10);
+        chargerpartie.setY(10);
+        CloseButton c = new CloseButton(fermer);
+        BackButton b = new BackButton(retour, "Accueil");
     }
 
     public void arrowClick(MouseEvent e) {
@@ -318,20 +334,19 @@ public class ParamJeuController implements Initializable {
 
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	Partie partie = creationPartie();
-        ConfigurationPartie.getConfigurationPartie().setPartie(partie);
-        
-        FenetreJeuController fenetre = new FenetreJeuController();
-        fenetre.creerFenetreJeu(stage);
-	
+	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+
+	FenetreJeuController fenetre = new FenetreJeuController();
+	fenetre.creerFenetreJeu(stage);
 
     }
 
     public void on(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(new DropShadow());
+	((MyImageView) e.getSource()).setEffect(new InnerShadow());
     }
 
     public void out(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(null);
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
     }
 
     public void chargerPartie(MouseEvent e) throws IOException {
@@ -343,8 +358,11 @@ public class ParamJeuController implements Initializable {
     }
 
     public Partie creationPartie() throws IOException {
-	Plateau plateau = new Plateau("ressources/plateaux/plateau1");
-	plateau.initCase();
+        System.out.println(terrainCharge);
+        
+	Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
+        //System.out.println("PARTIE PLATEAU 3");
+	//plateau.initCase();
 
 	String[] names = new String[4];
 	Couleur[] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
@@ -382,18 +400,18 @@ public class ParamJeuController implements Initializable {
 	    } else if (typesJoueurs[i] == 1) {
 		if (difficultesIA[i] == 0) {
 		    System.out.println("IA facile");
-                    Joueur j = new JoueurIA1(couleurs[i], i);
-                    j.setDifficulte(1);
+		    Joueur j = new JoueurIA1(couleurs[i], i);
+		    j.setDifficulte(1);
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
 		    Joueur j = new JoueurIA8(couleurs[i], i);
-                    j.setDifficulte(2);
+		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {
 		    System.out.println("IA difficile");
 		    Joueur j = new JoueurMinimax(couleurs[i], i);
-                    j.setDifficulte(3);
+		    j.setDifficulte(3);
 		    joueurs.add(j);
 		}
 	    } else {
@@ -401,8 +419,26 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
-	partie.setPlateau(new Plateau("ressources/plateaux/plateau8"));
+
 	return partie;
+    }
+    
+    public void changerTerrain(MouseEvent e){
+        if(e.getSource().equals(nextTerrain)){
+            if(terrainCharge<3){
+                terrainCharge ++;
+            } else {
+                terrainCharge = 1;
+            }
+        } else if(e.getSource().equals(prevTerrain)){
+            if(terrainCharge>1){
+                terrainCharge --;
+            } else {
+                terrainCharge = 3;
+            }
+        }
+        String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+        ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
     }
 
 }

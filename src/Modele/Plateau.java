@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import Modele.IA.JoueurIA;
 import Modele.IA.Methodes.Methode;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Queue;
 
 /**
  *
@@ -33,30 +35,33 @@ public class Plateau implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
         String ligne;
         ligne = br.readLine();
+        //System.out.println(ligne);
         if (ligne.equals("jeu")) {
             this.lireFichierJeu(fichierPlateau, br);
             this.initCase();
         } else {
             this.lireFichierTest(fichierPlateau, br);
         }
-        
+
         setCasesValidesInit();
-        
+
         estModifié = true;
+
     }
 
     private Plateau() {
         this.cases = new Case[LARGEUR][LONGUEUR];
     }
-    
-    public void setCasesValidesInit(){
-        for(Case[] cases: cases){
-            for(Case c : cases){
-                if(c.getNbPoissons() == 1){
+
+    public void setCasesValidesInit() {
+        for (Case[] cases : cases) {
+            for (Case c : cases) {
+                if (c.getNbPoissons() == 1) {
                     c.setAccessible(true);
                 }
             }
         }
+
     }
 
     /**
@@ -245,26 +250,77 @@ public class Plateau implements Serializable {
         return res;
     }
 
-    public ArrayList<Case> getCasesIceberg(Case source) {
+    public static ArrayList<Case> getCasesIceberg(Case source) {
         ArrayList<Case> iceberg = new ArrayList<>();
-        this.getCasesIcebergWorker(source, iceberg);
+        Plateau.getCasesIcebergWorker(source, iceberg);
         for (Case c : iceberg) {
             c.setCoulee(false);
         }
         return iceberg;
     }
 
-    private void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
+    private static void getCasesIcebergWorker(Case source, ArrayList<Case> iceberg) {
         if (!source.estCoulee()) {
             iceberg.add(source);
             source.setCoulee(true);
             for (Case c : source.getVoisinsEmerges()) {
-                this.getCasesIcebergWorker(c, iceberg);
+                Plateau.getCasesIcebergWorker(c, iceberg);
             }
         }
     }
 
-    public int getPoidsIceberg(ArrayList<Case> iceberg) {
+    public ArrayList<Case> getCasesIcebergLimiteCassure(Case source) {
+        ArrayList<Case> iceberg = new ArrayList<>();
+        iceberg.add(source);
+        source.setCoulee(true);
+        for (Case voisin : source.getVoisinsEmerges()) {
+            this.getCasesIcebergSansCassuresWorker(voisin, iceberg);
+        }
+
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
+    }
+
+    private void getCasesIcebergLimiteCassureWorker(Case source, ArrayList<Case> iceberg) {
+        if (JoueurIA.estIlot(source, this) != null) {
+            iceberg.add(source);
+        } else if (!source.estCoulee()) {
+
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIcebergLimiteCassureWorker(c, iceberg);
+            }
+        }
+    }
+
+    public ArrayList<Case> getCasesIcebergSansCassures(Case source) {
+        ArrayList<Case> iceberg = new ArrayList<>();
+        iceberg.add(source);
+        source.setCoulee(true);
+        for (Case voisin : source.getVoisinsEmerges()) {
+            this.getCasesIcebergSansCassuresWorker(voisin, iceberg);
+        }
+
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
+    }
+
+    private void getCasesIcebergSansCassuresWorker(Case source, ArrayList<Case> iceberg) {
+        if (!source.estCoulee() && !(JoueurIA.estIlot(source, this) != null && source.getPinguin() != null)) {
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIcebergSansCassuresWorker(c, iceberg);
+            }
+        }
+    }
+
+    public static int getPoidsIceberg(ArrayList<Case> iceberg) {
         int rep = 0;
 
         for (Case c : iceberg) {
@@ -274,19 +330,19 @@ public class Plateau implements Serializable {
         return rep;
     }
 
-    public int getNbPinguinIceberg(ArrayList<Case> iceberg) {
+    public static int getNbPinguinIceberg(ArrayList<Case> iceberg) {
         int rep = 0;
 
         for (Case c : iceberg) {
             if (c.getPinguin() != null) {
-                rep += c.getNbPoissons();
+                rep++;
             }
         }
 
         return rep;
     }
 
-    public HashMap<Joueur, ArrayList<Pinguin>> getPinguinsIceberg(ArrayList<Case> iceberg) {
+    public static HashMap<Joueur, ArrayList<Pinguin>> getPinguinsIceberg(ArrayList<Case> iceberg) {
         HashMap<Joueur, ArrayList<Pinguin>> rep = new HashMap<>();
 
         for (Case c : iceberg) {
@@ -303,7 +359,7 @@ public class Plateau implements Serializable {
         return rep;
     }
 
-    public int getNbJoueurIceberg(ArrayList<Case> iceberg) {
+    public static int getNbJoueurIceberg(ArrayList<Case> iceberg) {
         HashSet<Joueur> joueurs = new HashSet<>();
 
         for (Case c : iceberg) {
@@ -312,14 +368,10 @@ public class Plateau implements Serializable {
             }
         }
 
-        if (joueurs.isEmpty()) {
-            return 1;
-        } else {
-            return joueurs.size();
-        }
+        return joueurs.size();
     }
 
-    public ArrayList<Joueur> getJoueursIceberg(ArrayList<Case> iceberg) {
+    public static ArrayList<Joueur> getJoueursIceberg(ArrayList<Case> iceberg) {
         ArrayList<Joueur> joueurs = new ArrayList<>();
 
         for (Case c : iceberg) {
@@ -389,6 +441,42 @@ public class Plateau implements Serializable {
         }
 
         return D;
+    }
+
+    public Boolean existeChemin(Case source, Case destination) {
+        HashSet<Case> marquage = new HashSet<>();
+        ArrayList<Case> file = new ArrayList<>();
+
+        file.add(source);
+        source.setCoulee(true);
+        marquage.add(source);
+        Case caseCourante;
+
+        System.out.print("existeChemin " + source + " -> " + destination + " ?");
+        while (!file.isEmpty()) {
+            //System.out.println(marquage.size());
+            caseCourante = file.remove(0);
+            if (caseCourante == destination) {
+                for (Case c : marquage) {
+                    c.setCoulee(false);
+                }
+                System.out.println(" true");
+                return true;
+            } else {
+                for (Case voisin : caseCourante.getVoisinsJouable()) {
+                    voisin.setCoulee(true);
+                    marquage.add(voisin);
+                    file.add(voisin);
+                }
+            }
+        }
+
+        for (Case c : marquage) {
+            c.setCoulee(false);
+        }
+        System.out.println(" false");
+        return false;
+
     }
 
     //GETTER ET SETTER

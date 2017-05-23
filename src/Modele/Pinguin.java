@@ -7,7 +7,6 @@ package Modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import Modele.MyImageView;
 
 /**
  *
@@ -20,12 +19,14 @@ public class Pinguin implements Serializable {
     private Joueur general;
     private Boolean estSeul;
     private MyImageView iv;
+    private ArrayList<Case> casesInterdites;
 
     public Pinguin(Case position, Joueur maitre) {
 	this.vivant = true;
 	this.position = position;
 	this.general = maitre;
 	this.estSeul = false;
+        this.casesInterdites = new ArrayList<>();
 	//this.iv = new MyImageView(general.getCouleur().getImage());
     }
 
@@ -38,8 +39,8 @@ public class Pinguin implements Serializable {
 
     public void deplace(Case c) {
 	this.position.setPinguin(null);
-	this.position.setCoulee(true);
-
+	this.position.setCoulee(true);        
+        
 	this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
 	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
@@ -74,7 +75,7 @@ public class Pinguin implements Serializable {
      * l'iceberg
      */
     public Boolean estSeulIceberg(Plateau plateau) {
-	ArrayList<Case> iceberg = plateau.getCasesIceberg(this.position);
+	ArrayList<Case> iceberg = plateau.getCasesIcebergSansCassures(this.position);
 	for (Case c : iceberg) {
 	    if (c.getPinguin() != null && c.getPinguin().getGeneral() != this.general) {
 		return false;
@@ -128,4 +129,14 @@ public class Pinguin implements Serializable {
     public void setIv(MyImageView iv) {
 	this.iv = iv;
     }
+
+    public ArrayList<Case> getCasesInterdites() {
+        return casesInterdites;
+    }
+
+    public void setCasesInterdites(ArrayList<Case> casesInterdites) {
+        this.casesInterdites = casesInterdites;
+    }
+    
+    
 }

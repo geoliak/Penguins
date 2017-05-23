@@ -5,30 +5,40 @@
  */
 package Controleur;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import Modele.MyImageView;
+import java.io.File;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class AccueilController implements Initializable {
-
+    @FXML
+    private ImageView retour, fermer, nom, locale, reseau, demo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CloseButton c = new CloseButton(fermer);
+        
+        locale.setEffect(new DropShadow());
+        reseau.setEffect(new DropShadow());
+        demo.setEffect(new DropShadow());
+        
+        nom.setX((1200-nom.getFitWidth()) / 2);
     }
 
     public void jouerLocal(MouseEvent e) throws IOException {
@@ -40,11 +50,15 @@ public class AccueilController implements Initializable {
     }
 
     public void on(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(new DropShadow());
+	((MyImageView) e.getSource()).setEffect(new InnerShadow());
     }
 
     public void out(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(null);
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
     }
-
+    
+    public void lancerDidacticiel(MouseEvent e) throws IOException{
+        DidacticielController d = new DidacticielController();
+        d.start((Stage) ((Node) e.getSource()).getScene().getWindow());
+    }
 }

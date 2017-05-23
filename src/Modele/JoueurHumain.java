@@ -20,7 +20,7 @@ public abstract class JoueurHumain extends Joueur {
     public abstract Case etablirCoup(Partie partie);
     
     @Override
-    public void attendreCoup(Partie partie){
-        
+    public String getSpecialitees() {
+        return this.getNom() + " -> Joueur Humain";
     }
 }

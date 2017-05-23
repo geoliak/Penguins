@@ -6,10 +6,7 @@
 package Modele.IA;
 
 import Modele.Case;
-import Modele.Joueur;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Stack;
 
 /**
  *
@@ -44,14 +41,19 @@ public class EtablirMeilleurChemin extends Thread {
     @Override
     public void run() {
         getMeilleurChemin(this.source, new ArrayList<>());
-    }   
+    }
 
     public ArrayList<Case> getMeilleurChemin(Case source, ArrayList<Case> cheminCourant) {
-        if (this.continuer && cheminCourant.size() == tailleMaximale) {
+        if (System.nanoTime() - this.lastModif > 5E8) {
+            //System.out.println("lastModif perime " + (System.nanoTime() - this.debutThread));
+            this.stopThread();
+            return cheminCourant;
+            
+        } else if (this.continuer && cheminCourant.size() == tailleMaximale) {
             this.stopThread();
             this.joueur.setChemin(cheminCourant);
             return cheminCourant;
-            
+
         } else if (this.continuer) {
             ArrayList<Case> casesPossible = source.getCasePossibles();
             boolean possible = false;
@@ -68,7 +70,7 @@ public class EtablirMeilleurChemin extends Thread {
                     source.setCoulee(true);
                     branchementCourant = getMeilleurChemin(c, branchementCourant);
                     source.setCoulee(false);
-                    
+
                     if (!continuer) {
                         return branchementCourant;
                     } else if (branchementCourant.size() == tailleMaximale) {
@@ -88,13 +90,6 @@ public class EtablirMeilleurChemin extends Thread {
                         this.lastModif = System.nanoTime();
                     }
 
-                    if (System.nanoTime() - this.lastModif > 5E6) {
-                        System.out.println("lastModif perime " + (System.nanoTime() - this.debutThread));
-                        this.stopThread();
-                        this.stop();
-                    }
-                    
-
                 }
             }
 
@@ -103,7 +98,7 @@ public class EtablirMeilleurChemin extends Thread {
             } else {
                 return branchementResultat;
             }
-            
+
         } else {
             return null;
         }

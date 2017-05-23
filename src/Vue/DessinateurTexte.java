@@ -8,9 +8,11 @@ package Vue;
 import Modele.Visiteur;
 import Modele.Case;
 import Modele.Couleur;
+import Modele.Demo;
 import Modele.Joueur;
 import Modele.Pinguin;
 import Modele.Plateau;
+import javafx.animation.Transition;
 
 /**
  *
@@ -58,6 +60,11 @@ public class DessinateurTexte extends Visiteur {
 
     @Override
     public void visit(Joueur j) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Transition visit(Demo d) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
