@@ -232,7 +232,11 @@ public class FenetreJeuController {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                    Scene scene = new Scene(paramJeu);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();                    
                 } catch (IOException ex) {
                     Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -260,10 +264,12 @@ public class FenetreJeuController {
         ivs.add(home);
         ivs.add(quit);
         ivs.add(restart);
+        
         setAnimHome(ivs);
         
         File f2 = new File("ressources/img/img_menu/gear.png");
 	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
+        gear.setId("close");
         gear.setLayoutY(-10);
         gear.setLayoutX(10);
         
@@ -275,72 +281,50 @@ public class FenetreJeuController {
 	});
 
 	gear.setOnMouseExited(new EventHandler<MouseEvent>() {
-
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(gear, 1, 200);
 	    }
-
 	});
         
-        /*
-	File f2 = new File("ressources/img/img_menu/volume.png");
-	ImageView volume = new ImageView(new Image(f2.toURI().toString()));
-	volume.setPreserveRatio(true);
-	volume.setFitHeight(30);
-
-	File f3 = new File("ressources/img/img_menu/note.jpg");
-	ImageView note = new ImageView(new Image(f3.toURI().toString()));
-	note.setPreserveRatio(true);
-	note.setFitHeight(30);
-
-	h.getChildren().addAll(volume, note);
-	h.setAlignment(Pos.TOP_LEFT);
-	h.setSpacing(20);
-	h.setPadding(new Insets(0, 0, 0, 20));
-        */
+        File fnote = new File("ressources/img/img_menu/note.jpg");
+	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
+        note.setLayoutY(7);
+        note.setLayoutX(80);
+        note.setVisible(false);
         
-	ap.getChildren().addAll(home, gear, save, restart, quit);
+        File fvol = new File("ressources/img/img_menu/volume.png");
+	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
+        volume.setLayoutY(10);
+        volume.setLayoutX(120);
+        volume.setVisible(false);
+        
+        ArrayList<ImageView> ivs2 = new ArrayList<>();
+        ivs2.add(note);
+        ivs2.add(volume);
+        
+        gear.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+                System.out.println(gear.getId());
+                for(ImageView imageview : ivs2){
+                    if(gear.getId().equalsIgnoreCase("close")){
+                        a.scaleFromZero(imageview, 1, 200);
+                        gear.setId("open");
+                    } else if(gear.getId().equalsIgnoreCase("open")){
+                        a.scaleToZero(imageview, 200);
+                        gear.setId("close");
+                    }
+                }
+	    }
+	});
+        
+        setSettingsAnim(ivs2);
+        
+	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume);
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
-        
-        /*
-	AnimationFX a = new AnimationFX();
-	volume.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(volume, 1.2, 200);
-	    }
-
-	});
-	volume.setOnMouseExited(new EventHandler<MouseEvent>() {
-
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(volume, 1, 200);
-	    }
-
-	});
-
-	note.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(note, 1.2, 200);
-	    }
-
-	});
-	note.setOnMouseExited(new EventHandler<MouseEvent>() {
-
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(note, 1, 200);
-	    }
-
-	});
-        */
     }
     
     public void setAnimHome(ArrayList<ImageView> ivs){
@@ -374,7 +358,26 @@ public class FenetreJeuController {
         }
     }
     
-    public void changeIA(MouseEvent e){
-        
+    public void setSettingsAnim(ArrayList<ImageView> ivs){
+        AnimationFX a = new AnimationFX();
+        for(ImageView iv : ivs){
+            iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    a.scale(iv, 1.2, 200);
+                }
+
+            });
+            
+            iv.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    a.scale(iv, 1.0, 200);
+                }
+
+            });
+        }
     }
 }

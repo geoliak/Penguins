@@ -29,18 +29,20 @@ import java.util.logging.Logger;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-	Tournoi worldCup = new Tournoi(15);
+	Tournoi worldCup = new Tournoi(10);
 
 
-       /*worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
+       /*
+        worldCup.ajouterIA(new JoueurIA1(Couleur.Rouge));
         worldCup.ajouterIA(new JoueurIA2(Couleur.Jaune));
         worldCup.ajouterIA(new JoueurIA3(Couleur.Vert));
         worldCup.ajouterIA(new JoueurIA4(Couleur.Bleu));
         worldCup.ajouterIA(new JoueurIA5(Couleur.Rouge, 1));
-        worldCup.ajouterIA(new JoueurIA6(Couleur.Jaune, 2));
-        worldCup.ajouterIA(new JoueurIA7(Couleur.Vert, 3));*/
-        worldCup.ajouterIA(new JoueurIA9(Couleur.Rouge, 1));
-        worldCup.ajouterIA(new JoueurMinimax(Couleur.VioletFX, 2));
+        */
+        worldCup.ajouterIA(new JoueurIA9(Couleur.Jaune, 2));
+        worldCup.ajouterIA(new JoueurIA8(Couleur.Vert, 3));
+        worldCup.ajouterIA(new JoueurIA6(Couleur.Rouge, 1));
+        worldCup.ajouterIA(new JoueurIA1(Couleur.VioletFX, 2));
 
 
 	worldCup.executerLesCombats(true, true, true);

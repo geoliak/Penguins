@@ -41,16 +41,31 @@ public class JoueurIA extends Joueur {
         this.setAge(r.nextInt(123)); // Jeanne Calment
     }
 
+    /**
+     * 
+     * @param partie : partie a etudier
+     * @return nombre de cases non coulees
+     */
     public int nbCasesRestantes(Partie partie) {
         GetNbCasesCoulees methode = new GetNbCasesCoulees();
         partie.getPlateau().appliquerSurCases(methode);
         return methode.getNbCasesCoulees();
     }
 
+    /**
+     * 
+     * @param partie : partie a etudier
+     * @return : True si tous les pingouins du joueur sont seuls sur des ilots
+     */
     public Boolean estSeul(Partie partie) {
         return this.pinguinsSontSeuls();
     }
 
+    /**
+     * 
+     * @return ArrayList des pingouins du joueur qui ont des adversaires sur leur ilot
+     */
+    @Override
     public ArrayList<Pinguin> getPinguinNonIsole() {
         ArrayList<Pinguin> pinguins = new ArrayList<>();
 
