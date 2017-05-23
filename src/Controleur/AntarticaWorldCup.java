@@ -15,7 +15,6 @@ import Modele.IA.JoueurIA7;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurIA9;
 import Modele.IA.JoueurMinimax;
-import Modele.IA.JoueurMinimax2;
 import Modele.Tournoi;
 import Vue.DessinateurTexte;
 import java.io.IOException;
