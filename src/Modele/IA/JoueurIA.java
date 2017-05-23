@@ -712,7 +712,7 @@ public class JoueurIA extends Joueur {
         int eval = 0;
         ArrayList<Case> iceberg;
         for (Pinguin p : pinguinsJoueur) {
-            iceberg = plateau.getCasesIcebergLimiteCassure(p.getPosition());
+            iceberg = Plateau.getCasesIceberg(p.getPosition());
             if (Plateau.getNbJoueurIceberg(iceberg) == 1) {
                 eval += Plateau.getPoidsIceberg(iceberg) / Plateau.getNbPinguinIceberg(iceberg);
             } else {
