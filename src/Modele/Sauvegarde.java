@@ -46,12 +46,17 @@ public class Sauvegarde {
 
     public void Save(String nomFichier) {
 	try {
-	    Path filepath = Paths.get(savepath + "/S_" + nomFichier);
-	    deleteIfExists(filepath);
-	    Files.createFile(filepath);
+	    Path savefilepath = Paths.get(savepath + "/S_" + nomFichier);
+	    Path histfilepath = Paths.get(savepath + "/H_" + nomFichier);
+	    deleteIfExists(savefilepath);
+	    Files.createFile(savefilepath);
+	    deleteIfExists(histfilepath);
+	    Files.createFile(histfilepath);
 
-	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath.toFile()));
+	    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(savefilepath.toFile()));
 	    oos.writeObject(partie);
+	    oos = new ObjectOutputStream(new FileOutputStream(histfilepath.toFile()));
+	    oos.writeObject(ConfigurationPartie.getConfigurationPartie().getHistorique());
 
 	    //Creation d'image de sauvegarde
 	    Image screenie = ConfigurationPartie.getConfigurationPartie().getRoot().snapshot(null, null);
@@ -66,12 +71,16 @@ public class Sauvegarde {
     }
 
     public Partie Load(String nomFichier) throws IOException, ClassNotFoundException {
-	Path filepath = Paths.get(savepath + "/S_" + nomFichier);
+	Path savefilepath = Paths.get(savepath + "/S_" + nomFichier);
+	Path histfilepath = Paths.get(savepath + "/H_" + nomFichier);
 
 	ObjectInputStream ois = null;
-	ois = new ObjectInputStream(new FileInputStream(filepath.toFile()));
 
+	ois = new ObjectInputStream(new FileInputStream(savefilepath.toFile()));
 	Partie partieacharger = (Partie) ois.readObject();
+
+	ois = new ObjectInputStream(new FileInputStream(histfilepath.toFile()));
+	ConfigurationPartie.getConfigurationPartie().setHistorique((Historique) ois.readObject());
 
 	return partieacharger;
     }

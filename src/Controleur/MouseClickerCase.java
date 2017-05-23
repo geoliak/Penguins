@@ -48,7 +48,7 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 	    if (partie.estEnInitialisation()) {
 		if (partie.getPlateau().getCases()[rowclic][columnclic].estCaseValideInit()) {
 
-                    partie.getHistorique().sauvegarderCoup();
+		    ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegarderCoup();
 
 		    partie.getJoueurCourant().ajouterPinguin(partie.getPlateau().getCases()[rowclic][columnclic]);
 		    partie.getPlateau().getCases()[rowclic][columnclic].setAccessible(false);
@@ -65,15 +65,14 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 		if (pingouin != null) {
 		    Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
 		    if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
-			partie.getHistorique().sauvegarderCoup();
+			ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegarderCoup();
 			pingouin.deplace(caseDest);
 //                        partie.getHistorique().sauvegarderCoup();
-
 
 //			partie.getPlateau().setEstModifié(true);
 			for (Joueur j : partie.getJoueurs()) {
 			    for (Pinguin p : j.getPinguinsVivants()) {
-                                if (p.getPosition().getCasePossibles().size() == 0) {
+				if (p.getPosition().getCasePossibles().size() == 0) {
 				    p.coullePinguin();
 				    partie.getPlateau().setEstModifié(true);
 				}

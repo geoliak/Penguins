@@ -32,10 +32,10 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 	//Annuler coup
 	if (event.isControlDown() && event.getCode() == KeyCode.Z) {
 	    System.out.println("ctrl+z");
-	    ConfigurationPartie.getConfigurationPartie().getPartie().getHistorique().annulerDernierCoup();
+	    ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
 	} //Rejouer coup
 	else if (event.isControlDown() && event.getCode() == KeyCode.R) {
-	    ConfigurationPartie.getConfigurationPartie().getPartie().getHistorique().rejouerCoup();
+	    ConfigurationPartie.getConfigurationPartie().getHistorique().rejouerCoup();
 
 	}//Sauvegarder
 	else if (event.isControlDown() && event.getCode() == KeyCode.S) {

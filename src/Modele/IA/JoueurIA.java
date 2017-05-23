@@ -79,6 +79,11 @@ public class JoueurIA extends Joueur {
      */
     @Override
     public Case etablirCoup(Partie partie) {
+        for (Pinguin p : this.getPinguinsVivants()) {
+            p.getCasesInterdites().removeAll(p.getCasesInterdites());
+        }
+        partie.getPlateau().accept(new DessinateurTexte());
+
         Case caseChoisie = null;
         //System.out.print("etablirCoup ");
         if (!super.getPret()) {
@@ -184,7 +189,7 @@ public class JoueurIA extends Joueur {
 
     //WOLOLO
     public static Case phaseJeuStatic(JoueurIA joueur, Partie partie) {
-        //System.out.println("jeuAleatoire");
+        System.out.println("jeuAleatoire");
         Random r = new Random();
 
         //Choix aléatoire d'un pinguin vivant
@@ -272,7 +277,7 @@ public class JoueurIA extends Joueur {
     //WOLOLO
     public static Case phaseJeuMeilleurCheminStatic(JoueurIA joueur, Partie partie) {
         //Si il n'y a plus pinguin adverse sur l'iceberg
-        //System.out.print("phaseJeuMeilleurCheminStatic ");
+        System.out.print("phaseJeuMeilleurCheminStatic ");
         ArrayList<Case> iceberg;
         int tailleMaximale;
         Case caseChoisie = null;
@@ -291,24 +296,24 @@ public class JoueurIA extends Joueur {
         }
 
         //Methode1 70%  du meilleur chemin
-        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.10) + 1));
-        //Methode2 100% à 3sec max
-        /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
-         meilleurChemin.start();
+        //joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.10) + 1));
+//Methode2 100% à 3sec max
+        EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
+        meilleurChemin.start();
 
-         long startTime;
+        long startTime;
 
-         startTime = System.nanoTime();
-         while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E7) {
-         //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
-         }
-         meilleurChemin.stopThread();
-         try {
-         meilleurChemin.join();
-         //System.out.println("Deces " + (System.nanoTime() - startTime));
-         } catch (InterruptedException ex) {
-         Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+        startTime = System.nanoTime();
+        while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
+            //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
+        }
+        meilleurChemin.stopThread();
+        try {
+            meilleurChemin.join();
+            //System.out.println("Deces " + (System.nanoTime() - startTime));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             caseChoisie = joueur.getChemin().remove(0);
         } catch (Exception e) {
@@ -332,7 +337,7 @@ public class JoueurIA extends Joueur {
          joueur.setPinguinCourant(null);
          }*/
 
-        //System.out.println(" - Ok");
+        System.out.println(" - Ok");
         return caseChoisie;
     }
 
@@ -499,7 +504,7 @@ public class JoueurIA extends Joueur {
      * @return
      */
     public Boolean setPinguinsSeuls(Partie partie) {
-        //System.out.print("setPinguinsSeuls");
+        System.out.print("setPinguinsSeuls");
         for (Pinguin p : super.getPinguinNonIsole()) {
             if (Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(p.getPosition())) == 1) {
                 p.setEstSeul(true);
@@ -512,14 +517,17 @@ public class JoueurIA extends Joueur {
                     //System.out.println(cc);
                     p.getPosition().setCoulee(true);
 
-                    int nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
-                    int poidsIlot1 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    ArrayList<Case> iceberg = partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot1().get(0));
+
+                    int nbJoueur = Plateau.getNbJoueurIceberg(iceberg);
+                    int poidsIlot1 = Plateau.getPoidsIceberg(iceberg);
                     if (nbJoueur != 0) {
                         poidsIlot1 = poidsIlot1 / nbJoueur;
                     }
 
-                    nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
-                    int poidsIlot2 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                    iceberg = partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot2().get(0));
+                    nbJoueur = Plateau.getNbJoueurIceberg(iceberg);
+                    int poidsIlot2 = Plateau.getPoidsIceberg(iceberg);
                     if (nbJoueur != 0) {
                         poidsIlot2 = poidsIlot2 / nbJoueur;
                     }
@@ -563,12 +571,11 @@ public class JoueurIA extends Joueur {
                     }
 
                     p.getPosition().setCoulee(false);
-
                 }
             }
         }
 
-        //System.out.println(" - OK");
+        System.out.println(" - OK");
         return this.pinguinsSontSeuls();
     }
 
@@ -668,30 +675,30 @@ public class JoueurIA extends Joueur {
      * @return true si la suppression de cette case peut former un ilot
      */
     public static CaseCritique estIlot(Case caseCourante, Plateau plateau) {
-        System.out.println("estIlot " + caseCourante + " ?");
+        //System.out.println("estIlot " + caseCourante + " ?");
         CaseCritique caseCritique = null;
         if (!caseCourante.estCoulee()) {
             caseCourante.setCoulee(true);
 
-            if (caseCourante.getVoisinsJouable().size() == 2) {
-                if (!plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
+            if (caseCourante.getVoisinsEmerges().size() == 2) {
+                if (!plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsJouable().size() == 3) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
+            } else if (caseCourante.getVoisinsEmerges().size() == 3) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1)) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsJouable().size() == 4) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(3)))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
+            } else if (caseCourante.getVoisinsEmerges().size() == 4) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1)) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2)) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(3)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
                 }
             }
 
             caseCourante.setCoulee(false);
         }
-        System.out.println((caseCritique != null) + "\n");
+        //System.out.println((caseCritique != null) + "\n");
         return caseCritique;
     }
 

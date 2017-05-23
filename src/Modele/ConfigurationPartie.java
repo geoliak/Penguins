@@ -21,12 +21,13 @@ public class ConfigurationPartie {
     private static ConfigurationPartie configurationPartie;
 
     private Partie partie;
+    private Historique historique;
     private Node root;
     private Scene scene;
     private Label labelScores[] = new Label[4];
     private Stage stage;
     private ImageView[][] initpingoos;
-    
+
     private ConfigurationPartie() {
 	root = new Group();
     }
@@ -63,26 +64,35 @@ public class ConfigurationPartie {
     }
 
     public Label[] getLabelScores() {
-        return labelScores;
+	return labelScores;
     }
 
     public void setLabelScore(Label labelScore, int i) {
-        labelScores[i] = labelScore;
+	labelScores[i] = labelScore;
     }
 
     public Stage getStage() {
-        return stage;
+	return stage;
     }
 
     public void setStage(Stage stage) {
-        this.stage = stage;
+	this.stage = stage;
     }
 
     public ImageView[][] getInitpingoos() {
-        return initpingoos;
+	return initpingoos;
     }
 
     public void setInitpingoos(ImageView[][] initpingoos) {
-        this.initpingoos = initpingoos;
+	this.initpingoos = initpingoos;
     }
+
+    public Historique getHistorique() {
+	return historique;
+    }
+
+    public void setHistorique(Historique historique) {
+	this.historique = historique;
+    }
+
 }

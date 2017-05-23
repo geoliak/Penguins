@@ -284,10 +284,10 @@ public class Plateau implements Serializable {
     }
 
     private void getCasesIcebergLimiteCassureWorker(Case source, ArrayList<Case> iceberg) {
-        if (JoueurIA.estIlot(source, this) != null) {
+        if (!source.estCoulee() && (JoueurIA.estIlot(source, this) != null && source.getPinguin() != null)) {
             iceberg.add(source);
+            source.setCoulee(true);
         } else if (!source.estCoulee()) {
-
             iceberg.add(source);
             source.setCoulee(true);
             for (Case c : source.getVoisinsEmerges()) {
@@ -452,7 +452,7 @@ public class Plateau implements Serializable {
         marquage.add(source);
         Case caseCourante;
 
-        System.out.print("existeChemin " + source + " -> " + destination + " ?");
+        //System.out.print("existeChemin " + source + " -> " + destination + " ?");
         while (!file.isEmpty()) {
             //System.out.println(marquage.size());
             caseCourante = file.remove(0);
@@ -460,13 +460,15 @@ public class Plateau implements Serializable {
                 for (Case c : marquage) {
                     c.setCoulee(false);
                 }
-                System.out.println(" true");
+                //System.out.println(" true");
                 return true;
             } else {
-                for (Case voisin : caseCourante.getVoisinsJouable()) {
-                    voisin.setCoulee(true);
-                    marquage.add(voisin);
-                    file.add(voisin);
+                for (Case voisin : caseCourante.getVoisinsEmerges()) {
+                    if (!(voisin.getPinguin() != null && JoueurIA.estIlot(voisin, this) != null)) {
+                        voisin.setCoulee(true);
+                        marquage.add(voisin);
+                        file.add(voisin);
+                    }
                 }
             }
         }
@@ -474,7 +476,7 @@ public class Plateau implements Serializable {
         for (Case c : marquage) {
             c.setCoulee(false);
         }
-        System.out.println(" false");
+        //System.out.println(" false");
         return false;
 
     }

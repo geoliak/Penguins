@@ -88,7 +88,7 @@ public abstract class Joueur implements Serializable {
 	ArrayList<Pinguin> pinguins = new ArrayList<>();
 
 	for (Pinguin p : this.getPinguinsVivants()) {
-	    if (!p.estSeul()) {
+	    if (!p.estSeul() && p.estVivant()) {
 		pinguins.add(p);
 	    }
 	}
