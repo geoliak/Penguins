@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 public class Coup implements Serializable {
 
     private Joueur joueurCourant;
-    byte[] partie;
+    private byte[] partie;
+    private Coup coupPrecedent;
+    private Coup coupSuivant;
 
     public Coup() {
 	try {
@@ -27,7 +29,7 @@ public class Coup implements Serializable {
 	    ByteArrayOutputStream out = new ByteArrayOutputStream();
 	    ObjectOutputStream oos = new ObjectOutputStream(out);
 	    oos.writeObject(ConfigurationPartie.getConfigurationPartie().getPartie());
-            partie = out.toByteArray();
+	    partie = out.toByteArray();
 	} catch (IOException ex) {
 	    Logger.getLogger(Coup.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -41,4 +43,29 @@ public class Coup implements Serializable {
     public boolean getEstJoueurHumain() {
 	return this.getJoueurCourant().getEstHumain();
     }
+
+    public Coup getCoupPrecedent() {
+	return coupPrecedent;
+    }
+
+    public void setCoupPrecedent(Coup coupPrecedent) {
+	this.coupPrecedent = coupPrecedent;
+    }
+
+    public Coup getCoupSuivant() {
+	return coupSuivant;
+    }
+
+    public void setCoupSuivant(Coup coupSuivant) {
+	this.coupSuivant = coupSuivant;
+    }
+
+    public byte[] getPartie() {
+	return partie;
+    }
+
+    public boolean isFirst() {
+	return this.coupPrecedent == null;
+    }
+
 }

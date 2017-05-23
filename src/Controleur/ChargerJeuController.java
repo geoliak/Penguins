@@ -43,8 +43,8 @@ public class ChargerJeuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        CloseButton c = new CloseButton(fermer);
-        BackButton b = new BackButton(retour, "ParamJeu");
+	CloseButton c = new CloseButton(fermer);
+	BackButton b = new BackButton(retour, "ParamJeu");
 
 	ObservableList<String> items = listView.getItems();
 
@@ -84,7 +84,7 @@ public class ChargerJeuController implements Initializable {
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
 	if (listView.getSelectionModel().getSelectedItems().size() != 0) {
 	    Partie partie = new Sauvegarde().Load("1");
-            System.out.println(partie.getHistorique());
+//            System.out.println(partie.getHistorique());
 	    ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 
 	    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -116,6 +116,9 @@ public class ChargerJeuController implements Initializable {
 	    f.delete();
 
 	    f = new File("./Savefiles/I_" + filename);
+	    f.delete();
+
+	    f = new File("./Savefiles/H_" + filename);
 	    f.delete();
 
 	    List<String> items = listView.getItems();
