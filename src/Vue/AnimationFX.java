@@ -13,6 +13,8 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
 import javafx.animation.Animation;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -61,6 +63,36 @@ public class AnimationFX {
 	st.setToY(x);
 
 	st.play();
+	return st;
+    }
+    
+    public Transition scaleFromZero(Node n, double x, int t) {
+        n.setVisible(true);
+	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
+        st.setFromX(0.0);
+        st.setFromY(0.0);
+	st.setToX(x);
+	st.setToY(x);
+
+	st.play();
+	return st;
+    }
+    public Transition scaleToZero(Node n, int t) {
+        
+	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
+	st.setToX(0.0);
+	st.setToY(0.0);
+
+	st.play();
+        
+        st.setOnFinished(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                n.setVisible(false);
+            }
+        });
+        
 	return st;
     }
     
