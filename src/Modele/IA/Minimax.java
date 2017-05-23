@@ -319,7 +319,7 @@ public class Minimax {
 
         //On stop l'enumeration
         if (profondeur == 0) {
-            return poidsChemin1 + JoueurIA.evaluationEtatV2(pinguinsJoueur1, plateau) - JoueurIA.evaluationEtatV2(pinguinsJoueur2, plateau);
+            return poidsChemin1 + JoueurIA.evaluationEtatV2(pinguinsJoueur1, plateau) - JoueurIA.evaluationEtatV2(pinguinsJoueur2, plateau) - poidsChemin2;
 
         } else {
             //On retire les pinguins qui sont dans un etat final

@@ -504,46 +504,48 @@ public class JoueurIA extends Joueur {
                 p.setEstSeul(true);
 
             } else {
-                /*boolean estSeul = true;
-                
-                 CaseCritique cc = JoueurIA.estIlot(p.getPosition(), partie.getPlateau());
-                 if (cc != null) {
-                 ArrayList<Joueur> joueurs = Plateau.getJoueursIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
-                 p.getPosition().setCoulee(true);
+                boolean estSeul = true;
 
-                 if (joueurs.size() == 1 && joueurs.get(0) == p.getGeneral()) {
-                 for (Case c : cc.getIlot2()) {
-                 if (c.getPinguin() == null && Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).size() > 0 && (Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).size() > 2 || !Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).contains(p.getGeneral()))) {
-                 estSeul = false;
-                 }
-                 }
-                        
-                 } else if (joueurs.size() > 1) {
-                 for (Case c : cc.getIlot1()) {
-                 if (c.getPinguin() == null && Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).size() > 0 && (Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).size() > 2 || !Plateau.getJoueursIceberg(Plateau.getCasesIceberg(c)).contains(p.getGeneral()))) {
-                 estSeul = false;
-                 }
-                 }
-                 }
+                CaseCritique cc = JoueurIA.estIlot(p.getPosition(), partie.getPlateau());
+                if (cc != null) {
+                    p.getPosition().setCoulee(true);
+                    ArrayList<Joueur> joueursIlot1 = Plateau.getJoueursIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    ArrayList<Joueur> joueursIlot2 = Plateau.getJoueursIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
 
-                 p.getPosition().setCoulee(false);
-                 p.setEstSeul(estSeul);
-                 
-            }*/
+
+                    if (joueursIlot1.isEmpty() || joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral() && joueursIlot2.size() > 0) {
+                        for (Case c : cc.getIlot2()) {
+                            if (c.getPinguin() == null && (joueursIlot2.size() > 1 ||  joueursIlot2.size() == 1 && !joueursIlot2.contains(this))) {
+                                estSeul = false;
+                            }
+                        }
+
+                    } else if (joueursIlot2.isEmpty() && joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral() && joueursIlot1.size() > 0) {
+                        for (Case c : cc.getIlot1()) {
+                            if (c.getPinguin() == null && (joueursIlot1.size() > 1 ||  joueursIlot1.size() == 1 && !joueursIlot1.contains(this))) {
+                                estSeul = false;
+                            }
+                        }
+                    }
+
+                    p.getPosition().setCoulee(false);
+                    p.setEstSeul(estSeul);
+
+                }
+            }
         }
+
+        //System.out.println(" - OK");
+        return this.pinguinsSontSeuls();
     }
 
-    //System.out.println(" - OK");
-    return this.pinguinsSontSeuls();
-}
-
-/**
- * Parcours les pinguins vivants pour determiner si ils sont tous seuls sur leur
- * iceberg
- *
- * @return True si les pinguins sont tous seuls
- */
-public Boolean pinguinsSontSeuls() {
+    /**
+     * Parcours les pinguins vivants pour determiner si ils sont tous seuls sur
+     * leur iceberg
+     *
+     * @return True si les pinguins sont tous seuls
+     */
+    public Boolean pinguinsSontSeuls() {
         boolean sontSeuls = true;
         for (Pinguin p : super.getPinguinsVivants()) {
             sontSeuls = sontSeuls && p.estSeul();
@@ -700,7 +702,7 @@ public Boolean pinguinsSontSeuls() {
                 } else if (tailleIceberg < 40) {
                     profondeur = 8;
                 } else {
-                    profondeur = 5;
+                    profondeur = 4;
                 }
                 System.out.print("profondeur " + profondeur);
 
@@ -740,7 +742,7 @@ public Boolean pinguinsSontSeuls() {
     }
 
     @Override
-        public String getSpecialitees() {
+    public String getSpecialitees() {
         return this.getNom() + "Joueur IA";
     }
 
