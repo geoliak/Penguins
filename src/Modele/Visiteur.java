@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import javafx.animation.Transition;
+
 /**
  *
  * @author novelm
@@ -19,5 +21,5 @@ public abstract class Visiteur {
 
     public abstract void visit(Joueur j);
     
-    public abstract void visit(Demo d);
+    public abstract Transition visit(Demo d);
 }

@@ -33,7 +33,7 @@ public class GenereIA {
 
     private ArrayList<JoueurIA> groupe;
 
-    public GenereIA(JoueurIA IA) {
+    public GenereIA() {
 
         //Methode pouvant etre utilisées pour l'initialisation
         this.initialisation = new ArrayList<>();

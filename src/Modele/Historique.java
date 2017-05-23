@@ -19,17 +19,21 @@ import java.util.logging.Logger;
  */
 public class Historique implements Serializable {
 
-    private String dossierNom;
     private int indice = 0;
-    private static LinkedList<Coup> historiqueCoups;
+    private LinkedList<Coup> historiqueCoups;
 
     public Historique() {
-	Historique.historiqueCoups = new LinkedList<>();
+	this.historiqueCoups = new LinkedList<>();
+    }
+
+    public Historique(Historique h) {
+	this.indice = h.indice;
+	this.historiqueCoups = (LinkedList<Coup>) h.historiqueCoups.clone();
+
     }
 
     public void sauvegarderCoup() {
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain()) {
-	    System.out.println("indice ou le nouveau coup va " + indice);
 	    Coup nouveauCoup = new Coup();
             if(historiqueCoups == null ){
                 System.out.println("historique null");
@@ -40,12 +44,10 @@ public class Historique implements Serializable {
             }
 	    historiqueCoups.add(indice, nouveauCoup);
 	    indice++;
-	    System.out.println("indice " + indice + " size " + historiqueCoups.size());
 
 	    if (historiqueCoups.size() > indice) {
 		for (int i = indice; i < historiqueCoups.size();) {
 		    historiqueCoups.remove(i);
-		    System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
 		}
 	    }
 	}
@@ -53,10 +55,14 @@ public class Historique implements Serializable {
 
     public void rejouerCoup() {
 	//Teste si on a des coups à refaire, le +1 sert parce que normalement l'emplacement "indice" doit etre vide
+	System.out.println("INDICE: " + indice + " SIZE: " + historiqueCoups.size());
 	if (historiqueCoups.size() > indice + 1) {
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setTourFini(true);
 	    indice++;
 	    try {
-		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
+
+		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).partie);
+
 		ObjectInputStream instr = new ObjectInputStream(in);
 		ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
 	    } catch (IOException ex) {
@@ -66,6 +72,7 @@ public class Historique implements Serializable {
 	    }
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().setPinguinCourant(null);
 	} else {
 	    System.out.println("Pas des coups a refaire");
 	}
@@ -75,10 +82,18 @@ public class Historique implements Serializable {
 	System.out.println("indice avant decrementation " + indice);
 
 	if (indice > 0) {
+
+	    if (historiqueCoups.size() == indice) {
+		sauvegarderCoup();
+		indice--;
+	    }
+
 	    indice--;
 	    try {
-		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).getOut().toByteArray());
+
+		ByteArrayInputStream in = new ByteArrayInputStream(historiqueCoups.get(indice).partie);
 		ObjectInputStream instr = new ObjectInputStream(in);
+
 		ConfigurationPartie.getConfigurationPartie().setPartie((Partie) instr.readObject());
 	    } catch (IOException ex) {
 		Logger.getLogger(Historique.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,6 +102,8 @@ public class Historique implements Serializable {
 	    }
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setTourFini(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().setPinguinCourant(null);
 	    System.out.println(indice + " charge");
 	} else {
 	    System.out.println("plus de coups a annuler");
@@ -100,5 +117,9 @@ public class Historique implements Serializable {
     public void recommencer() {
 	this.indice = 1;
 	this.annulerDernierCoup();
+	for (int i = 1; i < historiqueCoups.size();) {
+	    historiqueCoups.remove(i);
+	    System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
+	}
     }
 }

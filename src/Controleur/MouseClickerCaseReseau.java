@@ -46,9 +46,9 @@ public class MouseClickerCaseReseau implements EventHandler<MouseEvent> {
 
             // Joueur Humain
             if (partie.getJoueurCourant().getEstHumain() && partie.isTourFini()) {
-                if (partie.getHistorique().sauvegardeDebut()) {
-                    partie.getHistorique().sauvegarderCoup();
-                }
+//                if (partie.getHistorique().sauvegardeDebut()) {
+//                    partie.getHistorique().sauvegarderCoup();
+//                }
 
                 partie.setTourFini(false);
                 // Initialisation : Placement pingouins
@@ -71,7 +71,7 @@ public class MouseClickerCaseReseau implements EventHandler<MouseEvent> {
                     if (pingouin != null) {
                         Case caseDest = partie.getPlateau().getCases()[rowclic][columnclic];
                         if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
-                            partie.getHistorique().sauvegarderCoup();
+//                            partie.getHistorique().sauvegarderCoup();
                             pingouin.deplace(caseDest);
 
     //			partie.getPlateau().setEstModifié(true);

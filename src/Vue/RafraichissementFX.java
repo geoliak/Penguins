@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
+import javafx.animation.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  *
@@ -37,12 +40,16 @@ public class RafraichissementFX extends AnimationTimer {
     }
 
     @Override
-    public void handle(long now) {
+    public void handle(long now) {        
 	if (!partie.equals(ConfigurationPartie.getConfigurationPartie().getPartie())) {
 	    System.out.println("Mise a jour de la partie");
 	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	}
 
+        if(partie.getDemo()!=null && partie.getDemo().isEstModifie()){
+            partie.getDemo().accept(d);
+        }
+        
 	// Rafraichissement du plateau
 	if (partie.getPlateau().isEstModifié()) {
             
@@ -65,8 +72,10 @@ public class RafraichissementFX extends AnimationTimer {
 			}
 		    }
 		    partie.setInitialisation(false);
+                    
                     if(partie.getDemo() != null){
                         partie.getDemo().nextPhase();
+                        partie.getDemo().setEstModifie(true);
                     }
 
 		    for (Joueur j : partie.getJoueursEnJeu()) {
@@ -74,11 +83,7 @@ public class RafraichissementFX extends AnimationTimer {
 		    }
 
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
-                    
-                    if(partie.getDemo()!=null){
-                        partie.getDemo().accept(d);
-                    }
-                    
+                                        
                     partie.getPlateau().setEstModifié(true);
 		}
 	    }
@@ -97,9 +102,9 @@ public class RafraichissementFX extends AnimationTimer {
                     if (!partie.getJoueurCourant().getEstHumain()) {
                         partie.setTourFini(false);
                         //
-                        System.out.println("JOUEUR COURANT " + partie.getJoueurCourant().getNom() + " " + partie.getJoueurCourant().getCouleur().getNom());
+                        //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant().getNom() + " " + partie.getJoueurCourant().getCouleur().getNom());
                         partie.getJoueurCourant().joueCoup(partie.getJoueurCourant().etablirCoup(partie));
-                        System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
+                        //System.out.println("COUP IA " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumLigne() + " " + partie.getJoueurCourant().getPinguinCourant().getPosition().getNumColonne());
                         
                         for (Joueur j : partie.getJoueurs()) {
                             for (Pinguin p : j.getPinguinsVivants()) {
@@ -109,9 +114,11 @@ public class RafraichissementFX extends AnimationTimer {
                                 }
                             }
                         }
+                        
                         partie.joueurSuivant();
                         //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
                         //System.out.println("DEMO: " + partie.getDemo().getPhase());
+                                                
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
@@ -121,10 +128,10 @@ public class RafraichissementFX extends AnimationTimer {
 
 	    for (Joueur j : partie.getJoueurs()) {
                 for (Pinguin p : j.getPinguinsVivants()) {
-                    if (p.getPosition().estCoulee()) {
+                    /*if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
-                    } else if (p.getPosition().getCasePossibles().size() == 0) {
+                    } else*/ if (p.getPosition().getCasePossibles().size() == 0) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }

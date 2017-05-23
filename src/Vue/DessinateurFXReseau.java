@@ -248,18 +248,17 @@ public class DessinateurFXReseau extends Visiteur {
 	}
     }
     
-    public void visit(Demo d){
-        Label label = (Label) ((AnchorPane) this.root).lookup("#consigne");
-        if(!partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
-            label.setText("");
-
-            a.AnimateText(label, partie.getDemo().getConsigne());
-        }
-    }
+    
     
     
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
+
+    @Override
+    public Transition visit(Demo d) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

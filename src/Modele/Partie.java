@@ -24,7 +24,6 @@ public class Partie implements Serializable {
     private int nbPingouinParJoueur;
     private boolean tourFini;
     private boolean reloadPartie;
-    private Historique historique;
     private Demo demo;
 
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs) {
@@ -37,12 +36,12 @@ public class Partie implements Serializable {
 
 	this.tourFini = true;
 
-	this.historique = new Historique();
+	ConfigurationPartie.getConfigurationPartie().setHistorique(new Historique());
 	setPositionsPossiblesInit(true);
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
     }
-    
+
     public Partie(Plateau plateau, ArrayList<Joueur> joueurs, boolean demo) {
 	this.initialisation = true;
 	this.plateau = plateau;
@@ -53,14 +52,14 @@ public class Partie implements Serializable {
 
 	this.tourFini = true;
 
-	this.historique = new Historique();
+	ConfigurationPartie.getConfigurationPartie().setHistorique(new Historique());
 	setPositionsPossiblesInit(true);
 	//Ne pas mettre après remove joueur
 	setNbPingouinParJoueur();
-        
-        if(demo){
-            this.demo = new Demo();
-        }
+
+	if (demo) {
+	    this.demo = new Demo();
+	}
     }
 
     public int nbPingouinsTotal() {
@@ -73,22 +72,22 @@ public class Partie implements Serializable {
 
     public void setNbPingouinParJoueur() {
 	int nbPinguin = 0;
-        if(demo == null){
-            switch (joueurs.size()) {
-                case 2:
-                    nbPinguin = 4;
-                    break;
-                case 3:
-                    nbPinguin = 3;
-                    break;
-                case 4:
-                    nbPinguin = 2;
-                    break;
-            }
-        } else {
-            nbPinguin = 2;
-        }
-        
+	if (demo == null) {
+	    switch (joueurs.size()) {
+		case 2:
+		    nbPinguin = 4;
+		    break;
+		case 3:
+		    nbPinguin = 3;
+		    break;
+		case 4:
+		    nbPinguin = 2;
+		    break;
+	    }
+	} else {
+	    nbPinguin = 2;
+	}
+
 	nbPingouinParJoueur = nbPinguin;
     }
 
@@ -137,16 +136,16 @@ public class Partie implements Serializable {
     }
 
     public Boolean estTerminee() {
-        Boolean res;
-        if(demo == null){
-            res = joueurCourant.estEnJeu();
-            for (Joueur j : this.joueursEnJeu) {
-                res = res || j.estEnJeu();
-            }
-        }else {
-            return demo.isDemoFinie();
-        }
-	
+	Boolean res;
+	if (demo == null) {
+	    res = joueurCourant.estEnJeu();
+	    for (Joueur j : this.joueursEnJeu) {
+		res = res || j.estEnJeu();
+	    }
+	} else {
+	    return demo.isDemoFinie();
+	}
+
 	return !res;
     }
 
@@ -253,10 +252,6 @@ public class Partie implements Serializable {
 	this.reloadPartie = reloadPartie;
     }
 
-    public Historique getHistorique() {
-	return historique;
-    }
-
     public void setPositionsPossiblesInit(boolean b) {
 	// A n'utiliser qu'en cas d'initialisation de la partie
 	for (int i = 0; i < this.plateau.getNbLignes(); i++) {
@@ -270,10 +265,10 @@ public class Partie implements Serializable {
     }
 
     public Demo getDemo() {
-        return demo;
+	return demo;
     }
 
     public void setDemo(Demo demo) {
-        this.demo = demo;
+	this.demo = demo;
     }
 }

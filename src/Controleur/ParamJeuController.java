@@ -10,6 +10,7 @@ import Modele.Couleur;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA2;
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIA9;
 import Modele.IA.JoueurIASauveQuiPeut;
 import Modele.IA.JoueurMinimax;
 import Modele.Joueur;
@@ -32,8 +33,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import Modele.MyImageView;
+import javafx.scene.effect.InnerShadow;
 
 import javafx.scene.image.ImageView;
+import static javafx.scene.input.KeyCode.C;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -120,6 +123,12 @@ public class ParamJeuController implements Initializable {
 
     @FXML
     private MyImageView prevTerrain;
+    
+    @FXML
+    private MyImageView fermer, retour; 
+    
+    @FXML
+    private MyImageView chargerpartie, jouer;
 
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
@@ -132,6 +141,13 @@ public class ParamJeuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
+        jouer.setEffect(new DropShadow());
+        chargerpartie.setEffect(new DropShadow());
+        
+        chargerpartie.setX(10);
+        chargerpartie.setY(10);
+        CloseButton c = new CloseButton(fermer);
+        BackButton b = new BackButton(retour, "Accueil");
     }
 
     public void arrowClick(MouseEvent e) {
@@ -326,11 +342,11 @@ public class ParamJeuController implements Initializable {
     }
 
     public void on(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(new DropShadow());
+	((MyImageView) e.getSource()).setEffect(new InnerShadow());
     }
 
     public void out(MouseEvent e) {
-	((MyImageView) e.getSource()).setEffect(null);
+	((MyImageView) e.getSource()).setEffect(new DropShadow());
     }
 
     public void chargerPartie(MouseEvent e) throws IOException {
@@ -403,6 +419,7 @@ public class ParamJeuController implements Initializable {
 	    }
 	}
 	Partie partie = new Partie(plateau, joueurs);
+
 	return partie;
     }
     

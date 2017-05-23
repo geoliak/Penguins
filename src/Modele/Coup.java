@@ -8,6 +8,7 @@ package Modele;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,17 +16,18 @@ import java.util.logging.Logger;
  *
  * @author liakopog
  */
-public class Coup {
+public class Coup implements Serializable {
 
     private Joueur joueurCourant;
-    private ByteArrayOutputStream out;
+    byte[] partie;
 
     public Coup() {
 	try {
 	    this.joueurCourant = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
-	    out = new ByteArrayOutputStream();
+	    ByteArrayOutputStream out = new ByteArrayOutputStream();
 	    ObjectOutputStream oos = new ObjectOutputStream(out);
 	    oos.writeObject(ConfigurationPartie.getConfigurationPartie().getPartie());
+	    partie = out.toByteArray();
 	} catch (IOException ex) {
 	    Logger.getLogger(Coup.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -39,9 +41,4 @@ public class Coup {
     public boolean getEstJoueurHumain() {
 	return this.getJoueurCourant().getEstHumain();
     }
-
-    public ByteArrayOutputStream getOut() {
-	return out;
-    }
-
 }

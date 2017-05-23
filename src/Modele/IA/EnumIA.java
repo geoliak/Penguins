@@ -83,6 +83,7 @@ public class EnumIA extends JoueurIA {
     }
 
     public Case getCaseCertaineFrom(double[] proba, Partie partie, ArrayList<BiFunction<JoueurIA, Partie, Case>> methodes) {
+        //System.out.print("getCaseCertaineFrom ");
         Case rep = null;
         Random r = new Random();
         double choix, probaCourante;
@@ -96,11 +97,12 @@ public class EnumIA extends JoueurIA {
             probaCourante += proba[i];
         }
         rep = methodes.get(i).apply(this, partie);
-
+        //System.out.println("- OK");
         return rep;
     }
 
     public Case getCaseIncertaineFrom(double[] proba, Partie partie, ArrayList<BiFunction<JoueurIA, Partie, Case>> methodes) {
+        //System.out.print("getCaseIncertaineFrom ");
         Case rep = null;
         Random r = new Random();
         double choix, probaCourante;
@@ -117,6 +119,14 @@ public class EnumIA extends JoueurIA {
             while (probaCourante < choix) {
                 i++;
                 probaCourante += etatCourant[i];
+                /*if (probaCourante > 1 || i > proba.length) {
+                    System.out.println("==================\nDebug\n");
+                    System.out.println("i " + i + "\t probaCourante " + probaCourante);
+                    for (int l = 0; l < etatCourant.length; l++) {
+                        System.out.println("etatCourant["+l+"] = " + etatCourant[l]);
+                    }
+                    System.out.println("");
+                }*/
             }
             rep = methodes.get(i).apply(this, partie);
             //Si cette methode n'a pas donnee de case alors on la retire et on recommence sur les methode restantes
@@ -137,20 +147,20 @@ public class EnumIA extends JoueurIA {
         if (rep == null) {
             rep = this.getCaseCertaineFrom(this.jeuCertain, partie, this.genereIA.getJeuCertain());
         }
-
+        //System.out.println("- OK");
         return rep;
     }
 
     @Override
     public Case etablirCoup(Partie partie) {
         Case caseChoisie = null;
-
+        //System.out.print("etablirCoupEnumIA ");
         if (!super.getPret()) {
             caseChoisie = this.getCaseCertaineFrom(this.initialisation, partie, this.genereIA.getInitialisation());
 
         } else {
             //Si tous les pinguins du joueur sont seuls sur leurs icebergs
-            if (!this.estFinJeu(partie)) {
+            if (this.estSeul(partie)) {
                 caseChoisie = this.phaseJeuMeilleurChemin(partie);
 
             } else {
@@ -166,7 +176,7 @@ public class EnumIA extends JoueurIA {
                 }
             }
         }
-
+        //System.out.println("- OK");
         return caseChoisie;
     }
 
@@ -303,7 +313,7 @@ public class EnumIA extends JoueurIA {
         sb.append("|Au hasard\t\t-> " + this.initialisation[0] + "\n");
         sb.append("|Gourmande\t\t\t-> " + this.initialisation[1] + "\n");
         sb.append("|Max mouvements\t\t\t-> " + this.initialisation[2] + "\n");
-        
+
         sb.append("|| Phase debutJeu : \n");
         sb.append("|Minimax\t\t\t-> " + this.debutJeu[0] + "\n");
         sb.append("|Sauve qui peut\t\t\t-> " + this.debutJeu[1] + "\n");
@@ -312,7 +322,7 @@ public class EnumIA extends JoueurIA {
         sb.append("|Victime ilot\t\t\t-> " + this.debutJeu[4] + "\n");
         sb.append("|Gourmande\t\t\t-> " + this.debutJeu[5] + "\n");
         sb.append("|Max mouvements\t\t\t-> " + this.debutJeu[6] + "\n");
-        
+
         sb.append("|| Phase millieuJeu : \n");
         sb.append("|Minimax\t\t\t-> " + this.millieuJeu[0] + "\n");
         sb.append("|Sauve qui peut\t\t\t-> " + this.millieuJeu[1] + "\n");
@@ -321,7 +331,7 @@ public class EnumIA extends JoueurIA {
         sb.append("|Victime ilot\t\t\t-> " + this.millieuJeu[4] + "\n");
         sb.append("|Gourmande\t\t\t-> " + this.millieuJeu[5] + "\n");
         sb.append("|Max mouvements\t\t\t-> " + this.millieuJeu[6] + "\n");
-        
+
         sb.append("|| Phase jeu Certain : \n");
         sb.append("|Gourmande\t\t\t-> " + this.jeuCertain[0] + "\n");
         sb.append("|Max mouvements\t\t\t-> " + this.jeuCertain[1] + "\n");

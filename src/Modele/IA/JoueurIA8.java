@@ -29,11 +29,6 @@ public class JoueurIA8 extends JoueurIA {
         //On regarde si on peut éliminer un pinguin
         Case caseChoisie = null;
 
-        /*caseChoisie = JoueurIA8.minimax(this, partie, 20);
-         if (caseChoisie != null) {
-         System.out.println("Minimax");
-         return caseChoisie;
-         }*/
         caseChoisie = this.sauveQuiPeutBasique(partie);
         if (caseChoisie != null) {
             return caseChoisie;
