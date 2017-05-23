@@ -9,6 +9,9 @@ import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
 import Modele.SuggestionCoup;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
@@ -39,8 +42,11 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
 	}//Sauvegarder
 	else if (event.isControlDown() && event.getCode() == KeyCode.S) {
+	    DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+	    Date date = new Date();
 	    this.s = new Sauvegarde();
-	    s.Save("1");
+	    System.out.println(dateFormat.format(date));
+	    s.Save(dateFormat.format(date));
 
 	}//Charger
 	else if (event.isControlDown() && event.getCode() == KeyCode.L) {
