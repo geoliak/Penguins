@@ -96,6 +96,7 @@ public class JoueurIA extends Joueur {
             }
 
         } else if (this.setPinguinsSeuls(partie) && this.getPinguinsVivants().size() >= 1) {
+            System.out.println("================= sont seuls");
             caseChoisie = this.phaseJeuMeilleurChemin(partie);
             if (caseChoisie == null) {
                 System.out.println("");
@@ -508,28 +509,60 @@ public class JoueurIA extends Joueur {
 
                 CaseCritique cc = JoueurIA.estIlot(p.getPosition(), partie.getPlateau());
                 if (cc != null) {
+                    //System.out.println(cc);
                     p.getPosition().setCoulee(true);
-                    ArrayList<Joueur> joueursIlot1 = Plateau.getJoueursIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
-                    ArrayList<Joueur> joueursIlot2 = Plateau.getJoueursIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
 
+                    int nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    int poidsIlot1 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot1 = poidsIlot1 / nbJoueur;
+                    }
 
-                    if (joueursIlot1.isEmpty() || joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral() && joueursIlot2.size() > 0) {
-                        for (Case c : cc.getIlot2()) {
-                            if (c.getPinguin() == null && (joueursIlot2.size() > 1 ||  joueursIlot2.size() == 1 && !joueursIlot2.contains(this))) {
-                                estSeul = false;
+                    nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                    int poidsIlot2 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot2 = poidsIlot2 / nbJoueur;
+                    }
+
+                    ArrayList<Joueur> joueursIlot1 = Plateau.getJoueursIceberg(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot1().get(0)));
+                    ArrayList<Joueur> joueursIlot2 = Plateau.getJoueursIceberg(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot2().get(0)));
+
+                    //Si l'ilot est interressant
+                    if (poidsIlot1 > poidsIlot2) {
+                        //Si l'ilot1 a deja une presence du joueur, personne n'ira sur cet ilot
+                        if (joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral()) {
+                            p.setCasesInterdites(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot1().get(0)));
+                            //Si il n'y a personne sur cet ilot
+                        } else if (joueursIlot1.isEmpty()) {
+                            p.setEstSeul(true);
+                        }
+                    } else if (poidsIlot2 > poidsIlot1) {
+                        //Si l'ilot2 a deja une presence du joueur, personne n'ira sur cet ilot
+                        if (joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral()) {
+                            p.setCasesInterdites(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot2().get(0)));
+                            //Si il n'y a personne sur cet ilot
+                        } else if (joueursIlot2.isEmpty()) {
+                            p.setEstSeul(true);
+                        }
+                    } else {
+                        if (joueursIlot1.isEmpty() || joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral() && joueursIlot2.size() > 0) {
+                            for (Case c : cc.getIlot2()) {
+                                if (c.getPinguin() == null && (joueursIlot2.size() > 1 || joueursIlot2.size() == 1 && !joueursIlot2.contains(this))) {
+                                    estSeul = false;
+                                }
+                            }
+
+                        } else if (joueursIlot2.isEmpty() && joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral() && joueursIlot1.size() > 0) {
+                            for (Case c : cc.getIlot1()) {
+                                if (c.getPinguin() == null && (joueursIlot1.size() > 1 || joueursIlot1.size() == 1 && !joueursIlot1.contains(this))) {
+                                    estSeul = false;
+                                }
                             }
                         }
-
-                    } else if (joueursIlot2.isEmpty() && joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral() && joueursIlot1.size() > 0) {
-                        for (Case c : cc.getIlot1()) {
-                            if (c.getPinguin() == null && (joueursIlot1.size() > 1 ||  joueursIlot1.size() == 1 && !joueursIlot1.contains(this))) {
-                                estSeul = false;
-                            }
-                        }
+                        p.setEstSeul(estSeul);
                     }
 
                     p.getPosition().setCoulee(false);
-                    p.setEstSeul(estSeul);
 
                 }
             }
@@ -635,29 +668,30 @@ public class JoueurIA extends Joueur {
      * @return true si la suppression de cette case peut former un ilot
      */
     public static CaseCritique estIlot(Case caseCourante, Plateau plateau) {
+        System.out.println("estIlot " + caseCourante + " ?");
         CaseCritique caseCritique = null;
         if (!caseCourante.estCoulee()) {
             caseCourante.setCoulee(true);
 
-            if (caseCourante.getVoisinsEmerges().size() == 2) {
-                if (!plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2)) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            if (caseCourante.getVoisinsJouable().size() == 2) {
+                if (!plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsEmerges().size() == 3) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2), 2))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            } else if (caseCourante.getVoisinsJouable().size() == 3) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsEmerges().size() == 4) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(3), 2))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            } else if (caseCourante.getVoisinsJouable().size() == 4) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(3)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
             }
 
             caseCourante.setCoulee(false);
         }
-
+        System.out.println((caseCritique != null) + "\n");
         return caseCritique;
     }
 

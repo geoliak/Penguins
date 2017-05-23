@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Queue;
 
 /**
  *
@@ -268,6 +269,33 @@ public class Plateau implements Serializable {
         }
     }
 
+    public ArrayList<Case> getCasesIcebergLimiteCassure(Case source) {
+        ArrayList<Case> iceberg = new ArrayList<>();
+        iceberg.add(source);
+        source.setCoulee(true);
+        for (Case voisin : source.getVoisinsEmerges()) {
+            this.getCasesIcebergSansCassuresWorker(voisin, iceberg);
+        }
+
+        for (Case c : iceberg) {
+            c.setCoulee(false);
+        }
+        return iceberg;
+    }
+
+    private void getCasesIcebergLimiteCassureWorker(Case source, ArrayList<Case> iceberg) {
+        if (JoueurIA.estIlot(source, this) != null) {
+            iceberg.add(source);
+        } else if (!source.estCoulee()) {
+
+            iceberg.add(source);
+            source.setCoulee(true);
+            for (Case c : source.getVoisinsEmerges()) {
+                this.getCasesIcebergLimiteCassureWorker(c, iceberg);
+            }
+        }
+    }
+
     public ArrayList<Case> getCasesIcebergSansCassures(Case source) {
         ArrayList<Case> iceberg = new ArrayList<>();
         iceberg.add(source);
@@ -287,7 +315,7 @@ public class Plateau implements Serializable {
             iceberg.add(source);
             source.setCoulee(true);
             for (Case c : source.getVoisinsEmerges()) {
-                this.getCasesIcebergWorker(c, iceberg);
+                this.getCasesIcebergSansCassuresWorker(c, iceberg);
             }
         }
     }
@@ -415,24 +443,40 @@ public class Plateau implements Serializable {
         return D;
     }
 
-    public Boolean existeChemin(Case source, Case destination, int profondeur) {
-        if (profondeur == 0) {
-            return false;
+    public Boolean existeChemin(Case source, Case destination) {
+        HashSet<Case> marquage = new HashSet<>();
+        ArrayList<Case> file = new ArrayList<>();
 
-        } else if (source == destination) {
-            return true;
+        file.add(source);
+        source.setCoulee(true);
+        marquage.add(source);
+        Case caseCourante;
 
-        } else {
-            source.setCoulee(true);
-            boolean rep = false;
-
-            for (Case voisins : source.getVoisinsJouable()) {
-                rep = rep || this.existeChemin(voisins, destination, profondeur - 1);
+        System.out.print("existeChemin " + source + " -> " + destination + " ?");
+        while (!file.isEmpty()) {
+            //System.out.println(marquage.size());
+            caseCourante = file.remove(0);
+            if (caseCourante == destination) {
+                for (Case c : marquage) {
+                    c.setCoulee(false);
+                }
+                System.out.println(" true");
+                return true;
+            } else {
+                for (Case voisin : caseCourante.getVoisinsJouable()) {
+                    voisin.setCoulee(true);
+                    marquage.add(voisin);
+                    file.add(voisin);
+                }
             }
-
-            source.setCoulee(false);
-            return rep;
         }
+
+        for (Case c : marquage) {
+            c.setCoulee(false);
+        }
+        System.out.println(" false");
+        return false;
+
     }
 
     //GETTER ET SETTER

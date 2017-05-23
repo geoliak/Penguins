@@ -72,10 +72,10 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 //			partie.getPlateau().setEstModifié(true);
 			for (Joueur j : partie.getJoueurs()) {
 			    for (Pinguin p : j.getPinguinsVivants()) {
-				if (p.getPosition().estCoulee()) {
+				/*if (p.getPosition().estCoulee()) {
 				    p.coullePinguin();
 				    partie.getPlateau().setEstModifié(true);
-				} else if (p.getPosition().getCasePossibles().size() == 0) {
+				} else */if (p.getPosition().getCasePossibles().size() == 0) {
 				    p.coullePinguin();
 				    partie.getPlateau().setEstModifié(true);
 				}

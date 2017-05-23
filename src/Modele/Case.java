@@ -109,13 +109,17 @@ public class Case implements Serializable {
             }
         }
 
-        res.sort(new Comparator<Case>() {
-            @Override
-            public int compare(Case o1, Case o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        res.sort((Case o1, Case o2) -> o1.compareTo(o2));
 
+        if (this.pinguin != null) {
+            ArrayList<Case> clone = (ArrayList<Case>) res.clone();
+            clone.removeAll(this.pinguin.getCasesInterdites());
+            
+            if (!res.isEmpty() && !clone.isEmpty()) {
+                return clone;
+            }
+        }
+        
         return res;
     }
 

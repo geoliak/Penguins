@@ -45,7 +45,7 @@ public class CaseCritique {
         for (Case c : voisins) {
             if (ancien == null) {
                 this.ilot1.add(c);
-            } else if (plateau.existeChemin(ilot1.get(0), c, 2)) {
+            } else if (plateau.existeChemin(ilot1.get(0), c)) {
                 this.ilot1.add(c);
             } else {
                 this.ilot2.add(c);

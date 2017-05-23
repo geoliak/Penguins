@@ -19,12 +19,14 @@ public class Pinguin implements Serializable {
     private Joueur general;
     private Boolean estSeul;
     private MyImageView iv;
+    private ArrayList<Case> casesInterdites;
 
     public Pinguin(Case position, Joueur maitre) {
 	this.vivant = true;
 	this.position = position;
 	this.general = maitre;
 	this.estSeul = false;
+        this.casesInterdites = new ArrayList<>();
 	//this.iv = new MyImageView(general.getCouleur().getImage());
     }
 
@@ -37,8 +39,8 @@ public class Pinguin implements Serializable {
 
     public void deplace(Case c) {
 	this.position.setPinguin(null);
-	this.position.setCoulee(true);
-
+	this.position.setCoulee(true);        
+        
 	this.general.setScoreGlacons(this.general.getScoreGlacons() + 1);
 	this.general.setScorePoissons(this.general.getScorePoissons() + position.getNbPoissons());
 
@@ -127,4 +129,14 @@ public class Pinguin implements Serializable {
     public void setIv(MyImageView iv) {
 	this.iv = iv;
     }
+
+    public ArrayList<Case> getCasesInterdites() {
+        return casesInterdites;
+    }
+
+    public void setCasesInterdites(ArrayList<Case> casesInterdites) {
+        this.casesInterdites = casesInterdites;
+    }
+    
+    
 }
