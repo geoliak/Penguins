@@ -7,17 +7,27 @@ package Controleur;
 
 import Modele.ConfigurationPartie;
 import Modele.Joueur;
+import Modele.Sauvegarde;
 import Vue.AnimationFX;
 import Vue.DessinateurFX;
 import Vue.RafraichissementFX;
 import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -185,26 +195,93 @@ public class FenetreJeuController {
     }
 
     public void setBottom(Node n) {
-	VBox v = new VBox();
+        AnimationFX a = new AnimationFX();
+	AnchorPane ap = new AnchorPane();
 	HBox h = new HBox();
-	File f = new File("ressources/img/img_menu/abandonner.png");
-	ImageView abandonner = new ImageView(new Image(f.toURI().toString()));
-	abandonner.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	File f = new File("ressources/img/img_menu/bouton_home.png");
+	ImageView home = new ImageView(new Image(f.toURI().toString()));
+        home.setId("home");
+        
+        File fsave = new File("ressources/img/img_menu/save.png");
+	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+                Date date = new Date();
+                Sauvegarde s = new Sauvegarde();
+                System.out.println(dateFormat.format(date));
+                s.Save(dateFormat.format(date));
+            }
+        });
+        
+        File frestart = new File("ressources/img/img_menu/restart.png");
+	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+            }
+        });       
+        
+        File fquit = new File("ressources/img/img_menu/quit.png");
+	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+        quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                } catch (IOException ex) {
+                    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });   
+        
+        home.setLayoutX(-140);
+        quit.setLayoutX(-140 + 15);
+        save.setLayoutX(-140 + 55);
+        restart.setLayoutX(-140 + 95);
+        
+        home.setLayoutY(-120);
+        quit.setLayoutY(-100);
+        quit.toFront();
+        save.setLayoutY(-95);
+        save.toFront();
+        restart.setLayoutY(-100);
+        restart.toFront();
+        
+
+        home.setEffect(new DropShadow());
+                
+	ArrayList<ImageView> ivs = new ArrayList<>();
+        ivs.add(save);
+        ivs.add(home);
+        ivs.add(quit);
+        ivs.add(restart);
+        setAnimHome(ivs);
+        
+        File f2 = new File("ressources/img/img_menu/gear.png");
+	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
+        gear.setLayoutY(-10);
+        gear.setLayoutX(10);
+        
+        gear.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		abandonner.setEffect(new Lighting());
+		a.scale(gear, 1.15, 200);
 	    }
 	});
 
-	abandonner.setOnMouseExited(new EventHandler<MouseEvent>() {
+	gear.setOnMouseExited(new EventHandler<MouseEvent>() {
 
 	    @Override
 	    public void handle(MouseEvent event) {
-		abandonner.setEffect(null);
+		a.scale(gear, 1, 200);
 	    }
 
 	});
-
+        
+        /*
 	File f2 = new File("ressources/img/img_menu/volume.png");
 	ImageView volume = new ImageView(new Image(f2.toURI().toString()));
 	volume.setPreserveRatio(true);
@@ -219,15 +296,14 @@ public class FenetreJeuController {
 	h.setAlignment(Pos.TOP_LEFT);
 	h.setSpacing(20);
 	h.setPadding(new Insets(0, 0, 0, 20));
-
-	v.getChildren().addAll(abandonner, h);
-	v.setAlignment(Pos.TOP_LEFT);
-	v.setSpacing(20);
-
-	((HBox) n).getChildren().add(v);
+        */
+        
+	ap.getChildren().addAll(home, gear, save, restart, quit);
+	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
-
+        
+        /*
 	AnimationFX a = new AnimationFX();
 	volume.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
@@ -262,6 +338,37 @@ public class FenetreJeuController {
 	    }
 
 	});
+        */
+    }
+    
+    public void setAnimHome(ArrayList<ImageView> ivs){
+        AnimationFX a = new AnimationFX();
+        for(ImageView iv : ivs){
+            iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    for(ImageView i : ivs){
+                        a.moveIV(140, 0, i);
+                        if(i == iv && i.getId() == null){
+                            a.scale(i, 1.2, 100);
+                        }
+                    }
+                }
+            });
 
+            iv.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    for(ImageView i : ivs){
+                        a.moveIV(0, 0, i);
+                        if(i == iv && i.getId() == null){
+                            a.scale(i, 1.0, 100);
+                        }
+                    }
+                }
+
+            });
+        }
     }
 }

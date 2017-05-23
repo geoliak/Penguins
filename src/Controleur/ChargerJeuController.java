@@ -83,15 +83,16 @@ public class ChargerJeuController implements Initializable {
 
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
 	if (listView.getSelectionModel().getSelectedItems().size() != 0) {
-	    Partie partie = new Sauvegarde().Load("1");
-//            System.out.println(partie.getHistorique());
+	    String filename = listView.getSelectionModel().getSelectedItems().get(0).toString();
+
+	    Partie partie = new Sauvegarde().Load(filename);
 	    ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 
 	    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	    FenetreJeuController fenetre = new FenetreJeuController();
 	    fenetre.creerFenetreJeu(stage);
-	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 
+	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 	}
     }

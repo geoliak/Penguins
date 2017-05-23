@@ -241,11 +241,16 @@ public class DessinateurFX extends Visiteur {
     public void visit(Joueur j) {
 	try {
 	    Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
+            Image pinginit = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
 
 	    ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText("" + j.getScorePoissons());
 
             //ImageView[][] ivs = ;
 	    //int nbPingouinsParJoueur = ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur();
+            for (int i = 0; i < partie.getNbPingouinParJoueur(); i++) {
+		ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(pinginit);
+	    }
+            
 	    for (int i = 0; i < j.getPinguins().size(); i++) {
 		ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(ping);
 	    }

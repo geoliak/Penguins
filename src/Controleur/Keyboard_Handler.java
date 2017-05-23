@@ -9,6 +9,9 @@ import Modele.Sauvegarde;
 import Modele.ConfigurationPartie;
 import Modele.SuggestionCoup;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
@@ -39,25 +42,11 @@ public class Keyboard_Handler implements EventHandler<KeyEvent> {
 
 	}//Sauvegarder
 	else if (event.isControlDown() && event.getCode() == KeyCode.S) {
+	    DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+	    Date date = new Date();
 	    this.s = new Sauvegarde();
-	    s.Save("1");
-
-	}//Charger
-	else if (event.isControlDown() && event.getCode() == KeyCode.L) {
-	    try {
-		this.s = new Sauvegarde();
-
-		ConfigurationPartie.getConfigurationPartie().setPartie(this.s.Load("1"));
-		ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
-		ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
-
-	    } catch (IOException ex) {
-		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
-	    } catch (ClassNotFoundException ex) {
-		Logger.getLogger(Keyboard_Handler.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	    System.out.println("load : " + ConfigurationPartie.getConfigurationPartie().getPartie());
-	    System.out.println("load done");
+	    System.out.println(dateFormat.format(date));
+	    s.Save(dateFormat.format(date));
 
 	}//Peut etre utilise pour des tests, pas assigne
 	else if (event.isControlDown() && event.getCode() == KeyCode.P) {
