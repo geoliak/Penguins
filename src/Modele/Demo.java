@@ -6,6 +6,7 @@
 package Modele;
 
 import java.io.Serializable;
+import javafx.animation.Transition;
 import javafx.scene.control.Label;
 
 /**
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 public class Demo implements Serializable {
     private int phase;
     private String[] consignes;
+    private boolean estModifie;
     
     public Demo(){
         phase = 0;
@@ -39,22 +41,34 @@ public class Demo implements Serializable {
     }
     
     public void setConsignes(){
-        consignes = new String[3];
-        consignes[0] = "Pendant la phase d'initialisation, chaque joueur place ses pingouins sur le plateau.\n"
-                + "Vous ne pouvez placer les pingouins que sur des cases à UN poisson.";
+        consignes = new String[10];
+        consignes[0] = "Pendant la première phase, chaque joueur place ses pingouins sur des cases avec UN poisson.";
+        consignes[1] = "Clique sur une case avec UN poisson pour placez un pingouin.";
         
-        consignes[1] = "Le but du jeu est de manger plus de poissons que tes adversaires.\n"
-                + "Ton pingouins mange les poissons des cases qu'il parcours.\n"
+        consignes[2] = "Tu dois manger plus de poissons que tes adversaires.\n"
                 + "Chaque pingouin peut se déplacer dans toute les directions, en ligne droite,\n"
-                + "et d'autant case que tu veux. Les obstacles bloquent le déplacement.\n"
-                + "Pour déplacer un pingouin, séléctionne le en cliquant dessus puis clique sur la case où tu veux te déplacer.";
+                + "et d'autant case que tu veux.";
+        consignes[3] = "Pour déplacer un pingouin, séléctionne le en cliquant dessus\n"
+                + "puis clique sur la case où tu veux te déplacer.";
     }
 
     public String getConsigne() {
         return consignes[phase];
     } 
     
-    public void accept(Visiteur v){
-        v.visit(this);
+    public Transition accept(Visiteur v){
+        return v.visit(this);
     }
+
+    public boolean isEstModifie() {
+        return estModifie;
+    }
+
+    public void setEstModifie(boolean estModifie) {
+        this.estModifie = estModifie;
+    }
+    
+    public boolean isClicOK(){
+        return phase == 1 || phase == 3;
+    }    
 }

@@ -26,6 +26,7 @@ import Modele.MyImageView;
 import java.io.File;
 import javafx.animation.Animation;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -69,6 +70,18 @@ public class DessinateurFX extends Visiteur {
             ((AnchorPane) this.root).getChildren().add(label);
             label.setLayoutX(100);
             label.setLayoutY(100);
+            
+            Button b = new Button("Suite");
+            b.setId("suite");
+            ((AnchorPane) this.root).getChildren().add(b);
+           
+            b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    partie.getDemo().nextPhase();partie.getDemo().setEstModifie(true);
+                }
+            });
         }
     }
 
@@ -241,13 +254,24 @@ public class DessinateurFX extends Visiteur {
 	}
     }
     
-    public void visit(Demo d){
+    public Transition visit(Demo d){
+        d.setEstModifie(false);
+        
+        Button b = (Button) ((AnchorPane) this.root).lookup("#suite");
+        if(partie.getDemo().getPhase() == 1 || partie.getDemo().getPhase() == 3){
+            b.setVisible(false);
+        } else {
+            b.setVisible(true);
+        }
+        
         Label label = (Label) ((AnchorPane) this.root).lookup("#consigne");
+        Transition t = null;
         if(!partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
             label.setText("");
 
-            a.AnimateText(label, partie.getDemo().getConsigne());
+            t = a.AnimateText(label, partie.getDemo().getConsigne());
         }
+        return t;
     }
 
     public void setPartie(Partie partie) {

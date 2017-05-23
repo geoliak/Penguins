@@ -76,7 +76,7 @@ public class Partie implements Serializable {
         if(demo == null){
             switch (joueurs.size()) {
                 case 2:
-                    nbPinguin = 2;
+                    nbPinguin = 4;
                     break;
                 case 3:
                     nbPinguin = 3;
@@ -276,4 +276,10 @@ public class Partie implements Serializable {
     public void setDemo(Demo demo) {
         this.demo = demo;
     }
+
+    public void setHistorique(Historique historique) {
+        this.historique = historique;
+    }
+    
+    
 }

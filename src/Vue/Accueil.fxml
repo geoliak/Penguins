@@ -6,22 +6,37 @@
 <?import Modele.MyImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.Node?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.AccueilController">
    <top>
-      <MyImageView fitHeight="320.0" fitWidth="1010.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu.png" />
-         </image>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </MyImageView>
+       <AnchorPane>
+            <MyImageView fx:id="nom" fitWidth="1010.0"  pickOnBounds="true" preserveRatio="true">
+                <image>
+                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu.png" />
+                </image>
+                <BorderPane.margin>
+                   <Insets />
+                </BorderPane.margin>
+            </MyImageView>
+            <MyImageView fx:id="retour" pickOnBounds="true" preserveRatio="true">
+                <BorderPane.margin>
+                   <Insets />
+                </BorderPane.margin>
+            </MyImageView>
+            <MyImageView fx:id="fermer" pickOnBounds="true" preserveRatio="true">
+                <BorderPane.margin>
+                   <Insets />
+                </BorderPane.margin>
+            </MyImageView>
+       </AnchorPane>
    </top>
    <right>
       <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <MyImageView fx:id="locale" fitHeight="174.0" fitWidth="450.0" onMouseClicked="#jouerLocal" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView fx:id="locale" fitWidth="450.0" onMouseClicked="#jouerLocal" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -29,7 +44,7 @@
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_locale_resize.png" />
                </image>
             </MyImageView>
-            <MyImageView fitHeight="169.0" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView fx:id="reseau" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_reseau_resize.png" />
                </image>
@@ -37,7 +52,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MyImageView>
-            <MyImageView fx:id="demo" onMouseClicked="#lancerDidacticiel" fitHeight="117.0" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView fx:id="demo" onMouseClicked="#lancerDidacticiel" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_didacticiel_resize.png" />
                </image>
@@ -52,7 +67,7 @@
       </VBox>
    </right>
    <center>
-      <MyImageView fitHeight="500.0" fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <MyImageView fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingoins.png" />
          </image>
