@@ -6,6 +6,8 @@
 package Modele;
 
 import Modele.IA.JoueurIA8;
+import Modele.IA.JoueurIA9;
+import Modele.IA.JoueurMinimax;
 
 /**
  *
@@ -23,13 +25,18 @@ public class SuggestionCoup {
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 
 	JoueurHumainLocal joumain = (JoueurHumainLocal) ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
-	JoueurIA8 jia = new JoueurIA8(joumain.getCouleur(), joumain.getNumero());
-	jia.setAge(1);
+	JoueurMinimax jia = new JoueurMinimax(joumain.getCouleur(), joumain.getNumero());
 	jia.setPinguins(joumain.getPinguins());
+	for (Pinguin p : joumain.getPinguins()) {
+	    p.setGeneral(jia);
+	}
+
 	jia.setNom(joumain.getNom());
 	jia.setPret(joumain.getPret());
 	Case c = jia.etablirCoup(ConfigurationPartie.getConfigurationPartie().getPartie());
-
+	for (Pinguin p : jia.getPinguins()) {
+	    p.setGeneral(joumain);
+	}
 	ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().setPinguinCourant(jia.getPinguinCourant());
 	c.setAccessible(Boolean.TRUE);
 //	    System.out.println(c + " " + ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getPinguinCourant() + " " + jia.getPinguinCourant());

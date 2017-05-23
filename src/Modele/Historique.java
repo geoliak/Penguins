@@ -65,6 +65,7 @@ public class Historique implements Serializable {
 	    }
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().setPinguinCourant(null);
 	} else {
 	    System.out.println("Pas des coups a refaire");
 	}
@@ -95,6 +96,7 @@ public class Historique implements Serializable {
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setTourFini(true);
+	    ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().setPinguinCourant(null);
 	    System.out.println(indice + " charge");
 	} else {
 	    System.out.println("plus de coups a annuler");
