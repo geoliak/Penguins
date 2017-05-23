@@ -19,9 +19,7 @@ import java.util.logging.Logger;
 public class Coup implements Serializable {
 
     private Joueur joueurCourant;
-    private byte[] partie;
-    private Coup coupPrecedent;
-    private Coup coupSuivant;
+    byte[] partie;
 
     public Coup() {
 	try {
@@ -43,29 +41,4 @@ public class Coup implements Serializable {
     public boolean getEstJoueurHumain() {
 	return this.getJoueurCourant().getEstHumain();
     }
-
-    public Coup getCoupPrecedent() {
-	return coupPrecedent;
-    }
-
-    public void setCoupPrecedent(Coup coupPrecedent) {
-	this.coupPrecedent = coupPrecedent;
-    }
-
-    public Coup getCoupSuivant() {
-	return coupSuivant;
-    }
-
-    public void setCoupSuivant(Coup coupSuivant) {
-	this.coupSuivant = coupSuivant;
-    }
-
-    public byte[] getPartie() {
-	return partie;
-    }
-
-    public boolean isFirst() {
-	return this.coupPrecedent == null;
-    }
-
 }
