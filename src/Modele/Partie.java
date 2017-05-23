@@ -276,4 +276,10 @@ public class Partie implements Serializable {
     public void setDemo(Demo demo) {
         this.demo = demo;
     }
+
+    public void setHistorique(Historique historique) {
+        this.historique = historique;
+    }
+    
+    
 }

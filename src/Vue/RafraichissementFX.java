@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
+import javafx.animation.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  *
@@ -43,6 +46,10 @@ public class RafraichissementFX extends AnimationTimer {
 	    this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
 	}
 
+        if(partie.getDemo()!=null && partie.getDemo().isEstModifie()){
+            partie.getDemo().accept(d);
+        }
+        
 	// Rafraichissement du plateau
 	if (partie.getPlateau().isEstModifié()) {
             
@@ -68,6 +75,7 @@ public class RafraichissementFX extends AnimationTimer {
                     
                     if(partie.getDemo() != null){
                         partie.getDemo().nextPhase();
+                        partie.getDemo().setEstModifie(true);
                     }
 
 		    for (Joueur j : partie.getJoueursEnJeu()) {
@@ -75,11 +83,7 @@ public class RafraichissementFX extends AnimationTimer {
 		    }
 
 		    partie.getJoueurCourant().setPret(Boolean.TRUE);
-                    
-                    if(partie.getDemo()!=null){
-                        partie.getDemo().accept(d);
-                    }
-                    
+                                        
                     partie.getPlateau().setEstModifié(true);
 		}
 	    }
@@ -110,14 +114,11 @@ public class RafraichissementFX extends AnimationTimer {
                                 }
                             }
                         }
+                        
                         partie.joueurSuivant();
                         //System.out.println("JOUEUR COURANT " + partie.getJoueurCourant());
                         //System.out.println("DEMO: " + partie.getDemo().getPhase());
-                        
-                        if(partie.getDemo() != null){
-                            partie.getDemo().nextPhase();
-                        }
-                        
+                                                
                         partie.getPlateau().setEstModifié(true);
                     }
                 }
@@ -130,7 +131,7 @@ public class RafraichissementFX extends AnimationTimer {
                     /*if (p.getPosition().estCoulee()) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
-                    } else */if (p.getPosition().getCasePossibles().size() == 0) {
+                    } else*/ if (p.getPosition().getCasePossibles().size() == 0) {
                         p.coullePinguin();
                         partie.getPlateau().setEstModifié(true);
                     }

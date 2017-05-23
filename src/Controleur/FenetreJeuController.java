@@ -29,10 +29,20 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -80,6 +90,17 @@ public class FenetreJeuController {
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
+        
+//        Label phaseDeJeu = new Label("Initialisation");
+//        phaseDeJeu.setTextAlignment(TextAlignment.CENTER);
+//        phaseDeJeu.setLayoutX(400);
+//        phaseDeJeu.setLayoutY(300);
+//        phaseDeJeu.setTextFill(Color.WHITE);
+//        
+//        phaseDeJeu.setFont(Font.font("ice age font",30));
+//        phaseDeJeu.setId("phaseDeJeu");
+//        root.getChildren().add(phaseDeJeu);
+        
 	stage.show();
     }
 

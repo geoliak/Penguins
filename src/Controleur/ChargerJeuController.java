@@ -39,10 +39,12 @@ public class ChargerJeuController implements Initializable {
     private ListView<String> listView;
     private File[] files;
     @FXML
-    private ImageView terrain;
+    private ImageView terrain, fermer, retour;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        CloseButton c = new CloseButton(fermer);
+        BackButton b = new BackButton(retour, "ParamJeu");
 
 	ObservableList<String> items = listView.getItems();
 
@@ -82,6 +84,7 @@ public class ChargerJeuController implements Initializable {
     public void lancerPartie(MouseEvent e) throws IOException, ClassNotFoundException {
 	if (listView.getSelectionModel().getSelectedItems().size() != 0) {
 	    Partie partie = new Sauvegarde().Load("1");
+            System.out.println(partie.getHistorique());
 	    ConfigurationPartie.getConfigurationPartie().setPartie(partie);
 
 	    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
