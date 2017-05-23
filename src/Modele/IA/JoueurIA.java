@@ -62,7 +62,7 @@ public class JoueurIA extends Joueur {
 
         return pinguins;
     }
-    
+
     @Override
     public void reset() {
         super.reset();
@@ -96,6 +96,7 @@ public class JoueurIA extends Joueur {
             }
 
         } else if (this.setPinguinsSeuls(partie) && this.getPinguinsVivants().size() >= 1) {
+            System.out.println("================= sont seuls");
             caseChoisie = this.phaseJeuMeilleurChemin(partie);
             if (caseChoisie == null) {
                 System.out.println("");
@@ -291,8 +292,7 @@ public class JoueurIA extends Joueur {
 
         //Methode1 70%  du meilleur chemin
         joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.10) + 1));
-
-//Methode2 100% à 3sec max
+        //Methode2 100% à 3sec max
         /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
          meilleurChemin.start();
 
@@ -408,9 +408,17 @@ public class JoueurIA extends Joueur {
                 //Si on peut isoler un pinguin sur un ilot
                 if ((cc = JoueurIA.estIlot(ennemi.getPosition(), partie.getPlateau())) != null) {
                     ennemi.getPosition().setCoulee(Boolean.TRUE);
+                    int nbJoueur = partie.getPlateau().getNbJoueurIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot1().get(0)));
+                    int poidsIlot1 = partie.getPlateau().getPoidsIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot1().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot1 = poidsIlot1 / nbJoueur;
+                    }
 
-                    int poidsIlot1 = partie.getPlateau().getPoidsIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot1().get(0))) / partie.getPlateau().getNbJoueurIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot1().get(0)));
-                    int poidsIlot2 = partie.getPlateau().getPoidsIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot2().get(0))) / partie.getPlateau().getNbJoueurIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot2().get(0)));
+                    nbJoueur = partie.getPlateau().getNbJoueurIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot2().get(0)));
+                    int poidsIlot2 = partie.getPlateau().getPoidsIceberg(partie.getPlateau().getCasesIceberg(cc.getIlot2().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot2 = poidsIlot2 / nbJoueur;
+                    }
 
                     if (poidsIlot1 > poidsIlot2 && cc.getIlot1().size() == 1) {
                         Case c = cc.getIlot1().get(0);
@@ -492,11 +500,74 @@ public class JoueurIA extends Joueur {
      */
     public Boolean setPinguinsSeuls(Partie partie) {
         //System.out.print("setPinguinsSeuls");
-        for (Pinguin p : super.getPinguinsVivants()) {
-            if (!p.estSeul() && partie.getPlateau().getNbJoueurIceberg(partie.getPlateau().getCasesIceberg(p.getPosition())) == 1) {
+        for (Pinguin p : super.getPinguinNonIsole()) {
+            if (Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(p.getPosition())) == 1) {
                 p.setEstSeul(true);
+
+            } else {
+                boolean estSeul = true;
+
+                CaseCritique cc = JoueurIA.estIlot(p.getPosition(), partie.getPlateau());
+                if (cc != null) {
+                    //System.out.println(cc);
+                    p.getPosition().setCoulee(true);
+
+                    int nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    int poidsIlot1 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot1 = poidsIlot1 / nbJoueur;
+                    }
+
+                    nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                    int poidsIlot2 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                    if (nbJoueur != 0) {
+                        poidsIlot2 = poidsIlot2 / nbJoueur;
+                    }
+
+                    ArrayList<Joueur> joueursIlot1 = Plateau.getJoueursIceberg(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot1().get(0)));
+                    ArrayList<Joueur> joueursIlot2 = Plateau.getJoueursIceberg(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot2().get(0)));
+
+                    //Si l'ilot est interressant
+                    if (poidsIlot1 > poidsIlot2) {
+                        //Si l'ilot1 a deja une presence du joueur, personne n'ira sur cet ilot
+                        if (joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral()) {
+                            p.setCasesInterdites(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot1().get(0)));
+                            //Si il n'y a personne sur cet ilot
+                        } else if (joueursIlot1.isEmpty()) {
+                            p.setEstSeul(true);
+                        }
+                    } else if (poidsIlot2 > poidsIlot1) {
+                        //Si l'ilot2 a deja une presence du joueur, personne n'ira sur cet ilot
+                        if (joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral()) {
+                            p.setCasesInterdites(partie.getPlateau().getCasesIcebergLimiteCassure(cc.getIlot2().get(0)));
+                            //Si il n'y a personne sur cet ilot
+                        } else if (joueursIlot2.isEmpty()) {
+                            p.setEstSeul(true);
+                        }
+                    } else {
+                        if (joueursIlot1.isEmpty() || joueursIlot1.size() == 1 && joueursIlot1.get(0) == p.getGeneral() && joueursIlot2.size() > 0) {
+                            for (Case c : cc.getIlot2()) {
+                                if (c.getPinguin() == null && (joueursIlot2.size() > 1 || joueursIlot2.size() == 1 && !joueursIlot2.contains(this))) {
+                                    estSeul = false;
+                                }
+                            }
+
+                        } else if (joueursIlot2.isEmpty() && joueursIlot2.size() == 1 && joueursIlot2.get(0) == p.getGeneral() && joueursIlot1.size() > 0) {
+                            for (Case c : cc.getIlot1()) {
+                                if (c.getPinguin() == null && (joueursIlot1.size() > 1 || joueursIlot1.size() == 1 && !joueursIlot1.contains(this))) {
+                                    estSeul = false;
+                                }
+                            }
+                        }
+                        p.setEstSeul(estSeul);
+                    }
+
+                    p.getPosition().setCoulee(false);
+
+                }
             }
         }
+
         //System.out.println(" - OK");
         return this.pinguinsSontSeuls();
     }
@@ -540,20 +611,29 @@ public class JoueurIA extends Joueur {
                 c = cc.getCassure();
                 if (casesAccessibles.contains(c)) {
                     //poids de l'iceberg total
-                    iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
-                    poidsIceberg = partie.getPlateau().getPoidsIceberg(iceberg);
+                    iceberg = Plateau.getCasesIceberg(p.getPosition());
+                    poidsIceberg = Plateau.getPoidsIceberg(iceberg);
 
                     //Poids de l'iceberg sans l'ilot
                     c.setCoulee(Boolean.TRUE);
-                    iceberg = partie.getPlateau().getCasesIceberg(p.getPosition());
+                    iceberg = Plateau.getCasesIceberg(p.getPosition());
 
                     //Poid de l'ilot
-                    poidsIceberg -= partie.getPlateau().getPoidsIceberg(iceberg);
+                    poidsIceberg -= Plateau.getPoidsIceberg(iceberg);
 
                     if (maxPoidsIceberg < poidsIceberg) {
                         joueur.setPinguinCourant(p);
-                        int poidsIlot1 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0))) / Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
-                        int poidsIlot2 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0))) / Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                        int nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                        int poidsIlot1 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot1().get(0)));
+                        if (nbJoueur != 0) {
+                            poidsIlot1 = poidsIlot1 / nbJoueur;
+                        }
+
+                        nbJoueur = Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                        int poidsIlot2 = Plateau.getPoidsIceberg(Plateau.getCasesIceberg(cc.getIlot2().get(0)));
+                        if (nbJoueur != 0) {
+                            poidsIlot2 = poidsIlot2 / nbJoueur;
+                        }
                         //System.out.println("poids ilot1 : " + poidsIlot1 + "    poids ilot2 : " + poidsIlot2);
 
                         if (poidsIlot1 > poidsIlot2) {
@@ -588,69 +668,33 @@ public class JoueurIA extends Joueur {
      * @return true si la suppression de cette case peut former un ilot
      */
     public static CaseCritique estIlot(Case caseCourante, Plateau plateau) {
+        System.out.println("estIlot " + caseCourante + " ?");
         CaseCritique caseCritique = null;
         if (!caseCourante.estCoulee()) {
             caseCourante.setCoulee(true);
 
-            if (caseCourante.getVoisinsEmerges().size() == 2) {
-                if (!plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2)) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            if (caseCourante.getVoisinsJouable().size() == 2) {
+                if (!plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsEmerges().size() == 3) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2), 2))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            } else if (caseCourante.getVoisinsJouable().size() == 3) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
 
-            } else if (caseCourante.getVoisinsEmerges().size() == 4) {
-                if (!(plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(1), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(2), 2) && plateau.existeChemin(caseCourante.getVoisinsEmerges().get(0), caseCourante.getVoisinsEmerges().get(3), 2))) {
-                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), plateau);
+            } else if (caseCourante.getVoisinsJouable().size() == 4) {
+                if (!(plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(1)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(2)) && plateau.existeChemin(caseCourante.getVoisinsJouable().get(0), caseCourante.getVoisinsJouable().get(3)))) {
+                    caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsJouable(), plateau);
                 }
             }
 
             caseCourante.setCoulee(false);
         }
-
+        System.out.println((caseCritique != null) + "\n");
         return caseCritique;
     }
 
-    /**
-     * Retourne true si la case est le seul lien entre deux banquises
-     *
-     * @param caseCourante : case étudiée
-     * @param plateau : plateau de jeu
-     * @return true si la suppression de cette case peut former un ilot
-     */
-    /*public static CaseCritique estIlotObsolete(Case caseCourante, Plateau plateau) {
-     CaseCritique caseCritique = null;
-     if (!caseCourante.estCoulee()) {
-     Integer[][] dijkstra;
-     caseCourante.setCoulee(true);
-
-     if (caseCourante.getVoisinsEmerges().size() == 2) {
-     dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-     if (dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] == Integer.MAX_VALUE) {
-     caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-     }
-
-     } else if (caseCourante.getVoisinsEmerges().size() == 3) {
-     dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-     if (!(dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] < Integer.MAX_VALUE)) {
-     caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-     }
-
-     } else if (caseCourante.getVoisinsEmerges().size() == 4) {
-     dijkstra = plateau.Dijkstra(caseCourante.getVoisinsEmerges().get(0));
-     if (!(dijkstra[caseCourante.getVoisinsEmerges().get(1).getNumLigne()][caseCourante.getVoisinsEmerges().get(1).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(2).getNumLigne()][caseCourante.getVoisinsEmerges().get(2).getNumColonne()] < Integer.MAX_VALUE && dijkstra[caseCourante.getVoisinsEmerges().get(3).getNumLigne()][caseCourante.getVoisinsEmerges().get(3).getNumColonne()] < Integer.MAX_VALUE)) {
-     caseCritique = new CaseCritique(caseCourante, caseCourante.getVoisinsEmerges(), dijkstra);
-     }
-     }
-
-     caseCourante.setCoulee(false);
-     }
-
-     return caseCritique;
-     }*/
     public static int evaluationEtat(Joueur joueur, Plateau plateau) {
         GetEvaluationPlateau methode = new GetEvaluationPlateau(joueur);
         plateau.appliquerSurCases(methode);
@@ -665,7 +709,7 @@ public class JoueurIA extends Joueur {
             if (Plateau.getNbJoueurIceberg(iceberg) == 1) {
                 eval += Plateau.getPoidsIceberg(iceberg) / Plateau.getNbPinguinIceberg(iceberg);
             } else {
-                eval += Plateau.getPoidsIceberg(iceberg) / (Plateau.getNbPinguinIceberg(iceberg));
+                eval += Plateau.getPoidsIceberg(iceberg) / 2 / (Plateau.getNbPinguinIceberg(iceberg));
             }
         }
         return eval;
@@ -685,18 +729,16 @@ public class JoueurIA extends Joueur {
             tailleIceberg = iceberg.size();
 
             if (Plateau.getNbJoueurIceberg(iceberg) == 2) {
-                if (tailleIceberg <= 17) {
-                    profondeur = 17;
-                } else if (tailleIceberg < 25) {
-                    profondeur = 6;
+                if (tailleIceberg <= 23) {
+                    profondeur = 23;
                 } else if (tailleIceberg < 30) {
-                    profondeur = 5;
+                    profondeur = 12;
                 } else if (tailleIceberg < 40) {
-                    profondeur = 4;
+                    profondeur = 8;
                 } else {
-                    profondeur = 3;
+                    profondeur = 4;
                 }
-                //System.out.print("profondeur " + profondeur);
+                System.out.print("profondeur " + profondeur);
 
                 joueurs = Plateau.getJoueursIceberg(iceberg);
                 joueurs.remove(joueur);
@@ -708,7 +750,7 @@ public class JoueurIA extends Joueur {
                 MyPair<Case, Pinguin> rep = minimax.executeNegamaxMultiThread(profondeur);
 
                 joueur.setPinguinCourant(rep.getR());
-                //System.out.println(" - OK");
+                System.out.println(" - OK");
                 return rep.getL();
             }
         }
