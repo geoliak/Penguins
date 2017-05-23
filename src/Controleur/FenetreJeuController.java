@@ -7,15 +7,24 @@ package Controleur;
 
 import Modele.ConfigurationPartie;
 import Modele.Joueur;
+import Modele.Sauvegarde;
 import Vue.AnimationFX;
 import Vue.DessinateurFX;
 import Vue.RafraichissementFX;
 import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -195,12 +204,38 @@ public class FenetreJeuController {
         
         File fsave = new File("ressources/img/img_menu/save.png");
 	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+                Date date = new Date();
+                Sauvegarde s = new Sauvegarde();
+                System.out.println(dateFormat.format(date));
+                s.Save(dateFormat.format(date));
+            }
+        });
         
         File frestart = new File("ressources/img/img_menu/restart.png");
 	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+            }
+        });       
         
         File fquit = new File("ressources/img/img_menu/quit.png");
 	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+        quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                } catch (IOException ex) {
+                    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });   
         
         home.setLayoutX(-140);
         quit.setLayoutX(-140 + 15);
