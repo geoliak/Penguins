@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import Modele.MyImageView;
 import javafx.animation.Animation;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -78,5 +79,14 @@ public class AnimationFX {
         };
         animation.play();
         return animation;
+    }
+    
+    public Transition moveIV(double dX, double dY, ImageView iv){
+        TranslateTransition tt = new TranslateTransition(Duration.millis(200), iv);
+	tt.setToX(iv.getX() + dX);
+	tt.setToY(iv.getY() + dY);
+        tt.play();
+        
+        return tt;
     }
 }
