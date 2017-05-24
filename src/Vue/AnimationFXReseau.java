@@ -27,6 +27,7 @@ import javafx.util.Duration;
 public class AnimationFXReseau {
 
     public Transition mouvementImage(MyPolygon p, MyImageView iv, double x, double y, double sizeGlacon, double proportion) {
+	System.out.println("MOUVEMENT PINGOUIN");
 	double size = sizeGlacon * proportion;
 	double height = size * 2;
 	double width = height * Math.sqrt(3 / 2);
@@ -62,21 +63,21 @@ public class AnimationFXReseau {
 	st.play();
 	return st;
     }
-    
-    public Transition AnimateText(Label lbl, String descImp) {
-        String content = descImp;
-        final Transition animation = new Transition() {
-            {
-                setCycleDuration(Duration.millis(2000));
-            }
 
-            protected void interpolate(double frac) {
-                final int length = content.length();
-                final int n = Math.round(length * (float) frac);
-                lbl.setText(content.substring(0, n));
-            }
-        };
-        animation.play();
-        return animation;
+    public Transition AnimateText(Label lbl, String descImp) {
+	String content = descImp;
+	final Transition animation = new Transition() {
+	    {
+		setCycleDuration(Duration.millis(2000));
+	    }
+
+	    protected void interpolate(double frac) {
+		final int length = content.length();
+		final int n = Math.round(length * (float) frac);
+		lbl.setText(content.substring(0, n));
+	    }
+	};
+	animation.play();
+	return animation;
     }
 }

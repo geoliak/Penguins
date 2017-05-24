@@ -29,7 +29,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -40,31 +39,20 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
  *
  * @author mariobap
  */
-
 public class FenetreJeuController {
 
     public void creerFenetreJeu(Stage stage) {
-        System.out.println(ConfigurationPartie.getConfigurationPartie().getPartie());
+	System.out.println(ConfigurationPartie.getConfigurationPartie().getPartie());
 	BorderPane b = new BorderPane();
 
 	VBox scores = new VBox();
@@ -92,13 +80,13 @@ public class FenetreJeuController {
 	ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
 	AnimationFX a = new AnimationFX();
-        
+
 	DessinateurFX d = new DessinateurFX(root, a);
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
-        
-        System.out.println("PARTIE CHARGEE");
-        DessinateurTexte dt = new DessinateurTexte();
-        ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(dt);
+
+	System.out.println("PARTIE CHARGEE");
+	DessinateurTexte dt = new DessinateurTexte();
+	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(dt);
 
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
@@ -106,20 +94,18 @@ public class FenetreJeuController {
 	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
-        
+
 //        Label phaseDeJeu = new Label("Initialisation");
 //        phaseDeJeu.setTextAlignment(TextAlignment.CENTER);
 //        phaseDeJeu.setLayoutX(400);
 //        phaseDeJeu.setLayoutY(300);
 //        phaseDeJeu.setTextFill(Color.WHITE);
-//        
+//
 //        phaseDeJeu.setFont(Font.font("ice age font",30));
 //        phaseDeJeu.setId("phaseDeJeu");
 //        root.getChildren().add(phaseDeJeu);
-        
 	stage.show();
     }
-
 
     public void setBannieresJoueurs(Node v) {
 	ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
@@ -202,86 +188,85 @@ public class FenetreJeuController {
     }
 
     public void setBottom(Node n) {
-        AnimationFX a = new AnimationFX();
+	AnimationFX a = new AnimationFX();
 	AnchorPane ap = new AnchorPane();
 	HBox h = new HBox();
 	File f = new File("ressources/img/img_menu/bouton_home.png");
 	ImageView home = new ImageView(new Image(f.toURI().toString()));
-        home.setId("home");
-        
-        File fsave = new File("ressources/img/img_menu/save.png");
-	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
-        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
-                Date date = new Date();
-                Sauvegarde s = new Sauvegarde();
-                System.out.println(dateFormat.format(date));
-                s.Save(dateFormat.format(date));
-            }
-        });
-        
-        File frestart = new File("ressources/img/img_menu/restart.png");
-	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
-        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if(!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()){
-                    ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
-                }
-            }
-        });       
-        
-        File fquit = new File("ressources/img/img_menu/quit.png");
-	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
-        quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
-                    Scene scene = new Scene(paramJeu);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();      
-                    ConfigurationPartie.getConfigurationPartie().setPartie(null);
-                } catch (IOException ex) {
-                    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });   
-        
-        home.setLayoutX(-140);
-        quit.setLayoutX(-140 + 15);
-        save.setLayoutX(-140 + 55);
-        restart.setLayoutX(-140 + 95);
-        
-        home.setLayoutY(-120);
-        quit.setLayoutY(-100);
-        quit.toFront();
-        save.setLayoutY(-95);
-        save.toFront();
-        restart.setLayoutY(-100);
-        restart.toFront();
-        
+	home.setId("home");
 
-        home.setEffect(new DropShadow());
-                
+	File fsave = new File("ressources/img/img_menu/save.png");
+	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+	save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+		Date date = new Date();
+		Sauvegarde s = new Sauvegarde();
+		System.out.println(dateFormat.format(date));
+		s.Save(dateFormat.format(date));
+	    }
+	});
+
+	File frestart = new File("ressources/img/img_menu/restart.png");
+	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+	restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		if (!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()) {
+		    ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+		}
+	    }
+	});
+
+	File fquit = new File("ressources/img/img_menu/quit.png");
+	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+	quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		try {
+		    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+		    Scene scene = new Scene(paramJeu);
+		    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		    stage.setScene(scene);
+		    stage.show();
+		    ConfigurationPartie.getConfigurationPartie().setPartie(null);
+		} catch (IOException ex) {
+		    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	    }
+	});
+
+	home.setLayoutX(-140);
+	quit.setLayoutX(-140 + 15);
+	save.setLayoutX(-140 + 55);
+	restart.setLayoutX(-140 + 95);
+
+	home.setLayoutY(-120);
+	quit.setLayoutY(-100);
+	quit.toFront();
+	save.setLayoutY(-95);
+	save.toFront();
+	restart.setLayoutY(-100);
+	restart.toFront();
+
+	home.setEffect(new DropShadow());
+
 	ArrayList<ImageView> ivs = new ArrayList<>();
-        ivs.add(save);
-        ivs.add(home);
-        ivs.add(quit);
-        ivs.add(restart);
-        
-        setAnimHome(ivs);
-        
-        File f2 = new File("ressources/img/img_menu/gear.png");
+	ivs.add(save);
+	ivs.add(home);
+	ivs.add(quit);
+	ivs.add(restart);
+
+	setAnimHome(ivs);
+
+	File f2 = new File("ressources/img/img_menu/gear.png");
 	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
-        gear.setId("close");
-        gear.setLayoutY(-10);
-        gear.setLayoutX(10);
-        
-        gear.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	gear.setId("close");
+	gear.setLayoutY(-10);
+	gear.setLayoutX(10);
+
+	gear.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(gear, 1.15, 200);
@@ -294,43 +279,43 @@ public class FenetreJeuController {
 		a.scale(gear, 1, 200);
 	    }
 	});
-        
-        File fnote = new File("ressources/img/img_menu/note.jpg");
+
+	File fnote = new File("ressources/img/img_menu/note.jpg");
 	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
-        note.setLayoutY(7);
-        note.setLayoutX(80);
-        note.setVisible(false);
-        
-        File fvol = new File("ressources/img/img_menu/volume.png");
+	note.setLayoutY(7);
+	note.setLayoutX(80);
+	note.setVisible(false);
+
+	File fvol = new File("ressources/img/img_menu/volume.png");
 	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
-        volume.setLayoutY(10);
-        volume.setLayoutX(120);
-        volume.setVisible(false);
-        
-        File finfo = new File("ressources/img/img_menu/info.png");
+	volume.setLayoutY(10);
+	volume.setLayoutX(120);
+	volume.setVisible(false);
+
+	File finfo = new File("ressources/img/img_menu/info.png");
 	ImageView info = new ImageView(new Image(finfo.toURI().toString()));
-        info.setId("info");
-        info.setLayoutY(10);
-        info.setLayoutX(160);
-        info.setVisible(false);
-        info.setOnMouseClicked(new InfoClicEvent(info));
-        
-        ArrayList<ImageView> ivs2 = new ArrayList<>();
-        ivs2.add(note);
-        ivs2.add(volume);
-        ivs2.add(info);
-        
-        gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
-        
-        setSettingsAnim(ivs2);
-        
-        File flight = new File("ressources/img/img_menu/ampoule.png");
+	info.setId("info");
+	info.setLayoutY(10);
+	info.setLayoutX(160);
+	info.setVisible(false);
+	info.setOnMouseClicked(new InfoClicEvent(info));
+
+	ArrayList<ImageView> ivs2 = new ArrayList<>();
+	ivs2.add(note);
+	ivs2.add(volume);
+	ivs2.add(info);
+
+	gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
+
+	setSettingsAnim(ivs2);
+
+	File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
-        light.setId("light");
-        light.setLayoutX(300);
-        light.setLayoutY(-150);
-        light.setOnMouseClicked(new hintClicEvent(light));
-        light.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	light.setId("light");
+	light.setLayoutX(300);
+	light.setLayoutY(-150);
+	light.setOnMouseClicked(new hintClicEvent(light));
+	light.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(light, 1.15, 200);
@@ -343,13 +328,13 @@ public class FenetreJeuController {
 		a.scale(light, 1, 200);
 	    }
 	});
-        
-        File fundo = new File("ressources/img/img_menu/undo.png");
+
+	File fundo = new File("ressources/img/img_menu/undo.png");
 	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
-        undo.setId("undo");
-        undo.setLayoutX(300);
-        undo.setLayoutY(-150);
-        undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	undo.setId("undo");
+	undo.setLayoutX(300);
+	undo.setLayoutY(-150);
+	undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(undo, 1.15, 200);
@@ -362,64 +347,64 @@ public class FenetreJeuController {
 		a.scale(undo, 1, 200);
 	    }
 	});
-        
+
 	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light);
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
     }
-    
-    public void setAnimHome(ArrayList<ImageView> ivs){
-        AnimationFX a = new AnimationFX();
-        for(ImageView iv : ivs){
-            iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    for(ImageView i : ivs){
-                        a.moveIV(140, 0, i);
-                        if(i == iv && i.getId() == null){
-                            a.scale(i, 1.2, 100);
-                        }
-                    }
-                }
-            });
 
-            iv.setOnMouseExited(new EventHandler<MouseEvent>() {
+    public void setAnimHome(ArrayList<ImageView> ivs) {
+	AnimationFX a = new AnimationFX();
+	for (ImageView iv : ivs) {
+	    iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+		    for (ImageView i : ivs) {
+			a.moveIV(140, 0, i);
+			if (i == iv && i.getId() == null) {
+			    a.scale(i, 1.2, 100);
+			}
+		    }
+		}
+	    });
 
-                @Override
-                public void handle(MouseEvent event) {
-                    for(ImageView i : ivs){
-                        a.moveIV(0, 0, i);
-                        if(i == iv && i.getId() == null){
-                            a.scale(i, 1.0, 100);
-                        }
-                    }
-                }
+	    iv.setOnMouseExited(new EventHandler<MouseEvent>() {
 
-            });
-        }
+		@Override
+		public void handle(MouseEvent event) {
+		    for (ImageView i : ivs) {
+			a.moveIV(0, 0, i);
+			if (i == iv && i.getId() == null) {
+			    a.scale(i, 1.0, 100);
+			}
+		    }
+		}
+
+	    });
+	}
     }
-    
-    public void setSettingsAnim(ArrayList<ImageView> ivs){
-        AnimationFX a = new AnimationFX();
-        for(ImageView iv : ivs){
-            iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
-                @Override
-                public void handle(MouseEvent event) {
-                    a.scale(iv, 1.2, 200);
-                }
+    public void setSettingsAnim(ArrayList<ImageView> ivs) {
+	AnimationFX a = new AnimationFX();
+	for (ImageView iv : ivs) {
+	    iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
-            });
-            
-            iv.setOnMouseExited(new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+		    a.scale(iv, 1.2, 200);
+		}
 
-                @Override
-                public void handle(MouseEvent event) {
-                    a.scale(iv, 1.0, 200);
-                }
+	    });
 
-            });
-        }
+	    iv.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent event) {
+		    a.scale(iv, 1.0, 200);
+		}
+
+	    });
+	}
     }
 }
