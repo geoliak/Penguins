@@ -55,7 +55,7 @@ public class Menus extends Application {
         }
 	
         
-        playSound();
+        //playSound();
         
         /*
         Media pick = new Media("Plongee-Nocturne.mp3");
