@@ -42,12 +42,17 @@ public class Demo implements Serializable {
     
     public void setConsignes(){
         consignes = new String[10];
-        consignes[0] = "Pendant la première phase, chaque joueur place ses pingouins sur des cases avec UN poisson.";
-        consignes[1] = "Clique sur une case avec UN poisson pour placez un pingouin.";
+        consignes[0] = "Pendant la première phase, chaque joueur doit placer ses\n"
+                + "pingouins sur des cases avec UN poisson.";
+        consignes[1] = "Clique sur une case avec UN poisson pour placer tes pingouins.";
         
-        consignes[2] = "Tu dois manger plus de poissons que tes adversaires.\n"
-                + "Chaque pingouin peut se déplacer dans toute les directions, en ligne droite,\n"
-                + "et d'autant case que tu veux.";
+        consignes[2] = "Le but du jeu est de manger plus de poissons que tes\n"
+                + "adversaires.\n"
+                + "Tu manges les poissons sur les cases où tes pingouins s'arrêtent.\n"
+                + "Chaque pingouin peut se déplacer dans toute les directions, en ligne\n"
+                + "droite et d'autant de cases que tu veux.\n"
+                + "Les obstacles (autres pingouins et trous dans la banquise) bloquent \n"
+                + "les pingouins.";
         consignes[3] = "Pour déplacer un pingouin, séléctionne le en cliquant dessus\n"
                 + "puis clique sur la case où tu veux te déplacer.";
     }

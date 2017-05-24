@@ -37,7 +37,4 @@ public class PhaseInitialisationMaxPossibilitee implements Methode {
     public Case getCaseChoisie() {
         return this.caseChoisie;
     }
-    
-    
-
 }

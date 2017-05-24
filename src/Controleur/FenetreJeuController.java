@@ -95,6 +95,14 @@ public class FenetreJeuController {
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
 	AnimationFX a = new AnimationFX();
         
+        File f = new File("ressources/img/img_menu/bulle_ours.png");
+        ImageView bulle = new ImageView(new Image(f.toURI().toString()));
+        bulle.setEffect(new DropShadow());
+        
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() != null){
+            root.getChildren().add(bulle);
+        }
+        
 	DessinateurFX d = new DessinateurFX(root, a);
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
 
@@ -104,12 +112,7 @@ public class FenetreJeuController {
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
         
-        File f = new File("ressources/img/img_menu/bulle_ours.png");
-        ImageView bulle = new ImageView(new Image(f.toURI().toString()));
         
-        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() != null){
-            root.getChildren().add(bulle);
-        }
         
         
         /* TO DO */
