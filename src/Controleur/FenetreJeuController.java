@@ -308,7 +308,14 @@ public class FenetreJeuController {
         volume.setVisible(false);
         
         File finfo = new File("ressources/img/img_menu/info.png");
-	ImageView info = new ImageView(new Image(finfo.toURI().toString()));
+        File finfo_croix = new File("ressources/img/img_menu/info_croix.png");
+        ImageView info;
+        if(ConfigurationPartie.getConfigurationPartie().isEnableHelp()){
+            info = new ImageView(new Image(finfo.toURI().toString()));
+        } else {
+            info = new ImageView(new Image(finfo_croix.toURI().toString()));
+        }
+	
         info.setId("info");
         info.setLayoutY(10);
         info.setLayoutX(160);
@@ -327,7 +334,7 @@ public class FenetreJeuController {
         File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
         light.setId("light");
-        light.setLayoutX(300);
+        light.setLayoutX(250);
         light.setLayoutY(-150);
         light.setOnMouseClicked(new hintClicEvent(light));
         light.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -347,7 +354,7 @@ public class FenetreJeuController {
         File fundo = new File("ressources/img/img_menu/undo.png");
 	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
         undo.setId("undo");
-        undo.setLayoutX(300);
+        undo.setLayoutX(400);
         undo.setLayoutY(-150);
         undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
@@ -363,7 +370,26 @@ public class FenetreJeuController {
 	    }
 	});
         
-	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light);
+        File fredo = new File("ressources/img/img_menu/redo.png");
+	ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
+        redo.setId("undo");
+        redo.setLayoutX(600);
+        redo.setLayoutY(-150);
+        redo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(redo, 1.15, 200);
+	    }
+	});
+
+	redo.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(redo, 1, 200);
+	    }
+	});
+        
+	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light, undo, redo);
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
