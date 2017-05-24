@@ -40,6 +40,7 @@ import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.C;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -130,6 +131,9 @@ public class ParamJeuController implements Initializable {
     
     @FXML
     private MyImageView chargerpartie, jouer;
+    
+    @FXML
+    private AnchorPane ap;
 
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
@@ -149,6 +153,8 @@ public class ParamJeuController implements Initializable {
         chargerpartie.setY(10);
         CloseButton c = new CloseButton(fermer);
         BackButton b = new BackButton(retour, "Accueil");
+        
+        Settings.setSettings(ap);
     }
 
     public void arrowClick(MouseEvent e) {

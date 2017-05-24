@@ -67,6 +67,11 @@ public class MouseClickerCase implements EventHandler<MouseEvent> {
 		    if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
 			ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegarderCoup();
 			pingouin.deplace(caseDest);
+                        
+                        if(partie.getDemo() != null){
+                            partie.getDemo().nextPhase();
+                            partie.getDemo().setEstModifie(true);
+                        }
 //                        partie.getHistorique().sauvegarderCoup();
 
 //			partie.getPlateau().setEstModifié(true);

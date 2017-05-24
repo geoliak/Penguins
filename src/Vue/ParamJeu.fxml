@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ParamJeuController">
+<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ParamJeuController">
    <center>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
@@ -327,6 +327,9 @@
             </AnchorPane>
             
          </top>
+         <bottom>
+             <AnchorPane fx:id="ap"></AnchorPane>
+         </bottom>
       </BorderPane>
    </center>
 </BorderPane>

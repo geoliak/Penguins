@@ -74,6 +74,7 @@ public class MouseClickerCaseReseau implements EventHandler<MouseEvent> {
 			if (caseDest.estCaseLibre() && caseDest.getAccessible()) {
 //                            partie.getHistorique().sauvegarderCoup();
 			    pingouin.deplace(caseDest);
+                            
 
 			    //			partie.getPlateau().setEstModifié(true);
 			    for (Joueur j : partie.getJoueurs()) {

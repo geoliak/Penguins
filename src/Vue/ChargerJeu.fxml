@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.Cursor?>
 
-<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ChargerJeuController">
+<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ChargerJeuController">
    <center>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane BorderPane.alignment="CENTER" BorderPane.margin="">
          <top>
             <AnchorPane>
                 <!--MyImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#creerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
@@ -50,7 +50,7 @@
                </BorderPane.margin>
                <children>
                   <Label alignment="CENTER" prefHeight="16.0" prefWidth="300.0" text="Choix de la partie :" />
-                  <ListView fx:id="listView" prefHeight="778.0" prefWidth="300.0" onMouseClicked="#saveClick" />
+                  <ListView fx:id="listView" prefHeight="600.0" prefWidth="300.0" onMouseClicked="#saveClick" />
                </children>
             </VBox>
          </left>
@@ -92,6 +92,9 @@
                </bottom>
             </BorderPane>
          </center>
+         <bottom>
+             <AnchorPane fx:id="ap"></AnchorPane>
+         </bottom>
       </BorderPane>
    </center>
 </BorderPane>
