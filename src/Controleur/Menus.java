@@ -75,6 +75,7 @@ public class Menus extends Application {
     
     public void playSound() {
         try {
+            /*
             File yourFile = new File("Plongee-Nocturne.ogg");
             
             System.out.println(yourFile.exists());
@@ -91,6 +92,12 @@ public class Menus extends Application {
             info = new DataLine.Info(Clip.class, format);
             clip = (Clip) AudioSystem.getClip();
             clip.open(stream);
+            clip.start();
+                    */
+            
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("Plongee-Nocturne.wav"));
+            clip.open(inputStream);
             clip.start();
         }
         catch (Exception e) {

@@ -108,7 +108,7 @@ public class ConfigurationPartie {
     }
 
     public boolean isEnableHelp() {
-        return enableHelp || partie.getDemo() != null;
+        return enableHelp || (partie!= null && partie.getDemo() != null);
     }
 
     public void setEnableHelp(boolean enableHelp) {

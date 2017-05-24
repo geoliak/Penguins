@@ -420,7 +420,6 @@ public class ParamJeuController implements Initializable {
 		System.out.println("pas de joueur");
 	    }
 	}
-        plateau = new Plateau("ressources/plateaux/plateauTestInitMaxPossibilitee");
         
 	Partie partie = new Partie(plateau, joueurs);
 
