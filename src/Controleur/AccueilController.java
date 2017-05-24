@@ -15,21 +15,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
-import Modele.ServeurJeu;
-import java.io.File;
-import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class AccueilController implements Initializable {
     @FXML
     private ImageView retour, fermer, nom, locale, reseau, demo;
+    
+    @FXML
+    private AnchorPane ap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,6 +38,8 @@ public class AccueilController implements Initializable {
         demo.setEffect(new DropShadow());
         
         nom.setX((1200-nom.getFitWidth()) / 2);
+        
+        Settings.setSettings(ap);
     }
 
     public void jouerLocal(MouseEvent e) throws IOException {

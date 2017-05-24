@@ -55,6 +55,7 @@ public class Demo implements Serializable {
                 + "les pingouins.";
         consignes[3] = "Pour déplacer un pingouin, séléctionne le en cliquant dessus\n"
                 + "puis clique sur la case où tu veux te déplacer.";
+        consignes[5] = "Tu es maintenant un expert, tu vas pouvoir commencer à jouer.";        
     }
 
     public String getConsigne() {
@@ -74,6 +75,6 @@ public class Demo implements Serializable {
     }
     
     public boolean isClicOK(){
-        return phase == 1 || phase == 3;
+        return phase == 1 || phase >= 3;
     }    
 }

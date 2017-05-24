@@ -27,6 +27,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +42,9 @@ public class ChargerJeuController implements Initializable {
     private File[] files;
     @FXML
     private ImageView terrain, fermer, retour;
+    
+    @FXML
+    private AnchorPane ap;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,6 +68,8 @@ public class ChargerJeuController implements Initializable {
 	listView.getSelectionModel().select(0);
 	listView.getFocusModel().focus(0);
 	saveClick(null);
+        
+        Settings.setSettings(ap);
     }
 
     public void creerPartie(MouseEvent e) throws IOException {

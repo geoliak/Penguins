@@ -24,8 +24,14 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.SepiaTone;
 import Modele.MyImageView;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.Animation;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
@@ -35,6 +41,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 /**
  *
@@ -270,7 +277,7 @@ public class DessinateurFX extends Visiteur {
         d.setEstModifie(false);
         
         Button b = (Button) ((AnchorPane) this.root).lookup("#suite");
-        if(partie.getDemo().getPhase() == 1 || partie.getDemo().getPhase() == 3){
+        if(partie.getDemo().getPhase() == 1 || partie.getDemo().getPhase() == 3 || partie.getDemo().getPhase() == 4){
             b.setVisible(false);
         } else {
             b.setVisible(true);
@@ -278,10 +285,34 @@ public class DessinateurFX extends Visiteur {
         
         Label label = (Label) ((AnchorPane) this.root).lookup("#consigne");
         Transition t = null;
-        if(!partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
+        if((partie.getDemo().getPhase() <= 3 || partie.getDemo().getPhase() == 5) &&  !partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
             label.setText("");
 
             t = a.AnimateText(label, partie.getDemo().getConsigne());
+            
+            if(partie.getDemo().getPhase() == 5){
+                double oldwidth = b.getWidth();
+                System.out.println("OLD WIDTH: " + oldwidth);
+                b.setText("Revenir au menu principal");
+                System.out.println("NEW WIDTH: " + b.getWidth());
+                b.setLayoutX(620 - 130);
+                b.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        Parent menu;
+                        try {
+                            menu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                            Scene scene = new Scene(menu);
+                            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException ex) {
+                            Logger.getLogger(DessinateurFX.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+            }
         }
         return t;
     }

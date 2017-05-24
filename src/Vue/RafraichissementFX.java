@@ -41,6 +41,10 @@ public class RafraichissementFX extends AnimationTimer {
 
     @Override
     public void handle(long now) { 
+        if(partie.getDemo() != null && partie.getDemo().getPhase() == 5){
+            stop();
+        }
+        
         if (!partie.equals(ConfigurationPartie.getConfigurationPartie().getPartie())) {
             this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
         }
@@ -145,6 +149,7 @@ public class RafraichissementFX extends AnimationTimer {
                     partie.afficheResultats();
                     //Platform.exit();
                     this.resultatAffiches = true;
+                    stop();
                     try {
                         PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
                     } catch (FileNotFoundException ex) {

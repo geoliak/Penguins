@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.Node?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #d2e7e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.AccueilController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.AccueilController">
    <top>
        <AnchorPane>
             <MyImageView fx:id="nom" fitWidth="1010.0"  pickOnBounds="true" preserveRatio="true">
@@ -76,4 +76,7 @@
          </BorderPane.margin>
       </MyImageView>
    </center>
+   <bottom>
+       <AnchorPane fx:id="ap"></AnchorPane>
+   </bottom>
 </BorderPane>

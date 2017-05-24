@@ -104,28 +104,19 @@ public class FenetreJeuController {
 
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
-
-//        Label phaseDeJeu = new Label("Initialisation");
-//        phaseDeJeu.setTextAlignment(TextAlignment.CENTER);
-//        phaseDeJeu.setLayoutX(400);
-//        phaseDeJeu.setLayoutY(300);
-//        phaseDeJeu.setTextFill(Color.WHITE);
-//
-//        phaseDeJeu.setFont(Font.font("ice age font",30));
-//        phaseDeJeu.setId("phaseDeJeu");
-//        root.getChildren().add(phaseDeJeu);
+        
 	/* TO DO */
-	/*
-	 File f = new File("ressources/img/img_menu/init_mess.png");
-	 Image img = new Image(f.toURI().toString());
-	 ImageView message = new ImageView(img);
-	 message.setId("message");
-	 message.setVisible(false);
+        /*
+        File fmess = new File("ressources/img/img_menu/init_mess.png");
+        Image img = new Image(fmess.toURI().toString());
+        ImageView message = new ImageView(img);
+        message.setId("message");
+        message.setVisible(false);
 
-	 a.scaleFromZero(message, 1, 200);
+        a.scaleFromZero(message, 1, 200);
 
-	 root.getChildren().add(message);
-	 */
+        root.getChildren().add(message);
+                */
 	stage.show();
     }
 
@@ -298,79 +289,15 @@ public class FenetreJeuController {
 	home.setEffect(new DropShadow());
 
 	ArrayList<ImageView> ivs = new ArrayList<>();
-	ivs.add(save);
-	ivs.add(home);
-	ivs.add(quit);
-	ivs.add(restart);
+        ivs.add(save);
+        ivs.add(home);
+        ivs.add(quit);
+        ivs.add(restart);
+        
+        setAnimHome(ivs);
+        
+        File flight = new File("ressources/img/img_menu/ampoule.png");
 
-	setAnimHome(ivs);
-
-	File f2 = new File("ressources/img/img_menu/gear.png");
-	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
-	gear.setId("close");
-	gear.setLayoutY(-10);
-	gear.setLayoutX(10);
-
-	gear.setOnMouseEntered(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(gear, 1.15, 200);
-	    }
-	});
-
-	gear.setOnMouseExited(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(MouseEvent event) {
-		a.scale(gear, 1, 200);
-	    }
-	});
-
-	File fnote = new File("ressources/img/img_menu/note.jpg");
-	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
-	tooltip = new Tooltip();
-	tooltip.setText("Désactiver la musique\n");
-	Tooltip.install(note, tooltip);
-	note.setLayoutY(7);
-	note.setLayoutX(80);
-	note.setVisible(false);
-
-	File fvol = new File("ressources/img/img_menu/volume.png");
-	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
-	tooltip = new Tooltip();
-	tooltip.setText("Désactiver les bruitages\n");
-	Tooltip.install(volume, tooltip);
-	volume.setLayoutY(10);
-	volume.setLayoutX(120);
-	volume.setVisible(false);
-
-	File finfo = new File("ressources/img/img_menu/info.png");
-	File finfo_croix = new File("ressources/img/img_menu/info_croix.png");
-	ImageView info;
-	if (ConfigurationPartie.getConfigurationPartie().isEnableHelp()) {
-	    info = new ImageView(new Image(finfo.toURI().toString()));
-	} else {
-	    info = new ImageView(new Image(finfo_croix.toURI().toString()));
-	}
-	tooltip = new Tooltip();
-	tooltip.setText("Désactiver les aides visuelles\n");
-	Tooltip.install(info, tooltip);
-
-	info.setId("info");
-	info.setLayoutY(10);
-	info.setLayoutX(160);
-	info.setVisible(false);
-	info.setOnMouseClicked(new InfoClicEvent(info));
-
-	ArrayList<ImageView> ivs2 = new ArrayList<>();
-	ivs2.add(note);
-	ivs2.add(volume);
-	ivs2.add(info);
-
-	gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
-
-	setSettingsAnim(ivs2);
-
-	File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
 	tooltip = new Tooltip();
 	tooltip.setText("Suggéstion de coup\n");
@@ -460,15 +387,26 @@ public class FenetreJeuController {
 	    }
 
 	});
+        
+        redo.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
-	ap.getChildren().addAll(home, gear, quit, note, volume);
-	if (ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() == null) {
-	    ap.getChildren().addAll(save, restart, info, light, undo, redo);
-	}
-
-	((HBox) n).getChildren().add(ap);
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().rejouerCoup();
+            }
+            
+        });
+        
+	ap.getChildren().addAll(home, quit);
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() == null) {
+            ap.getChildren().addAll(save, restart, light, undo, redo);
+        }
+        
+        ((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
+        
+        Settings.setSettings(ap);
     }
 
     public void setAnimHome(ArrayList<ImageView> ivs) {
@@ -496,29 +434,6 @@ public class FenetreJeuController {
 			    a.scale(i, 1.0, 100);
 			}
 		    }
-		}
-
-	    });
-	}
-    }
-
-    public void setSettingsAnim(ArrayList<ImageView> ivs) {
-	AnimationFX a = new AnimationFX();
-	for (ImageView iv : ivs) {
-	    iv.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-		@Override
-		public void handle(MouseEvent event) {
-		    a.scale(iv, 1.2, 200);
-		}
-
-	    });
-
-	    iv.setOnMouseExited(new EventHandler<MouseEvent>() {
-
-		@Override
-		public void handle(MouseEvent event) {
-		    a.scale(iv, 1.0, 200);
 		}
 
 	    });
