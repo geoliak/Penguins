@@ -103,15 +103,20 @@ public class FenetreJeuController {
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
         
-//        Label phaseDeJeu = new Label("Initialisation");
-//        phaseDeJeu.setTextAlignment(TextAlignment.CENTER);
-//        phaseDeJeu.setLayoutX(400);
-//        phaseDeJeu.setLayoutY(300);
-//        phaseDeJeu.setTextFill(Color.WHITE);
-//        
-//        phaseDeJeu.setFont(Font.font("ice age font",30));
-//        phaseDeJeu.setId("phaseDeJeu");
-//        root.getChildren().add(phaseDeJeu);
+        
+        /* TO DO */
+        
+        /*
+        File f = new File("ressources/img/img_menu/init_mess.png");
+        Image img = new Image(f.toURI().toString());
+        ImageView message = new ImageView(img);
+        message.setId("message");
+        message.setVisible(false);
+        
+        a.scaleFromZero(message, 1, 200);
+        
+        root.getChildren().add(message);
+        */
         
 	stage.show();
     }
