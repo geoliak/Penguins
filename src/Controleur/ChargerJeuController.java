@@ -21,6 +21,7 @@ import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
 import Modele.Partie;
 import Modele.Sauvegarde;
+import Vue.DessinateurTexte;
 import java.io.File;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -94,6 +95,10 @@ public class ChargerJeuController implements Initializable {
 
 	    ConfigurationPartie.getConfigurationPartie().getPartie().setReloadPartie(true);
 	    ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+            
+            System.out.println("PARTIE CHARGEE");
+            DessinateurTexte d = new DessinateurTexte();
+            ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
 	}
     }
 

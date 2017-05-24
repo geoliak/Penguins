@@ -13,6 +13,7 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
 import javafx.animation.Animation;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -73,8 +74,13 @@ public class AnimationFX {
         st.setFromY(0.0);
 	st.setToX(x);
 	st.setToY(x);
+        
+        RotateTransition rt = new RotateTransition(Duration.millis(t), n);
+        rt.setByAngle(360);
 
+        rt.play();
 	st.play();
+        
 	return st;
     }
     public Transition scaleToZero(Node n, int t) {
@@ -82,7 +88,11 @@ public class AnimationFX {
 	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
 	st.setToX(0.0);
 	st.setToY(0.0);
+        
+        RotateTransition rt = new RotateTransition(Duration.millis(t), n);
+        rt.setByAngle(-360);
 
+        rt.play();
 	st.play();
         
         st.setOnFinished(new EventHandler<ActionEvent>() {
@@ -90,9 +100,9 @@ public class AnimationFX {
             @Override
             public void handle(ActionEvent event) {
                 n.setVisible(false);
+        
             }
         });
-        
 	return st;
     }
     

@@ -10,6 +10,7 @@ import Modele.Joueur;
 import Modele.Sauvegarde;
 import Vue.AnimationFX;
 import Vue.DessinateurFX;
+import Vue.DessinateurTexte;
 import Vue.RafraichissementFX;
 import java.io.File;
 import java.io.IOException;
@@ -90,9 +91,13 @@ public class FenetreJeuController {
 	ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
 	AnimationFX a = new AnimationFX();
+        
 	DessinateurFX d = new DessinateurFX(root, a);
-
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
+        
+        System.out.println("PARTIE CHARGEE");
+        DessinateurTexte dt = new DessinateurTexte();
+        ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(dt);
 
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
@@ -220,7 +225,9 @@ public class FenetreJeuController {
         restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                if(!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()){
+                    ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                }
             }
         });       
         
@@ -234,7 +241,8 @@ public class FenetreJeuController {
                     Scene scene = new Scene(paramJeu);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(scene);
-                    stage.show();                    
+                    stage.show();      
+                    ConfigurationPartie.getConfigurationPartie().setPartie(null);
                 } catch (IOException ex) {
                     Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -297,29 +305,43 @@ public class FenetreJeuController {
         volume.setLayoutX(120);
         volume.setVisible(false);
         
+        File finfo = new File("ressources/img/img_menu/info.png");
+	ImageView info = new ImageView(new Image(finfo.toURI().toString()));
+        info.setId("info");
+        info.setLayoutY(10);
+        info.setLayoutX(160);
+        info.setVisible(false);
+        info.setOnMouseClicked(new InfoClicEvent(info));
+        
         ArrayList<ImageView> ivs2 = new ArrayList<>();
         ivs2.add(note);
         ivs2.add(volume);
+        ivs2.add(info);
         
-        gear.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(MouseEvent event) {
-                System.out.println(gear.getId());
-                for(ImageView imageview : ivs2){
-                    if(gear.getId().equalsIgnoreCase("close")){
-                        a.scaleFromZero(imageview, 1, 200);
-                        gear.setId("open");
-                    } else if(gear.getId().equalsIgnoreCase("open")){
-                        a.scaleToZero(imageview, 200);
-                        gear.setId("close");
-                    }
-                }
-	    }
-	});
+        gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
         
         setSettingsAnim(ivs2);
         
-	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume);
+        File flight = new File("ressources/img/img_menu/ampoule.png");
+	ImageView light = new ImageView(new Image(flight.toURI().toString()));
+        light.setLayoutX(300);
+        light.setLayoutY(-150);
+        light.setOnMouseClicked(new hintClicEvent());
+        light.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(light, 1.15, 200);
+	    }
+	});
+
+	light.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(light, 1, 200);
+	    }
+	});
+        
+	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light);
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
