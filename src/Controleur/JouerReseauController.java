@@ -9,6 +9,7 @@ import Modele.ClientJeu;
 import Modele.ServeurJeu;
 import Modele.Plateau;
 import Modele.ConfigurationPartie;
+import Modele.MyImageView;
 import Vue.DessinateurFXReseau;
 import java.io.File;
 import java.io.IOException;
@@ -42,19 +43,26 @@ public class JouerReseauController extends AnimationTimer implements Initializab
     @FXML private TextField nom2;
     @FXML private TextField nbJoueurs;
     @FXML private TextField adresse;
+    @FXML private ImageView nextTerrain;
+    @FXML private ImageView terrain;
+    @FXML private ImageView prevTerrain;
     private ListView listJoueurs;
     private ServeurJeu serveur;
     private ClientJeu client;
     private Stage stage;
+    private int terrainCharge;
+    
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
          listJoueurs = new ListView();
+         terrainCharge = 1;
          this.start();
     }    
     
     public void heberger(MouseEvent e) throws IOException{
-        Plateau plateau = new Plateau("ressources/plateaux/plateau1");
+        Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
         serveur = new ServeurJeu(Integer.valueOf(nbJoueurs.getText()), plateau);
         serveur.start();
 //        ClientJeu client = new ClientJeu(null, nom1.getText(), this);
@@ -133,6 +141,24 @@ public class JouerReseauController extends AnimationTimer implements Initializab
             ajouterNom(client.getNouveauJoueur());
             client.setAddJoueur(false);
         }
+    }
+    
+    public void changerTerrain(MouseEvent e){
+        if(e.getSource().equals(nextTerrain)){
+            if(terrainCharge<3){
+                terrainCharge ++;
+            } else {
+                terrainCharge = 1;
+            }
+        } else if(e.getSource().equals(prevTerrain)){
+            if(terrainCharge>1){
+                terrainCharge --;
+            } else {
+                terrainCharge = 3;
+            }
+        }
+        String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+        ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
     }
     
     

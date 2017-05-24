@@ -83,7 +83,7 @@
                               <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 2" />
                               <MyImageView id="rightJ1" fx:id="rightJ2" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/img/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
