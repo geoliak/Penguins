@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
+import Modele.ServeurJeu;
 import java.io.File;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -55,6 +56,14 @@ public class AccueilController implements Initializable {
 
     public void out(MouseEvent e) {
 	((MyImageView) e.getSource()).setEffect(new DropShadow());
+    }
+
+    public void reseau(MouseEvent e) throws IOException{
+        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/JouerReseau.fxml"));
+	Scene scene = new Scene(paramJeu);
+	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	stage.setScene(scene);
+	stage.show();
     }
     
     public void lancerDidacticiel(MouseEvent e) throws IOException{

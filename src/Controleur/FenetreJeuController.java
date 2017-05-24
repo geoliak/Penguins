@@ -60,6 +60,7 @@ import javafx.stage.Stage;
  *
  * @author mariobap
  */
+
 public class FenetreJeuController {
 
     public void creerFenetreJeu(Stage stage) {
@@ -118,6 +119,7 @@ public class FenetreJeuController {
         
 	stage.show();
     }
+
 
     public void setBannieresJoueurs(Node v) {
 	ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();

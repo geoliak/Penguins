@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.JouerReseauController">
+   <top>
+      <Label text="Jouer en réseau" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="68.0" />
+         </font>
+      </Label>
+   </top>
+   <left>
+      <VBox prefHeight="718.0" prefWidth="484.0" spacing="60.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Heberger une partie">
+               <font>
+                  <Font size="40.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <HBox prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label text="Nom : " />
+                  <TextField fx:id="nom1" />
+               </children>
+            </HBox>
+            <HBox prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="16.0" text="Nombre de joueur maximal :" />
+                  <TextField fx:id="nbJoueurs" prefHeight="26.0" prefWidth="37.0" />
+               </children>
+            </HBox>
+            <BorderPane>
+               <center>
+                  <ImageView fitHeight="468.0" fitWidth="402.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:/home/m/mariobap/Java/Penguins/ressources/plateaux_jeu/img/plateau_1.png" />
+                     </image>
+                  </ImageView>
+               </center>
+               <left>
+                  <ImageView fitHeight="21.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/left-arrow.png" />
+                     </image>
+                  </ImageView>
+               </left>
+               <right>
+                  <ImageView fitHeight="30.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/right-arrow.png" />
+                     </image>
+                  </ImageView>
+               </right>
+            </BorderPane>
+            <BorderPane>
+               <center>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#heberger" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize2.png" />
+                     </image>
+                  </ImageView>
+               </center>
+            </BorderPane>
+         </children>
+         <BorderPane.margin>
+            <Insets left="50.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="718.0" prefWidth="520.0" spacing="60.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Rejoindre une partie">
+               <font>
+                  <Font size="41.0" />
+               </font>
+            </Label>
+            <HBox prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label text="Nom : " />
+                  <TextField fx:id="nom2" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="120.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label text="Adresse IP : " />
+                  <TextField fx:id="adresse" />
+               </children>
+            </HBox>
+            <BorderPane prefHeight="407.0" prefWidth="520.0">
+               <bottom>
+                  <ImageView onMouseClicked="#rejoindre" fitHeight="182.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize2.png" />
+                     </image>
+                  </ImageView>
+               </bottom>
+            </BorderPane>
+         </children>
+         <BorderPane.margin>
+            <Insets right="50.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <center>
+      <Line startY="650.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

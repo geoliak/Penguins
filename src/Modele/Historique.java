@@ -35,6 +35,13 @@ public class Historique implements Serializable {
     public void sauvegarderCoup() {
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain()) {
 	    Coup nouveauCoup = new Coup();
+            if(historiqueCoups == null ){
+                System.out.println("historique null");
+                   return;
+                
+            }else {
+                System.out.println("Cherche encore");
+            }
 	    historiqueCoups.add(indice, nouveauCoup);
 	    indice++;
 
