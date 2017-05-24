@@ -326,9 +326,10 @@ public class FenetreJeuController {
         
         File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
+        light.setId("light");
         light.setLayoutX(300);
         light.setLayoutY(-150);
-        light.setOnMouseClicked(new hintClicEvent());
+        light.setOnMouseClicked(new hintClicEvent(light));
         light.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
@@ -340,6 +341,25 @@ public class FenetreJeuController {
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(light, 1, 200);
+	    }
+	});
+        
+        File fundo = new File("ressources/img/img_menu/undo.png");
+	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
+        undo.setId("undo");
+        undo.setLayoutX(300);
+        undo.setLayoutY(-150);
+        undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(undo, 1.15, 200);
+	    }
+	});
+
+	undo.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		a.scale(undo, 1, 200);
 	    }
 	});
         
