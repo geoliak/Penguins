@@ -33,90 +33,91 @@ public class ServeurJeu extends Thread {
     private boolean lancerPartie;
 
     public ServeurJeu(int n, Plateau p) {
-        nbJoueur = 0;
-        sockets = new Socket[n];
-        in = new ObjectInputStream[n];
-        out = new ObjectOutputStream[n];
-        noms = new String[n];
-        nbJoueurMax = n;
-        plateau = p;
-        lancerPartie = false;
+	nbJoueur = 0;
+	sockets = new Socket[n];
+	in = new ObjectInputStream[n];
+	out = new ObjectOutputStream[n];
+	noms = new String[n];
+	nbJoueurMax = n;
+	plateau = p;
+	lancerPartie = false;
     }
 
     @Override
     public void run() {
-        try {
-            System.out.println("Serveur lancé :");
-            ServerSocket serverSocket = new ServerSocket(3333);
-            serverSocket.setSoTimeout(100);
-            while (!lancerPartie && nbJoueur < nbJoueurMax) {
-                System.out.println("en attente...");
-                while (!lancerPartie) {
-                    try {
-                        sockets[nbJoueur] = serverSocket.accept();
-                        in[nbJoueur] = new ObjectInputStream(sockets[nbJoueur].getInputStream());
-                        out[nbJoueur] = new ObjectOutputStream(sockets[nbJoueur].getOutputStream());
-                        noms[nbJoueur] = in[nbJoueur].readUTF();
-                        out[nbJoueur].writeInt(nbJoueur);
-                        out[nbJoueur].flush();
-                        out[nbJoueur].writeObject(noms);
-                        out[nbJoueur].flush();
-                        for (int i = 0; i < nbJoueur; i++) {
-                            out[i].writeBoolean(false);
-                            System.out.println("boolen envoyé");
-                            out[i].flush();
-                            out[i].writeUTF(noms[nbJoueur]);
-                            out[i].flush();
-                        }
-                        System.out.println(noms[nbJoueur] + " connecté.");
-                        nbJoueur++;
-                    } catch (Exception e) {
-                        
-                    }
+	try {
+	    System.out.println("Serveur lancé :");
+	    ServerSocket serverSocket = new ServerSocket(3333);
+	    serverSocket.setSoTimeout(100);
+	    while (!lancerPartie && nbJoueur < nbJoueurMax) {
+		System.out.println("en attente...");
+		while (!lancerPartie) {
+		    try {
+			sockets[nbJoueur] = serverSocket.accept();
+			in[nbJoueur] = new ObjectInputStream(sockets[nbJoueur].getInputStream());
+			out[nbJoueur] = new ObjectOutputStream(sockets[nbJoueur].getOutputStream());
+			noms[nbJoueur] = in[nbJoueur].readUTF();
+			out[nbJoueur].writeInt(nbJoueur);
+			out[nbJoueur].flush();
+			out[nbJoueur].writeObject(noms);
+			out[nbJoueur].flush();
+			for (int i = 0; i < nbJoueur; i++) {
+			    out[i].writeBoolean(false);
+			    System.out.println("boolen envoyé");
+			    out[i].flush();
+			    out[i].writeUTF(noms[nbJoueur]);
+			    out[i].flush();
+			}
+			System.out.println(noms[nbJoueur] + " connecté.");
+			nbJoueur++;
+		    } catch (Exception e) {
 
-                }
+		    }
 
-            }
+		}
 
-            ArrayList<Joueur> joueurs = new ArrayList<>();
-            Couleur [] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
-            for(int i = 0; i<nbJoueur; i++){
-                joueurs.add(new JoueurHumainLocal(noms[i], couleurs[i], i));
-            }
-            partie = new Partie(plateau, joueurs);
-            System.out.println("Joueur courant : " + partie.getJoueurCourant().getNumero());
-            
-            for(int i=0; i<nbJoueur; i++){
-                out[i].writeBoolean(true);
-                out[i].flush();
-                out[i].writeObject(partie);
-                out[i].flush();
-            }
-            
-            
-            
-            while (true){
-                System.out.println("Serveur en attent de la partie de client " + partie.getJoueurCourant().getNumero());
-                partie = (Partie) in[partie.getJoueurCourant().getNumero()].readObject();
-                System.out.println("Serveur partie reçue");
-                int nbPingouins = 0;
-                for(Joueur j : partie.getJoueurs()){
-                    nbPingouins += j.getPinguinsVivants().size();
-                }
-                System.out.println("Nombre de pingouins : " + nbPingouins);
-                for(ObjectOutputStream o : out){
-                    o.writeObject(partie);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(ServeurJeu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServeurJeu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	    }
+
+	    ArrayList<Joueur> joueurs = new ArrayList<>();
+	    Couleur[] couleurs = {Couleur.RougeFX, Couleur.VioletFX, Couleur.JauneFX, Couleur.VertFX};
+	    for (int i = 0; i < nbJoueur; i++) {
+		joueurs.add(new JoueurHumainLocal(noms[i], couleurs[i], i));
+	    }
+	    partie = new Partie(plateau, joueurs);
+	    System.out.println("Joueur courant : " + partie.getJoueurCourant().getNumero());
+
+	    for (int i = 0; i < nbJoueur; i++) {
+		out[i].writeBoolean(true);
+		out[i].flush();
+		out[i].writeObject(partie);
+		out[i].flush();
+	    }
+
+	    while (true) {
+		System.out.println("Serveur en attent de la partie de client " + partie.getJoueurCourant().getNumero());
+		System.out.println("1ere aff " + partie + "" + partie.getJoueurCourant());
+		partie = (Partie) in[partie.getJoueurCourant().getNumero()].readObject();
+		partie.getPlateau().setEstModifié(true);
+		System.out.println("Serveur partie reçue");
+		int nbPingouins = 0;
+		for (Joueur j : partie.getJoueurs()) {
+		    nbPingouins += j.getPinguinsVivants().size();
+		}
+		System.out.println("Nombre de pingouins : " + nbPingouins);
+		for (int i = 0; i < nbJoueur; i++) {
+		    System.out.println("2me aff " + partie + " " + partie.getJoueurCourant());
+		    out[i].writeObject(partie);
+		}
+	    }
+	} catch (IOException ex) {
+	    Logger.getLogger(ServeurJeu.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (ClassNotFoundException ex) {
+	    Logger.getLogger(ServeurJeu.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 
     public void lancerPartie() {
-        lancerPartie = true;
-        System.out.println("lancer partie : " + lancerPartie);
+	lancerPartie = true;
+	System.out.println("lancer partie : " + lancerPartie);
     }
 }

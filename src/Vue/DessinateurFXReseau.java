@@ -55,8 +55,8 @@ public class DessinateurFXReseau extends Visiteur {
     private ClientJeu client;
 
     public DessinateurFXReseau(Node root, AnimationFXReseau a, ClientJeu cl) {
-        numJoueur = cl.getNumJoueur();
-        client = cl;
+	numJoueur = cl.getNumJoueur();
+	client = cl;
 	this.root = root;
 	this.a = a;
 	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
@@ -66,31 +66,32 @@ public class DessinateurFXReseau extends Visiteur {
 	size = sizeGlacon * proportion;
 	height = size * 2;
 	width = height * Math.sqrt(3 / 2);
-        joueurCourant = partie.getJoueurCourant();
-        a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1.2, 200);
-        
-        if(partie.getDemo() != null){
-            Label label = new Label();
-            label.setId("consigne");
-            ((AnchorPane) this.root).getChildren().add(label);
-            label.setLayoutX(100);
-            label.setLayoutY(100);
-        }
+	joueurCourant = partie.getJoueurCourant();
+	a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1.2, 200);
+
+	if (partie.getDemo() != null) {
+	    Label label = new Label();
+	    label.setId("consigne");
+	    ((AnchorPane) this.root).getChildren().add(label);
+	    label.setLayoutX(100);
+	    label.setLayoutY(100);
+	}
     }
 
     @Override
     public void visite(Plateau plateau) {
 	int rows = plateau.getNbLignes();
 	int columns = plateau.getNbColonnes();
-        
-        if(joueurCourant != partie.getJoueurCourant() && !partie.estTerminee()){
-            Transition t1 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
-            Transition t2 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[partie.getJoueurCourant().getNumero()].getParent(), 1.2, 200);
-            
-            joueurCourant = partie.getJoueurCourant();
-        } else if(partie.estTerminee()){
-            Transition t3 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
-        }
+
+	if (joueurCourant != ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant() && !ConfigurationPartie.getConfigurationPartie().getPartie().estTerminee()) {
+	    System.out.println("DESSINE BANNIERE");
+	    Transition t1 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+	    Transition t2 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getNumero()].getParent(), 1.2, 200);
+
+	    joueurCourant = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
+	} else if (partie.estTerminee()) {
+	    Transition t3 = a.scale(ConfigurationPartie.getConfigurationPartie().getLabelScores()[joueurCourant.getNumero()].getParent(), 1, 200);
+	}
 
 	if (ConfigurationPartie.getConfigurationPartie().getPartie().isReloadPartie()) {
 	    //System.out.println("===================RELOAD=======================");
@@ -156,7 +157,7 @@ public class DessinateurFXReseau extends Visiteur {
 
 	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null && !partie.getInitialisation()) {
-	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
+	    if (c.getAccessible() && client.getNumJoueur() == ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getNumero()) {
 		c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
 	    } else {
 		c.getPolygon().getImage().setEffect(null);
@@ -192,7 +193,6 @@ public class DessinateurFXReseau extends Visiteur {
 	    p.setIv(iv);
 	    ((AnchorPane) root).getChildren().add(p.getIv());
 	    partie.setTourFini(true);
-            client.finDeTour();
 	} else if (p.estVivant() && p.getIv() != null) {
 
 	    if (!partie.estEnInitialisation()) {
@@ -200,7 +200,7 @@ public class DessinateurFXReseau extends Visiteur {
 		    partie.setTourFini(false);
 		}
 		Transition t = a.mouvementImage(p.getPosition().getPolygon(), p.getIv(), p.getPosition().getNumColonne(), p.getPosition().getNumLigne(), sizeGlacon, proportion);
-                
+
 		t.setOnFinished(new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent event) {
@@ -209,7 +209,7 @@ public class DessinateurFXReseau extends Visiteur {
 		});
 	    }
 
-	    if (p.getGeneral().getPinguinCourant() == p && p.getGeneral() == partie.getJoueurCourant() && partie.getJoueurCourant().getEstHumain()) {
+	    if (p.getGeneral().getPinguinCourant() == p && p.getGeneral().getNumero() == client.getNumJoueur() && ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getNumero() == client.getNumJoueur()) {
 		//System.out.println("POINT ORIGINE PINGOUIN : " + p.getIv().getX() + " " + p.getIv().getY());
 		p.getIv().setEffect(new Bloom());
 	    } else {
@@ -231,14 +231,14 @@ public class DessinateurFXReseau extends Visiteur {
 	    }
 	}
     }
-    
+
     public void visit(Joueur j) {
 	try {
 	    Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
 
 	    ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText("" + j.getScorePoissons());
 
-            //ImageView[][] ivs = ;
+	    //ImageView[][] ivs = ;
 	    //int nbPingouinsParJoueur = ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur();
 	    for (int i = 0; i < j.getPinguins().size(); i++) {
 		ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(ping);
@@ -247,10 +247,6 @@ public class DessinateurFXReseau extends Visiteur {
 	    System.out.println("erreur - visisteScore : " + e.getMessage());
 	}
     }
-    
-    
-    
-    
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
@@ -258,7 +254,7 @@ public class DessinateurFXReseau extends Visiteur {
 
     @Override
     public Transition visit(Demo d) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
