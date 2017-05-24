@@ -29,7 +29,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Lighting;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -87,7 +89,6 @@ public class FenetreJeuController {
 	b.setBackground(new Background(bg));
 
 	stage.setScene(scene);
-	//stage.initStyle(StageStyle.TRANSPARENT);
 	ConfigurationPartie.getConfigurationPartie().setScene(scene);
 	ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
@@ -95,27 +96,27 @@ public class FenetreJeuController {
         
 	DessinateurFX d = new DessinateurFX(root, a);
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
-        
-        System.out.println("PARTIE CHARGEE");
-        DessinateurTexte dt = new DessinateurTexte();
-        ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(dt);
 
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
 
-	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
         
-//        Label phaseDeJeu = new Label("Initialisation");
-//        phaseDeJeu.setTextAlignment(TextAlignment.CENTER);
-//        phaseDeJeu.setLayoutX(400);
-//        phaseDeJeu.setLayoutY(300);
-//        phaseDeJeu.setTextFill(Color.WHITE);
-//        
-//        phaseDeJeu.setFont(Font.font("ice age font",30));
-//        phaseDeJeu.setId("phaseDeJeu");
-//        root.getChildren().add(phaseDeJeu);
+        
+        /* TO DO */
+        
+        /*
+        File f = new File("ressources/img/img_menu/init_mess.png");
+        Image img = new Image(f.toURI().toString());
+        ImageView message = new ImageView(img);
+        message.setId("message");
+        message.setVisible(false);
+        
+        a.scaleFromZero(message, 1, 200);
+        
+        root.getChildren().add(message);
+        */
         
 	stage.show();
     }
@@ -308,7 +309,14 @@ public class FenetreJeuController {
         volume.setVisible(false);
         
         File finfo = new File("ressources/img/img_menu/info.png");
-	ImageView info = new ImageView(new Image(finfo.toURI().toString()));
+        File finfo_croix = new File("ressources/img/img_menu/info_croix.png");
+        ImageView info;
+        if(ConfigurationPartie.getConfigurationPartie().isEnableHelp()){
+            info = new ImageView(new Image(finfo.toURI().toString()));
+        } else {
+            info = new ImageView(new Image(finfo_croix.toURI().toString()));
+        }
+	
         info.setId("info");
         info.setLayoutY(10);
         info.setLayoutX(160);
@@ -327,7 +335,7 @@ public class FenetreJeuController {
         File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
         light.setId("light");
-        light.setLayoutX(300);
+        light.setLayoutX(250);
         light.setLayoutY(-150);
         light.setOnMouseClicked(new hintClicEvent(light));
         light.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -347,23 +355,63 @@ public class FenetreJeuController {
         File fundo = new File("ressources/img/img_menu/undo.png");
 	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
         undo.setId("undo");
-        undo.setLayoutX(300);
+        undo.setLayoutX(400);
         undo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
         undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1.15, 200);
+		undo.setEffect(new InnerShadow());
 	    }
 	});
 
 	undo.setOnMouseExited(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1, 200);
+		undo.setEffect(new DropShadow());
+	    }
+	});
+        undo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
+            }
+            
+        });
+        
+        File fredo = new File("ressources/img/img_menu/redo.png");
+	ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
+        redo.setLayoutX(600);
+        redo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
+        redo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+                redo.setEffect(new InnerShadow());
+	    }
+	});
+
+	redo.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+                redo.setEffect(new DropShadow());
+                
 	    }
 	});
         
-	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light);
+        redo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().rejouerCoup();
+            }
+            
+        });
+        
+	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light, undo, redo);
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));

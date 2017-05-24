@@ -5,6 +5,7 @@
  */
 package Controleur;
 
+import Modele.ConfigurationPartie;
 import Modele.SuggestionCoup;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,7 +30,8 @@ public class hintClicEvent implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
         try {
-            SuggestionCoup.suggestionCoup();
+            if(!ConfigurationPartie.getConfigurationPartie().getPartie().estTerminee() && ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain())
+                SuggestionCoup.suggestionCoup();
         } catch (InterruptedException ex) {
             Logger.getLogger(hintClicEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
