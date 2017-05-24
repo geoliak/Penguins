@@ -23,13 +23,13 @@
                            <children>
                               <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_rouge_menu.png" />
+                                    <Image url="@../../../ressources/img/pingouin_rouge_menu.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ1" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 1" />
                               <MyImageView id="rightJ1" fx:id="rightJ1" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/img/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -37,7 +37,7 @@
                               </MyImageView>
                               <MyImageView fx:id="leftJ1" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                    <Image url="@../../../ressources/img/left-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -47,7 +47,7 @@
                                  <children>
                                     <MyImageView fx:id="star1_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -55,7 +55,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star1_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -63,7 +63,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star1_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -77,13 +77,13 @@
                            <children>
                               <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_bleu_menu.png" />
+                                    <Image url="@../../../ressources/img/pingouin_bleu_menu.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 2" />
                               <MyImageView id="rightJ1" fx:id="rightJ2" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/images/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -91,7 +91,7 @@
                               </MyImageView>
                               <MyImageView fx:id="leftJ2" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                    <Image url="@../../../ressources/img/left-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -101,7 +101,7 @@
                                  <children>
                                     <MyImageView fx:id="star2_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -109,7 +109,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star2_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -117,7 +117,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star2_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -131,13 +131,13 @@
                            <children>
                               <MyImageView fx:id="joueur3" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_jaune_menu.png" />
+                                    <Image url="@../../../ressources/img/pingouin_jaune_menu.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ3" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 3" />
                               <MyImageView id="rightJ1" fx:id="rightJ3" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/img/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -145,7 +145,7 @@
                               </MyImageView>
                               <MyImageView fx:id="leftJ3" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                    <Image url="@../../../ressources/img/left-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -155,7 +155,7 @@
                                  <children>
                                     <MyImageView fx:id="star3_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -163,7 +163,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star3_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -171,7 +171,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star3_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -185,13 +185,13 @@
                            <children>
                               <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img/pingouin_vert_menu.png" />
+                                    <Image url="@../../../ressources/img/pingouin_vert_menu.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ4" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 4" />
                               <MyImageView id="rightJ1" fx:id="rightJ4" layoutX="232.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/img/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -199,7 +199,7 @@
                               </MyImageView>
                               <MyImageView fx:id="leftJ4" layoutX="-3.0" layoutY="173.0" onMouseClicked="#arrowClick" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                    <Image url="@../../../ressources/img/left-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -209,7 +209,7 @@
                                  <children>
                                     <MyImageView fx:id="star4_1" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/yellow_star.png" />
+                                          <Image url="@../../../ressources/img/yellow_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -217,7 +217,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star4_3" layoutX="70.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -225,7 +225,7 @@
                                     </MyImageView>
                                     <MyImageView fx:id="star4_2" layoutX="35.0" onMouseClicked="#starClick" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/grey_star.png" />
+                                          <Image url="@../../../ressources/img/grey_star.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -246,7 +246,7 @@
                            <left>
                               <MyImageView fx:id="prevTerrain" onMouseClicked="#changerTerrain" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/left-arrow.png" />
+                                    <Image url="@../../../ressources/img/left-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -259,7 +259,7 @@
                            <right>
                               <MyImageView fx:id="nextTerrain" onMouseClicked="#changerTerrain" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/right-arrow.png" />
+                                    <Image url="@../../../ressources/img/right-arrow.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -278,7 +278,7 @@
                            <center>
                               <MyImageView fx:id="jouer" fitHeight="178.0" fitWidth="450.0" onMouseClicked="#jouer" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                  <image>
-                                    <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_jouer_resize.png" />
+                                    <Image url="@../../../ressources/img/img_menu/bouton_jouer_resize.png" />
                                  </image>
                                  <BorderPane.margin>
                                     <Insets />
@@ -301,7 +301,7 @@
             <AnchorPane>
                 <MyImageView fx:id="chargerpartie" fitWidth="275.0" onMouseClicked="#chargerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true">
                     <image>
-                       <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_charger_partie_resize.png" />
+                       <Image url="@../../../ressources/img/img_menu/bouton_charger_partie_resize.png" />
                     </image>
                     <cursor>
                        <Cursor fx:constant="HAND" />

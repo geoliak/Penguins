@@ -15,7 +15,7 @@
        <AnchorPane>
             <MyImageView fx:id="nom" fitWidth="1010.0"  pickOnBounds="true" preserveRatio="true">
                 <image>
-                   <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/nom_du_jeu.png" />
+                   <Image url="@../../../ressources/img/img_menu/nom_du_jeu.png" />
                 </image>
                 <BorderPane.margin>
                    <Insets />
@@ -41,12 +41,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <image>
-                  <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_locale_resize.png" />
+                  <Image url="@../../../ressources/img/img_menu/bouton_partie_locale_resize.png" />
                </image>
             </MyImageView>
-            <MyImageView fx:id="reseau" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
+            <MyImageView onMouseClicked="#reseau" fx:id="reseau" fitWidth="450.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_partie_reseau_resize.png" />
+                  <Image url="@../../../ressources/img/img_menu/bouton_partie_reseau_resize.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -54,7 +54,7 @@
             </MyImageView>
             <MyImageView fx:id="demo" onMouseClicked="#lancerDidacticiel" fitWidth="450.0" layoutX="10.0" layoutY="310.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true">
                <image>
-                  <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_didacticiel_resize.png" />
+                  <Image url="@../../../ressources/img/img_menu/bouton_didacticiel_resize.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -69,7 +69,7 @@
    <center>
       <MyImageView fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
-            <Image url="file:/home/m/mariobap/Java/Menus/ressources/images/pingoins.png" />
+            <Image url="@../../../ressources/img/pingoins.png" />
          </image>
          <BorderPane.margin>
             <Insets />

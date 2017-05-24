@@ -41,16 +41,31 @@ public class JoueurIA extends Joueur {
         this.setAge(r.nextInt(123)); // Jeanne Calment
     }
 
+    /**
+     * 
+     * @param partie : partie a etudier
+     * @return nombre de cases non coulees
+     */
     public int nbCasesRestantes(Partie partie) {
         GetNbCasesCoulees methode = new GetNbCasesCoulees();
         partie.getPlateau().appliquerSurCases(methode);
         return methode.getNbCasesCoulees();
     }
 
+    /**
+     * 
+     * @param partie : partie a etudier
+     * @return : True si tous les pingouins du joueur sont seuls sur des ilots
+     */
     public Boolean estSeul(Partie partie) {
         return this.pinguinsSontSeuls();
     }
 
+    /**
+     * 
+     * @return ArrayList des pingouins du joueur qui ont des adversaires sur leur ilot
+     */
+    @Override
     public ArrayList<Pinguin> getPinguinNonIsole() {
         ArrayList<Pinguin> pinguins = new ArrayList<>();
 
@@ -82,7 +97,6 @@ public class JoueurIA extends Joueur {
         for (Pinguin p : this.getPinguinsVivants()) {
             p.getCasesInterdites().removeAll(p.getCasesInterdites());
         }
-        partie.getPlateau().accept(new DessinateurTexte());
 
         Case caseChoisie = null;
         //System.out.print("etablirCoup ");
@@ -101,7 +115,6 @@ public class JoueurIA extends Joueur {
             }
 
         } else if (this.setPinguinsSeuls(partie) && this.getPinguinsVivants().size() >= 1) {
-            System.out.println("================= sont seuls");
             caseChoisie = this.phaseJeuMeilleurChemin(partie);
             if (caseChoisie == null) {
                 System.out.println("");
@@ -189,7 +202,7 @@ public class JoueurIA extends Joueur {
 
     //WOLOLO
     public static Case phaseJeuStatic(JoueurIA joueur, Partie partie) {
-        System.out.println("jeuAleatoire");
+        //System.out.println("jeuAleatoire");
         Random r = new Random();
 
         //Choix aléatoire d'un pinguin vivant
@@ -277,7 +290,7 @@ public class JoueurIA extends Joueur {
     //WOLOLO
     public static Case phaseJeuMeilleurCheminStatic(JoueurIA joueur, Partie partie) {
         //Si il n'y a plus pinguin adverse sur l'iceberg
-        System.out.print("phaseJeuMeilleurCheminStatic ");
+        //System.out.print("phaseJeuMeilleurCheminStatic ");
         ArrayList<Case> iceberg;
         int tailleMaximale;
         Case caseChoisie = null;
@@ -296,9 +309,9 @@ public class JoueurIA extends Joueur {
         }
 
         //Methode1 70%  du meilleur chemin
-        //joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.10) + 1));
+        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.70)));
 //Methode2 100% à 3sec max
-        EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
+        /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
         meilleurChemin.start();
 
         long startTime;
@@ -313,7 +326,9 @@ public class JoueurIA extends Joueur {
             //System.out.println("Deces " + (System.nanoTime() - startTime));
         } catch (InterruptedException ex) {
             Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
+        
+        
         try {
             caseChoisie = joueur.getChemin().remove(0);
         } catch (Exception e) {
@@ -337,7 +352,7 @@ public class JoueurIA extends Joueur {
          joueur.setPinguinCourant(null);
          }*/
 
-        System.out.println(" - Ok");
+        //System.out.println(" - Ok");
         return caseChoisie;
     }
 
@@ -504,7 +519,7 @@ public class JoueurIA extends Joueur {
      * @return
      */
     public Boolean setPinguinsSeuls(Partie partie) {
-        System.out.print("setPinguinsSeuls");
+        //System.out.print("setPinguinsSeuls");
         for (Pinguin p : super.getPinguinNonIsole()) {
             if (Plateau.getNbJoueurIceberg(Plateau.getCasesIceberg(p.getPosition())) == 1) {
                 p.setEstSeul(true);
@@ -575,7 +590,7 @@ public class JoueurIA extends Joueur {
             }
         }
 
-        System.out.println(" - OK");
+        //System.out.println(" - OK");
         return this.pinguinsSontSeuls();
     }
 
@@ -745,7 +760,7 @@ public class JoueurIA extends Joueur {
                 } else {
                     profondeur = 4;
                 }
-                System.out.print("profondeur " + profondeur);
+                //System.out.print("profondeur " + profondeur);
 
                 joueurs = Plateau.getJoueursIceberg(iceberg);
                 joueurs.remove(joueur);
@@ -757,7 +772,7 @@ public class JoueurIA extends Joueur {
                 MyPair<Case, Pinguin> rep = minimax.executeNegamaxMultiThread(profondeur);
 
                 joueur.setPinguinCourant(rep.getR());
-                System.out.println(" - OK");
+                //System.out.println(" - OK");
                 return rep.getL();
             }
         }

@@ -6,8 +6,11 @@
 package Vue;
 
 import Controleur.MouseClickerCase;
+import Controleur.MouseClickerCaseReseau;
 import Controleur.MouseClickerPenguin;
+import Controleur.MouseClickerPenguinReseau;
 import Modele.Case;
+import Modele.ClientJeu;
 import Modele.ConfigurationPartie;
 import Modele.Demo;
 import Modele.Joueur;
@@ -26,22 +29,19 @@ import Modele.MyImageView;
 import java.io.File;
 import javafx.animation.Animation;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 
 /**
  *
  * @author liakopog
  */
-public class DessinateurFX extends Visiteur {
+public class DessinateurFXReseau extends Visiteur {
 
-    private AnimationFX a;
+    private AnimationFXReseau a;
     private Partie partie;
     private Node root;
     private double sizeGlacon;
@@ -51,8 +51,12 @@ public class DessinateurFX extends Visiteur {
     private double height;
     private double width;
     private Joueur joueurCourant;
+    private int numJoueur;
+    private ClientJeu client;
 
-    public DessinateurFX(Node root, AnimationFX a) {
+    public DessinateurFXReseau(Node root, AnimationFXReseau a, ClientJeu cl) {
+        numJoueur = cl.getNumJoueur();
+        client = cl;
 	this.root = root;
 	this.a = a;
 	this.partie = ConfigurationPartie.getConfigurationPartie().getPartie();
@@ -71,18 +75,6 @@ public class DessinateurFX extends Visiteur {
             ((AnchorPane) this.root).getChildren().add(label);
             label.setLayoutX(100);
             label.setLayoutY(100);
-            
-            Button b = new Button("Suite");
-            b.setId("suite");
-            ((AnchorPane) this.root).getChildren().add(b);
-           
-            b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent event) {
-                    partie.getDemo().nextPhase();partie.getDemo().setEstModifie(true);
-                }
-            });
         }
     }
 
@@ -157,14 +149,14 @@ public class DessinateurFX extends Visiteur {
 	    //MyPolygon p = new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color);
 	    c.setPolygon(new MyPolygon(c.getNumColonne(), c.getNumLigne(), sizeGlacon, proportion, gap, color, c.getNbPoissons()));
 
-	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon());
+	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCaseReseau(c.getPolygon(), client);
 	    c.getPolygon().getImage().setOnMouseClicked(clicSourisFX);
 //	    EventHandler<? super MouseEvent> clicSourisFX = new MouseClickerCase(c.getPolygon(), partie);
 //	    c.getPolygon().setOnMouseClicked(clicSourisFX);
 
 	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null && !partie.getInitialisation()) {
-	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain() && ConfigurationPartie.getConfigurationPartie().isEnableHelp()) {
+	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
 		c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
 	    } else {
 		c.getPolygon().getImage().setEffect(null);
@@ -193,13 +185,14 @@ public class DessinateurFX extends Visiteur {
 	    iv.setX(x - width / 2.8);
 	    iv.setY(y - iv.getFitHeight());
 
-	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguin(p, partie);
+	    EventHandler<? super MouseEvent> clicSourisPenguin = new MouseClickerPenguinReseau(p, partie, numJoueur);
 	    iv.setOnMouseClicked(clicSourisPenguin);
 //	    iv.setEffect(new DropShadow());
 
 	    p.setIv(iv);
 	    ((AnchorPane) root).getChildren().add(p.getIv());
 	    partie.setTourFini(true);
+            client.finDeTour();
 	} else if (p.estVivant() && p.getIv() != null) {
 
 	    if (!partie.estEnInitialisation()) {
@@ -242,16 +235,11 @@ public class DessinateurFX extends Visiteur {
     public void visit(Joueur j) {
 	try {
 	    Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
-            Image pinginit = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
 
 	    ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText("" + j.getScorePoissons());
 
             //ImageView[][] ivs = ;
 	    //int nbPingouinsParJoueur = ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur();
-            for (int i = 0; i < partie.getNbPingouinParJoueur(); i++) {
-		ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(pinginit);
-	    }
-            
 	    for (int i = 0; i < j.getPinguins().size(); i++) {
 		ConfigurationPartie.getConfigurationPartie().getInitpingoos()[j.getNumero()][i].setImage(ping);
 	    }
@@ -260,27 +248,17 @@ public class DessinateurFX extends Visiteur {
 	}
     }
     
-    public Transition visit(Demo d){
-        d.setEstModifie(false);
-        
-        Button b = (Button) ((AnchorPane) this.root).lookup("#suite");
-        if(partie.getDemo().getPhase() == 1 || partie.getDemo().getPhase() == 3){
-            b.setVisible(false);
-        } else {
-            b.setVisible(true);
-        }
-        
-        Label label = (Label) ((AnchorPane) this.root).lookup("#consigne");
-        Transition t = null;
-        if(!partie.getDemo().getConsigne().equalsIgnoreCase(label.getText())){
-            label.setText("");
-
-            t = a.AnimateText(label, partie.getDemo().getConsigne());
-        }
-        return t;
-    }
+    
+    
+    
 
     public void setPartie(Partie partie) {
 	this.partie = partie;
     }
+
+    @Override
+    public Transition visit(Demo d) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

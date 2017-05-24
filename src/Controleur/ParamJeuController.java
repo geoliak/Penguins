@@ -335,6 +335,7 @@ public class ParamJeuController implements Initializable {
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	Partie partie = creationPartie();
 	ConfigurationPartie.getConfigurationPartie().setPartie(partie);
+        ConfigurationPartie.getConfigurationPartie().setEnableHelp(true);
 
 	FenetreJeuController fenetre = new FenetreJeuController();
 	fenetre.creerFenetreJeu(stage);

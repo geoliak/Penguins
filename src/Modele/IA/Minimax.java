@@ -42,16 +42,12 @@ public class Minimax {
         this.pinguinsAdverses = pinguinsAdverses;
     }
 
-    public void affichePositionPinguin() {
-        for (Case[] cs : this.partie.getPlateau().getCases()) {
-            for (Case c : cs) {
-                if (c.getPinguin() != null) {
-                    System.out.println(c.getPinguin());
-                }
-            }
-        }
-    }
-
+    /**
+     * Execute un Negamax
+     * 
+     * @param profondeur : profondeur de recherche maximal
+     * @return Un couple <Case, Pinguin> qui correspond au Pingouin qui doit jouer sur la case Case
+     */
     public MyPair<Case, Pinguin> executeNegamax(int profondeur) {
         Case caseRes = null;
         Pinguin pinguinRep = null;
@@ -93,6 +89,17 @@ public class Minimax {
         return rep;
     }
 
+    /**
+     * Worker du negamax
+     * 
+     * @param plateau : Plateau de jeu
+     * @param pinguinsJoueur1 : ArrayList de pingouin du joueur courammant etudie
+     * @param pinguinsJoueur2 : ArrayList de pingouin de l'autre joueur
+     * @param profondeur : profondeur de recherche maximale
+     * @param poidsChemin1 : ponderation du chemin couramment etudie
+     * @param poidsChemin2 : ponderation du chemin de l'autre chemin
+     * @return ponderation du chemin maximum si débuté avec le joueur utilisant le minimax, sinon minimum
+     */
     public static int NegaMax(Plateau plateau, ArrayList<Pinguin> pinguinsJoueur1, ArrayList<Pinguin> pinguinsJoueur2, int profondeur, int poidsChemin1, int poidsChemin2) {
         int meilleurPoids = Integer.MIN_VALUE;
         int poidsCourant, poidsFeuille = 0;
@@ -156,6 +163,12 @@ public class Minimax {
         }
     }
 
+    /**
+     * Execute un Negamax qui utilise plusieurs threads
+     * 
+     * @param profondeur : profondeur de recherche maximal
+     * @return Un couple <Case, Pinguin> qui correspond au Pingouin qui doit jouer sur la case Case
+     */
     public MyPair<Case, Pinguin> executeNegamaxMultiThread(int profondeur) {
         Case caseRes = null;
         Pinguin pinguinRep = null;
@@ -217,6 +230,9 @@ public class Minimax {
         return rep;
     }
 
+    /**
+     * Thread permettant d'étudier une branche de l'arbre Negamax
+     */
     public class CalculBrancheNegamax extends Thread {
 
         private Plateau plateau;
@@ -257,6 +273,12 @@ public class Minimax {
         }
     }
 
+    /**
+     * Execute un Negamax avec elagage
+     * 
+     * @param profondeur : profondeur de recherche maximal
+     * @return Un couple <Case, Pinguin> qui correspond au Pingouin qui doit jouer sur la case Case
+     */
     public MyPair<Case, Pinguin> executeNegamaxElagage(int profondeur) {
         int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
         Case caseRes = null;
@@ -311,6 +333,19 @@ public class Minimax {
         return rep;
     }
 
+    /**
+     * Worker du negamax avec elagage
+     * 
+     * @param plateau : Plateau de jeu
+     * @param pinguinsJoueur1 : ArrayList de pingouin du joueur courammant etudie
+     * @param pinguinsJoueur2 : ArrayList de pingouin de l'autre joueur
+     * @param profondeur : profondeur de recherche maximale
+     * @param alpha : borne
+     * @param beta : borne
+     * @param poidsChemin1 : ponderation du chemin couramment etudie
+     * @param poidsChemin2 : ponderation du chemin de l'autre chemin
+     * @return ponderation du chemin maximum si débuté avec le joueur utilisant le minimax, sinon minimum
+     */
     public static int NegaMaxElagage(Plateau plateau, ArrayList<Pinguin> pinguinsJoueur1, ArrayList<Pinguin> pinguinsJoueur2, int profondeur, int alpha, int beta, int poidsChemin1, int poidsChemin2) {
         int meilleurPoids = Integer.MIN_VALUE;
         int poidsCourant, poidsFeuille = 0;

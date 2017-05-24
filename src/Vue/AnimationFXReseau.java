@@ -13,11 +13,7 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
 import javafx.animation.Animation;
-import javafx.animation.RotateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -28,7 +24,7 @@ import javafx.util.Duration;
  *
  * @author rozandq
  */
-public class AnimationFX {
+public class AnimationFXReseau {
 
     public Transition mouvementImage(MyPolygon p, MyImageView iv, double x, double y, double sizeGlacon, double proportion) {
 	double size = sizeGlacon * proportion;
@@ -67,45 +63,6 @@ public class AnimationFX {
 	return st;
     }
     
-    public Transition scaleFromZero(Node n, double x, int t) {
-        n.setVisible(true);
-	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
-        st.setFromX(0.0);
-        st.setFromY(0.0);
-	st.setToX(x);
-	st.setToY(x);
-        
-        RotateTransition rt = new RotateTransition(Duration.millis(t), n);
-        rt.setByAngle(360);
-
-        rt.play();
-	st.play();
-        
-	return st;
-    }
-    public Transition scaleToZero(Node n, int t) {
-        
-	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
-	st.setToX(0.0);
-	st.setToY(0.0);
-        
-        RotateTransition rt = new RotateTransition(Duration.millis(t), n);
-        rt.setByAngle(-360);
-
-        rt.play();
-	st.play();
-        
-        st.setOnFinished(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                n.setVisible(false);
-        
-            }
-        });
-	return st;
-    }
-    
     public Transition AnimateText(Label lbl, String descImp) {
         String content = descImp;
         final Transition animation = new Transition() {
@@ -121,14 +78,5 @@ public class AnimationFX {
         };
         animation.play();
         return animation;
-    }
-    
-    public Transition moveIV(double dX, double dY, ImageView iv){
-        TranslateTransition tt = new TranslateTransition(Duration.millis(200), iv);
-	tt.setToX(iv.getX() + dX);
-	tt.setToY(iv.getY() + dY);
-        tt.play();
-        
-        return tt;
     }
 }
