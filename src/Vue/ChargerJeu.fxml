@@ -69,9 +69,9 @@
                <bottom>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <left>
-                        <MyImageView onMouseClicked="#deleteSave" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <MyImageView onMouseClicked="#deleteSave" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
                            <image>
-                              <Image url="@../../../ressources/img/img_menu/bouton_jouer_resize2.png" />
+                              <Image url="@../../../ressources/img/img_menu/bouton_supprimer.png" />
                            </image>
                            <BorderPane.margin>
                               <Insets left="75.0" />
@@ -79,7 +79,7 @@
                         </MyImageView>
                      </left>
                      <right>
-                        <MyImageView onMouseClicked="#lancerPartie" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <MyImageView onMouseClicked="#lancerPartie" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
                            <image>
                               <Image url="@../../../ressources/img/img_menu/bouton_jouer_resize2.png" />
                            </image>

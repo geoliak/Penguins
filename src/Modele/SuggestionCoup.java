@@ -15,7 +15,7 @@ import Modele.IA.JoueurMinimax;
  */
 public class SuggestionCoup {
 
-    public static void suggestionCoup() throws InterruptedException {
+    public static boolean suggestionCoup() throws InterruptedException {
 
 	for (Case[] cases : ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().getCases()) {
 	    for (Case c : cases) {
@@ -25,7 +25,7 @@ public class SuggestionCoup {
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
 
 	JoueurHumainLocal joumain = (JoueurHumainLocal) ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant();
-	JoueurMinimax jia = new JoueurMinimax(joumain.getCouleur(), joumain.getNumero());
+	JoueurIA9 jia = new JoueurIA9(joumain.getCouleur(), joumain.getNumero());
 	jia.setPinguins(joumain.getPinguins());
 	for (Pinguin p : joumain.getPinguins()) {
 	    p.setGeneral(jia);
@@ -41,6 +41,7 @@ public class SuggestionCoup {
 	c.setAccessible(Boolean.TRUE);
 //	    System.out.println(c + " " + ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getPinguinCourant() + " " + jia.getPinguinCourant());
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().setEstModifié(true);
+        
+        return true;
     }
-
 }

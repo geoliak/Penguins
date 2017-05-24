@@ -28,6 +28,7 @@ import javafx.animation.Animation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -163,7 +164,7 @@ public class DessinateurFX extends Visiteur {
 
 	    ((AnchorPane) root).getChildren().add(c.getPolygon().getImage());
 	} else if (!c.estCoulee() && c.getPolygon() != null && !partie.getInitialisation()) {
-	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain()) {
+	    if (c.getAccessible() && partie.getJoueurCourant().getEstHumain() && ConfigurationPartie.getConfigurationPartie().isEnableHelp()) {
 		c.getPolygon().getImage().setEffect(new InnerShadow(40, partie.getJoueurCourant().getCouleur().getCouleurFX()));
 	    } else {
 		c.getPolygon().getImage().setEffect(null);

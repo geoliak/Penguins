@@ -122,4 +122,8 @@ public class Historique implements Serializable {
 	    System.out.println("remove" + "indice " + indice + " size " + historiqueCoups.size());
 	}
     }
+    
+    public boolean existeCoupRejouer(){
+        return historiqueCoups.size() > indice + 1;
+    }
 }

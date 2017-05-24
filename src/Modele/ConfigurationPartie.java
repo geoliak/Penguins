@@ -28,6 +28,7 @@ public class ConfigurationPartie {
     //private Label [] labelNoms;
     private Stage stage;
     private ImageView[][] initpingoos;
+    private boolean enableHelp;
 
     private ConfigurationPartie() {
 	root = new Group();
@@ -105,5 +106,15 @@ public class ConfigurationPartie {
     public void setHistorique(Historique historique) {
 	this.historique = historique;
     }
+
+    public boolean isEnableHelp() {
+        return enableHelp;
+    }
+
+    public void setEnableHelp(boolean enableHelp) {
+        this.enableHelp = enableHelp;
+    }
+    
+    
 
 }
