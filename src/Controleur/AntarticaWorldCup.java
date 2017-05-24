@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public class AntarticaWorldCup {
 
     public static void main(String[] args) {
-	Tournoi worldCup = new Tournoi(10);
+	Tournoi worldCup = new Tournoi(30);
 
 
        /*

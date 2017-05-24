@@ -9,6 +9,7 @@ import Modele.ConfigurationPartie;
 import Modele.Couleur;
 import Modele.IA.JoueurIA1;
 import Modele.IA.JoueurIA2;
+import Modele.IA.JoueurIA6;
 import Modele.IA.JoueurIA8;
 import Modele.IA.JoueurIA9;
 import Modele.IA.JoueurIASauveQuiPeut;
@@ -405,12 +406,12 @@ public class ParamJeuController implements Initializable {
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
-		    Joueur j = new JoueurIA8(couleurs[i], i);
+		    Joueur j = new JoueurIA6(couleurs[i], i);
 		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {
 		    System.out.println("IA difficile");
-		    Joueur j = new JoueurMinimax(couleurs[i], i);
+		    Joueur j = new JoueurIA9(couleurs[i], i);
 		    j.setDifficulte(3);
 		    joueurs.add(j);
 		}
@@ -418,6 +419,8 @@ public class ParamJeuController implements Initializable {
 		System.out.println("pas de joueur");
 	    }
 	}
+        plateau = new Plateau("ressources/plateaux/plateauTestInitMaxPossibilitee");
+        
 	Partie partie = new Partie(plateau, joueurs);
 
 	return partie;

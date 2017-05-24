@@ -70,6 +70,10 @@ public class Tournoi {
         this.IA.add(ia);
     }
 
+        public void ajouterIA(ArrayList<Joueur> joueurs) {
+        this.IA.addAll(joueurs);
+    }
+    
     private void initToutesCompo() {
         if (this.IA.size() >= 2) {
             this.initCompoDeuxJoueurs();
@@ -144,33 +148,38 @@ public class Tournoi {
         if (deux) {
             this.initCompoDeuxJoueurs();
             tousLesMatch.addAll(this.compoDeuxJoueurs);
+            this.afficheCroissantDeux = new ArrayList<>();
         }
         if (trois) {
             this.initCompoTroisJoueurs();
             tousLesMatch.addAll(this.compoTroisJoueurs);
+            this.afficheCroissantTrois = new ArrayList<>();
         }
         if (quatre) {
             this.initCompoQuatreJoueurs();
             tousLesMatch.addAll(this.compoQuatreJoueurs);
+            this.afficheCroissantQuatre = new ArrayList<>();
         }
         int avancement = 0;
         int i = 0;
         System.out.println("Combats !");
-        System.out.print("->");
         for (Composition c : tousLesMatch) {
-            System.out.print("[");
-            if (i >= tousLesMatch.size() / 10) {
+
+            if (i >= tousLesMatch.size() / 100) {
                 avancement++;
                 i = 0;
-            }
-            for (int j = 0; j < avancement; j++) {
-                System.out.print("#");
-            }
-            for (int j = avancement; j < 10; j++) {
-                System.out.print(" ");
-            }
+                System.out.print("\r[");
+                System.out.flush();
+                for (int j = 0; j < avancement/10; j++) {
+                    System.out.print("#");
+                }
+                for (int j = avancement/10; j < 10; j++) {
+                    System.out.print(" ");
+                }
 
-            System.out.println("] " + (float) ((float) 100 * (avancement * (tousLesMatch.size() / 10) + i) / tousLesMatch.size()) + "%");
+                System.out.print("] " + (float) ((float) 100 * (avancement * (tousLesMatch.size() / 100) + i) / tousLesMatch.size()) + "%");
+                System.out.flush();
+            }
 
             this.match(c);
 
@@ -302,9 +311,10 @@ public class Tournoi {
 
     /**
      * Non fonctionnel tant qu'on ne clonera pas les joueurs
+     *
      * @param deux
      * @param trois
-     * @param quatre 
+     * @param quatre
      */
     public void executerLesCombatsMultiThread(boolean deux, boolean trois, boolean quatre) {
         ArrayList<Composition> tousLesMatch = new ArrayList<>();
@@ -724,7 +734,7 @@ public class Tournoi {
                     autresJoueurs = new StringBuilder();
                     for (Joueur joueurCompo : compo.getComposition()) {
                         if (joueur == joueurCompo) {
-                            sb.append("\t\t\t" + (float) (100 * compo.getScores().get(joueurCompo) / compo.nbMatch)).append("%\t\t\t\t\t\t\t");
+                            sb.append("\t" + (float) (100 * compo.getScores().get(joueurCompo) / compo.nbMatch)).append("%\t\t\t\t\t");
                         } else {
                             autresJoueurs.append("   ").append(joueurCompo.getNom());
                         }

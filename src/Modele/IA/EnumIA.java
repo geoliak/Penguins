@@ -29,7 +29,7 @@ public class EnumIA extends JoueurIA {
     private double[] jeuCertain;
 
     private int generation;
-    public static final double TAUX_DE_MUTATION = 0.05;
+    
 
     private int indiceDeFinDeJeu;
 
@@ -86,13 +86,13 @@ public class EnumIA extends JoueurIA {
         //System.out.print("getCaseCertaineFrom ");
         Case rep = null;
         Random r = new Random();
-        double choix, probaCourante;
+        double choix, probaCourante = 0;
 
         int i = 0;
         choix = r.nextDouble();
         probaCourante = proba[i];
 
-        while (probaCourante < choix) {
+        while (i  + 1 < proba.length && probaCourante < choix) {
             i++;
             probaCourante += proba[i];
         }
@@ -116,7 +116,7 @@ public class EnumIA extends JoueurIA {
             i = 0;
             probaCourante = etatCourant[i];
             //Recherche de la methode a utiliser
-            while (probaCourante < choix) {
+            while (i  + 1 < proba.length && probaCourante < choix) {
                 i++;
                 probaCourante += etatCourant[i];
                 /*if (probaCourante > 1 || i > proba.length) {
@@ -308,29 +308,29 @@ public class EnumIA extends JoueurIA {
     @Override
     public String getSpecialitees() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getNom()).append(" Joueur IA enumeree");
+        sb.append(this.getNom()).append(" Joueur IA enumeree\n");
         sb.append("|| Phase d'initialisation : \n");
         sb.append("|Au hasard\t\t-> " + this.initialisation[0] + "\n");
         sb.append("|Gourmande\t\t\t-> " + this.initialisation[1] + "\n");
         sb.append("|Max mouvements\t\t\t-> " + this.initialisation[2] + "\n");
 
         sb.append("|| Phase debutJeu : \n");
-        sb.append("|Minimax\t\t\t-> " + this.debutJeu[0] + "\n");
-        sb.append("|Sauve qui peut\t\t\t-> " + this.debutJeu[1] + "\n");
-        sb.append("|Cherche ilot\t\t\t-> " + this.debutJeu[2] + "\n");
-        sb.append("|Victime simple\t\t\t-> " + this.debutJeu[3] + "\n");
-        sb.append("|Victime ilot\t\t\t-> " + this.debutJeu[4] + "\n");
-        sb.append("|Gourmande\t\t\t-> " + this.debutJeu[5] + "\n");
-        sb.append("|Max mouvements\t\t\t-> " + this.debutJeu[6] + "\n");
+        //sb.append("|Minimax\t\t\t-> " + this.debutJeu[0] + "\n");
+        sb.append("|Sauve qui peut\t\t\t-> " + this.debutJeu[0] + "\n");
+        sb.append("|Cherche ilot\t\t\t-> " + this.debutJeu[1] + "\n");
+        sb.append("|Victime simple\t\t\t-> " + this.debutJeu[2] + "\n");
+        sb.append("|Victime ilot\t\t\t-> " + this.debutJeu[3] + "\n");
+        sb.append("|Gourmande\t\t\t-> " + this.debutJeu[4] + "\n");
+        sb.append("|Max mouvements\t\t\t-> " + this.debutJeu[5] + "\n");
 
         sb.append("|| Phase millieuJeu : \n");
-        sb.append("|Minimax\t\t\t-> " + this.millieuJeu[0] + "\n");
-        sb.append("|Sauve qui peut\t\t\t-> " + this.millieuJeu[1] + "\n");
-        sb.append("|Cherche ilot\t\t\t-> " + this.millieuJeu[2] + "\n");
-        sb.append("|Victime simple\t\t\t-> " + this.millieuJeu[3] + "\n");
-        sb.append("|Victime ilot\t\t\t-> " + this.millieuJeu[4] + "\n");
-        sb.append("|Gourmande\t\t\t-> " + this.millieuJeu[5] + "\n");
-        sb.append("|Max mouvements\t\t\t-> " + this.millieuJeu[6] + "\n");
+        //sb.append("|Minimax\t\t\t-> " + this.millieuJeu[0] + "\n");
+        sb.append("|Sauve qui peut\t\t\t-> " + this.millieuJeu[0] + "\n");
+        sb.append("|Cherche ilot\t\t\t-> " + this.millieuJeu[1] + "\n");
+        sb.append("|Victime simple\t\t\t-> " + this.millieuJeu[2] + "\n");
+        sb.append("|Victime ilot\t\t\t-> " + this.millieuJeu[3] + "\n");
+        sb.append("|Gourmande\t\t\t-> " + this.millieuJeu[4] + "\n");
+        sb.append("|Max mouvements\t\t\t-> " + this.millieuJeu[5] + "\n");
 
         sb.append("|| Phase jeu Certain : \n");
         sb.append("|Gourmande\t\t\t-> " + this.jeuCertain[0] + "\n");
