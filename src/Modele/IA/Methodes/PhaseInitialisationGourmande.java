@@ -29,6 +29,7 @@ public class PhaseInitialisationGourmande implements Methode {
             for (Case c : casesAccessible) {
                 if (c.getNbPoissons() == this.nbPoissons) {
                     this.caseChoisie = caseCourante;
+                    break;
                 }
             }
         }

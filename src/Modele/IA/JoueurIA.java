@@ -42,7 +42,7 @@ public class JoueurIA extends Joueur {
     }
 
     /**
-     * 
+     *
      * @param partie : partie a etudier
      * @return nombre de cases non coulees
      */
@@ -53,7 +53,7 @@ public class JoueurIA extends Joueur {
     }
 
     /**
-     * 
+     *
      * @param partie : partie a etudier
      * @return : True si tous les pingouins du joueur sont seuls sur des ilots
      */
@@ -62,8 +62,9 @@ public class JoueurIA extends Joueur {
     }
 
     /**
-     * 
-     * @return ArrayList des pingouins du joueur qui ont des adversaires sur leur ilot
+     *
+     * @return ArrayList des pingouins du joueur qui ont des adversaires sur
+     * leur ilot
      */
     @Override
     public ArrayList<Pinguin> getPinguinNonIsole() {
@@ -169,14 +170,13 @@ public class JoueurIA extends Joueur {
         int debutligne = r.nextInt(partie.getPlateau().getNbLignes());
         int debutColonne = r.nextInt(partie.getPlateau().getNbColonnes());
 
-        PhaseInitialisationGourmande methode = new PhaseInitialisationGourmande(nbPoissons);
-
-        while (methode.getCaseChoisie() == null && nbPoissons > 0) {
-            while (methode.getCaseChoisie() == null) {
-                partie.getPlateau().appliquerSurCasesAvecDebut(debutligne, debutColonne, methode);
-            }
+        PhaseInitialisationGourmande methode = null;
+        
+        do {
+            methode = new PhaseInitialisationGourmande(nbPoissons);
+            partie.getPlateau().appliquerSurCasesAvecDebut(debutligne, debutColonne, methode);
             nbPoissons--;
-        }
+        } while (methode.getCaseChoisie() == null && nbPoissons > 0);
 
         return methode.getCaseChoisie();
     }
@@ -312,23 +312,22 @@ public class JoueurIA extends Joueur {
         joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.70)));
 //Methode2 100% à 3sec max
         /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
-        meilleurChemin.start();
+         meilleurChemin.start();
 
-        long startTime;
+         long startTime;
 
-        startTime = System.nanoTime();
-        while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
-            //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
-        }
-        meilleurChemin.stopThread();
-        try {
-            meilleurChemin.join();
-            //System.out.println("Deces " + (System.nanoTime() - startTime));
-        } catch (InterruptedException ex) {
-            Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        
+         startTime = System.nanoTime();
+         while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
+         //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
+         }
+         meilleurChemin.stopThread();
+         try {
+         meilleurChemin.join();
+         //System.out.println("Deces " + (System.nanoTime() - startTime));
+         } catch (InterruptedException ex) {
+         Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
+
         try {
             caseChoisie = joueur.getChemin().remove(0);
         } catch (Exception e) {
@@ -752,13 +751,13 @@ public class JoueurIA extends Joueur {
 
             if (Plateau.getNbJoueurIceberg(iceberg) == 2) {
                 if (tailleIceberg <= 23) {
-                    profondeur = 23;
+                    profondeur = 22; // 23
                 } else if (tailleIceberg < 30) {
-                    profondeur = 12;
+                    profondeur = 9; //12
                 } else if (tailleIceberg < 40) {
-                    profondeur = 8;
+                    profondeur = 6; //8
                 } else {
-                    profondeur = 4;
+                    profondeur = 3; //4
                 }
                 //System.out.print("profondeur " + profondeur);
 
@@ -799,7 +798,7 @@ public class JoueurIA extends Joueur {
 
     @Override
     public String getSpecialitees() {
-        return this.getNom() + "Joueur IA";
+        return this.getNom() + " Joueur IA";
     }
 
 }
