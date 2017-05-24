@@ -108,13 +108,10 @@ public class ConfigurationPartie {
     }
 
     public boolean isEnableHelp() {
-        return enableHelp;
+        return enableHelp || partie.getDemo() != null;
     }
 
     public void setEnableHelp(boolean enableHelp) {
         this.enableHelp = enableHelp;
     }
-    
-    
-
 }

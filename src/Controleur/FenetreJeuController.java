@@ -28,7 +28,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -75,12 +79,19 @@ public class FenetreJeuController {
 	b.setBackground(new Background(bg));
 
 	stage.setScene(scene);
-	//stage.initStyle(StageStyle.TRANSPARENT);
 	ConfigurationPartie.getConfigurationPartie().setScene(scene);
 	ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
 	AnimationFX a = new AnimationFX();
-
+        
+        File f = new File("ressources/img/img_menu/bulle_ours.png");
+        ImageView bulle = new ImageView(new Image(f.toURI().toString()));
+        bulle.setEffect(new DropShadow());
+        
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() != null){
+            root.getChildren().add(bulle);
+        }
+        
 	DessinateurFX d = new DessinateurFX(root, a);
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
 
@@ -91,7 +102,6 @@ public class FenetreJeuController {
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
 
-	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
 
@@ -104,6 +114,24 @@ public class FenetreJeuController {
 //        phaseDeJeu.setFont(Font.font("ice age font",30));
 //        phaseDeJeu.setId("phaseDeJeu");
 //        root.getChildren().add(phaseDeJeu);
+        
+        
+        
+        
+        /* TO DO */
+        
+        /*
+        File f = new File("ressources/img/img_menu/init_mess.png");
+        Image img = new Image(f.toURI().toString());
+        ImageView message = new ImageView(img);
+        message.setId("message");
+        message.setVisible(false);
+        
+        a.scaleFromZero(message, 1, 200);
+        
+        root.getChildren().add(message);
+        */
+        
 	stage.show();
     }
 
@@ -193,7 +221,74 @@ public class FenetreJeuController {
 	HBox h = new HBox();
 	File f = new File("ressources/img/img_menu/bouton_home.png");
 	ImageView home = new ImageView(new Image(f.toURI().toString()));
-	home.setId("home");
+        home.setId("home");
+        
+        File fsave = new File("ressources/img/img_menu/save.png");
+	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Sauvegarder la partie\n");
+        Tooltip.install(save, tooltip);
+        
+        
+        save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+                Date date = new Date();
+                Sauvegarde s = new Sauvegarde();
+                System.out.println(dateFormat.format(date));
+                s.Save(dateFormat.format(date));
+            }
+        });
+        
+        File frestart = new File("ressources/img/img_menu/restart.png");
+	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Recommencer la partie\n");
+        Tooltip.install(restart, tooltip);
+        restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()){
+                    ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                }
+            }
+        });       
+        
+        File fquit = new File("ressources/img/img_menu/quit.png");
+	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Quitter la partie\n");
+        Tooltip.install(quit, tooltip);
+        quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                    Scene scene = new Scene(paramJeu);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();      
+                    ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                } catch (IOException ex) {
+                    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });   
+        
+        home.setLayoutX(-140);
+        quit.setLayoutX(-140 + 15);
+        save.setLayoutX(-140 + 55);
+        restart.setLayoutX(-140 + 95);
+        
+        home.setLayoutY(-120);
+        quit.setLayoutY(-100);
+        quit.toFront();
+        save.setLayoutY(-95);
+        save.toFront();
+        restart.setLayoutY(-100);
+        restart.toFront();
+        
 
 	File fsave = new File("ressources/img/img_menu/save.png");
 	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
@@ -282,40 +377,60 @@ public class FenetreJeuController {
 
 	File fnote = new File("ressources/img/img_menu/note.jpg");
 	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
-	note.setLayoutY(7);
-	note.setLayoutX(80);
-	note.setVisible(false);
-
-	File fvol = new File("ressources/img/img_menu/volume.png");
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver la musique\n");
+        Tooltip.install(note, tooltip);
+        note.setLayoutY(7);
+        note.setLayoutX(80);
+        note.setVisible(false);
+        
+        File fvol = new File("ressources/img/img_menu/volume.png");
 	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
-	volume.setLayoutY(10);
-	volume.setLayoutX(120);
-	volume.setVisible(false);
-
-	File finfo = new File("ressources/img/img_menu/info.png");
-	ImageView info = new ImageView(new Image(finfo.toURI().toString()));
-	info.setId("info");
-	info.setLayoutY(10);
-	info.setLayoutX(160);
-	info.setVisible(false);
-	info.setOnMouseClicked(new InfoClicEvent(info));
-
-	ArrayList<ImageView> ivs2 = new ArrayList<>();
-	ivs2.add(note);
-	ivs2.add(volume);
-	ivs2.add(info);
-
-	gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
-
-	setSettingsAnim(ivs2);
-
-	File flight = new File("ressources/img/img_menu/ampoule.png");
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver les bruitages\n");
+        Tooltip.install(volume, tooltip);
+        volume.setLayoutY(10);
+        volume.setLayoutX(120);
+        volume.setVisible(false);
+        
+        File finfo = new File("ressources/img/img_menu/info.png");
+        File finfo_croix = new File("ressources/img/img_menu/info_croix.png");
+        ImageView info;
+        if(ConfigurationPartie.getConfigurationPartie().isEnableHelp()){
+            info = new ImageView(new Image(finfo.toURI().toString()));
+        } else {
+            info = new ImageView(new Image(finfo_croix.toURI().toString()));
+        }
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver les aides visuelles\n");
+        Tooltip.install(info, tooltip);
+	
+        info.setId("info");
+        info.setLayoutY(10);
+        info.setLayoutX(160);
+        info.setVisible(false);
+        info.setOnMouseClicked(new InfoClicEvent(info));
+        
+        ArrayList<ImageView> ivs2 = new ArrayList<>();
+        ivs2.add(note);
+        ivs2.add(volume);
+        ivs2.add(info);
+        
+        gear.setOnMouseClicked(new ClicSettingsEvent(gear, ivs2));
+        
+        setSettingsAnim(ivs2);
+        
+        File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
-	light.setId("light");
-	light.setLayoutX(300);
-	light.setLayoutY(-150);
-	light.setOnMouseClicked(new hintClicEvent(light));
-	light.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        tooltip = new Tooltip();
+        tooltip.setText("Suggéstion de coup\n");
+        Tooltip.install(light, tooltip);
+        
+        light.setId("light");
+        light.setLayoutX(250);
+        light.setLayoutY(-150);
+        light.setOnMouseClicked(new hintClicEvent(light));
+        light.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
 		a.scale(light, 1.15, 200);
@@ -331,24 +446,77 @@ public class FenetreJeuController {
 
 	File fundo = new File("ressources/img/img_menu/undo.png");
 	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
-	undo.setId("undo");
-	undo.setLayoutX(300);
-	undo.setLayoutY(-150);
-	undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        tooltip = new Tooltip();
+        tooltip.setText("Annuler un coup\n");
+        Tooltip.install(undo, tooltip);
+        
+        undo.setId("undo");
+        undo.setLayoutX(400);
+        undo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
+        undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1.15, 200);
+		undo.setEffect(new InnerShadow());
 	    }
 	});
 
 	undo.setOnMouseExited(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1, 200);
+		undo.setEffect(new DropShadow());
+	    }
+	});
+        undo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
+            }
+            
+        });
+        
+        File fredo = new File("ressources/img/img_menu/redo.png");
+	ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Rejouer un coup\n");
+        Tooltip.install(redo, tooltip);
+        
+        redo.setLayoutX(600);
+        redo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
+        redo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+                redo.setEffect(new InnerShadow());
 	    }
 	});
 
-	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light);
+	redo.setOnMouseExited(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+                redo.setEffect(new DropShadow());
+                
+	    }
+	});
+        
+        redo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().rejouerCoup();
+            }
+            
+        });
+        
+	ap.getChildren().addAll(home, gear, quit, note, volume);
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() == null) {
+            ap.getChildren().addAll(save, restart, info, light, undo, redo);
+        }
+        
+        
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));

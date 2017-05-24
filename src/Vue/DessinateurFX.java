@@ -33,6 +33,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -69,10 +70,14 @@ public class DessinateurFX extends Visiteur {
             Label label = new Label();
             label.setId("consigne");
             ((AnchorPane) this.root).getChildren().add(label);
-            label.setLayoutX(100);
-            label.setLayoutY(100);
+            label.setLayoutX(30);
+            label.setLayoutY(20);
+            label.setMaxSize(680, 165);
+            label.setFont(new Font(16));
             
             Button b = new Button("Suite");
+            b.setLayoutX(620);
+            b.setLayoutY(130);
             b.setId("suite");
             ((AnchorPane) this.root).getChildren().add(b);
            
@@ -80,7 +85,8 @@ public class DessinateurFX extends Visiteur {
 
                 @Override
                 public void handle(MouseEvent event) {
-                    partie.getDemo().nextPhase();partie.getDemo().setEstModifie(true);
+                    partie.getDemo().nextPhase();
+                    partie.getDemo().setEstModifie(true);
                 }
             });
         }

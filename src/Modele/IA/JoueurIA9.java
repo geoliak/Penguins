@@ -21,7 +21,7 @@ public class JoueurIA9 extends JoueurIA {
 
     @Override
     public Case phaseInitialisation(Partie partie) {
-        return super.phaseInitialisationMaxPossibilitee(partie);
+        return super.phaseInitialisationGourmande(partie);
     }
 
     @Override

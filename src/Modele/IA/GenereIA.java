@@ -32,6 +32,8 @@ public class GenereIA {
     private ArrayList<BiFunction<JoueurIA, Partie, Case>> jeuCertain;
 
     private ArrayList<JoueurIA> groupe;
+    
+    public static final double TAUX_DE_MUTATION = 0.05;
 
     public GenereIA() {
 
@@ -43,7 +45,7 @@ public class GenereIA {
 
         //Methode pouvant etre utilisées pour le debut de partie
         this.debutJeu = new ArrayList<>();
-        this.debutJeu.add(JoueurIA::minimax);
+        //this.debutJeu.add(JoueurIA::minimax);
         this.debutJeu.add(JoueurIA::sauveQuiPeutBasiqueStatic);
         this.debutJeu.add(JoueurIA::chercheIlotStatic);
         this.debutJeu.add(JoueurIA::chercherVictimeSimple);
@@ -54,7 +56,7 @@ public class GenereIA {
         //Methode pouvant etre utilisées pour le millieu de partie
         this.millieuJeu = new ArrayList<>();
         //this.millieuJeuCertain.add(IA::phaseJeu);
-        this.millieuJeu.add(JoueurIA::minimax);
+        //this.millieuJeu.add(JoueurIA::minimax);
         this.millieuJeu.add(JoueurIA::sauveQuiPeutBasiqueStatic);
         this.millieuJeu.add(JoueurIA::chercheIlotStatic);
         this.millieuJeu.add(JoueurIA::chercherVictimeSimple);
@@ -110,7 +112,7 @@ public class GenereIA {
         //On couple les 5% meilleurs 4 fois chacun, avec des individus choisi au hasard
         for (id = 0; id  < (int) (tailleGroupe * 0.05); id++) {
             for (int j = 0; j < 4; j++) {
-                enfant = new EnumIA(generation, id, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
+                enfant = new EnumIA(generation, id + j, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
                 nouvelleGeneration.add(enfant);
                 
             }
@@ -119,7 +121,7 @@ public class GenereIA {
         //On couple les 5%-10% meilleurs 3 fois chacun, avec des individus choisi au hasard
         for (; id  < (int) (tailleGroupe * 0.1); id++) {
             for (int j = 0; j < 3; j++) {
-                enfant = new EnumIA(generation, id, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
+                enfant = new EnumIA(generation, id + j, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
                 nouvelleGeneration.add(enfant);
                 
             }
@@ -128,7 +130,7 @@ public class GenereIA {
         //On couple les 10%-20% meilleurs 2 fois chacun, avec des individus choisi au hasard
         for (; id  < (int) (tailleGroupe * 0.2); id++) {
             for (int j = 0; j < 2; j++) {
-                enfant = new EnumIA(generation, id, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
+                enfant = new EnumIA(generation, id + j, this, (EnumIA) generationPrecedente.get(id), (EnumIA) generationPrecedente.get(r.nextInt(generationPrecedente.size())));
                 nouvelleGeneration.add(enfant);
                 
             }
@@ -138,6 +140,13 @@ public class GenereIA {
         for (; id < tailleGroupe; id++) {
             enfant = new EnumIA(Couleur.VALEURS[r.nextInt(Couleur.VALEURS.length)], generation, id, this);
             nouvelleGeneration.add(enfant);
+        }
+        
+        //Des mutations peuvent apparaitre
+        for (Joueur enumeration : nouvelleGeneration) {
+            if (r.nextDouble() < TAUX_DE_MUTATION) {
+                ((EnumIA) enumeration).mutation(this);
+            }
         }
 
         return nouvelleGeneration;
