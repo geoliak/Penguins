@@ -104,6 +104,13 @@ public class FenetreJeuController {
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
         
+        File f = new File("ressources/img/img_menu/bulle_ours.png");
+        ImageView bulle = new ImageView(new Image(f.toURI().toString()));
+        
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() != null){
+            root.getChildren().add(bulle);
+        }
+        
         
         /* TO DO */
         
@@ -444,7 +451,12 @@ public class FenetreJeuController {
             
         });
         
-	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light, undo, redo);
+	ap.getChildren().addAll(home, gear, quit, note, volume);
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() == null) {
+            ap.getChildren().addAll(save, restart, info, light, undo, redo);
+        }
+        
+        
 	((HBox) n).getChildren().add(ap);
 	((HBox) n).setAlignment(Pos.TOP_LEFT);
 	((HBox) n).setPadding(new Insets(0, 0, 20, 0));
