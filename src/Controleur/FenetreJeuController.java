@@ -29,7 +29,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Lighting;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -87,7 +89,6 @@ public class FenetreJeuController {
 	b.setBackground(new Background(bg));
 
 	stage.setScene(scene);
-	//stage.initStyle(StageStyle.TRANSPARENT);
 	ConfigurationPartie.getConfigurationPartie().setScene(scene);
 	ConfigurationPartie.getConfigurationPartie().setRoot(root);
 	ConfigurationPartie.getConfigurationPartie().setStage(stage);
@@ -95,15 +96,10 @@ public class FenetreJeuController {
         
 	DessinateurFX d = new DessinateurFX(root, a);
 	ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(d);
-        
-        System.out.println("PARTIE CHARGEE");
-        DessinateurTexte dt = new DessinateurTexte();
-        ConfigurationPartie.getConfigurationPartie().getPartie().getPlateau().accept(dt);
 
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
 
-	//plateau.accept(d);
 	RafraichissementFX r = new RafraichissementFX(d);
 	r.start();
         
@@ -356,38 +352,59 @@ public class FenetreJeuController {
         undo.setId("undo");
         undo.setLayoutX(400);
         undo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
         undo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1.15, 200);
+		undo.setEffect(new InnerShadow());
 	    }
 	});
 
 	undo.setOnMouseExited(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(undo, 1, 200);
+		undo.setEffect(new DropShadow());
 	    }
 	});
+        undo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
+            }
+            
+        });
         
         File fredo = new File("ressources/img/img_menu/redo.png");
 	ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
-        redo.setId("undo");
         redo.setLayoutX(600);
         redo.setLayoutY(-150);
+        undo.setEffect(new DropShadow());
+        
         redo.setOnMouseEntered(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(redo, 1.15, 200);
+                redo.setEffect(new InnerShadow());
 	    }
 	});
 
 	redo.setOnMouseExited(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		a.scale(redo, 1, 200);
+                redo.setEffect(new DropShadow());
+                
 	    }
 	});
+        
+        redo.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent event) {
+                ConfigurationPartie.getConfigurationPartie().getHistorique().rejouerCoup();
+            }
+            
+        });
         
 	ap.getChildren().addAll(home, gear, save, restart, quit, note, volume, info, light, undo, redo);
 	((HBox) n).getChildren().add(ap);
