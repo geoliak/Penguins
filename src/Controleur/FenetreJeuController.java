@@ -28,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Lighting;
@@ -212,6 +213,11 @@ public class FenetreJeuController {
         
         File fsave = new File("ressources/img/img_menu/save.png");
 	ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Sauvegarder la partie\n");
+        Tooltip.install(save, tooltip);
+        
+        
         save.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -225,6 +231,9 @@ public class FenetreJeuController {
         
         File frestart = new File("ressources/img/img_menu/restart.png");
 	ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Recommencer la partie\n");
+        Tooltip.install(restart, tooltip);
         restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -236,6 +245,9 @@ public class FenetreJeuController {
         
         File fquit = new File("ressources/img/img_menu/quit.png");
 	ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Quitter la partie\n");
+        Tooltip.install(quit, tooltip);
         quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -298,12 +310,18 @@ public class FenetreJeuController {
         
         File fnote = new File("ressources/img/img_menu/note.jpg");
 	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver la musique\n");
+        Tooltip.install(note, tooltip);
         note.setLayoutY(7);
         note.setLayoutX(80);
         note.setVisible(false);
         
         File fvol = new File("ressources/img/img_menu/volume.png");
 	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver les bruitages\n");
+        Tooltip.install(volume, tooltip);
         volume.setLayoutY(10);
         volume.setLayoutX(120);
         volume.setVisible(false);
@@ -316,6 +334,9 @@ public class FenetreJeuController {
         } else {
             info = new ImageView(new Image(finfo_croix.toURI().toString()));
         }
+        tooltip = new Tooltip();
+        tooltip.setText("Désactiver les aides visuelles\n");
+        Tooltip.install(info, tooltip);
 	
         info.setId("info");
         info.setLayoutY(10);
@@ -334,6 +355,10 @@ public class FenetreJeuController {
         
         File flight = new File("ressources/img/img_menu/ampoule.png");
 	ImageView light = new ImageView(new Image(flight.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Suggéstion de coup\n");
+        Tooltip.install(light, tooltip);
+        
         light.setId("light");
         light.setLayoutX(250);
         light.setLayoutY(-150);
@@ -354,6 +379,10 @@ public class FenetreJeuController {
         
         File fundo = new File("ressources/img/img_menu/undo.png");
 	ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Annuler un coup\n");
+        Tooltip.install(undo, tooltip);
+        
         undo.setId("undo");
         undo.setLayoutX(400);
         undo.setLayoutY(-150);
@@ -383,6 +412,10 @@ public class FenetreJeuController {
         
         File fredo = new File("ressources/img/img_menu/redo.png");
 	ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
+        tooltip = new Tooltip();
+        tooltip.setText("Rejouer un coup\n");
+        Tooltip.install(redo, tooltip);
+        
         redo.setLayoutX(600);
         redo.setLayoutY(-150);
         undo.setEffect(new DropShadow());
