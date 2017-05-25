@@ -9,10 +9,12 @@ package Vue;
  *
  * @author boussedm
  */
+import Modele.Joueur;
 import Modele.Partie;
 import java.awt.Robot;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -99,7 +101,24 @@ public class PopUpBlurBG {
         
         Text texte = new Text();
         texte.setFont(new Font("Arial Black", 30));
-        texte.setText("  "+partie.getJoueurGagnant().get(0).getNom()+" a gagné !!");
+        
+        partie.getJoueurs().sort(new Comparator<Joueur>(){
+            @Override
+            public int compare(Joueur o1, Joueur o2) {
+                if(o1.getScorePoissons() > o2.getScorePoissons() || (o1.getScorePoissons() == o2.getScorePoissons() && o1.getScoreGlacons() > o2.getScoreGlacons())){
+                    return -1;
+                } else if (o1.getScorePoissons() == o2.getScorePoissons() && o1.getScoreGlacons() == o2.getScoreGlacons()){
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+            
+        });
+        
+        for(Joueur j : partie.getJoueurs()){
+            texte.setText(texte.getText() + "\n" + j.getNom() + " : " + j.getScorePoissons() + " poissons et " + j.getScoreGlacons() + " glaçons.");
+        }
         
         ImageView ivBouttonX = new ImageView(new Image(new File("./ressources/img/boutton-x.png").toURI().toString()));
 

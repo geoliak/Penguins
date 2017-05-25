@@ -40,7 +40,7 @@ public class Musique {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
         Musique.clip.start();
-        Musique.clip.loop(Integer.MAX_VALUE);
+        Musique.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
     
     public static void jouerStopperMusique(ImageView iv) {
