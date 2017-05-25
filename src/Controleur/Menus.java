@@ -19,12 +19,15 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.WindowEvent;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -47,7 +50,13 @@ public class Menus extends Application {
             stage.getIcons().add(new Image(new File("./ressources/img/penguin_miniature.png").toURI().toString()));
             stage.setScene(new Scene(root, 1200, 900));
             stage.setResizable(false);
-            
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+                @Override
+                public void handle(WindowEvent event) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(Menus.class.getName()).log(Level.SEVERE, null, ex);
