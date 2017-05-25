@@ -46,6 +46,7 @@ public class Pinguin implements Serializable {
 
 	this.position = c;
 	c.setPinguin(this);
+        Bruitages.playGlace();
     }
 
     public void coullePinguin() {

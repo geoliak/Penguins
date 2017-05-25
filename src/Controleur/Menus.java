@@ -13,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import Modele.Music;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -53,56 +52,9 @@ public class Menus extends Application {
         } catch (IOException ex) {
             Logger.getLogger(Menus.class.getName()).log(Level.SEVERE, null, ex);
         }
-	
-        
-        //playSound();
-        
-        /*
-        Media pick = new Media("Plongee-Nocturne.mp3");
-        MediaPlayer player = new MediaPlayer(pick);
-        player.play();
-
-        //Add a mediaView, to display the media. Its necessary !
-        //This mediaView is added to a Pane
-        MediaView mediaView = new MediaView(player);
-        ((Group) stage.getScene().getRoot()).getChildren().add(mediaView);
-        */
     }
 
     public static void main(String[] args) {
 	launch(args);
-    }
-    
-    public void playSound() {
-        try {
-            /*
-            File yourFile = new File("Plongee-Nocturne.ogg");
-            
-            System.out.println(yourFile.exists());
-            
-            AudioInputStream stream;
-            AudioFormat format;
-            DataLine.Info info;
-            Clip clip;
-
-            stream = AudioSystem.getAudioInputStream(yourFile);
-            System.out.println(stream);
-            
-            format = stream.getFormat();
-            info = new DataLine.Info(Clip.class, format);
-            clip = (Clip) AudioSystem.getClip();
-            clip.open(stream);
-            clip.start();
-                    */
-            
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("Plongee-Nocturne.wav"));
-            clip.open(inputStream);
-            clip.start();
-        }
-        catch (Exception e) {
-            System.out.println("Erreur lecture fichier audio");
-            e.printStackTrace();
-        }
     }
 }

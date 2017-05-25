@@ -12,6 +12,8 @@ import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import Modele.MyImageView;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
@@ -68,7 +70,6 @@ public class AnimationFX {
     }
     
     public Transition scaleFromZero(Node n, double x, int t) {
-        n.setVisible(true);
 	ScaleTransition st = new ScaleTransition(Duration.millis(t), n);
         st.setFromX(0.0);
         st.setFromY(0.0);
@@ -80,6 +81,15 @@ public class AnimationFX {
 
         rt.play();
 	st.play();
+        
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                n.setVisible(true);
+            }
+        }, t/5);
+        
         
 	return st;
     }

@@ -77,6 +77,10 @@
       </MyImageView>
    </center>
    <bottom>
-       <AnchorPane fx:id="ap"></AnchorPane>
+       <AnchorPane fx:id="ap">
+           <BorderPane.margin>
+                <Insets bottom="25.0"/>
+           </BorderPane.margin>
+       </AnchorPane>
    </bottom>
 </BorderPane>

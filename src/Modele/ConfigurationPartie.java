@@ -29,10 +29,16 @@ public class ConfigurationPartie {
     private Stage stage;
     private ImageView[][] initpingoos;
     private boolean enableHelp;
+    private boolean enableSounds;
+    private Musique musique;
+    private Bruitages sounds;
 
     private ConfigurationPartie() {
 	root = new Group();
         labelScores  = new Label[4];
+        this.musique = new Musique("musique.wav");
+        this.sounds = new Bruitages();
+        this.enableSounds = true;
         // = new Label[4];
     }
 
@@ -114,4 +120,22 @@ public class ConfigurationPartie {
     public void setEnableHelp(boolean enableHelp) {
         this.enableHelp = enableHelp;
     }
+
+    public Musique getMusique() {
+        return musique;
+    }
+
+    public void setMusique(Musique musique) {
+        this.musique = musique;
+    }
+
+    public boolean isEnableSounds() {
+        return enableSounds;
+    }
+
+    public void setEnableSounds(boolean enableSounds) {
+        this.enableSounds = enableSounds;
+    }
+    
+    
 }

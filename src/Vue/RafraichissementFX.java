@@ -10,13 +10,19 @@ import Modele.ConfigurationPartie;
 import Modele.Joueur;
 import Modele.Partie;
 import Modele.Pinguin;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -91,6 +97,39 @@ public class RafraichissementFX extends AnimationTimer {
                         partie.getJoueurCourant().setPret(Boolean.TRUE);
 
                         partie.getPlateau().setEstModifié(true);
+                        
+                        AnimationFX a = new AnimationFX();
+                        File fmess = new File("ressources/img/img_menu/start_mess.png");
+                        Image img = new Image(fmess.toURI().toString());
+                        ImageView message = new ImageView(img);
+                        message.setVisible(false);
+                        message.setLayoutY(300);
+                        message.setLayoutX(200);
+                        System.out.println(message) ;
+                        
+                        
+                        Transition t = a.scaleFromZero(message, 1, 600);
+
+                        t.setOnFinished(new EventHandler<ActionEvent>(){
+                            @Override
+                            public void handle(ActionEvent event) {
+                                Timer t = new Timer();
+                                t.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        a.scaleToZero(message, 600);
+                                    }
+                                }, 2000);
+
+                            }
+
+                        });
+                        
+                        
+                        ((AnchorPane) ConfigurationPartie.getConfigurationPartie().getRoot()).getChildren().add(message);
+                        
+                        System.out.println(message);
+                        
                     }
                 }
 
@@ -149,7 +188,7 @@ public class RafraichissementFX extends AnimationTimer {
                     partie.afficheResultats();
                     //Platform.exit();
                     this.resultatAffiches = true;
-                    stop();
+                    //stop();
                     try {
                         PopUpBlurBG pu = new PopUpBlurBG(ConfigurationPartie.getConfigurationPartie().getStage(), ConfigurationPartie.getConfigurationPartie().getPartie());
                     } catch (FileNotFoundException ex) {

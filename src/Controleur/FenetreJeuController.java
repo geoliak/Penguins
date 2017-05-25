@@ -18,8 +18,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -106,17 +111,32 @@ public class FenetreJeuController {
 	r.start();
         
 	/* TO DO */
-        /*
         File fmess = new File("ressources/img/img_menu/init_mess.png");
         Image img = new Image(fmess.toURI().toString());
         ImageView message = new ImageView(img);
         message.setId("message");
         message.setVisible(false);
+        message.setLayoutY(300);
 
-        a.scaleFromZero(message, 1, 200);
-
+        Transition t = a.scaleFromZero(message, 1, 700);
+        
+        t.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        a.scaleToZero(message, 700);
+                    }
+                }, 2500);
+                
+            }
+            
+        });
+        
         root.getChildren().add(message);
-                */
+
 	stage.show();
     }
 
