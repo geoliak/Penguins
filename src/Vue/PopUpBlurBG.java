@@ -34,13 +34,13 @@ import javafx.stage.Stage;
 
 public class PopUpBlurBG {
 
-    private static final double BLUR_AMOUNT = 30;
+    private double BLUR_AMOUNT = 30;
     
-    private static final Effect frostEffect =
+    private final Effect frostEffect =
         new BoxBlur(BLUR_AMOUNT, BLUR_AMOUNT, 3);
 
-    private static final ImageView background = new ImageView();
-    private static final StackPane layout = new StackPane();
+    private ImageView background = new ImageView();
+    private StackPane layout = new StackPane();
     private Scene oldScene;
     private Stage stage;
     
