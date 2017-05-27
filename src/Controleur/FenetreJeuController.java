@@ -243,7 +243,7 @@ public class FenetreJeuController {
 	    public void handle(MouseEvent event) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setHeaderText("");
-                alert.setTitle("Comfirmation");
+                alert.setTitle("Confirmation");
                 alert.setContentText("Voulez vous sauvegarder cette partie ?");
 
                 Optional<ButtonType> result = alert.showAndWait();
@@ -271,7 +271,7 @@ public class FenetreJeuController {
 		if (!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()) {
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setHeaderText("");
-                    alert.setTitle("Comfirmation");
+                    alert.setTitle("Confirmation");
                     alert.setContentText("Voulez vous recommencer cette partie ?");
 
                     Optional<ButtonType> result = alert.showAndWait();
@@ -293,7 +293,7 @@ public class FenetreJeuController {
 		try {
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setHeaderText("");
-                    alert.setTitle("Comfirmation");
+                    alert.setTitle("Confirmation");
                     alert.setContentText("Voulez vous quitter cette partie sans sauvegarder ?");
 
                     Optional<ButtonType> result = alert.showAndWait();
