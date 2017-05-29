@@ -117,7 +117,7 @@ public class PopUpBlurBG {
         });
         
         for(Joueur j : partie.getJoueurs()){
-            texte.setText(texte.getText() + "\n" + j.getNom() + " : " + j.getScorePoissons() + " poissons et " + j.getScoreGlacons() + " glaçons.");
+            texte.setText(texte.getText() + "\n    " + j.getNom() + " : " + j.getScorePoissons() + " poissons et " + j.getScoreGlacons() + " glaçons.");
         }
         
         ImageView ivBouttonX = new ImageView(new Image(new File("./ressources/img/boutton-x.png").toURI().toString()));
