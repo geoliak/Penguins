@@ -428,7 +428,7 @@ public class ParamJeuController implements Initializable {
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
-		    Joueur j = new JoueurIA6(couleurs[i], joueurs.size());
+		    Joueur j = new JoueurIA8(couleurs[i], joueurs.size());
 		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {

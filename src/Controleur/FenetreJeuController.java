@@ -173,6 +173,7 @@ public class FenetreJeuController {
             labelNom.setLayoutX(150);
             labelNom.setLayoutY(115);
             labelNom.setText(j.getNom());
+            System.out.println(j.getNom() + " " + labelNom.getText());
 
             Label labelScore = new Label();
             labelScore.setLayoutX(50);
@@ -231,7 +232,6 @@ public class FenetreJeuController {
     public void setBottom(Node n) {
         AnimationFX a = new AnimationFX();
         AnchorPane ap = new AnchorPane();
-        HBox h = new HBox();
         File f = new File("ressources/img/img_menu/bouton_home.png");
         ImageView home = new ImageView(new Image(f.toURI().toString()));
         home.setId("home");
@@ -332,6 +332,7 @@ public class FenetreJeuController {
 
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == buttonTypeOne){
+                        ConfigurationPartie.getConfigurationPartie().setPartie(null);
                         Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
                         Scene scene = new Scene(paramJeu);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -359,6 +360,7 @@ public class FenetreJeuController {
 
                             Optional<ButtonType> confirm = alertconfirm.showAndWait();
                             if (confirm.get() == ButtonType.OK) {
+                                ConfigurationPartie.getConfigurationPartie().setPartie(null);
                                 Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
                                 Scene scene = new Scene(paramJeu);
                                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -376,31 +378,23 @@ public class FenetreJeuController {
                 }
             }
         });
+        
+        double offset = 0.0;
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size() == 4){
+            offset = -50.0;
+        }
 
         home.setLayoutX(-140);
         quit.setLayoutX(-140 + 15);
         save.setLayoutX(-140 + 55);
         restart.setLayoutX(-140 + 95);
 
-        home.setLayoutY(-120);
-        quit.setLayoutY(-100);
+        home.setLayoutY(offset -120.0);
+        quit.setLayoutY(offset -100.0);
         quit.toFront();
-        save.setLayoutY(-95);
+        save.setLayoutY(offset -95);
         save.toFront();
-        restart.setLayoutY(-100);
-        restart.toFront();
-
-        home.setLayoutX(-140);
-        quit.setLayoutX(-140 + 15);
-        save.setLayoutX(-140 + 55);
-        restart.setLayoutX(-140 + 95);
-
-        home.setLayoutY(-120);
-        quit.setLayoutY(-100);
-        quit.toFront();
-        save.setLayoutY(-95);
-        save.toFront();
-        restart.setLayoutY(-100);
+        restart.setLayoutY(offset -100);
         restart.toFront();
 
         home.setEffect(new DropShadow());

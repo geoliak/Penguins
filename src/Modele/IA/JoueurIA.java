@@ -318,7 +318,7 @@ public class JoueurIA extends Joueur {
          long startTime;
 
          startTime = System.nanoTime();
-         while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 1E9) {
+         while (meilleurChemin.getContinuer() && System.nanoTime() - startTime < 3E9) {
          //System.out.println(System.nanoTime() - startTime + "   " + "taille iceberg : " + tailleMaximale + " <> " + joueur.getChemin().size() + "    " + meilleurChemin.getContinuer());
          }
          meilleurChemin.stopThread();

@@ -26,10 +26,15 @@ public class Settings {
         Tooltip tooltip = new Tooltip();
         AnimationFX a = new AnimationFX();
         
+        double offset = 0.0;
+        if(ConfigurationPartie.getConfigurationPartie().getPartie() != null && ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size() == 4){
+            offset = -50.0;
+        }
+        
         File f2 = new File("ressources/img/img_menu/gear.png");
 	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
         gear.setId("close");
-        gear.setLayoutY(-10);
+        gear.setLayoutY(offset - 10);
         gear.setLayoutX(10);
         
         gear.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -58,7 +63,7 @@ public class Settings {
         tooltip = new Tooltip();
         tooltip.setText("Désactiver la musique\n");
         Tooltip.install(note, tooltip);
-        note.setLayoutY(7);
+        note.setLayoutY(offset - 7);
         note.setLayoutX(80);
         note.setVisible(false);
         note.setOnMouseClicked(new MouseClickerMusique(note));
@@ -73,7 +78,7 @@ public class Settings {
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les bruitages\n");
         Tooltip.install(volume, tooltip);
-        volume.setLayoutY(10);
+        volume.setLayoutY(offset - 7);
         volume.setLayoutX(120);
         volume.setVisible(false);
         volume.setOnMouseClicked(new MouseClickerVolume(volume));
@@ -91,7 +96,7 @@ public class Settings {
         Tooltip.install(info, tooltip);
 	
         info.setId("info");
-        info.setLayoutY(10);
+        info.setLayoutY(offset - 10);
         info.setLayoutX(160);
         info.setVisible(false);
         info.setOnMouseClicked(new InfoClicEvent(info));
