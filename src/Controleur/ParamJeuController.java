@@ -358,8 +358,8 @@ public class ParamJeuController implements Initializable {
     }
 
     public void chargerPartie(MouseEvent e) throws IOException {
-	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ChargerJeu.fxml"));
-	Scene scene = new Scene(paramJeu);
+	Parent chargerJeu = FXMLLoader.load(getClass().getResource("../Vue/ChargerJeu.fxml"));
+	Scene scene = new Scene(chargerJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
 	stage.show();
@@ -449,5 +449,4 @@ public class ParamJeuController implements Initializable {
         String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
         ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
     }
-
 }

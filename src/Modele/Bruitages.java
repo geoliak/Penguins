@@ -21,16 +21,27 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Quentin
  */
 public class Bruitages {
+    private static Clip glace;
+
+    public Bruitages() {
+        try {
+            Bruitages.glace = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(Bruitages.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void playGlace(){
         if(ConfigurationPartie.getConfigurationPartie().isEnableSounds()){
             try {
-                Clip sound = AudioSystem.getClip();
+                Bruitages.glace.close();
+//                Bruitages.glace = AudioSystem.getClip();
                 AudioInputStream inputStream;   
                 inputStream = AudioSystem.getAudioInputStream(new File("plouf.wav"));
-                sound.open(inputStream);
-                FloatControl gainControl = (FloatControl) sound.getControl(FloatControl.Type.MASTER_GAIN);
+                Bruitages.glace.open(inputStream);
+                FloatControl gainControl = (FloatControl) Bruitages.glace.getControl(FloatControl.Type.MASTER_GAIN);
                 gainControl.setValue(5.0f); // Reduce volume by 10 decibels.
-                sound.start();
+                Bruitages.glace.start();
             } catch (Exception ex) {
                 Logger.getLogger(Bruitages.class.getName()).log(Level.SEVERE, null, ex);
             } 
