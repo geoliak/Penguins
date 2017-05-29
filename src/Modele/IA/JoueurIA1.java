@@ -15,6 +15,6 @@ import Modele.Couleur;
 public class JoueurIA1 extends JoueurIA {
 
     public JoueurIA1(Couleur couleur, int numero) {
-	super(couleur, "JoueurIA1", numero);
+	super(couleur, "Papou", numero);
     }
 }
