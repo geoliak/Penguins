@@ -63,6 +63,7 @@ import javafx.stage.Stage;
  * @author mariobap
  */
 public class FenetreJeuController {
+    private RafraichissementFX r;
 
     public void creerFenetreJeu(Stage stage) {
 	System.out.println(ConfigurationPartie.getConfigurationPartie().getPartie());
@@ -111,7 +112,7 @@ public class FenetreJeuController {
 	EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
 	scene.setOnKeyPressed(keypresser);
 
-	RafraichissementFX r = new RafraichissementFX(d);
+	r = new RafraichissementFX(d);
 	r.start();
         
 	/* TO DO */
@@ -277,6 +278,7 @@ public class FenetreJeuController {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK){
                         ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                        r.setResultatAffiches(false);
                     }
 		}
 	    }
@@ -401,6 +403,7 @@ public class FenetreJeuController {
 	    @Override
 	    public void handle(MouseEvent event) {
 		ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
+                r.setResultatAffiches(false);
 	    }
 
 	});
