@@ -419,26 +419,27 @@ public class ParamJeuController implements Initializable {
 	    System.out.print("Joueur " + i + " : ");
 	    if (typesJoueurs[i] == 0) {
 		System.out.println("humain");
-		joueurs.add(new JoueurHumainLocal(names[i], couleurs[i], i));
+		joueurs.add(new JoueurHumainLocal(names[i], couleurs[i], joueurs.size()));
 	    } else if (typesJoueurs[i] == 1) {
 		if (difficultesIA[i] == 0) {
 		    System.out.println("IA facile");
-		    Joueur j = new JoueurIA1(couleurs[i], i);
+		    Joueur j = new JoueurIA1(couleurs[i], joueurs.size());
 		    j.setDifficulte(1);
 		    joueurs.add(j);
 		} else if (difficultesIA[i] == 1) {
 		    System.out.println("IA moyenne");
-		    Joueur j = new JoueurIA6(couleurs[i], i);
+		    Joueur j = new JoueurIA6(couleurs[i], joueurs.size());
 		    j.setDifficulte(2);
 		    joueurs.add(j);
 		} else {
 		    System.out.println("IA difficile");
-		    Joueur j = new JoueurIA9(couleurs[i], i);
+		    Joueur j = new JoueurIA9(couleurs[i], joueurs.size());
 		    j.setDifficulte(3);
 		    joueurs.add(j);
 		}
 	    } else {
 		System.out.println("pas de joueur");
+//                joueurs.add(null);
 	    }
 	}
         
