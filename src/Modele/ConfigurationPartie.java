@@ -24,7 +24,7 @@ public class ConfigurationPartie {
     private Historique historique;
     private Node root;
     private Scene scene;
-    private Label [] labelScores;
+    private Label[] labelScores;
     //private Label [] labelNoms;
     private Stage stage;
     private ImageView[][] initpingoos;
@@ -35,11 +35,11 @@ public class ConfigurationPartie {
 
     private ConfigurationPartie() {
 	root = new Group();
-        labelScores  = new Label[4];
-        this.musique = new Musique("musique.wav");
-        this.sounds = new Bruitages();
-        this.enableSounds = true;
-        // = new Label[4];
+	labelScores = new Label[4];
+	this.musique = new Musique("audio/musique.wav");
+	this.sounds = new Bruitages();
+	this.enableSounds = true;
+	// = new Label[4];
     }
 
     public static ConfigurationPartie getConfigurationPartie() {
@@ -88,7 +88,6 @@ public class ConfigurationPartie {
 //    public void setLabelNoms(Label[] labelNoms) {
 //        this.labelNoms = labelNoms;
 //    }
-
     public Stage getStage() {
 	return stage;
     }
@@ -114,28 +113,27 @@ public class ConfigurationPartie {
     }
 
     public boolean isEnableHelp() {
-        return enableHelp || (partie!= null && partie.getDemo() != null);
+	return enableHelp || (partie != null && partie.getDemo() != null);
     }
 
     public void setEnableHelp(boolean enableHelp) {
-        this.enableHelp = enableHelp;
+	this.enableHelp = enableHelp;
     }
 
     public Musique getMusique() {
-        return musique;
+	return musique;
     }
 
     public void setMusique(Musique musique) {
-        this.musique = musique;
+	this.musique = musique;
     }
 
     public boolean isEnableSounds() {
-        return enableSounds;
+	return enableSounds;
     }
 
     public void setEnableSounds(boolean enableSounds) {
-        this.enableSounds = enableSounds;
+	this.enableSounds = enableSounds;
     }
-    
-    
+
 }

@@ -15,7 +15,7 @@
        <AnchorPane>
             <MyImageView fx:id="nom" fitWidth="1010.0"  pickOnBounds="true" preserveRatio="true">
                 <image>
-                   <Image url="@../../../ressources/img/img_menu/nom_du_jeu.png" />
+                   <Image url="img_menu/nom_du_jeu.png" />
                 </image>
                 <BorderPane.margin>
                    <Insets />

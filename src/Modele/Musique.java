@@ -23,41 +23,43 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Quentin
  */
 public class Musique {
+
     private static boolean play = true;
     private static File path;
     private static Clip clip;
 
     public Musique(String path) {
-        Musique.path = new File(path);
-        try {
-            Musique.clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Musique.path);
-            Musique.clip.open(inputStream);
-        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
-            Logger.getLogger(Musique.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Musique.play = true;
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
-        Musique.clip.start();
-        Musique.clip.loop(Clip.LOOP_CONTINUOUSLY);
+	Musique.path = new File(path);
+	try {
+	    Musique.clip = AudioSystem.getClip();
+	    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream("/" + Musique.path.toString()));
+	    Musique.clip.open(inputStream);
+	} catch (IOException | LineUnavailableException ex) {
+	    Logger.getLogger(Musique.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (UnsupportedAudioFileException ex) {
+	    Logger.getLogger(Musique.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	Musique.play = true;
+	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+	Musique.clip.start();
+	Musique.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    
+
     public static void jouerStopperMusique(ImageView iv) {
-        if(play){
-            clip.stop();
-            play = false;
-            iv.setImage(new Image(new File("ressources/img/img_menu/note_croix.png").toURI().toString()));
-        } else {
-            clip.start();
-            play = true;
-            iv.setImage(new Image(new File("ressources/img/img_menu/note.jpg").toURI().toString()));
-        }
+	if (play) {
+	    clip.stop();
+	    play = false;
+	    iv.setImage(new Image(new File("img_menu/note_croix.png").toURI().toString()));
+	} else {
+	    clip.start();
+	    play = true;
+	    iv.setImage(new Image(new File("img_menu/note.jpg").toURI().toString()));
+	}
     }
 
     public static boolean isPlay() {
-        return play;
+	return play;
     }
-    
-    
+
 }
