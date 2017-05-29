@@ -32,7 +32,7 @@ public class BackButton {
     
     
     public BackButton(ImageView retour, String file) {
-        Image close = new Image(new File("ressources/img/img_menu/retour.png").toURI().toString());
+        Image close = new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/retour.png"));
         retour.setImage(close);
         retour.setFitWidth(40);
         retour.setX(1200 - retour.getFitWidth() - 60);
@@ -58,7 +58,7 @@ public class BackButton {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/" + file + ".fxml"));
+                    Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/" + file + ".fxml"));
                     Scene scene = new Scene(paramJeu);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(scene);

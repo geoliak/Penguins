@@ -86,9 +86,8 @@ public class MyPolygon extends Polygon implements Serializable {
     }
 
     public void setImage(int nbPoisson) {
-	File f = new File("ressources/img/glacon_poisson" + nbPoisson + "_mini.png");
 
-	this.image = new MyImageView(new Image(f.toURI().toString()));
+	this.image = new MyImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/glacon_poisson" + nbPoisson + "_mini.png")));
 
 	this.image.setX(xorigine);
 	this.image.setY(yorigine);

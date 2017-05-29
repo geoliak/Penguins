@@ -22,7 +22,7 @@ public class CloseButton {
     ImageView closeiv;
     
     public CloseButton(ImageView fermer) {
-        Image close = new Image(new File("ressources/img/img_menu/quitter.png").toURI().toString());
+        Image close =  new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/quitter.png"));
         fermer.setImage(close);
         fermer.setFitWidth(40);
         fermer.setX(1200 - fermer.getFitWidth() - 10);

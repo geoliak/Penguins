@@ -46,6 +46,8 @@ public class JouerReseauController extends AnimationTimer implements Initializab
     @FXML private ImageView nextTerrain;
     @FXML private ImageView terrain;
     @FXML private ImageView prevTerrain;
+    @FXML private ImageView jouer1;
+    @FXML private ImageView jouer2;
     private ListView listJoueurs;
     private ServeurJeu serveur;
     private ClientJeu client;
@@ -55,14 +57,18 @@ public class JouerReseauController extends AnimationTimer implements Initializab
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
-         listJoueurs = new ListView();
-         terrainCharge = 1;
-         this.start();
+        terrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("plateaux_jeu/img/plateau_1.png")));
+        prevTerrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        nextTerrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        jouer1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
+        jouer2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
+        listJoueurs = new ListView();
+        terrainCharge = 1;
+        this.start();
     }    
     
     public void heberger(MouseEvent e) throws IOException, InterruptedException{
-        Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
+        Plateau plateau = new Plateau("plateaux_jeu/plateau" + terrainCharge);
         serveur = new ServeurJeu(Integer.valueOf(nbJoueurs.getText()), plateau);
         serveur.start();
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -92,11 +98,11 @@ public class JouerReseauController extends AnimationTimer implements Initializab
 
             bp.setLeft(listJoueurs);
 
-            ImageView terrain = new ImageView(new Image(new File("ressources/plateaux/plateau1.png").toURI().toString()));
-            bp.setRight(terrain);
+            ImageView terrain = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("plateaux_jeu/img/plateau_1.png")));
+            bp.setCenter(terrain);
 
-            ImageView boutonJouer = new ImageView(new Image(new File("ressources/img_menu/bouton_jouer_resize2.png").toURI().toString()));
-            ImageView boutonRetour = new ImageView(new Image(new File("ressources/img_menu/bouton_jouer_resize2.png").toURI().toString()));
+            ImageView boutonJouer = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
+            ImageView boutonRetour = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
             boutonJouer.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                 @Override
@@ -161,8 +167,8 @@ public class JouerReseauController extends AnimationTimer implements Initializab
                 terrainCharge = 3;
             }
         }
-        String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
-        ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
+        String str = "plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+        terrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream(str)));
     }
     
     

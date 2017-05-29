@@ -32,7 +32,8 @@ public class Plateau implements Serializable {
 
     public Plateau(String fichierPlateau) throws FileNotFoundException, IOException {
         this.cases = new Case[LARGEUR][LONGUEUR];
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fichierPlateau))));
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fichierPlateau)));
         String ligne;
         ligne = br.readLine();
         //System.out.println(ligne);

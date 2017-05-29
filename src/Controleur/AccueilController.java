@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 
 public class AccueilController implements Initializable {
     @FXML
-    private ImageView retour, fermer, nom, locale, reseau, demo;
+    private ImageView retour, fermer, nom, locale, reseau, demo, fond;
     
     @FXML
     private AnchorPane ap;
@@ -44,11 +44,17 @@ public class AccueilController implements Initializable {
         Settings.setSettings(ap);
         
         
-        nom.setImage(new Image(new File("./ressources/img/img_menu/nom_du_jeu.png").toURI().toString()));
+        nom.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/nom_du_jeu.png")));
+        locale.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_partie_locale_resize.png")));
+        reseau.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_partie_reseau_resize.png")));
+        demo.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_didacticiel_resize.png")));
+        fond.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/penguin-accueil.png")));
+        
+        
     }
-
+        
     public void jouerLocal(MouseEvent e) throws IOException {
-	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/ParamJeu.fxml"));
 	Scene scene = new Scene(paramJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
@@ -64,7 +70,7 @@ public class AccueilController implements Initializable {
     }
 
     public void reseau(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/JouerReseau.fxml"));
+        Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/JouerReseau.fxml"));
 	Scene scene = new Scene(paramJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);

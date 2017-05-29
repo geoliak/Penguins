@@ -31,8 +31,7 @@ public class Settings {
             offset = -50.0;
         }
         
-        File f2 = new File("ressources/img/img_menu/gear.png");
-	ImageView gear = new ImageView(new Image(f2.toURI().toString()));
+	ImageView gear = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/gear.png")));
         gear.setId("close");
         gear.setLayoutY(offset - 10);
         gear.setLayoutX(10);
@@ -54,12 +53,12 @@ public class Settings {
         
         String path;
         if(Musique.isPlay()){
-            path = "ressources/img/img_menu/note.jpg";
+            path = "img/img_menu/note.jpg";
         } else {
-            path = "ressources/img/img_menu/note_croix.png";
+            path = "img/img_menu/note_croix.png";
         }
         File fnote = new File(path);
-	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
+	ImageView note = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver la musique\n");
         Tooltip.install(note, tooltip);
@@ -69,12 +68,12 @@ public class Settings {
         note.setOnMouseClicked(new MouseClickerMusique(note));
         
         if(ConfigurationPartie.getConfigurationPartie().isEnableSounds()){
-            path = "ressources/img/img_menu/volume.png";
+            path = "img/img_menu/volume.png";
         } else {
-            path = "ressources/img/img_menu/volume_croix.png";
+            path = "img/img_menu/volume_croix.png";
         }
         File fvol = new File(path);
-	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
+	ImageView volume = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les bruitages\n");
         Tooltip.install(volume, tooltip);
@@ -83,13 +82,11 @@ public class Settings {
         volume.setVisible(false);
         volume.setOnMouseClicked(new MouseClickerVolume(volume));
         
-        File finfo = new File("ressources/img/img_menu/info.png");
-        File finfo_croix = new File("ressources/img/img_menu/info_croix.png");
         ImageView info;
         if(ConfigurationPartie.getConfigurationPartie().isEnableHelp()){
-            info = new ImageView(new Image(finfo.toURI().toString()));
+            info = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/info.png")));
         } else {
-            info = new ImageView(new Image(finfo_croix.toURI().toString()));
+            info = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/info_croix.png")));
         }
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les aides visuelles\n");
