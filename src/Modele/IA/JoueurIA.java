@@ -309,10 +309,10 @@ public class JoueurIA extends Joueur {
         }
 
         //Methode1 70%  du meilleur chemin
-        joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.7)));
+        //joueur.setChemin(partie.getPlateau().getMeilleurChemin(p.getPosition(), new ArrayList<>(), (int) Math.round(tailleMaximale * 0.7)));
 
         //Methode2 100% à 3sec max
-        /*EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
+        EtablirMeilleurChemin meilleurChemin = new EtablirMeilleurChemin(p.getPosition(), tailleMaximale, joueur);
          meilleurChemin.start();
 
          long startTime;
@@ -327,7 +327,7 @@ public class JoueurIA extends Joueur {
          //System.out.println("Deces " + (System.nanoTime() - startTime));
          } catch (InterruptedException ex) {
          Logger.getLogger(JoueurIA.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+         }
 
         try {
             caseChoisie = joueur.getChemin().remove(0);
