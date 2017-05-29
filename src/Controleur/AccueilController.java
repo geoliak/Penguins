@@ -15,8 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -40,6 +42,9 @@ public class AccueilController implements Initializable {
         nom.setX((1200-nom.getFitWidth()) / 2);
         
         Settings.setSettings(ap);
+        
+        
+        nom.setImage(new Image(new File("./ressources/img/img_menu/nom_du_jeu.png").toURI().toString()));
     }
 
     public void jouerLocal(MouseEvent e) throws IOException {
