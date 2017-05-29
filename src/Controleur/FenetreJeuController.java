@@ -88,7 +88,7 @@ public class FenetreJeuController {
         setBottom(bas);
 
         Scene scene = new Scene(b, 1200, 900);
-        BackgroundImage bg = new BackgroundImage(new Image(new File("ressources/img/img_menu/banquise_fenetre_jeu.png").toURI().toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        BackgroundImage bg = new BackgroundImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/banquise_fenetre_jeu.png")), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         b.setBackground(new Background(bg));
 
         stage.setScene(scene);
@@ -97,8 +97,7 @@ public class FenetreJeuController {
         ConfigurationPartie.getConfigurationPartie().setStage(stage);
         AnimationFX a = new AnimationFX();
 
-        File f = new File("ressources/img/img_menu/bulle_ours.png");
-        ImageView bulle = new ImageView(new Image(f.toURI().toString()));
+        ImageView bulle = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bulle_ours.png")));
         bulle.setEffect(new DropShadow());
 
         if (ConfigurationPartie.getConfigurationPartie().getPartie().getDemo() != null) {
@@ -120,8 +119,7 @@ public class FenetreJeuController {
 
         /* TO DO */
         if (ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurCourant().getEstHumain()) {
-            File fmess = new File("ressources/img/img_menu/init_mess.png");
-            Image img = new Image(fmess.toURI().toString());
+            Image img = new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/init_mess.png"));
             ImageView message = new ImageView(img);
             message.setId("message");
             message.setVisible(false);
@@ -151,17 +149,16 @@ public class FenetreJeuController {
 
     public void setBannieresJoueurs(Node v) {
         ArrayList<Joueur> joueurs = ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs();
-        Image grey = new Image(new File("./ressources/img/grey_star.png").toURI().toString());
-        Image yellow = new Image(new File("./ressources/img/yellow_star.png").toURI().toString());
-        Image ping = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
+        Image grey = new Image(getClass().getClassLoader().getResourceAsStream("img/grey_star.png"));
+        Image yellow = new Image(getClass().getClassLoader().getResourceAsStream("img/yellow_star.png"));
+        Image ping = new Image(getClass().getClassLoader().getResourceAsStream("img/pingouin_init.png"));
 
         ImageView[][] initpingoos = new ImageView[ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size()][ConfigurationPartie.getConfigurationPartie().getPartie().getNbPingouinParJoueur()];
 
         for (Joueur j : joueurs) {
             AnchorPane ap = new AnchorPane();
 
-            File f = new File("ressources/img/banniere_" + j.getCouleur().getNom() + ".png");
-            Image imgBaniere = new Image(f.toURI().toString());
+            Image imgBaniere = new Image(getClass().getClassLoader().getResourceAsStream("img/banniere_" + j.getCouleur().getNom() + ".png"));
 
             ImageView ivBanniere = new ImageView(imgBaniere);
             ivBanniere.setLayoutX(0);
@@ -173,6 +170,7 @@ public class FenetreJeuController {
             labelNom.setLayoutX(150);
             labelNom.setLayoutY(115);
             labelNom.setText(j.getNom());
+            System.out.println(j.getNom() + " " + labelNom.getText());
 
             Label labelScore = new Label();
             labelScore.setLayoutX(50);
@@ -231,13 +229,10 @@ public class FenetreJeuController {
     public void setBottom(Node n) {
         AnimationFX a = new AnimationFX();
         AnchorPane ap = new AnchorPane();
-        HBox h = new HBox();
-        File f = new File("ressources/img/img_menu/bouton_home.png");
-        ImageView home = new ImageView(new Image(f.toURI().toString()));
+        ImageView home = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_home.png")));
         home.setId("home");
 
-        File fsave = new File("ressources/img/img_menu/save.png");
-        ImageView save = new ImageView(new Image(fsave.toURI().toString()));
+        ImageView save = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/save.png")));
         Tooltip tooltip = new Tooltip();
         tooltip.setText("Sauvegarder la partie\n");
         Tooltip.install(save, tooltip);
@@ -287,8 +282,7 @@ public class FenetreJeuController {
             }
         });
 
-        File frestart = new File("ressources/img/img_menu/restart.png");
-        ImageView restart = new ImageView(new Image(frestart.toURI().toString()));
+        ImageView restart = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/restart.png")));
         tooltip = new Tooltip();
         tooltip.setText("Recommencer la partie\n");
         Tooltip.install(restart, tooltip);
@@ -310,8 +304,7 @@ public class FenetreJeuController {
             }
         });
 
-        File fquit = new File("ressources/img/img_menu/quit.png");
-        ImageView quit = new ImageView(new Image(fquit.toURI().toString()));
+        ImageView quit = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/quit.png")));
         tooltip = new Tooltip();
         tooltip.setText("Quitter la partie\n");
         Tooltip.install(quit, tooltip);
@@ -332,7 +325,8 @@ public class FenetreJeuController {
 
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == buttonTypeOne){
-                        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                        ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                        Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/Accueil.fxml"));
                         Scene scene = new Scene(paramJeu);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
@@ -347,8 +341,6 @@ public class FenetreJeuController {
                         // Traditional way to get the response value.
                         Optional<String> resultsave = dialog.showAndWait();
                         if (result.isPresent()){
-
-
                             Sauvegarde s = new Sauvegarde();
                             s.Save(resultsave.get());
 
@@ -359,13 +351,16 @@ public class FenetreJeuController {
 
                             Optional<ButtonType> confirm = alertconfirm.showAndWait();
                             if (confirm.get() == ButtonType.OK) {
-                                Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                                ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                                Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/Accueil.fxml"));
                                 Scene scene = new Scene(paramJeu);
                                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                                 stage.setScene(scene);
                                 stage.show();
                                 ConfigurationPartie.getConfigurationPartie().setPartie(null);
                             }
+                            
+                        }else {
                             
                         }
                     } else {
@@ -376,31 +371,23 @@ public class FenetreJeuController {
                 }
             }
         });
+        
+        double offset = 0.0;
+        if(ConfigurationPartie.getConfigurationPartie().getPartie().getJoueurs().size() == 4){
+            offset = -50.0;
+        }
 
         home.setLayoutX(-140);
         quit.setLayoutX(-140 + 15);
         save.setLayoutX(-140 + 55);
         restart.setLayoutX(-140 + 95);
 
-        home.setLayoutY(-120);
-        quit.setLayoutY(-100);
+        home.setLayoutY(offset -120.0);
+        quit.setLayoutY(offset -100.0);
         quit.toFront();
-        save.setLayoutY(-95);
+        save.setLayoutY(offset -95);
         save.toFront();
-        restart.setLayoutY(-100);
-        restart.toFront();
-
-        home.setLayoutX(-140);
-        quit.setLayoutX(-140 + 15);
-        save.setLayoutX(-140 + 55);
-        restart.setLayoutX(-140 + 95);
-
-        home.setLayoutY(-120);
-        quit.setLayoutY(-100);
-        quit.toFront();
-        save.setLayoutY(-95);
-        save.toFront();
-        restart.setLayoutY(-100);
+        restart.setLayoutY(offset -100);
         restart.toFront();
 
         home.setEffect(new DropShadow());
@@ -413,12 +400,11 @@ public class FenetreJeuController {
 
         setAnimHome(ivs);
 
-        File flight = new File("ressources/img/img_menu/ampoule.png");
 
 
-        ImageView light = new ImageView(new Image(flight.toURI().toString()));
+        ImageView light = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/ampoule.png")));
         tooltip = new Tooltip();
-        tooltip.setText("Suggéstion de coup\n");
+        tooltip.setText("Suggestion de coup\n");
         Tooltip.install(light, tooltip);
 
         light.setId("light");
@@ -439,8 +425,7 @@ public class FenetreJeuController {
             }
         });
 
-        File fundo = new File("ressources/img/img_menu/undo.png");
-        ImageView undo = new ImageView(new Image(fundo.toURI().toString()));
+        ImageView undo = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/undo.png")));
         tooltip = new Tooltip();
         tooltip.setText("Annuler un coup\n");
         Tooltip.install(undo, tooltip);
@@ -473,8 +458,7 @@ public class FenetreJeuController {
 
         });
 
-        File fredo = new File("ressources/img/img_menu/redo.png");
-        ImageView redo = new ImageView(new Image(fredo.toURI().toString()));
+        ImageView redo = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/redo.png")));
         tooltip = new Tooltip();
         tooltip.setText("Rejouer un coup\n");
         Tooltip.install(redo, tooltip);

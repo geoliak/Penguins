@@ -43,6 +43,8 @@ public class ChargerJeuController implements Initializable {
     @FXML
     private ImageView terrain, fermer, retour;
     
+    @FXML private MyImageView delete, play;
+    
     @FXML
     private AnchorPane ap;
 
@@ -50,6 +52,9 @@ public class ChargerJeuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 	CloseButton c = new CloseButton(fermer);
 	BackButton b = new BackButton(retour, "ParamJeu");
+        
+        delete.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_supprimer.png")));
+        play.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
 
 	ObservableList<String> items = listView.getItems();
 
@@ -73,7 +78,7 @@ public class ChargerJeuController implements Initializable {
     }
 
     public void creerPartie(MouseEvent e) throws IOException {
-	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("../Vue/ParamJeu.fxml"));
 	Scene scene = new Scene(paramJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);

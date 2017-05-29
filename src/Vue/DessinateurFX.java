@@ -254,8 +254,8 @@ public class DessinateurFX extends Visiteur {
     
     public void visit(Joueur j) {
 	try {
-	    Image ping = new Image(new File("ressources/img/pingoo.png").toURI().toString());
-            Image pinginit = new Image(new File("ressources/img/pingouin_init.png").toURI().toString());
+	    Image ping = new Image(getClass().getClassLoader().getResourceAsStream("img/pingoo.png"));
+            Image pinginit = new Image(getClass().getClassLoader().getResourceAsStream("img/pingouin_init.png"));
 
 	    ConfigurationPartie.getConfigurationPartie().getLabelScores()[j.getNumero()].setText("" + j.getScorePoissons());
 
@@ -302,7 +302,7 @@ public class DessinateurFX extends Visiteur {
                     public void handle(MouseEvent event) {
                         Parent menu;
                         try {
-                            menu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                            menu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/Accueil.fxml"));
                             Scene scene = new Scene(menu);
                             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                             stage.setScene(scene);

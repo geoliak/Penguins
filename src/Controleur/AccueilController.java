@@ -15,8 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import Modele.MyImageView;
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +26,7 @@ import javafx.stage.Stage;
 
 public class AccueilController implements Initializable {
     @FXML
-    private ImageView retour, fermer, nom, locale, reseau, demo;
+    private ImageView retour, fermer, nom, locale, reseau, demo, fond;
     
     @FXML
     private AnchorPane ap;
@@ -40,10 +42,19 @@ public class AccueilController implements Initializable {
         nom.setX((1200-nom.getFitWidth()) / 2);
         
         Settings.setSettings(ap);
+        
+        
+        nom.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/nom_du_jeu.png")));
+        locale.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_partie_locale_resize.png")));
+        reseau.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_partie_reseau_resize.png")));
+        demo.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_didacticiel_resize.png")));
+        fond.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/penguin-accueil.png")));
+        
+        
     }
-
+        
     public void jouerLocal(MouseEvent e) throws IOException {
-	Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/ParamJeu.fxml"));
+	Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/ParamJeu.fxml"));
 	Scene scene = new Scene(paramJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
@@ -59,7 +70,7 @@ public class AccueilController implements Initializable {
     }
 
     public void reseau(MouseEvent e) throws IOException{
-        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/JouerReseau.fxml"));
+        Parent paramJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/JouerReseau.fxml"));
 	Scene scene = new Scene(paramJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);

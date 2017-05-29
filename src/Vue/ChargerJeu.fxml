@@ -16,14 +16,6 @@
       <BorderPane BorderPane.alignment="CENTER" >
          <top>
             <AnchorPane>
-                <!--MyImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#creerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
-                    <image>
-                       <Image url="file:/home/m/mariobap/Java/Penguins/ressources/img_menu/bouton_nouvelle_partie_resize.png" />
-                    </image>
-                    <BorderPane.margin>
-                       <Insets left="50.0" top="20.0" />
-                    </BorderPane.margin>
-                </MyImageView-->
                 
                 <MyImageView fx:id="fermer" pickOnBounds="true" preserveRatio="true">
                     <BorderPane.margin>
@@ -59,9 +51,6 @@
             <BorderPane>
                <center>
                   <MyImageView fx:id="terrain" fitHeight="500.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../ressources/img/terrain.jpg" />
-                     </image>
                      <BorderPane.margin>
                         <Insets top="40.0" />
                      </BorderPane.margin>
@@ -70,7 +59,7 @@
                <bottom>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <left>
-                        <MyImageView onMouseClicked="#deleteSave" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
+                        <MyImageView fx:id="delete" onMouseClicked="#deleteSave" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
                            <image>
                               <Image url="@../../../ressources/img/img_menu/bouton_supprimer.png" />
                            </image>
@@ -80,7 +69,7 @@
                         </MyImageView>
                      </left>
                      <right>
-                        <MyImageView onMouseClicked="#lancerPartie" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
+                        <MyImageView fx:id="play" onMouseClicked="#lancerPartie" fitHeight="118.0" fitWidth="300.0" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
                            <image>
                               <Image url="@../../../ressources/img/img_menu/bouton_jouer_resize2.png" />
                            </image>

@@ -43,7 +43,7 @@ import javafx.stage.Stage;
  */
 public class DidacticielController{
     public void start(Stage stage) throws IOException {
-        Plateau p = new Plateau("ressources/plateaux_didacticiel/plateau_init_move");
+        Plateau p = new Plateau("plateaux_didacticiel/plateau_init_move");
         
         ArrayList<Joueur> joueurs = new ArrayList<>();
         joueurs.add(new JoueurHumainLocal("jean", Couleur.RougeFX, 0));

@@ -140,7 +140,7 @@ public class ParamJeuController implements Initializable {
 
     private int[] typesJoueurs = {0, 1, 2, 2};
     private int[] difficultesIA = {0, 2, 0, 0};
-    private Image[] stars = {new Image(new File("./ressources/img/grey_star.png").toURI().toString()), new Image(new File("./ressources/img/yellow_star.png").toURI().toString())};
+    private Image[] stars = {new Image(getClass().getClassLoader().getResourceAsStream("img/grey_star.png")), new Image(getClass().getClassLoader().getResourceAsStream("img/yellow_star.png"))};
     private int terrainCharge = 1;
 
     /**
@@ -148,7 +148,7 @@ public class ParamJeuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	((ImageView) terrain).setImage(new Image(new File("ressources/plateaux_jeu/img/plateau_1.png").toURI().toString()));
+	((ImageView) terrain).setImage(new Image(getClass().getClassLoader().getResourceAsStream("plateaux_jeu/img/plateau_1.png")));
         jouer.setEffect(new DropShadow());
         chargerpartie.setEffect(new DropShadow());
         
@@ -156,6 +156,40 @@ public class ParamJeuController implements Initializable {
         chargerpartie.setY(10);
         CloseButton c = new CloseButton(fermer);
         BackButton b = new BackButton(retour, "Accueil");
+        
+        joueur1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_1.png")));
+        leftJ1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        rightJ1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        star1_1.setImage(stars[1]);
+        star1_2.setImage(stars[0]);
+        star1_3.setImage(stars[0]);
+        
+        joueur2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_2_com.png")));
+        leftJ2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        rightJ2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        star2_1.setImage(stars[1]);
+        star2_2.setImage(stars[1]);
+        star2_3.setImage(stars[1]);
+        
+        joueur3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_3_unable.png")));
+        leftJ3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        rightJ3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        star3_1.setImage(stars[1]);
+        star3_2.setImage(stars[0]);
+        star3_3.setImage(stars[0]);
+        
+        joueur4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_4_unable.png")));
+        leftJ4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        rightJ4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        star4_1.setImage(stars[1]);
+        star4_2.setImage(stars[0]);
+        star4_3.setImage(stars[0]);
+        
+        terrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("plateaux_jeu/img/plateau_1.png")));
+        prevTerrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/left-arrow.png")));
+        nextTerrain.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/right-arrow.png")));
+        jouer.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_jouer_resize2.png")));
+        chargerpartie.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/bouton_charger_partie_resize.png")));
         
         Settings.setSettings(ap);
     }
@@ -268,25 +302,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(true);
 			stars1.setVisible(false);
-                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1.png").toURI().toString()));
+                        joueur1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_1.png")));
 			break;
 
 		    case 1:
 			stars2.setVisible(false);
 			nameJ2.setVisible(true);
-                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2.png").toURI().toString()));
+                        joueur2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_2.png")));
 			break;
 
 		    case 2:
 			stars3.setVisible(false);
 			nameJ3.setVisible(true);
-                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3.png").toURI().toString()));
+                        joueur3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_3.png")));
 			break;
 
 		    case 3:
 			stars4.setVisible(false);
 			nameJ4.setVisible(true);
-                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4.png").toURI().toString()));
+                        joueur4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_4.png")));
 			break;
 		}
 		break;
@@ -297,25 +331,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(false);
 			stars1.setVisible(true);
-                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1_com.png").toURI().toString()));
+                        joueur1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_1_com.png")));
 			break;
 
 		    case 1:
 			stars2.setVisible(true);
 			nameJ2.setVisible(false);
-                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2_com.png").toURI().toString()));
+                        joueur2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_2_com.png")));
 			break;
 
 		    case 2:
 			stars3.setVisible(true);
 			nameJ3.setVisible(false);
-                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3_com.png").toURI().toString()));
+                        joueur3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_3_com.png")));
 			break;
 
 		    case 3:
 			stars4.setVisible(true);
 			nameJ4.setVisible(false);
-                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4_com.png").toURI().toString()));
+                        joueur4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_4_com.png")));
 			break;
 		}
 		break;
@@ -327,25 +361,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(false);
 			stars1.setVisible(false);
-                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1_unable.png").toURI().toString()));
+                        joueur1.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_1_unable.png")));
 			break;
 
 		    case 1:
 			stars2.setVisible(false);
 			nameJ2.setVisible(false);
-                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2_unable.png").toURI().toString()));
+                        joueur2.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_2_unable.png")));
 			break;
 
 		    case 2:
 			stars3.setVisible(false);
 			nameJ3.setVisible(false);
-                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3_unable.png").toURI().toString()));
+                        joueur3.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_3_unable.png")));
 			break;
 
 		    case 3:
 			stars4.setVisible(false);
 			nameJ4.setVisible(false);
-                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4_unable.png").toURI().toString()));
+                        joueur4.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/choix_joueur_4_unable.png")));
 			break;
 		}
 		break;
@@ -373,7 +407,7 @@ public class ParamJeuController implements Initializable {
     }
 
     public void chargerPartie(MouseEvent e) throws IOException {
-	Parent chargerJeu = FXMLLoader.load(getClass().getResource("../Vue/ChargerJeu.fxml"));
+	Parent chargerJeu = FXMLLoader.load(getClass().getClassLoader().getResource("Vue/ChargerJeu.fxml"));
 	Scene scene = new Scene(chargerJeu);
 	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	stage.setScene(scene);
@@ -383,7 +417,7 @@ public class ParamJeuController implements Initializable {
     public Partie creationPartie() throws IOException {
         System.out.println(terrainCharge);
         
-	Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
+	Plateau plateau = new Plateau("plateaux_jeu/plateau" + terrainCharge);
         //System.out.println("PARTIE PLATEAU 3");
 	//plateau.initCase();
 
@@ -462,7 +496,7 @@ public class ParamJeuController implements Initializable {
                 terrainCharge = 3;
             }
         }
-        String str = "ressources/plateaux_jeu/img/plateau_" + terrainCharge + ".png";
-        ((ImageView) terrain).setImage(new Image(new File(str).toURI().toString()));
+        String str = "plateaux_jeu/img/plateau_" + terrainCharge + ".png";
+        ((ImageView) terrain).setImage(new Image(getClass().getClassLoader().getResourceAsStream(str)));
     }
 }
