@@ -133,6 +133,9 @@ public class ParamJeuController implements Initializable {
     private MyImageView chargerpartie, jouer;
     
     @FXML
+    private MyImageView joueur1, joueur2, joueur4;
+    
+    @FXML
     private AnchorPane ap;
 
     private int[] typesJoueurs = {0, 1, 2, 2};
@@ -265,21 +268,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(true);
 			stars1.setVisible(false);
+                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1.png").toURI().toString()));
 			break;
 
 		    case 1:
 			stars2.setVisible(false);
 			nameJ2.setVisible(true);
+                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2.png").toURI().toString()));
 			break;
 
 		    case 2:
 			stars3.setVisible(false);
 			nameJ3.setVisible(true);
+                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3.png").toURI().toString()));
 			break;
 
 		    case 3:
 			stars4.setVisible(false);
 			nameJ4.setVisible(true);
+                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4.png").toURI().toString()));
 			break;
 		}
 		break;
@@ -290,21 +297,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(false);
 			stars1.setVisible(true);
+                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1_com.png").toURI().toString()));
 			break;
 
 		    case 1:
 			stars2.setVisible(true);
 			nameJ2.setVisible(false);
+                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2_com.png").toURI().toString()));
 			break;
 
 		    case 2:
 			stars3.setVisible(true);
 			nameJ3.setVisible(false);
+                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3_com.png").toURI().toString()));
 			break;
 
 		    case 3:
 			stars4.setVisible(true);
 			nameJ4.setVisible(false);
+                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4_com.png").toURI().toString()));
 			break;
 		}
 		break;
@@ -316,21 +327,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(false);
 			stars1.setVisible(false);
+                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1_unable.png").toURI().toString()));
 			break;
 
 		    case 1:
 			stars2.setVisible(false);
 			nameJ2.setVisible(false);
+                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2_unable.png").toURI().toString()));
 			break;
 
 		    case 2:
 			stars3.setVisible(false);
 			nameJ3.setVisible(false);
+                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3_unable.png").toURI().toString()));
 			break;
 
 		    case 3:
 			stars4.setVisible(false);
 			nameJ4.setVisible(false);
+                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4_unable.png").toURI().toString()));
 			break;
 		}
 		break;
