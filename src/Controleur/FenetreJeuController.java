@@ -35,8 +35,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
@@ -63,6 +66,7 @@ import javafx.stage.Stage;
  * @author mariobap
  */
 public class FenetreJeuController {
+    private RafraichissementFX r;
 
     public void creerFenetreJeu(Stage stage) {
         System.out.println(ConfigurationPartie.getConfigurationPartie().getPartie());
@@ -111,7 +115,7 @@ public class FenetreJeuController {
         EventHandler<KeyEvent> keypresser = new Keyboard_Handler();
         scene.setOnKeyPressed(keypresser);
 
-        RafraichissementFX r = new RafraichissementFX(d);
+        r = new RafraichissementFX(d);
         r.start();
 
         /* TO DO */
@@ -240,23 +244,46 @@ public class FenetreJeuController {
         Tooltip.install(save, tooltip);
 
         save.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            private Object dialog;
             @Override
             public void handle(MouseEvent event) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setHeaderText("");
-                alert.setTitle("Confirmation");
-                alert.setContentText("Voulez vous sauvegarder cette partie ?");
+                TextInputDialog dialog = new TextInputDialog("Sauvegarde");
+                dialog.setTitle("Sauvegarde");
+                dialog.setHeaderText("");
+                dialog.setContentText("Nom de la sauvegarde :");
 
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
-                    Date date = new Date();
+                // Traditional way to get the response value.
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()){
+                    
+                    
                     Sauvegarde s = new Sauvegarde();
-                    System.out.println(dateFormat.format(date));
-                    s.Save(dateFormat.format(date));
-                } else {
-                    // ... user chose CANCEL or closed the dialog
+                    s.Save(result.get());
+                    
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setHeaderText("");
+                    alert.setTitle("Confirmation");
+                    alert.setContentText("La partie a bien été sauvegardée !");
+                    
+                    Optional<ButtonType> comfirm = alert.showAndWait();
                 }
+                
+//                alert.setHeaderText("");
+//                alert.setTitle("Confirmation");
+//                alert.setContentText("Voulez vous sauvegarder cette partie ?");
+//
+//                Optional<ButtonType> result = alert.showAndWait();
+//                Optional<String> name = alert.showAndWait();
+//                
+//                if (result.get() == ButtonType.OK) {
+//                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+//                    Date date = new Date();
+//                    Sauvegarde s = new Sauvegarde();
+//                    System.out.println(dateFormat.format(date));
+//                    s.Save(dateFormat.format(date));
+//                } else {
+//                    // ... user chose CANCEL or closed the dialog
+//                }
 
             }
         });
@@ -278,6 +305,7 @@ public class FenetreJeuController {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK) {
                         ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                        r.setResultatAffiches(false);
                     }
                 }
             }
@@ -295,16 +323,54 @@ public class FenetreJeuController {
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setHeaderText("");
                     alert.setTitle("Confirmation");
-                    alert.setContentText("Voulez vous quitter cette partie sans sauvegarder ?");
+                    alert.setContentText("Voulez vous quitter cette partie ?");
+                    
+                    ButtonType buttonTypeCancel = new ButtonType("Annuler", ButtonData.CANCEL_CLOSE);
+                    ButtonType buttonTypeOne = new ButtonType("Quitter sans sauvegarder");
+                    ButtonType buttonTypeTwo = new ButtonType("Sauvegarder et quiter");
+
+                    alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
 
                     Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK) {
+                    if (result.get() == buttonTypeOne){
                         Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
                         Scene scene = new Scene(paramJeu);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
                         stage.show();
                         ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                    } else if (result.get() == buttonTypeTwo) {
+                        TextInputDialog dialog = new TextInputDialog("Sauvegarde");
+                        dialog.setTitle("Sauvegarde");
+                        dialog.setHeaderText("");
+                        dialog.setContentText("Nom de la sauvegarde :");
+
+                        // Traditional way to get the response value.
+                        Optional<String> resultsave = dialog.showAndWait();
+                        if (result.isPresent()){
+
+
+                            Sauvegarde s = new Sauvegarde();
+                            s.Save(resultsave.get());
+
+                            Alert alertconfirm = new Alert(AlertType.CONFIRMATION);
+                            alertconfirm.setHeaderText("");
+                            alertconfirm.setTitle("Confirmation");
+                            alertconfirm.setContentText("La partie a bien été sauvegardée !");
+
+                            Optional<ButtonType> confirm = alertconfirm.showAndWait();
+                            if (confirm.get() == ButtonType.OK) {
+                                Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                                Scene scene = new Scene(paramJeu);
+                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                stage.setScene(scene);
+                                stage.show();
+                                ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                            }
+                            
+                        }
+                    } else {
+                        // ... user chose CANCEL or closed the dialog
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -349,6 +415,7 @@ public class FenetreJeuController {
         setAnimHome(ivs);
 
         File flight = new File("ressources/img/img_menu/ampoule.png");
+
 
         ImageView light = new ImageView(new Image(flight.toURI().toString()));
         tooltip = new Tooltip();
@@ -402,6 +469,7 @@ public class FenetreJeuController {
             @Override
             public void handle(MouseEvent event) {
                 ConfigurationPartie.getConfigurationPartie().getHistorique().annulerDernierCoup();
+                r.setResultatAffiches(false);
             }
 
         });

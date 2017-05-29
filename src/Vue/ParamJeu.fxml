@@ -21,9 +21,9 @@
                      <children>
                         <Group>
                            <children>
-                              <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                              <MyImageView fx:id="joueur1" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../ressources/img/pingouin_rouge_menu.png" />
+                                    <Image url="@../../../ressources/img/choix_joueur_1.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ1" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" promptText="Joueur 1" />
@@ -75,9 +75,9 @@
                         </Group>
                         <Group layoutX="13.0" layoutY="10.0">
                            <children>
-                              <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                              <MyImageView fx:id="joueur2" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../ressources/img/pingouin_bleu_menu.png" />
+                                    <Image url="@../../../ressources/img/choix_joueur_2_com.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ2" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 2" />
@@ -131,7 +131,7 @@
                            <children>
                               <MyImageView fx:id="joueur3" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../ressources/img/pingouin_jaune_menu.png" />
+                                    <Image url="@../../../ressources/img/choix_joueur_3_unable.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ3" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 3" />
@@ -183,9 +183,9 @@
                         </Group>
                         <Group layoutX="615.0" layoutY="10.0">
                            <children>
-                              <MyImageView fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
+                              <MyImageView fx:id="joueur4" fitHeight="300.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../ressources/img/pingouin_vert_menu.png" />
+                                    <Image url="@../../../ressources/img/choix_joueur_4_unable.png" />
                                  </image>
                               </MyImageView>
                               <TextField fx:id="nameJ4" layoutX="69.0" layoutY="226.0" prefHeight="26.0" prefWidth="107.0" visible="false" promptText="Joueur 4" />

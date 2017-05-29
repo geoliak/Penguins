@@ -13,7 +13,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ChargerJeuController">
    <center>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane BorderPane.alignment="CENTER" >
          <top>
             <AnchorPane>
                 <!--MyImageView fitHeight="108.0" fitWidth="275.0" onMouseClicked="#creerPartie" onMouseEntered="#on" onMouseExited="#out" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_LEFT">
