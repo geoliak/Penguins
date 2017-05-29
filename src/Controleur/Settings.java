@@ -31,7 +31,7 @@ public class Settings {
             offset = -50.0;
         }
         
-	ImageView gear = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/gear.png")));
+	ImageView gear = new ImageView(new Image(Settings.class.getClassLoader().getResourceAsStream("img/img_menu/gear.png")));
         gear.setId("close");
         gear.setLayoutY(offset - 10);
         gear.setLayoutX(10);
@@ -58,7 +58,7 @@ public class Settings {
             path = "img/img_menu/note_croix.png";
         }
         File fnote = new File(path);
-	ImageView note = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+	ImageView note = new ImageView(new Image(Settings.class.getClassLoader().getResourceAsStream(path)));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver la musique\n");
         Tooltip.install(note, tooltip);
@@ -73,7 +73,7 @@ public class Settings {
             path = "img/img_menu/volume_croix.png";
         }
         File fvol = new File(path);
-	ImageView volume = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+	ImageView volume = new ImageView(new Image(Settings.class.getClassLoader().getResourceAsStream(path)));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les bruitages\n");
         Tooltip.install(volume, tooltip);
@@ -84,9 +84,9 @@ public class Settings {
         
         ImageView info;
         if(ConfigurationPartie.getConfigurationPartie().isEnableHelp()){
-            info = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/info.png")));
+            info = new ImageView(new Image(Settings.class.getClassLoader().getResourceAsStream("img/img_menu/info.png")));
         } else {
-            info = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("img/img_menu/info_croix.png")));
+            info = new ImageView(new Image(Settings.class.getClassLoader().getResourceAsStream("img/img_menu/info_croix.png")));
         }
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les aides visuelles\n");

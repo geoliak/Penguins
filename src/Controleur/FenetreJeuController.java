@@ -341,8 +341,6 @@ public class FenetreJeuController {
                         // Traditional way to get the response value.
                         Optional<String> resultsave = dialog.showAndWait();
                         if (result.isPresent()){
-
-
                             Sauvegarde s = new Sauvegarde();
                             s.Save(resultsave.get());
 
@@ -361,6 +359,8 @@ public class FenetreJeuController {
                                 stage.show();
                                 ConfigurationPartie.getConfigurationPartie().setPartie(null);
                             }
+                            
+                        }else {
                             
                         }
                     } else {

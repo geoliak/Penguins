@@ -20,10 +20,10 @@ public enum Couleur {
     Bleu("bleu", "\u001B[34m", "\u001B[44m", Color.BLUE),
     Vert("verte", "\u001B[32m", "\u001B[42m", Color.GREEN),
     Jaune("jaune", "\u001B[33m", "\u001B[43m", Color.YELLOW),
-    RougeFX("rouge", "\u001B[31m", "\u001B[41m", Color.RED, new File("img/pingouin_rouge_mini.png")),
-    VioletFX("violette", "\u001B[34m", "\u001B[44m", Color.BLUE, new File("img/pingouin_violet_mini.png")),
-    VertFX("verte", "\u001B[32m", "\u001B[42m", Color.GREEN, new File("img/pingouin_vert_mini.png")),
-    JauneFX("jaune", "\u001B[33m", "\u001B[43m", Color.YELLOW, new File("img/pingouin_jaune_mini.png"));
+    RougeFX("rouge", "\u001B[31m", "\u001B[41m", Color.RED, "img/pingouin_rouge_mini.png"),
+    VioletFX("violette", "\u001B[34m", "\u001B[44m", Color.BLUE, "img/pingouin_violet_mini.png"),
+    VertFX("verte", "\u001B[32m", "\u001B[42m", Color.GREEN, "img/pingouin_vert_mini.png"),
+    JauneFX("jaune", "\u001B[33m", "\u001B[43m", Color.YELLOW, "img/pingouin_jaune_mini.png");
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_PURPLE = "\u001B[35m";
@@ -43,7 +43,7 @@ public enum Couleur {
 	this.couleur = couleur;
     }
 
-    Couleur(String nom, String colorAccessible, String colorBackground, Color couleur, File f) {
+    Couleur(String nom, String colorAccessible, String colorBackground, Color couleur, String f) {
 	this.nom = nom;
 	this.colorAccessible = colorAccessible;
 	this.colorBackground = colorBackground;
@@ -54,8 +54,8 @@ public enum Couleur {
 	}
     }
 
-    public void setImage(File f) {
-	image = new Image(getClass().getClassLoader().getResourceAsStream(f.toString()));
+    public void setImage(String f) {
+	image = new Image(getClass().getClassLoader().getResourceAsStream(f));
     }
 
     @Override
