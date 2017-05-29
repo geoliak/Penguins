@@ -46,7 +46,7 @@ public class Menus extends Application {
 	Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
-            stage.setTitle("Salut les pingoins");
+            stage.setTitle("Salut les Pingouins");
             stage.getIcons().add(new Image(new File("./ressources/img/penguin_miniature.png").toURI().toString()));
             stage.setScene(new Scene(root, 1200, 900));
             stage.setResizable(false);
