@@ -297,25 +297,25 @@ public class ParamJeuController implements Initializable {
 		    case 0:
 			nameJ1.setVisible(false);
 			stars1.setVisible(true);
-                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1.png").toURI().toString()));
+                        joueur1.setImage(new Image(new File("ressources/img/choix_joueur_1_com.png").toURI().toString()));
 			break;
 
 		    case 1:
 			stars2.setVisible(true);
 			nameJ2.setVisible(false);
-                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2.png").toURI().toString()));
+                        joueur2.setImage(new Image(new File("ressources/img/choix_joueur_2_com.png").toURI().toString()));
 			break;
 
 		    case 2:
 			stars3.setVisible(true);
 			nameJ3.setVisible(false);
-                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3.png").toURI().toString()));
+                        joueur3.setImage(new Image(new File("ressources/img/choix_joueur_3_com.png").toURI().toString()));
 			break;
 
 		    case 3:
 			stars4.setVisible(true);
 			nameJ4.setVisible(false);
-                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4.png").toURI().toString()));
+                        joueur4.setImage(new Image(new File("ressources/img/choix_joueur_4_com.png").toURI().toString()));
 			break;
 		}
 		break;
