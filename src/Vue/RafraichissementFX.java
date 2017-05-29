@@ -45,6 +45,14 @@ public class RafraichissementFX extends AnimationTimer {
         }
     }
 
+    public boolean isResultatAffiches() {
+        return resultatAffiches;
+    }
+
+    public void setResultatAffiches(boolean resultatAffiches) {
+        this.resultatAffiches = resultatAffiches;
+    }
+
     @Override
     public void handle(long now) { 
         if(partie.getDemo() != null && partie.getDemo().getPhase() == 5){

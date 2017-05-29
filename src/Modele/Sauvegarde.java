@@ -22,7 +22,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;
 
 public class Sauvegarde {
@@ -59,11 +61,19 @@ public class Sauvegarde {
 	    oos.writeObject(ConfigurationPartie.getConfigurationPartie().getHistorique());
 
 	    //Creation d'image de sauvegarde
-	    Image screenie = ConfigurationPartie.getConfigurationPartie().getRoot().snapshot(null, null);
-	    Path filepathim = Paths.get(savepath + "/I_" + nomFichier);
+            WritableImage wi = new WritableImage(875, 620);
+            WritableImage snapshot = ConfigurationPartie.getConfigurationPartie().getScene().snapshot(wi);
+            Path filepathim = Paths.get(savepath + "/I_" + nomFichier);
 	    deleteIfExists(filepathim);
 	    Files.createFile(filepathim);
-	    ImageIO.write(SwingFXUtils.fromFXImage(screenie, null), "png", filepathim.toFile());
+	    ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", filepathim.toFile());
+            
+            
+//	    Image screenie = ConfigurationPartie.getConfigurationPartie().getRoot().snapshot(null, null);
+//	    Path filepathim = Paths.get(savepath + "/I_" + nomFichier);
+//	    deleteIfExists(filepathim);
+//	    Files.createFile(filepathim);
+//	    ImageIO.write(SwingFXUtils.fromFXImage(screenie, null), "png", filepathim.toFile());
 
 	} catch (IOException ex) {
 	    Logger.getLogger(Sauvegarde.class.getName()).log(Level.SEVERE, null, ex);
