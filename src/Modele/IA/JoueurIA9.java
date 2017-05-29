@@ -17,6 +17,7 @@ public class JoueurIA9 extends JoueurIA {
 
     public JoueurIA9(Couleur couleur, int numero) {
         super(couleur, "Empereur", numero);
+        System.out.println("");
     }
 
     @Override
