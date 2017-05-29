@@ -61,17 +61,23 @@ public class JouerReseauController extends AnimationTimer implements Initializab
          this.start();
     }    
     
-    public void heberger(MouseEvent e) throws IOException{
+    public void heberger(MouseEvent e) throws IOException, InterruptedException{
         Plateau plateau = new Plateau("ressources/plateaux_jeu/plateau" + terrainCharge);
         serveur = new ServeurJeu(Integer.valueOf(nbJoueurs.getText()), plateau);
         serveur.start();
-//        ClientJeu client = new ClientJeu(null, nom1.getText(), this);
-//        client.start();
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        lancerClient(nom1.getText(), null, stage);
     }
     
     public void rejoindre(MouseEvent e) throws InterruptedException{
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        client = new ClientJeu(adresse.getText(), nom2.getText(), this);
+        
+        lancerClient(nom2.getText(), adresse.getText(), stage);
+        
+    }
+    
+    public void lancerClient(String nom, String addr, Stage stage) throws InterruptedException{
+        client = new ClientJeu(addr, nom, this);
         client.start();
         sleep(100);
         synchronized(client){
@@ -112,8 +118,6 @@ public class JouerReseauController extends AnimationTimer implements Initializab
             
             System.out.println("sortie controller");
         }
-        
-        
     }
 
     public ListView getListJoueurs() {
