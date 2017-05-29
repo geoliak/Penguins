@@ -6,6 +6,7 @@
 package Controleur;
 
 import Modele.ConfigurationPartie;
+import Modele.Musique;
 import Vue.AnimationFX;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +46,14 @@ public class Settings {
 	    }
 	});
         
-        File fnote = new File("ressources/img/img_menu/note.jpg");
+        
+        String path;
+        if(Musique.isPlay()){
+            path = "ressources/img/img_menu/note.jpg";
+        } else {
+            path = "ressources/img/img_menu/note_croix.png";
+        }
+        File fnote = new File(path);
 	ImageView note = new ImageView(new Image(fnote.toURI().toString()));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver la musique\n");
@@ -53,8 +61,14 @@ public class Settings {
         note.setLayoutY(7);
         note.setLayoutX(80);
         note.setVisible(false);
+        note.setOnMouseClicked(new MouseClickerMusique(note));
         
-        File fvol = new File("ressources/img/img_menu/volume.png");
+        if(ConfigurationPartie.getConfigurationPartie().isEnableSounds()){
+            path = "ressources/img/img_menu/volume.png";
+        } else {
+            path = "ressources/img/img_menu/volume_croix.png";
+        }
+        File fvol = new File(path);
 	ImageView volume = new ImageView(new Image(fvol.toURI().toString()));
         tooltip = new Tooltip();
         tooltip.setText("Désactiver les bruitages\n");
@@ -62,6 +76,7 @@ public class Settings {
         volume.setLayoutY(10);
         volume.setLayoutX(120);
         volume.setVisible(false);
+        volume.setOnMouseClicked(new MouseClickerVolume(volume));
         
         File finfo = new File("ressources/img/img_menu/info.png");
         File finfo_croix = new File("ressources/img/img_menu/info_croix.png");

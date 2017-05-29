@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.Cursor?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ChargerJeuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" style="-fx-background-color: #D0F6F7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controleur.ChargerJeuController">
    <center>
       <BorderPane BorderPane.alignment="CENTER" >
          <top>
@@ -45,9 +46,9 @@
          </top>
          <left>
             <VBox spacing="10.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
+<!--               <BorderPane.margin>
                   <Insets top="30.0" />
-               </BorderPane.margin>
+               </BorderPane.margin>-->
                <children>
                   <Label alignment="CENTER" prefHeight="16.0" prefWidth="300.0" text="Choix de la partie :" />
                   <ListView fx:id="listView" prefHeight="600.0" prefWidth="300.0" onMouseClicked="#saveClick" />
@@ -93,7 +94,11 @@
             </BorderPane>
          </center>
          <bottom>
-             <AnchorPane fx:id="ap"></AnchorPane>
+             <AnchorPane fx:id="ap">
+                <BorderPane.margin>
+                    <Insets bottom="25.0"/>
+                </BorderPane.margin>
+             </AnchorPane>
          </bottom>
       </BorderPane>
    </center>

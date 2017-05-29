@@ -48,6 +48,7 @@ public class CloseButton {
             @Override
             public void handle(MouseEvent event) {
                 Platform.exit();
+                System.exit(0);
             }
         });
         

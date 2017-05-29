@@ -18,8 +18,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -27,6 +33,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
@@ -106,17 +115,32 @@ public class FenetreJeuController {
 	r.start();
         
 	/* TO DO */
-        /*
         File fmess = new File("ressources/img/img_menu/init_mess.png");
         Image img = new Image(fmess.toURI().toString());
         ImageView message = new ImageView(img);
         message.setId("message");
         message.setVisible(false);
+        message.setLayoutY(300);
 
-        a.scaleFromZero(message, 1, 200);
-
+        Transition t = a.scaleFromZero(message, 1, 700);
+        
+        t.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        a.scaleToZero(message, 700);
+                    }
+                }, 2500);
+                
+            }
+            
+        });
+        
         root.getChildren().add(message);
-                */
+
 	stage.show();
     }
 
@@ -217,11 +241,22 @@ public class FenetreJeuController {
 	save.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent event) {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
-		Date date = new Date();
-		Sauvegarde s = new Sauvegarde();
-		System.out.println(dateFormat.format(date));
-		s.Save(dateFormat.format(date));
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setHeaderText("");
+                alert.setTitle("Confirmation");
+                alert.setContentText("Voulez vous sauvegarder cette partie ?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-YY HH:mm:ss");
+                    Date date = new Date();
+                    Sauvegarde s = new Sauvegarde();
+                    System.out.println(dateFormat.format(date));
+                    s.Save(dateFormat.format(date));
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+		
 	    }
 	});
 
@@ -234,7 +269,15 @@ public class FenetreJeuController {
 	    @Override
 	    public void handle(MouseEvent event) {
 		if (!ConfigurationPartie.getConfigurationPartie().getHistorique().sauvegardeDebut()) {
-		    ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setHeaderText("");
+                    alert.setTitle("Confirmation");
+                    alert.setContentText("Voulez vous recommencer cette partie ?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK){
+                        ConfigurationPartie.getConfigurationPartie().getHistorique().recommencer();
+                    }
 		}
 	    }
 	});
@@ -248,12 +291,20 @@ public class FenetreJeuController {
 	    @Override
 	    public void handle(MouseEvent event) {
 		try {
-		    Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
-		    Scene scene = new Scene(paramJeu);
-		    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		    stage.setScene(scene);
-		    stage.show();
-		    ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setHeaderText("");
+                    alert.setTitle("Confirmation");
+                    alert.setContentText("Voulez vous quitter cette partie sans sauvegarder ?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK){
+                        Parent paramJeu = FXMLLoader.load(getClass().getResource("../Vue/Accueil.fxml"));
+                        Scene scene = new Scene(paramJeu);
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                        ConfigurationPartie.getConfigurationPartie().setPartie(null);
+                    }
 		} catch (IOException ex) {
 		    Logger.getLogger(FenetreJeuController.class.getName()).log(Level.SEVERE, null, ex);
 		}

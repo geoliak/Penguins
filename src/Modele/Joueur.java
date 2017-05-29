@@ -65,6 +65,7 @@ public abstract class Joueur implements Serializable {
 	Pinguin p = new Pinguin(c, this);
 	c.setPinguin(p);
 	this.pinguins.add(p);
+        Bruitages.playPose();
     }
 
     public void joueCoup(Case c) {
