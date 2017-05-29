@@ -69,7 +69,7 @@
    <center>
       <MyImageView fitWidth="561.0" onMouseClicked="#jouerLocal" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
-            <Image url="@../../../ressources/img/pingoins.png" />
+            <Image url="@../../../ressources/img/img_menu/penguin-accueil.png" />
          </image>
          <BorderPane.margin>
             <Insets />
